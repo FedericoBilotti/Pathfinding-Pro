@@ -41,7 +41,11 @@ namespace Agents
 
             _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
+
+            Initialize();
         }
+
+        protected virtual void Initialize() { }
 
         private void OnValidate()
         {
