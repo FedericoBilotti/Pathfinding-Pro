@@ -15,7 +15,7 @@ namespace Agents
         [SerializeField] protected float rotationSpeed = 10;
         [SerializeField] protected float changeWaypointDistance = 0.5f;
 
-        [Header("Debug")] 
+        [Header("Debug")]
         [SerializeField] private bool _showPath = true;
 
         private IPathfinding _pathfinding;
@@ -49,7 +49,7 @@ namespace Agents
             rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
             changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
         }
-        
+
         private IEnumerator MoveAgent()
         {
             while (currentWaypoint < waypointsPath.Count)
@@ -69,7 +69,8 @@ namespace Agents
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
 
-        public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition) { 
+        public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)
+        {
             if (StatusPath == PathStatus.Requested) return false;
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
@@ -93,10 +94,11 @@ namespace Agents
             }
 
             StatusPath = PathStatus.Failed;
-            return false;}
+            return false;
+        }
 
-        public virtual void SetPath(NativeList<Cell> path) 
-        { 
+        public virtual void SetPath(NativeList<Cell> path)
+        {
             if (!path.IsCreated || path.Length == 0)
             {
                 StatusPath = PathStatus.Failed;
@@ -114,7 +116,7 @@ namespace Agents
             StatusPath = PathStatus.Success;
             if (_moveAgentCoroutine != null) StopCoroutine(_moveAgentCoroutine);
             _moveAgentCoroutine = StartCoroutine(MoveAgent());
-            
+
         }
 
         protected void CheckWaypoints(Vector3 distance)
