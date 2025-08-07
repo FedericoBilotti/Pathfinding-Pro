@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     private Transform _transform;
     [SerializeField] private Transform _followTarget;
-    
+
     private IAgent _agentNavigation;
 
     private void Awake()
@@ -19,10 +19,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         // if (_agentNavigation.HasPath) return;
-        
+
         Vector3 myPos = _transform.position;
         Vector3 target = _followTarget.position;
-        
+
         // var gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
         //var target = GetRandomTarget(gridSystem);
 

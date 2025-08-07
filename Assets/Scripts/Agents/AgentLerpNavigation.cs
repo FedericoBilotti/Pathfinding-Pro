@@ -6,8 +6,11 @@ namespace Agents
     {
         protected override void Move(Vector3 targetDistance)
         {
-            // FIX THIS.
-            ownTransform.position = Vector3.Lerp(ownTransform.position, targetDistance, speed * Time.deltaTime);
+            ownTransform.position = Vector3.MoveTowards(
+                ownTransform.position,
+                waypointsPath[currentWaypoint],
+                speed * Time.deltaTime
+            );
         }
 
         protected override void Rotate(Vector3 targetDistance)
