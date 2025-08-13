@@ -11,9 +11,12 @@ namespace Agents
 {
     public abstract class AgentNavigation : MonoBehaviour, IAgent
     {
+        [Header("Steering")]
         [SerializeField] protected float speed = 5;
         [SerializeField] protected float rotationSpeed = 10;
         [SerializeField] protected float changeWaypointDistance = 0.5f;
+        [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 0.1f;
+        [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
         [Header("Debug")]
         [SerializeField] private bool _showPath = true;
@@ -72,6 +75,8 @@ namespace Agents
 
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
+
+        protected abstract bool IsBraking();
 
         public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)
         {

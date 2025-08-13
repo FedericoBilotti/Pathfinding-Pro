@@ -28,6 +28,9 @@ namespace Agents
 
         protected override void Move(Vector3 targetDistance)
         {
+            if (IsBraking())
+                return;
+                
             // If makes the camera fill buggy, use AddForce instead of MovePosition or maybe it's the rigidbody that doesn't allow 
             _rigidbody.MovePosition(_rigidbody.position + targetDistance.normalized * (speed * Time.deltaTime));
         }
@@ -38,5 +41,27 @@ namespace Agents
             var actualRotation = Quaternion.Slerp(ownTransform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
             _rigidbody.MoveRotation(actualRotation);
         }
+
+        protected override bool IsBraking()
+        {
+            Vector3 target = lastTargetPosition;
+            Vector3 direction = target - _rigidbody.position;
+            float distance = direction.magnitude;
+
+            if (distance > 0.001f)
+            {
+                Vector3 move = direction * Time.fixedDeltaTime;
+
+                if (move.magnitude > distance)
+                    move = direction;
+
+                _rigidbody.MovePosition(_rigidbody.position + move);
+
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

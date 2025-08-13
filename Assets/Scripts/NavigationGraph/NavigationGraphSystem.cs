@@ -7,20 +7,20 @@ namespace NavigationGraph
 {
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
-        [Header("Gizmos")] 
+        [Header("Gizmos")]
         [SerializeField] private bool _boxGrid;
         [SerializeField] private bool _scanDistance;
         [SerializeField] private bool _previewOfCells;
         [SerializeField] private bool _debugOfWalkableCells;
         [SerializeField] private Vector2 _cellSizeGizmos;
 
-        [Header("Graph")] 
+        [Header("Graph")]
         [SerializeField] private NavigationGraphType _graphType;
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
 
-        [Header("Check Wall")] 
+        [Header("Check Wall")]
         [SerializeField] private int _maxHits = 10;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private LayerMask _walkableMask;
@@ -66,19 +66,19 @@ namespace NavigationGraph
             float boxTopY = boxBottomY + _maxDistance;
 
             for (int x = 0; x < _gridSize.x; x++)
-            for (int y = 0; y < _gridSize.y; y++)
-            {
-                Vector3[] positions = GetCellPositionInWorldMap(x, y);
+                for (int y = 0; y < _gridSize.y; y++)
+                {
+                    Vector3[] positions = GetCellPositionInWorldMap(x, y);
 
-                if (positions.Length == 0) continue;
+                    if (positions.Length == 0) continue;
 
-                if (_previewOfCells)
-                    DrawCells(positions, boxBottomY, boxTopY);
+                    if (_previewOfCells)
+                        DrawCells(positions, boxBottomY, boxTopY);
 
-                if (!_scanDistance) continue;
-                
-                DrawLineForCell(positions[0], boxBottomY, boxTopY);
-            }
+                    if (!_scanDistance) continue;
+
+                    DrawLineForCell(positions[0], boxBottomY, boxTopY);
+                }
         }
 
         private void DrawCubeForGrid()
@@ -113,11 +113,20 @@ namespace NavigationGraph
             foreach (var pos in cellPositions)
             {
                 float clampedY = Mathf.Clamp(pos.y, bottomY, topY);
-                Vector3 drawPos = new Vector3(pos.x, clampedY + 0.1f, pos.z);
+                Vector3 drawPos = new Vector3(pos.x, 0, pos.z);
                 bool isWalkable = IsCellWalkable(pos, 1.5f);
-                
-                Gizmos.color = isWalkable ? Color.green : Color.red;
-                Gizmos.DrawWireCube(drawPos, sizeCell);
+
+                // Fix this, it isn't drawing on top of the floor.
+                if (isWalkable)
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawWireCube(drawPos, sizeCell);
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawCube(drawPos, new Vector3(0.2f, 0.2f, 0.2f));
+                }
             }
         }
 
@@ -130,8 +139,8 @@ namespace NavigationGraph
 
         private Vector3 GetCellPositionWorld(int gridX, int gridY)
         {
-            return transform.position 
-                   + Vector3.right * ((gridX + 0.5f) * GetCellDiameter()) 
+            return transform.position
+                   + Vector3.right * ((gridX + 0.5f) * GetCellDiameter())
                    + Vector3.forward * ((gridY + 0.5f) * GetCellDiameter());
         }
 
@@ -155,7 +164,7 @@ namespace NavigationGraph
 
             hits.Add(hit);
             float minDist = _cellSize * 0.5f;
-            
+
             for (int i = 0; i < _maxHits; i++)
             {
                 Vector3 nextOrigin = hit.point + Vector3.down * minDist;
@@ -186,7 +195,7 @@ namespace NavigationGraph
             var ray = new Ray(origin + Vector3.up * 0.1f, Vector3.up);
             bool hitHeight = Physics.SphereCast(ray, 0.5f, 1.5f, ~_agentMask.value);
             if (hitHeight) return false;
-            
+
             // This is for check the air, so if it touches walkable area, it's okay, but if it doesn't, it's not walkable because it's the air.
             bool hitWalkableArea = Physics.CheckSphere(origin, radius, _walkableMask.value);
 
