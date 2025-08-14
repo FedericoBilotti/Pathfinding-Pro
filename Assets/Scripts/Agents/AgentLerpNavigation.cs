@@ -4,10 +4,9 @@ namespace Agents
 {
     public class AgentLerpNavigation : AgentNavigation
     {
-        protected override bool IsBraking()
+        protected override bool IsBraking(Vector3 direction)
         {
             Vector3 target = lastTargetPosition;
-            Vector3 direction = target - ownTransform.position;
             float distance = direction.magnitude;
 
             bool braking = autoBraking && distance < GetMarginBraking();
@@ -23,8 +22,10 @@ namespace Agents
 
         protected override void Move(Vector3 targetDistance)
         {
-            if (IsBraking())
-                return;
+            Vector3 target = lastTargetPosition;
+            Vector3 direction = target - ownTransform.position;
+            if (StopMovement(direction)) return;
+            if (IsBraking(direction)) return;
 
             ownTransform.position = Vector3.MoveTowards(
                 ownTransform.position,

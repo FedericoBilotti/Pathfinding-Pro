@@ -78,8 +78,29 @@ namespace Agents
 
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
+        protected abstract bool IsBraking(Vector3 targetDistance);
 
-        protected abstract bool IsBraking();
+        protected bool StopMovement(Vector3 targetDistance)
+        {
+            bool distance = targetDistance.sqrMagnitude < stoppingDistance * stoppingDistance;
+            
+            if (distance)
+            {
+                ClearPath();
+                StatusPath = PathStatus.Idle;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        protected float GetMarginBraking()
+        {
+            float margin = brakingMargin * stoppingDistance;
+            var clamp = Mathf.Clamp(margin, 0.1f, 4f);
+            return clamp;
+        }
 
         public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)
         {
@@ -147,14 +168,6 @@ namespace Agents
             currentWaypoint = 0;
             waypointsPath.Clear();
         }
-
-        protected float GetMarginBraking()
-        {
-            float margin = brakingMargin * stoppingDistance;
-            var clamp = Mathf.Clamp(margin, 0.1f, 4f);
-            return clamp;
-        }
-
 
         protected void MapToGrid()
         {
