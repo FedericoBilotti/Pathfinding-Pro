@@ -2,20 +2,18 @@ using UnityEngine;
 
 namespace Agents
 {
-    public class AgentLerpNavigation : AgentNavigation
+    public class AgentTransformNavigation : AgentNavigation
     {
         protected override bool IsBraking(Vector3 direction)
         {
-            Vector3 target = lastTargetPosition;
             float distance = direction.magnitude;
 
             bool braking = autoBraking && distance < GetMarginBraking();
 
             if (!braking) return false;
 
-            float dampingFactor = 0.3f;
-            float t = speed * Time.deltaTime * (distance / GetMarginBraking()) * dampingFactor;
-            ownTransform.position = Vector3.Lerp(ownTransform.position, target, t);
+            var actualSpeed = speed * (distance / GetMarginBraking());
+            ownTransform.position += actualSpeed * Time.deltaTime * direction.normalized;
 
             return true;
         }
@@ -27,11 +25,7 @@ namespace Agents
             if (StopMovement(direction)) return;
             if (IsBraking(direction)) return;
 
-            ownTransform.position = Vector3.MoveTowards(
-                ownTransform.position,
-                waypointsPath[currentWaypoint],
-                speed * Time.deltaTime
-            );
+            ownTransform.position += targetDistance.normalized * (speed * Time.deltaTime);
         }
 
         protected override void Rotate(Vector3 targetDistance)

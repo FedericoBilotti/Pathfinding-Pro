@@ -11,12 +11,17 @@ namespace Agents
 {
     public abstract class AgentNavigation : MonoBehaviour, IAgent
     {
+        [Header("Steering")]
         [SerializeField] protected float speed = 5;
         [SerializeField] protected float rotationSpeed = 10;
         [SerializeField] protected float changeWaypointDistance = 0.5f;
+        [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
+        [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
         [Header("Debug")]
         [SerializeField] private bool _showPath = true;
+
+        protected static float brakingMargin = 2f;
 
         private IPathfinding _pathfinding;
         private Coroutine _moveAgentCoroutine;
@@ -52,9 +57,10 @@ namespace Agents
             speed = Mathf.Max(0.01f, speed);
             rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
             changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
+            stoppingDistance = Mathf.Max(0f, stoppingDistance);
         }
 
-        private IEnumerator MoveAgent()
+        protected virtual IEnumerator MoveAgent()
         {
             while (currentWaypoint < waypointsPath.Count)
             {
@@ -72,6 +78,29 @@ namespace Agents
 
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
+        protected abstract bool IsBraking(Vector3 targetDistance);
+
+        protected bool StopMovement(Vector3 targetDistance)
+        {
+            bool distance = targetDistance.sqrMagnitude < stoppingDistance * stoppingDistance;
+            
+            if (distance)
+            {
+                ClearPath();
+                StatusPath = PathStatus.Idle;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        protected float GetMarginBraking()
+        {
+            float margin = brakingMargin * stoppingDistance;
+            var clamp = Mathf.Clamp(margin, 0.1f, 4f);
+            return clamp;
+        }
 
         public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)
         {

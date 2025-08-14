@@ -1144,6 +1144,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &77661075
 Transform:
@@ -1335,6 +1337,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &86019627
 MonoBehaviour:
@@ -1681,6 +1685,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &98107728
 MonoBehaviour:
@@ -1941,6 +1947,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &127141370
 MonoBehaviour:
@@ -2012,6 +2020,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &130662727
 Transform:
@@ -2272,6 +2282,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &152220634
 Transform:
@@ -2360,6 +2372,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &153926668
 Transform:
@@ -2895,6 +2909,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &192534534
 MonoBehaviour:
@@ -2983,6 +2999,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &198850794
 MonoBehaviour:
@@ -3071,6 +3089,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &201008796
 MonoBehaviour:
@@ -3159,6 +3179,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &202760905
 MonoBehaviour:
@@ -3316,6 +3338,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &205086508
 Transform:
@@ -3421,6 +3445,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &205262417
 MonoBehaviour:
@@ -3750,6 +3776,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &224912984
 Transform:
@@ -4096,6 +4124,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &234758188
 Transform:
@@ -4287,6 +4317,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &244531713
 MonoBehaviour:
@@ -4872,6 +4904,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &288986760
 MonoBehaviour:
@@ -4943,6 +4977,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &292549823
 Transform:
@@ -5536,6 +5572,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &312878074
 MonoBehaviour:
@@ -5779,6 +5817,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &325904775
 Transform:
@@ -6090,6 +6130,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &345853462
 Transform:
@@ -6475,6 +6517,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &356763664
 MonoBehaviour:
@@ -6671,6 +6715,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &361463461
 MonoBehaviour:
@@ -6914,6 +6960,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &371104047
 Transform:
@@ -7260,6 +7308,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &381791779
 Transform:
@@ -7486,6 +7536,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &418047232
 MonoBehaviour:
@@ -7660,6 +7712,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &421042518
 MonoBehaviour:
@@ -7748,6 +7802,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &423923717
 MonoBehaviour:
@@ -8249,6 +8305,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &450071279
 Transform:
@@ -9111,6 +9169,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &489848668
 Transform:
@@ -9216,6 +9276,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &492547066
 MonoBehaviour:
@@ -9567,6 +9629,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &515315020
 Transform:
@@ -10537,6 +10601,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &586149326
 Transform:
@@ -10858,6 +10924,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &613704841
 MonoBehaviour:
@@ -11015,6 +11083,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &622670370
 Transform:
@@ -11120,6 +11190,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &623858031
 MonoBehaviour:
@@ -12073,6 +12145,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &698888052
 Transform:
@@ -12264,6 +12338,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &702893308
 MonoBehaviour:
@@ -12352,6 +12428,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &704756342
 MonoBehaviour:
@@ -12634,6 +12712,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &709772198
 MonoBehaviour:
@@ -13049,6 +13129,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &737714740
 Transform:
@@ -13653,6 +13735,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &772563131
 Transform:
@@ -13883,7 +13967,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -100.8, y: -2.8, z: -29.4}
+  m_LocalPosition: {x: -25.6, y: -6.3, z: -29.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13918,11 +14002,11 @@ MonoBehaviour:
   _scanDistance: 0
   _previewOfCells: 1
   _debugOfWalkableCells: 0
-  _cellSizeGizmos: {x: 0.02, y: 0.02}
+  _cellSizeGizmos: {x: 0.95, y: 0.95}
   _graphType: 0
-  _gridSize: {x: 71, y: 30}
-  _maxDistance: 25
-  _cellSize: 2
+  _gridSize: {x: 100, y: 50}
+  _maxDistance: 35.9
+  _cellSize: 1
   _maxHits: 10
   _notWalkableMask:
     serializedVersion: 2
@@ -14076,6 +14160,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &788103158
 Transform:
@@ -14208,7 +14294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0
@@ -14222,6 +14308,7 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 1224878552}
   - {fileID: 1516308642}
   - {fileID: 622670370}
   - {fileID: 381791779}
@@ -14874,6 +14961,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &826887495
 MonoBehaviour:
@@ -14962,6 +15051,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &828770575
 MonoBehaviour:
@@ -15168,6 +15259,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &839254370
 Transform:
@@ -15703,6 +15796,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &864886274
 MonoBehaviour:
@@ -15877,6 +15972,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &873078490
 MonoBehaviour:
@@ -16034,6 +16131,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &880723447
 Transform:
@@ -16122,6 +16221,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &884103937
 Transform:
@@ -16571,6 +16672,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &901500495
 MonoBehaviour:
@@ -16728,6 +16831,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &922410580
 Transform:
@@ -17005,6 +17110,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &931264762
 MonoBehaviour:
@@ -17697,6 +17804,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &972502190
 MonoBehaviour:
@@ -17957,6 +18066,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &984451115
 MonoBehaviour:
@@ -18458,6 +18569,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1009500053
 Transform:
@@ -18649,6 +18762,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1016226420
 MonoBehaviour:
@@ -18737,6 +18852,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1021287145
 MonoBehaviour:
@@ -19088,6 +19205,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1034878187
 Transform:
@@ -19193,6 +19312,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1037371682
 MonoBehaviour:
@@ -19544,6 +19665,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1062122868
 Transform:
@@ -20079,6 +20202,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1088375713
 MonoBehaviour:
@@ -20150,6 +20275,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1096568566
 Transform:
@@ -20427,6 +20554,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1115286370
 MonoBehaviour:
@@ -20498,6 +20627,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1116018985
 Transform:
@@ -20586,6 +20717,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1120177201
 Transform:
@@ -20863,6 +20996,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1127376663
 MonoBehaviour:
@@ -21020,6 +21155,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1135816669
 Transform:
@@ -21108,6 +21245,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1138881700
 Transform:
@@ -22036,6 +22175,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1224264286
 Transform:
@@ -22185,7 +22326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1224878552}
   - component: {fileID: 1224878554}
-  - component: {fileID: 1224878553}
+  - component: {fileID: 1224878556}
   - component: {fileID: 1224878549}
   m_Layer: 0
   m_Name: Agent (1)
@@ -22226,30 +22367,14 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38.849, y: 0, z: 44.716}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalPosition: {x: 20.48375, y: -0.41250002, z: -2.9125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 262210255}
   - {fileID: 460713363}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 799020131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1224878553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224878548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d68aa8d61a6241f0b399b661f10bc374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  rotationSpeed: 2.5
-  changeWaypointDistance: 0.5
-  _showPath: 1
 --- !u!114 &1224878554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22263,6 +22388,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTarget: {fileID: 295909835}
+--- !u!114 &1224878556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224878548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667ed6a1edc84d24099e55b69930ac34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  rotationSpeed: 10
+  changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
+  _showPath: 1
 --- !u!1 &1226337116
 GameObject:
   m_ObjectHideFlags: 0
@@ -22406,6 +22549,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1228384602
 Transform:
@@ -22683,6 +22828,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1257562789
 MonoBehaviour:
@@ -22879,6 +23026,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1264087051
 MonoBehaviour:
@@ -23139,6 +23288,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1271131665
 MonoBehaviour:
@@ -23399,6 +23550,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1282507284
 MonoBehaviour:
@@ -23470,6 +23623,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1285454357
 Transform:
@@ -23644,6 +23799,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1306809010
 Transform:
@@ -24287,6 +24444,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1361581140
 MonoBehaviour:
@@ -24375,6 +24534,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1361930231
 MonoBehaviour:
@@ -24704,6 +24865,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1373053186
 Transform:
@@ -24964,6 +25127,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1397532414
 Transform:
@@ -25155,6 +25320,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1405822184
 MonoBehaviour:
@@ -25243,6 +25410,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1406609279
 MonoBehaviour:
@@ -25761,6 +25930,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1444294633
 MonoBehaviour:
@@ -25849,6 +26020,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1452780623
 MonoBehaviour:
@@ -26006,6 +26179,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1469152948
 Transform:
@@ -26654,6 +26829,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1497478634
 Transform:
@@ -26914,6 +27091,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1516308642
 Transform:
@@ -27002,6 +27181,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1518012574
 Transform:
@@ -27365,6 +27546,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1534744202
 MonoBehaviour:
@@ -28057,6 +28240,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1555821104
 MonoBehaviour:
@@ -28231,6 +28416,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1559003643
 MonoBehaviour:
@@ -28302,6 +28489,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1559515571
 Transform:
@@ -28407,6 +28596,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1560807159
 MonoBehaviour:
@@ -28478,6 +28669,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1562384764
 Transform:
@@ -28566,6 +28759,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1582162103
 Transform:
@@ -29209,6 +29404,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1631913547
 MonoBehaviour:
@@ -29297,6 +29494,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1632213310
 MonoBehaviour:
@@ -29454,6 +29653,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1638083139
 Transform:
@@ -29645,6 +29846,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1641086301
 MonoBehaviour:
@@ -30013,6 +30216,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1660705617
 MonoBehaviour:
@@ -30851,7 +31056,7 @@ Transform:
   m_GameObject: {fileID: 1694818831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.512991, y: 0, z: 0.3560009}
+  m_LocalPosition: {x: -8.4, y: 0, z: 4.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30897,6 +31102,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1694818835
 MonoBehaviour:
@@ -30968,6 +31175,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1694989118
 Transform:
@@ -31245,6 +31454,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1707688785
 MonoBehaviour:
@@ -31316,6 +31527,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1710998281
 Transform:
@@ -31576,6 +31789,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1729244281
 Transform:
@@ -31966,6 +32181,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1740020593
 Transform:
@@ -32484,6 +32701,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1777356752
 Transform:
@@ -32830,6 +33049,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1800604031
 Transform:
@@ -32935,6 +33156,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1811153551
 MonoBehaviour:
@@ -33308,6 +33531,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1825904272
 Transform:
@@ -33413,6 +33638,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1828088764
 MonoBehaviour:
@@ -34088,6 +34315,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1867122714
 Transform:
@@ -34262,6 +34491,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1873720850
 Transform:
@@ -34367,6 +34598,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1879172339
 MonoBehaviour:
@@ -34696,6 +34929,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1915543233
 Transform:
@@ -35150,6 +35385,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &1946177579
 Transform:
@@ -35685,6 +35922,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1962854208
 MonoBehaviour:
@@ -36053,6 +36292,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &1993244465
 MonoBehaviour:
@@ -36490,6 +36731,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &2049310281
 Transform:
@@ -37116,6 +37359,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &2106872424
 Transform:
@@ -37204,6 +37449,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &2116964856
 Transform:
@@ -37378,6 +37625,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!4 &2128756997
 Transform:
@@ -37849,6 +38098,8 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
   _showPath: 1
 --- !u!114 &2141442235
 MonoBehaviour:
@@ -38051,7 +38302,6 @@ SceneRoots:
   - {fileID: 1224808625}
   - {fileID: 781907328}
   - {fileID: 295909835}
-  - {fileID: 1224878552}
   - {fileID: 799020131}
   - {fileID: 246702431}
   - {fileID: 952454166}
