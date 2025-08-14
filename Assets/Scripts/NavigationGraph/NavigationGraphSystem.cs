@@ -41,9 +41,9 @@ namespace NavigationGraph
         private void OnValidate()
         {
             _cellSizeGizmos.x = Mathf.Max(0.01f, _cellSizeGizmos.x);
-            _cellSizeGizmos.x = Mathf.Min(0.95f, _cellSizeGizmos.x);
+            _cellSizeGizmos.x = Mathf.Min(0.99f, _cellSizeGizmos.x);
             _cellSizeGizmos.y = Mathf.Max(0.01f, _cellSizeGizmos.y);
-            _cellSizeGizmos.y = Mathf.Min(0.95f, _cellSizeGizmos.y);
+            _cellSizeGizmos.y = Mathf.Min(0.99f, _cellSizeGizmos.y);
         }
 
         private void OnDestroy() => _graph?.Destroy();
@@ -112,13 +112,14 @@ namespace NavigationGraph
 
             foreach (var pos in cellPositions)
             {
-                float clampedY = Mathf.Clamp(pos.y, bottomY, topY);
                 Vector3 drawPos = new Vector3(pos.x, 0, pos.z);
                 bool isWalkable = IsCellWalkable(pos, 1.5f);
 
                 // Fix this, it isn't drawing on top of the floor.
                 if (isWalkable)
                 {
+                    Gizmos.color = new Color(0, 1, 0.2f, 0.5f);
+                    Gizmos.DrawCube(drawPos, sizeCell);
                     Gizmos.color = Color.green;
                     Gizmos.DrawWireCube(drawPos, sizeCell);
                 }
