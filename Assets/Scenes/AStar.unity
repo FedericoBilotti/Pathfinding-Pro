@@ -22325,8 +22325,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1224878552}
   - component: {fileID: 1224878554}
-  - component: {fileID: 1224878553}
+  - component: {fileID: 1224878556}
   - component: {fileID: 1224878549}
+  - component: {fileID: 1224878555}
   m_Layer: 0
   m_Name: Agent (1)
   m_TagString: Untagged
@@ -22366,7 +22367,7 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 55.07, y: 0, z: 15.57}
+  m_LocalPosition: {x: 37.14, y: -0.33, z: 15.57}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22374,24 +22375,6 @@ Transform:
   - {fileID: 460713363}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1224878553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224878548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d68aa8d61a6241f0b399b661f10bc374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  rotationSpeed: 2.5
-  changeWaypointDistance: 0.5
-  stoppingDistance: 2
-  autoBraking: 1
-  _showPath: 1
 --- !u!114 &1224878554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22405,6 +22388,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTarget: {fileID: 295909835}
+--- !u!54 &1224878555
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224878548}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1224878556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224878548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a2ce80a2a0b914e90edad51ad6798b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  rotationSpeed: 10
+  changeWaypointDistance: 0.5
+  stoppingDistance: 2
+  autoBraking: 1
+  _showPath: 1
+  _ignoreAutomaticInitialization: 0
+  _rigidbody: {fileID: 1224878555}
 --- !u!1 &1226337116
 GameObject:
   m_ObjectHideFlags: 0

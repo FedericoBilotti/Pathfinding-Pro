@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Agents
 {
-    public class TransformNavigation : AgentNavigation
+    public class AgentTransformNavigation : AgentNavigation
     {
         protected override bool IsBraking()
         {
@@ -10,21 +10,14 @@ namespace Agents
             Vector3 direction = target - ownTransform.position;
             float distance = direction.magnitude;
 
-            bool braking = autoBraking && distance < stoppingDistance;
+            bool braking = autoBraking && distance < GetMarginBraking();
 
-            if (braking && distance > 0.001f)
-            {
-                Vector3 move = Time.deltaTime * direction;
+            if (!braking) return false;
 
-                if (move.magnitude > distance)
-                    move = direction;
+            var actualSpeed = speed * (distance / GetMarginBraking());
+            ownTransform.position += actualSpeed * Time.deltaTime * direction.normalized;
 
-                ownTransform.position += move;
-
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         protected override void Move(Vector3 targetDistance)

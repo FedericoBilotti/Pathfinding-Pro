@@ -10,18 +10,15 @@ namespace Agents
             Vector3 direction = target - ownTransform.position;
             float distance = direction.magnitude;
 
-            bool braking = autoBraking && distance < stoppingDistance;
+            bool braking = autoBraking && distance < GetMarginBraking();
 
-            if (braking && distance > 0.001f)
-            {
-                float dampingFactor = 0.3f;
-                float t = 1 - Mathf.Exp(-speed * Time.deltaTime) * dampingFactor;
-                ownTransform.position = Vector3.Lerp(ownTransform.position, target, t);
+            if (!braking) return false;
 
-                return true;
-            }
+            float dampingFactor = 0.3f;
+            float t = speed * Time.deltaTime * (distance / GetMarginBraking()) * dampingFactor;
+            ownTransform.position = Vector3.Lerp(ownTransform.position, target, t);
 
-            return false;
+            return true;
         }
 
         protected override void Move(Vector3 targetDistance)
