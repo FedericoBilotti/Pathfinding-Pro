@@ -7,8 +7,8 @@ namespace NavigationGraph.Graph
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
         public SimpleGridNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, 
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask) : base(cellSize, maxDistance, gridSize, 
-                notWalkableMask, transform, walkableMask)
+                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask) : base(cellSize, maxDistance, gridSize, 
+                notWalkableMask, transform, walkableMask, agentMask)
         {
             GraphType = NavigationGraphSystem.NavigationGraphType.Grid2D;
         }

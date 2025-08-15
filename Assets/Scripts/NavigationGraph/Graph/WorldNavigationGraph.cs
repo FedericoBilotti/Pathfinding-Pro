@@ -7,9 +7,9 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, 
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask) : 
-                base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask)
+        public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize,
+                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask) :
+                base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask)
         {
             GraphType = NavigationGraphSystem.NavigationGraphType.Grid3D;
         }
@@ -58,32 +58,31 @@ namespace NavigationGraph.Graph
             for (int i = 0; i < tempCells.Count; i++)
                 grid[i] = tempCells[i];
         }
+
         
+
         private List<RaycastHit> RaycastContinuous(Vector3 from, LayerMask mask)
         {
             List<RaycastHit> hits = new List<RaycastHit>();
-            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, maxDistance * 2, mask))
-                return hits;
+            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, maxDistance, mask)) return hits;
 
             hits.Add(hit);
             float minDist = cellSize * 0.5f;
 
-            for (int i = 0; i < 10; i++)
+            const int MAX_HITS = 10;
+            for (int i = 0; i < MAX_HITS; i++)
             {
                 Vector3 nextOrigin = hit.point + Vector3.down * minDist;
-                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, maxDistance * 2, mask))
-                    break;
+                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, maxDistance, mask)) break;
 
-                // Replace this because it's generate GC allocations. (Use ZLinq?)
-                if (hits.Any(h => Mathf.Abs(h.point.y - hit.point.y) < minDist))
-                    continue;
+                if (hits.Any(h => Mathf.Abs(h.point.y - hit.point.y) < minDist)) continue;
 
                 hits.Add(hit);
             }
+
             return hits;
         }
-        
-        
+
         public Cell GetClosestCell(Vector3 worldPos)
         {
             var (x, z) = GetCellsMap(worldPos);
@@ -105,5 +104,26 @@ namespace NavigationGraph.Graph
 
             return closest ?? default;
         }
+        
+        // private Vector3[] GetCellPositionInWorldMap(int gridX, int gridY)
+        // {
+        //     Vector3 cellPosition = GetCellPositionWorld(gridX, gridY);
+
+        //     return CheckPoint(cellPosition);
+        // }
+
+        // private Vector3 GetCellPositionWorld(int gridX, int gridY)
+        // {
+        //     return transform.position
+        //            + Vector3.right * ((gridX + 0.5f) * GetCellDiameter())
+        //            + Vector3.forward * ((gridY + 0.5f) * GetCellDiameter());
+        // }
+
+        // private Vector3[] CheckPoint(Vector3 cellPosition)
+        // {
+        //     Vector3 from = cellPosition + Vector3.up * _maxDistance;
+        //     LayerMask combined = _walkableMask | _notWalkableMask;
+        //     return RaycastContinuous(from, combined).Select(h => h.point).ToArray();
+        // }
     }
 }
