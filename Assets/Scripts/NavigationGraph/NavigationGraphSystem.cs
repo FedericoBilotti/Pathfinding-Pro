@@ -19,6 +19,7 @@ namespace NavigationGraph
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
+        [SerializeField] private float _margin = 0.5f;
 
         [Header("Check Wall")]
         [SerializeField] private int _maxHits = 10;
@@ -31,8 +32,8 @@ namespace NavigationGraph
         private void Awake()
         {
             _graph = _graphType == NavigationGraphType.Grid2D
-                    ? new SimpleGridNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask)
-                    : new WorldNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask);
+                    ? new SimpleGridNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin)
+                    : new WorldNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
             _graph?.Initialize();
 
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);

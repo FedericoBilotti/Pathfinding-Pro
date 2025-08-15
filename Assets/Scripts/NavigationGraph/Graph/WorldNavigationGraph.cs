@@ -8,8 +8,8 @@ namespace NavigationGraph.Graph
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
         public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize,
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask) :
-                base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask)
+                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin) :
+                base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin)
         {
             GraphType = NavigationGraphSystem.NavigationGraphType.Grid3D;
         }
