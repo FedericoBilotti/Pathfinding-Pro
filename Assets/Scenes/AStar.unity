@@ -5212,7 +5212,7 @@ Transform:
   m_GameObject: {fileID: 295909830}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70.05, y: 1.5, z: 15}
+  m_LocalPosition: {x: 66.1, y: 1.5, z: 22.1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13967,7 +13967,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.6, y: -6.3, z: -29.2}
+  m_LocalPosition: {x: -37.9, y: -6.3, z: -29.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14000,13 +14000,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boxGrid: 1
   _scanDistance: 0
-  _previewOfCells: 1
+  _previewOfCells: 0
   _debugOfWalkableCells: 0
-  _cellSizeGizmos: {x: 0.95, y: 0.95}
+  _cellSizeGizmos: {x: 0.99, y: 0.99}
   _graphType: 0
-  _gridSize: {x: 100, y: 50}
-  _maxDistance: 35.9
-  _cellSize: 1
+  _gridSize: {x: 148, y: 80}
+  _maxDistance: 45
+  _cellSize: 0.75
+  _margin: 1
   _maxHits: 10
   _notWalkableMask:
     serializedVersion: 2
@@ -14294,7 +14295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0
@@ -14308,7 +14309,6 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1224878552}
   - {fileID: 1516308642}
   - {fileID: 622670370}
   - {fileID: 381791779}
@@ -22367,13 +22367,13 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.48375, y: -0.41250002, z: -2.9125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 37.14, y: -0.33, z: 15.57}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 262210255}
   - {fileID: 460713363}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1224878554
 MonoBehaviour:
@@ -38302,6 +38302,7 @@ SceneRoots:
   - {fileID: 1224808625}
   - {fileID: 781907328}
   - {fileID: 295909835}
+  - {fileID: 1224878552}
   - {fileID: 799020131}
   - {fileID: 246702431}
   - {fileID: 952454166}

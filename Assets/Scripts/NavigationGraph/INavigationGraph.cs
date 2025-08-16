@@ -5,6 +5,9 @@ namespace NavigationGraph
 {
     public interface INavigationGraph
     {
+        void Initialize();
+        void Destroy();
+        void DrawGizmos();
         NativeArray<Cell> GetGrid();
         Cell GetRandomCell();
         Cell GetCellWithWorldPosition(Vector3 worldPosition);

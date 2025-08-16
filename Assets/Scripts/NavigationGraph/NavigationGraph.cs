@@ -7,18 +7,21 @@ namespace NavigationGraph
     internal abstract class NavigationGraph : INavigationGraph
     {
         protected readonly LayerMask notWalkableMask;
+        protected readonly LayerMask agentMask;
         protected readonly LayerMask walkableMask;
         protected readonly float maxDistance;
         protected float cellSize;
-        protected  float cellDiameter;
+        protected float cellDiameter;
         protected Vector2Int gridSize;
         protected NativeArray<Cell> grid;
 
         protected readonly Transform transform;
 
-        public NavigationGraphSystem.NavigationGraphType GraphType { get; protected set; }
+        protected float obstacleMargin;
 
-        protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask)
+        public NavigationGraphType GraphType { get; protected set; }
+
+        protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin)
         {
             this.cellSize = cellSize;
             this.gridSize = gridSize;
@@ -28,6 +31,9 @@ namespace NavigationGraph
             this.notWalkableMask = notWalkableMask;
 
             this.transform = transform;
+            this.agentMask = agentMask;
+            
+            this.obstacleMargin = obstacleMargin;
         }
 
         protected abstract void CreateGrid();
@@ -95,10 +101,16 @@ namespace NavigationGraph
         protected bool IsCellWalkable(Vector3 cellPosition, float radius)
         {
             Vector3 origin = cellPosition + Vector3.up * 0.1f;
-            
-            bool hitObstacles = Physics.CheckSphere(origin, radius, notWalkableMask.value);
+
+            var hitObstacles = Physics.CheckSphere(origin, radius, notWalkableMask.value);
             if (hitObstacles) return false;
 
+            // Check if it's something up.
+            var ray = new Ray(origin + Vector3.up * 0.1f, Vector3.up);
+            bool hitHeight = Physics.SphereCast(ray, 0.5f, 1.5f, ~agentMask.value);
+            if (hitHeight) return false;
+
+            // This is for check the air, so if it touches walkable area, it's okay, but if it doesn't, it's not walkable because it's the air.
             bool hitWalkableArea = Physics.CheckSphere(origin, radius, walkableMask.value);
 
             return hitWalkableArea;
@@ -114,18 +126,23 @@ namespace NavigationGraph
         private Vector3 GetCellPositionInGrid(int gridX, int gridY)
         {
             return transform.position
-                   + Vector3.right   * ((gridX + 0.5f) * cellDiameter)
+                   + Vector3.right * ((gridX + 0.5f) * cellDiameter)
                    + Vector3.forward * ((gridY + 0.5f) * cellDiameter);
         }
 
+        /// <summary>
+        /// Checks if hits something, so returns the position.
+        /// </summary>
+        /// <param name="cellPosition"></param>
+        /// <returns></returns>
         private Vector3 CheckPoint(Vector3 cellPosition)
         {
-            return Physics.Raycast(cellPosition + Vector3.up * maxDistance, 
+            return Physics.Raycast(cellPosition + Vector3.up * maxDistance,
                     Vector3.down, out RaycastHit raycastHit, maxDistance, walkableMask)
                     ? raycastHit.point
                     : cellPosition;
         }
-        
+
         protected (int x, int y) GetCellsMap(Vector3 worldPosition)
         {
             Vector3 gridPos = worldPosition - transform.position;
@@ -149,6 +166,35 @@ namespace NavigationGraph
         public void Destroy()
         {
             if (grid.IsCreated) grid.Dispose();
+        }
+
+        #endregion
+
+        #region Gizmos
+
+        public void DrawGizmos()
+        {
+            if (!grid.IsCreated || grid.Length == 0) return;
+
+            Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * cellDiameter;
+
+            for (int i = 0; i < grid.Length; i++)
+            {
+                Vector3 drawPos = grid[i].position;
+
+                if (grid[i].isWalkable)
+                {
+                    Gizmos.color = new Color(0, 1, 0.2f, 0.5f);
+                    Gizmos.DrawCube(drawPos, sizeCell);
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawWireCube(drawPos, sizeCell);
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawCube(drawPos, new Vector3(0.2f, 0.2f, 0.2f));
+                }
+            }
         }
 
         #endregion
