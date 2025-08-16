@@ -11,7 +11,7 @@ namespace NavigationGraph.Graph
                 LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin) :
                 base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin)
         {
-            GraphType = NavigationGraphSystem.NavigationGraphType.Grid3D;
+            GraphType = NavigationGraphType.Grid3D;
         }
 
         protected override void CreateGrid()

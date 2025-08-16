@@ -19,7 +19,7 @@ namespace NavigationGraph
 
         protected float obstacleMargin;
 
-        public NavigationGraphSystem.NavigationGraphType GraphType { get; protected set; }
+        public NavigationGraphType GraphType { get; protected set; }
 
         protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin)
         {

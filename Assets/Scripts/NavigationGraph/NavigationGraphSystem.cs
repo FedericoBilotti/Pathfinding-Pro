@@ -27,15 +27,15 @@ namespace NavigationGraph
         [SerializeField] private LayerMask _walkableMask;
         [SerializeField] private LayerMask _agentMask;
 
-        private NavigationGraph _graph;
+        private INavigationGraph _graph;
+        private GraphFactory _graphFactory;
 
         private void Awake()
         {
-            _graph = _graphType == NavigationGraphType.Grid2D
-                    ? new SimpleGridNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin)
-                    : new WorldNavigationGraph(_cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
+            // Should be injected the factory
+            _graphFactory = new();
+            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
             _graph?.Initialize();
-
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
@@ -48,12 +48,6 @@ namespace NavigationGraph
         }
 
         private void OnDestroy() => _graph?.Destroy();
-
-        public enum NavigationGraphType
-        {
-            Grid2D,
-            Grid3D,
-        }
 
         #region Gizmos
 
