@@ -6,9 +6,6 @@ namespace NavigationGraph
     {
         [Header("Gizmos")]
         [SerializeField] private bool _boxGrid;
-        [SerializeField] private bool _scanDistance;
-        [SerializeField] private bool _previewOfCells;
-        [SerializeField] private bool _debugOfWalkableCells;
         [SerializeField] private Vector2 _cellSizeGizmos;
 
         [Header("Graph")]
@@ -16,7 +13,7 @@ namespace NavigationGraph
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
-        [SerializeField] private float _margin = 0.5f;
+        [SerializeField, Range(0f, 5f)] private float _margin = 0.5f;
 
         [Header("Check Wall")]
         [SerializeField] private int _maxHits = 10;
@@ -46,6 +43,8 @@ namespace NavigationGraph
 
         private void OnDestroy() => _graph?.Destroy();
 
+#if UNITY_EDITOR
+
         /// <summary>
         /// Scans the environment and updates the graph. This is for Edit Only.
         /// </summary>
@@ -55,6 +54,13 @@ namespace NavigationGraph
             _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
             _graph?.Initialize();
         }
+
+        /// <summary>
+        /// Destroy the graph. This is for Edit Only.
+        /// </summary>
+        public void Clear() => _graph?.Destroy();
+
+#endif
 
         #region Gizmos
 
