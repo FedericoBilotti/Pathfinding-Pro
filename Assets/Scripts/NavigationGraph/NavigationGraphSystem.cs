@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using NavigationGraph.Graph;
 using UnityEngine;
 
 namespace NavigationGraph
@@ -48,6 +45,16 @@ namespace NavigationGraph
         }
 
         private void OnDestroy() => _graph?.Destroy();
+
+        /// <summary>
+        /// Scans the environment and updates the graph. This is for Edit Only.
+        /// </summary>
+        public void Scan()
+        {
+            _graphFactory = new();
+            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
+            _graph?.Initialize();
+        }
 
         #region Gizmos
 
