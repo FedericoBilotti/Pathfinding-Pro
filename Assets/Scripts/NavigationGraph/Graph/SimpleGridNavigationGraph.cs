@@ -21,7 +21,7 @@ namespace NavigationGraph.Graph
             int total = gridSize.x * gridSize.y;
             grid = new NativeArray<Cell>(total, Allocator.Persistent);
 
-            // Check cells that are blocked by expanded bounds (broadphase)
+            // Check cells that are blocked by expanded bounds
             bool[] blockedByBounds = CollectBlockedByExpandedBounds();
 
             // For the remaining cells, compute if they are walkable
@@ -40,10 +40,11 @@ namespace NavigationGraph.Graph
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
 
                 bool isWalkable = !finalBlocked[i];
+                WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
 
                 // Keep it for safety check.
-                if (isWalkable)
-                    isWalkable = IsCellWalkable(cellPosition, cellSize);
+                if (!isWalkable && walkableType == WalkableType.Air)
+                    continue;
 
                 grid[i] = new Cell
                 {
@@ -61,9 +62,9 @@ namespace NavigationGraph.Graph
             int total = gridSize.x * gridSize.y;
             var blocked = new bool[total];
 
-            Vector3 gridWorldSize = new Vector3(gridSize.x * cellDiameter, maxDistance * 2f, gridSize.y * cellDiameter);
+            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance * 2f, gridSize.y * cellDiameter);
             Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, 0f, gridWorldSize.z * 0.5f);
-            Vector3 areaExtents = new Vector3(gridWorldSize.x * 0.5f, maxDistance, gridWorldSize.z * 0.5f);
+            Vector3 areaExtents = new(gridWorldSize.x * 0.5f, maxDistance, gridWorldSize.z * 0.5f);
 
             Collider[] hits = Physics.OverlapBox(areaCenter, areaExtents, transform.rotation, notWalkableMask.value);
 
@@ -117,7 +118,8 @@ namespace NavigationGraph.Graph
                 int y = i / gridSize.x;
 
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
-                computedWalkable[i] = IsCellWalkable(cellPosition, cellSize);
+                WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
+                computedWalkable[i] = walkableType == WalkableType.Walkable;
             }
 
             return computedWalkable;

@@ -36,7 +36,8 @@ namespace NavigationGraph.Graph
 
                     foreach (var hit in hits)
                     {
-                        bool isWalkable = IsCellWalkable(hit.point, 2f);
+                        // bool isWalkable = IsCellWalkable(hit.point, 2f);
+                        bool isWalkable = true;
                         if (!isWalkable) continue;
 
                         var cell = new Cell
