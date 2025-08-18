@@ -7,9 +7,7 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize,
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin) :
-                base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin)
+        public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin, int maxHits = 10) : base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid3D;
         }
@@ -36,7 +34,8 @@ namespace NavigationGraph.Graph
 
                     foreach (var hit in hits)
                     {
-                        bool isWalkable = IsCellWalkable(hit.point, 2f);
+                        // bool isWalkable = IsCellWalkable(hit.point, 2f);
+                        bool isWalkable = true;
                         if (!isWalkable) continue;
 
                         var cell = new Cell
@@ -59,7 +58,7 @@ namespace NavigationGraph.Graph
                 grid[i] = tempCells[i];
         }
 
-        
+
 
         private List<RaycastHit> RaycastContinuous(Vector3 from, LayerMask mask)
         {
@@ -104,7 +103,7 @@ namespace NavigationGraph.Graph
 
             return closest ?? default;
         }
-        
+
         // private Vector3[] GetCellPositionInWorldMap(int gridX, int gridY)
         // {
         //     Vector3 cellPosition = GetCellPositionWorld(gridX, gridY);

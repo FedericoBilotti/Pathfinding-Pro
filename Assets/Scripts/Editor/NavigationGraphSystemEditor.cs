@@ -16,6 +16,7 @@ namespace NavigationGraph
 
             if (GUILayout.Button("Scan Grid"))
             {
+                visualizer.Clear();
                 visualizer.Scan();
             }
         }
