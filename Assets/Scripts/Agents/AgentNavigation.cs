@@ -21,8 +21,6 @@ namespace Agents
         [Header("Debug")]
         [SerializeField] private bool _showPath = true;
 
-        protected static float brakingMargin = 2f;
-
         private IPathfinding _pathfinding;
         private Coroutine _moveAgentCoroutine;
         protected INavigationGraph graph;
@@ -97,9 +95,10 @@ namespace Agents
 
         protected float GetMarginBraking()
         {
-            float margin = brakingMargin * stoppingDistance;
-            var clamp = Mathf.Clamp(margin, 0.1f, 4f);
-            return clamp;
+            if (stoppingDistance <= 1) return 2;
+
+            float margin = stoppingDistance * 2;
+            return margin;
         }
 
         public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)

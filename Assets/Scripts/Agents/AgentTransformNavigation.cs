@@ -6,11 +6,13 @@ namespace Agents
     {
         protected override bool IsBraking(Vector3 direction)
         {
+            if (!autoBraking) return false;
+
             float distance = direction.magnitude;
+            float margin = GetMarginBraking();
 
-            bool braking = autoBraking && distance < GetMarginBraking();
-
-            if (!braking) return false;
+            if (distance >= margin)
+                return false;
 
             var actualSpeed = speed * (distance / GetMarginBraking());
             ownTransform.position += actualSpeed * Time.deltaTime * direction.normalized;
