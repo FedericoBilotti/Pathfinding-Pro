@@ -6,7 +6,7 @@ namespace Agents
 {
     public interface IAgent
     {
-        bool RequestPath(Vector3 startPosition, Vector3 endPosition);
+        bool RequestPath(Transform endPosition);
         void SetPath(NativeList<Cell> path);
     }
 }
