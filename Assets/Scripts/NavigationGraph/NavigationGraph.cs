@@ -18,10 +18,11 @@ namespace NavigationGraph
         protected readonly Transform transform;
 
         protected float obstacleMargin;
+        protected float cliffMargin;
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin)
+        protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin)
         {
             this.cellSize = cellSize;
             this.gridSize = gridSize;
@@ -32,8 +33,11 @@ namespace NavigationGraph
 
             this.transform = transform;
             this.agentMask = agentMask;
-            
+
+
             this.obstacleMargin = obstacleMargin;
+            this.cliffMargin = cliffMargin;
+
         }
 
         protected abstract void CreateGrid();

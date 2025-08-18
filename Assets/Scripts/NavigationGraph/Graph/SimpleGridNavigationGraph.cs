@@ -8,8 +8,8 @@ namespace NavigationGraph.Graph
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
         public SimpleGridNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize,
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin = 0.2f)
-            : base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin)
+                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin)
+            : base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
@@ -18,19 +18,24 @@ namespace NavigationGraph.Graph
         {
             if (grid.IsCreated) grid.Dispose();
 
-            int total = gridSize.x * gridSize.y;
+            int total = GetGridSize();
             grid = new NativeArray<Cell>(total, Allocator.Persistent);
 
             // Check cells that are blocked by expanded bounds
             bool[] blockedByBounds = CollectBlockedByExpandedBounds();
 
             // For the remaining cells, compute if they are walkable
-            bool[] computedWalkable = ComputeComputedWalkable(blockedByBounds);
+            WalkableType[] computedWalkable = ComputeRemainingWalkableCells(blockedByBounds);
 
             // Dilate the mask for non-walkable cells according to obstacle margin converted to cells
-            int rCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
-            if (rCells == 0 && obstacleMargin > 0f) rCells = 1; // At least one
-            bool[] finalBlocked = DilateBlockedMask(computedWalkable, rCells);
+            int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
+            if (obstacleRadiusCells == 0 && obstacleMargin > 0f) obstacleRadiusCells = 1; // At least one
+            WalkableType[] finalBlocked = DilateBlockedMask(computedWalkable, obstacleRadiusCells);
+
+            // Dilate the mask for non-walkable cells according to cliff margin converted to cells
+            int airRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
+            if (airRadiusCells == 0 && cliffMargin > 0f) airRadiusCells = 1; // At least one
+            WalkableType[] cliffBlocked = DilateCliffMask(computedWalkable, airRadiusCells);
 
             for (int i = 0; i < total; i++)
             {
@@ -39,7 +44,9 @@ namespace NavigationGraph.Graph
 
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
 
-                bool isWalkable = !finalBlocked[i];
+                bool isWalkable = finalBlocked[i] == WalkableType.Walkable
+                               && cliffBlocked[i] == WalkableType.Walkable;
+
                 WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
 
                 // Keep it for safety check.
@@ -62,11 +69,11 @@ namespace NavigationGraph.Graph
             int total = gridSize.x * gridSize.y;
             var blocked = new bool[total];
 
-            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance * 2f, gridSize.y * cellDiameter);
-            Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, 0f, gridWorldSize.z * 0.5f);
-            Vector3 areaExtents = new(gridWorldSize.x * 0.5f, maxDistance, gridWorldSize.z * 0.5f);
+            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance, gridSize.y * cellDiameter);
+            Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, gridWorldSize.y / 2, gridWorldSize.z * 0.5f);
+            Vector3 halfAreaExtents = new(gridWorldSize.x * 0.5f, maxDistance / 2, gridWorldSize.z * 0.5f);
 
-            Collider[] hits = Physics.OverlapBox(areaCenter, areaExtents, transform.rotation, notWalkableMask.value);
+            Collider[] hits = Physics.OverlapBox(areaCenter, halfAreaExtents, transform.rotation, notWalkableMask.value);
 
             // For each collider: expand the bounds and paint the rectangle of the indices affected
             foreach (var c in hits)
@@ -92,7 +99,8 @@ namespace NavigationGraph.Graph
                     for (int y = minY; y <= maxY; y++)
                     {
                         int idx = x + y * gridSize.x;
-                        if (idx >= 0 && idx < total) blocked[idx] = true;
+                        if (idx >= 0 && idx < total)
+                            blocked[idx] = true;
                     }
                 }
             }
@@ -100,17 +108,17 @@ namespace NavigationGraph.Graph
             return blocked;
         }
 
-        // Returns array[total] with true if the cell is walkable according to physical checks (and false if blocked by bounds).
-        private bool[] ComputeComputedWalkable(bool[] blockedByBounds)
+        // Returns a new array[gridSize] with true if the cell is walkable or not.
+        private WalkableType[] ComputeRemainingWalkableCells(bool[] blockedByBounds)
         {
             int total = GetGridSize();
-            var computedWalkable = new bool[total];
+            var computedWalkable = new WalkableType[total];
 
             for (int i = 0; i < total; i++)
             {
                 if (blockedByBounds[i])
                 {
-                    computedWalkable[i] = false;
+                    computedWalkable[i] = WalkableType.Obstacle;
                     continue;
                 }
 
@@ -119,37 +127,36 @@ namespace NavigationGraph.Graph
 
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
                 WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
-                computedWalkable[i] = walkableType == WalkableType.Walkable;
+                computedWalkable[i] = walkableType;
             }
 
             return computedWalkable;
         }
 
-        // Dilate (BFS multi-source) with all non-walkable cells rCells steps, and return finalBlocked[] (true = blocked)
-        private bool[] DilateBlockedMask(bool[] computedWalkable, int rCells)
+        // Dilate (BFS) with all non-walkable-obstacles cells obstacleRadiusCells steps, and return finalBlocked[] (WalkableType)
+        private WalkableType[] DilateBlockedMask(WalkableType[] computedWalkable, int obstacleRadiusCells)
         {
             int total = GetGridSize();
-            var finalBlocked = new bool[total];
+            var finalBlocked = new WalkableType[total];
+            for (int i = 0; i < total; i++)
+                finalBlocked[i] = computedWalkable[i];
 
-            if (rCells <= 0)
-            {
-                // If it has 0 steps, invert computedWalkable
-                for (int i = 0; i < total; i++) finalBlocked[i] = !computedWalkable[i];
+            if (obstacleRadiusCells <= 0)
                 return finalBlocked;
-            }
 
             var queue = new Queue<int>(total / 2);
             var distances = new int[total];
-            for (int i = 0; i < total; i++) distances[i] = -1;
+            for (int i = 0; i < total; i++)
+                distances[i] = -1;
 
             // Enqueue all the non-walkable cells as sources (dist = 0)
             for (int i = 0; i < total; i++)
             {
-                if (!computedWalkable[i])
+                if (computedWalkable[i] == WalkableType.Obstacle || computedWalkable[i] == WalkableType.Air)
                 {
                     distances[i] = 0;
                     queue.Enqueue(i);
-                    finalBlocked[i] = true;
+                    finalBlocked[i] = WalkableType.Obstacle;
                 }
             }
 
@@ -161,7 +168,7 @@ namespace NavigationGraph.Graph
                 int currentY = current / gridSize.x;
                 int currentDistance = distances[current];
 
-                if (currentDistance >= rCells) continue;
+                if (currentDistance >= obstacleRadiusCells) continue;
 
                 TryEnqueueNeighbor(currentX + 1, currentY, currentDistance, distances, queue, finalBlocked);
                 TryEnqueueNeighbor(currentX - 1, currentY, currentDistance, distances, queue, finalBlocked);
@@ -172,14 +179,102 @@ namespace NavigationGraph.Graph
             return finalBlocked;
         }
 
-        private void TryEnqueueNeighbor(int neighborX, int neighborY, int currentDistance, int[] distances, Queue<int> queue, bool[] finalBlocked)
+        private void TryEnqueueNeighbor(int neighborX, int neighborY, int currentDistance, int[] distances, Queue<int> queue, WalkableType[] finalBlocked)
         {
             if (neighborX < 0 || neighborY < 0 || neighborX >= gridSize.x || neighborY >= gridSize.y) return;
             int neighborIndex = neighborX + neighborY * gridSize.x;
             if (distances[neighborIndex] != -1) return;
             distances[neighborIndex] = currentDistance + 1;
-            finalBlocked[neighborIndex] = true;
+            finalBlocked[neighborIndex] = WalkableType.Obstacle;
             queue.Enqueue(neighborIndex);
         }
+
+        // Dilate (BFS) with all non-walkable-air cells airRadiusCells steps, and return finalBlocked[] (WalkableType)
+        private WalkableType[] DilateCliffMask(WalkableType[] computedWalkable, int airRadiusCells)
+        {
+            int total = GetGridSize();
+            var finalBlocked = new WalkableType[total];
+
+            for (int i = 0; i < total; i++)
+                finalBlocked[i] = computedWalkable[i];
+
+            if (airRadiusCells <= 0)
+                return finalBlocked;
+
+            var queue = new Queue<int>(total / 2);
+            var distances = new int[total];
+            for (int i = 0; i < total; i++)
+                distances[i] = -1;
+
+            for (int i = 0; i < total; i++)
+            {
+                if (computedWalkable[i] != WalkableType.Walkable) continue;
+
+                int x = i % gridSize.x;
+                int y = i / gridSize.x;
+
+                bool hasAirNeighbor = false;
+
+                if (x + 1 < gridSize.x && computedWalkable[x + 1 + y * gridSize.x] == WalkableType.Air)
+                    hasAirNeighbor = true;
+
+                if (x - 1 >= 0 && computedWalkable[x - 1 + y * gridSize.x] == WalkableType.Air)
+                    hasAirNeighbor = true;
+
+                if (y + 1 < gridSize.y && computedWalkable[x + (y + 1) * gridSize.x] == WalkableType.Air)
+                    hasAirNeighbor = true;
+
+                if (y - 1 >= 0 && computedWalkable[x + (y - 1) * gridSize.x] == WalkableType.Air)
+                    hasAirNeighbor = true;
+
+                if (hasAirNeighbor)
+                {
+                    distances[i] = 0;
+                    queue.Enqueue(i);
+                    finalBlocked[i] = WalkableType.Air;
+                }
+            }
+
+            while (queue.Count > 0)
+            {
+                int current = queue.Dequeue();
+                int currentX = current % gridSize.x;
+                int currentY = current / gridSize.x;
+                int currentDistance = distances[current];
+
+                if (currentDistance >= airRadiusCells) continue;
+
+                TryEnqueueNeighborCliff(currentX + 1, currentY, currentDistance, distances, queue, finalBlocked);
+                TryEnqueueNeighborCliff(currentX - 1, currentY, currentDistance, distances, queue, finalBlocked);
+                TryEnqueueNeighborCliff(currentX, currentY + 1, currentDistance, distances, queue, finalBlocked);
+                TryEnqueueNeighborCliff(currentX, currentY - 1, currentDistance, distances, queue, finalBlocked);
+            }
+
+            return finalBlocked;
+        }
+
+        private void TryEnqueueNeighborCliff(int neighborX, int neighborY, int currentDistance, int[] distances, Queue<int> queue, WalkableType[] finalBlocked)
+        {
+            if (neighborX < 0 || neighborY < 0 || neighborX >= gridSize.x || neighborY >= gridSize.y) return;
+
+            int neighborIndex = neighborX + neighborY * gridSize.x;
+            if (distances[neighborIndex] != -1) return;
+
+            distances[neighborIndex] = currentDistance + 1;
+            finalBlocked[neighborIndex] = WalkableType.Air;
+            queue.Enqueue(neighborIndex);
+        }
+
+        public override void DrawGizmos()
+        {
+            base.DrawGizmos();
+
+            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance, gridSize.y * cellDiameter);
+            Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, gridWorldSize.y / 2, gridWorldSize.z * 0.5f);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(areaCenter, gridWorldSize);
+        }
+
     }
 }

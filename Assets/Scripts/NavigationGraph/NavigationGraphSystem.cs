@@ -13,7 +13,8 @@ namespace NavigationGraph
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
-        [SerializeField, Range(0f, 5f)] private float _margin = 0.5f;
+        [SerializeField, Range(0f, 5f)] private float _obstacleMargin = 0.5f;
+        [SerializeField, Range(0f, 5f)] private float _cliffMargin = 0.5f;
 
         [Header("Check Wall")]
         [SerializeField] private int _maxHits = 10;
@@ -28,7 +29,7 @@ namespace NavigationGraph
         {
             // Should be injected the factory
             _graphFactory = new();
-            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
+            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _obstacleMargin, _cliffMargin, _maxHits);
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
@@ -51,7 +52,7 @@ namespace NavigationGraph
         public void Scan()
         {
             _graphFactory = new();
-            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _margin);
+            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _obstacleMargin, _cliffMargin, _maxHits);
             _graph?.Initialize();
         }
 
