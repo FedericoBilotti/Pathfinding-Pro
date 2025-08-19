@@ -58,8 +58,8 @@ namespace NavigationGraph
         {
             Vector3 gridPos = worldPosition - transform.position;
 
-            int x = Mathf.FloorToInt((gridPos.x - cellSize) / cellDiameter);
-            int y = Mathf.FloorToInt((gridPos.z - cellSize) / cellDiameter);
+            int x = Mathf.FloorToInt(gridPos.x / cellDiameter);
+            int y = Mathf.FloorToInt(gridPos.z / cellDiameter);
 
             if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.y) return false;
 
@@ -152,8 +152,8 @@ namespace NavigationGraph
         {
             Vector3 gridPos = worldPosition - transform.position;
 
-            int x = Mathf.Clamp(Mathf.FloorToInt((gridPos.x - cellSize) / cellDiameter), 0, gridSize.x - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt((gridPos.z - cellSize) / cellDiameter), 0, gridSize.y - 1);
+            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.y - 1);
 
             return (x, y);
         }
