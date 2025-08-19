@@ -23,15 +23,12 @@ namespace Pathfinding
 
         public bool RequestPath(IAgent agent, Cell start, Cell end)
         {
-            switch (_requestType)
+            return _requestType switch
             {
-                case PathRequestType.ThetaStar: 
-                    return _thetaStar.RequestPath(agent, start, end);
-
-                case PathRequestType.AStar:
-                default:
-                    return _aStar.RequestPath(agent, start, end);
-            }
+                PathRequestType.ThetaStar => _thetaStar.RequestPath(agent, start, end),
+                PathRequestType.AStar => _aStar.RequestPath(agent, start, end),
+                _ => throw new System.Exception("Unknown request type")
+            };
         }
 
         private void LateUpdate()

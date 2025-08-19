@@ -21,6 +21,8 @@ namespace Pathfinding.PathImplementation
         public int startIndex;
         public int endIndex;
 
+        public int patience;
+
         public void Execute()
         {
             var startData = new PathCellData { cellIndex = startIndex, gCost = 0, hCost = GetDistance(startIndex, endIndex), cameFrom = -1, HeapIndex = int.MaxValue };
@@ -29,6 +31,8 @@ namespace Pathfinding.PathImplementation
 
             while (openList.Length > 0)
             {
+                if (patience-- < 0) break;
+                
                 PathCellData currentData = openList.Dequeue();
                 int currentIndex = currentData.cellIndex;
                 closedList.Add(currentIndex);
