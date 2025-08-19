@@ -91,7 +91,6 @@ namespace Agents
             }
 
             ClearPath();
-            _actualTargetTransform = null;
             _timer.Pause();
             _timer.Reset(rePath);
             StatusPath = PathStatus.Idle;
