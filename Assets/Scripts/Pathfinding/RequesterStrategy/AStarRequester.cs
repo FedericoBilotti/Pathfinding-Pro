@@ -1,5 +1,6 @@
 using Agents;
 using NavigationGraph;
+using NUnit.Framework;
 using Pathfinding.PathImplementation;
 using Unity.Jobs;
 
@@ -15,6 +16,8 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
+            int patience = navigationGraph.GetGridSize();
+
             JobHandle aStarJob = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
@@ -23,8 +26,15 @@ namespace Pathfinding.RequesterStrategy
                 visitedNodes = pathRequest.visitedNodes,
                 gridSizeX = navigationGraph.GetGridSizeX(),
                 startIndex = start.gridIndex,
-                endIndex = end.gridIndex
+                endIndex = end.gridIndex,
+                patience = patience,
             }.Schedule();
+
+            if (patience < 0)
+            {
+                Assert.IsFalse(patience < 0, "Pathfinding timed out");
+                return false;
+            }
 
             JobHandle addPath = new AddPath
             {
