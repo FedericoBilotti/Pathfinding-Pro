@@ -6,12 +6,14 @@ namespace Agents
     {
         protected override bool IsBraking(Vector3 direction)
         {
+            if (!autoBraking) return false;
+
             Vector3 target = lastTargetPosition;
             float distance = direction.magnitude;
+            float margin = GetMarginBraking();
 
-            bool braking = autoBraking && distance < GetMarginBraking();
-
-            if (!braking) return false;
+            if (distance >= margin)
+                return false;
 
             float dampingFactor = 0.3f;
             float t = speed * Time.deltaTime * (distance / GetMarginBraking()) * dampingFactor;

@@ -67,11 +67,13 @@ namespace Agents
 
         protected override bool IsBraking(Vector3 direction)
         {
+            if (!autoBraking) return false;
+
             float distance = direction.magnitude;
+            float margin = GetMarginBraking();
 
-            bool braking = autoBraking && distance < GetMarginBraking();
-
-            if (!braking) return false;
+            if (distance >= margin)
+                return false;
 
             float actualSpeed = speed * (distance / GetMarginBraking());
             _rigidbody.MovePosition(_rigidbody.position + direction.normalized * (actualSpeed * Time.fixedDeltaTime));

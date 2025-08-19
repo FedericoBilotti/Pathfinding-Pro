@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NavigationGraph;
@@ -5,6 +6,8 @@ using Pathfinding;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+using Utilities;
 using static Unity.Mathematics.math;
 
 namespace Agents
@@ -18,20 +21,23 @@ namespace Agents
         [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
+        [Header("Pathfinding")]
+        [SerializeField, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
+
         [Header("Debug")]
         [SerializeField] private bool _showPath = true;
 
-        protected static float brakingMargin = 2f;
-
+        private Timer _timer;
         private IPathfinding _pathfinding;
         private Coroutine _moveAgentCoroutine;
         protected INavigationGraph graph;
         protected List<Vector3> waypointsPath;
         protected Transform ownTransform;
-
         protected int currentWaypoint;
 
+
         protected float3 lastTargetPosition = new(0, 0, 0);
+        private Transform _actualTargetTransform;
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
         public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
@@ -41,13 +47,21 @@ namespace Agents
 
         private void Awake()
         {
-            waypointsPath = new List<Vector3>(10);
             ownTransform = transform;
 
             _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
 
+            InitializeTimer();
             Initialize();
+        }
+
+        private void InitializeTimer()
+        {
+            _timer = new CountdownTimer(rePath);
+            _timer.onTimerStop += () => RequestPath(_actualTargetTransform);
+
+            waypointsPath = new List<Vector3>(10);
         }
 
         protected virtual void Initialize() { }
@@ -58,12 +72,16 @@ namespace Agents
             rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
             changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
             stoppingDistance = Mathf.Max(0f, stoppingDistance);
+            rePath = Mathf.Max(0f, rePath);
         }
 
         protected virtual IEnumerator MoveAgent()
         {
+            _timer.Start();
             while (currentWaypoint < waypointsPath.Count)
             {
+                _timer.Tick(Time.deltaTime);
+
                 Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
 
                 Move(distanceToTarget);
@@ -73,6 +91,9 @@ namespace Agents
             }
 
             ClearPath();
+            _actualTargetTransform = null;
+            _timer.Pause();
+            _timer.Reset(rePath);
             StatusPath = PathStatus.Idle;
         }
 
@@ -83,7 +104,7 @@ namespace Agents
         protected bool StopMovement(Vector3 targetDistance)
         {
             bool distance = targetDistance.sqrMagnitude < stoppingDistance * stoppingDistance;
-            
+
             if (distance)
             {
                 ClearPath();
@@ -94,30 +115,33 @@ namespace Agents
             return false;
         }
 
-
         protected float GetMarginBraking()
         {
-            float margin = brakingMargin * stoppingDistance;
-            var clamp = Mathf.Clamp(margin, 0.1f, 4f);
-            return clamp;
+            if (stoppingDistance <= 1) return 2;
+
+            float margin = stoppingDistance * 2;
+            return margin;
         }
 
-        public virtual bool RequestPath(Vector3 startPosition, Vector3 endPosition)
+        public virtual bool RequestPath(Transform targetTransform)
         {
             if (StatusPath == PathStatus.Requested) return false;
+            if (_timer.IsRunning) return false;
+
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
                 StatusPath = PathStatus.Failed;
                 return false;
             }
 
-            float3 target = endPosition;
+            _actualTargetTransform = targetTransform;
+            float3 target = targetTransform.position;
             Cell endCell = graph.GetCellWithWorldPosition(target);
             if (all(lastTargetPosition == endCell.position)) return false;
 
             StatusPath = PathStatus.Requested;
 
-            Cell startCell = graph.GetCellWithWorldPosition(startPosition);
+            Cell startCell = graph.GetCellWithWorldPosition(ownTransform.position);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
             if (isPathValid)
@@ -149,7 +173,6 @@ namespace Agents
             StatusPath = PathStatus.Success;
             if (_moveAgentCoroutine != null) StopCoroutine(_moveAgentCoroutine);
             _moveAgentCoroutine = StartCoroutine(MoveAgent());
-
         }
 
         protected void CheckWaypoints(Vector3 distance)
