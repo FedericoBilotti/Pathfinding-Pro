@@ -6,7 +6,6 @@ using Pathfinding;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using Utilities;
 using static Unity.Mathematics.math;
 
@@ -127,10 +126,23 @@ namespace Agents
             if (StatusPath == PathStatus.Requested) return false;
             if (_timer.IsRunning) return false;
 
+            Vector3 agentPosition = ownTransform.position;
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
-                StatusPath = PathStatus.Failed;
-                return false;
+                agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
+                // Change this cause' the agent maybe isn't on the same height -> This is because a 3D Grid, in a 2D Grid it's okay.
+                agentPosition.y = ownTransform.position.y;
+
+                // Change this and obtain the result with the cellSize and cellDiameter, 
+                // the min distance to change must be two cells away.
+                const float margin = 2f;
+                
+                // Map the agent if the distance is to far.
+                Vector3 distance = agentPosition - ownTransform.position;
+                if (distance.sqrMagnitude >= margin * margin)
+                {
+                    ownTransform.position = agentPosition;
+                }
             }
 
             _actualTargetTransform = targetTransform;
@@ -140,7 +152,7 @@ namespace Agents
 
             StatusPath = PathStatus.Requested;
 
-            Cell startCell = graph.GetCellWithWorldPosition(ownTransform.position);
+            Cell startCell = graph.GetCellWithWorldPosition(agentPosition);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
             if (isPathValid)
@@ -189,21 +201,6 @@ namespace Agents
         {
             currentWaypoint = 0;
             waypointsPath.Clear();
-        }
-
-        protected void MapToGrid()
-        {
-            // If the agent is not on the grid, move it to the closest grid position
-            if (IsAgentInGrid(graph, transform.position)) return;
-
-            Vector3 nearestCellPosition = MapToNearestCellPosition(graph, transform.position);
-            transform.position = nearestCellPosition;
-        }
-
-        private static Vector3 MapToNearestCellPosition(INavigationGraph graph, Vector3 agentPosition)
-        {
-            Vector3 nearestPosition = graph.GetNearestWalkableCellPosition(agentPosition);
-            return nearestPosition;
         }
 
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
