@@ -5143,7 +5143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b702572e9f3b8b4a96ccd86616d12d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
+  _speed: 50
 --- !u!65 &295909832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5227,7 +5227,7 @@ Transform:
   m_GameObject: {fileID: 295909830}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.1, y: 1.5, z: 22.1}
+  m_LocalPosition: {x: 66.1, y: 1.4, z: 22.1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22252,9 +22252,9 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 0.5
-  stoppingDistance: 1
+  stoppingDistance: 2
   autoBraking: 1
-  rePath: 0.5
+  rePath: 0
   _showPath: 1
 --- !u!1 &1226337116
 GameObject:
