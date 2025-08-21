@@ -196,7 +196,10 @@ namespace NavigationGraph
                         if (gridX >= 0 && gridX < gridSizeX &&
                             gridZ >= 0 && gridZ < gridSizeZ)
                         {
-                            neighbors.Add(gridZ * gridSizeX + gridX);
+                            // Remove error with fixed list (maybe are troubles in the future).
+                            // The if was aggregated, because of the capacity of the fixed list, that sometimes was trying to add more elements than the capacity.
+                            if (neighbors.Length < neighbors.Capacity)
+                                neighbors.Add(gridZ * gridSizeX + gridX);
                         }
                     }
                 }
