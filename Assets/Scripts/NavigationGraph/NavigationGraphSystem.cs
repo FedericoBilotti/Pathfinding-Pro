@@ -33,11 +33,6 @@ namespace NavigationGraph
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
-    
-        void Update()
-        {
-            _graph?.Initialize();
-        }
 
         private void OnValidate()
         {

@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -66,7 +67,7 @@ namespace NavigationGraph.Graph
 
             JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, prepareHandle);
 
-            var createGridJob = new CreateGridJob
+            JobHandle createGridJob = new CreateGridJob
             {
                 grid = grid,
                 origin = transform.position,
@@ -77,9 +78,7 @@ namespace NavigationGraph.Graph
                 results = results,
                 finalBlocked = nativeObstacleBlocked,
                 cliffBlocked = nativeCliffBlocked
-            };
-
-            JobHandle createHandle = createGridJob.Schedule(batchHandle);
+            }.Schedule(batchHandle);
 
             var neighborsPerCell = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.TempJob);
 
@@ -89,7 +88,7 @@ namespace NavigationGraph.Graph
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
                 neighborsPerCell = neighborsPerCell
-            }.Schedule(grid.Length, 32, createHandle);
+            }.Schedule(grid.Length, 32, createGridJob);
 
             neighborsJob.Complete();
 
@@ -174,7 +173,7 @@ namespace NavigationGraph.Graph
             return computedWalkable;
         }
 
-        // Dilate (BFS) with all non-walkable-air cells airRadiusCells steps, and return finalBlocked[] (WalkableType)
+        // Dilate (BFS) with all non-walkable cells radius steps
         private JobHandle CombinedDilateMasks(NativeArray<int> computedWalkable, int2 gridSize, int obstacleRadiusCells, int cliffRadiusCells, NativeArray<int> finalObstacle, NativeArray<int> finalCliff, NativeArray<int> distObstacle, NativeArray<int> distCliff, NativeQueue<int> queueObstacle, NativeQueue<int> queueCliff)
         {
             int total = gridSize.x * gridSize.y;
