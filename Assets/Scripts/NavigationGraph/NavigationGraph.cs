@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace NavigationGraph
@@ -19,6 +21,8 @@ namespace NavigationGraph
 
         protected float obstacleMargin;
         protected float cliffMargin;
+
+        NativeArray<FixedList32Bytes<int>> cellNeighbors;
 
         public NavigationGraphType GraphType { get; protected set; }
 
@@ -46,6 +50,7 @@ namespace NavigationGraph
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
         public int GetGridSize() => gridSize.x * gridSize.y;
         public int GetGridSizeX() => gridSize.x;
+        public NativeArray<FixedList32Bytes<int>> GetNeighbors() => cellNeighbors;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
@@ -102,6 +107,7 @@ namespace NavigationGraph
             return transform.position;
         }
 
+        // Pass this to Jobs
         protected WalkableType IsCellWalkable(Vector3 cellPosition, float radius)
         {
             Vector3 origin = cellPosition + Vector3.up * 0.1f;
@@ -128,7 +134,7 @@ namespace NavigationGraph
             return CheckPoint(cellPosition);
         }
 
-        private Vector3 GetCellPositionInGrid(int gridX, int gridY)
+        protected Vector3 GetCellPositionInGrid(int gridX, int gridY)
         {
             return transform.position
                    + Vector3.right * ((gridX + 0.5f) * cellDiameter)
@@ -163,6 +169,44 @@ namespace NavigationGraph
             Walkable,
             Obstacle,
             Air
+        }
+
+        [BurstCompile]
+        public struct PrecomputeNeighborsJob : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<Cell> grid;
+            public int gridSizeX;
+            public int gridSizeZ;
+
+            [WriteOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
+
+            public void Execute(int index)
+            {
+                Cell cell = grid[index];
+                var neighbors = new FixedList32Bytes<int>();
+
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
+                    {
+                        if (offsetX == 0 && offsetZ == 0) continue;
+
+                        int gridX = cell.gridX + offsetX;
+                        int gridZ = cell.gridZ + offsetZ;
+
+                        if (gridX >= 0 && gridX < gridSizeX &&
+                            gridZ >= 0 && gridZ < gridSizeZ)
+                        {
+                            // Remove error with fixed list (maybe are troubles in the future).
+                            // The if was aggregated, because of the capacity of the fixed list, that sometimes was trying to add more elements than the capacity.
+                            if (neighbors.Length < neighbors.Capacity)
+                                neighbors.Add(gridZ * gridSizeX + gridX);
+                        }
+                    }
+                }
+
+                neighborsPerCell[index] = neighbors;
+            }
         }
 
         #region Unity Methods
