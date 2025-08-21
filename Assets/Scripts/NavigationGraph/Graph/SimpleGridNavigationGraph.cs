@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -38,42 +40,67 @@ namespace NavigationGraph.Graph
             if (airRadiusCells == 0 && cliffMargin > 0f) airRadiusCells = 1; // At least one
             WalkableType[] cliffBlocked = DilateBlockedMask(computedWalkable, airRadiusCells, WalkableType.Air);
 
+            var nativeFinalBlocked = new NativeArray<int>(total, Allocator.TempJob);
+            var nativeCliffBlocked = new NativeArray<int>(total, Allocator.TempJob);
+
             for (int i = 0; i < total; i++)
             {
-                int x = i % gridSize.x;
-                int y = i / gridSize.x;
-
-                Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
-
-                bool isWalkable = finalBlocked[i] == WalkableType.Walkable
-                               && cliffBlocked[i] == WalkableType.Walkable;
-
-                WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
-
-                // Keep it for safety check.
-                if (!isWalkable && walkableType == WalkableType.Air)
-                    continue;
-
-                grid[i] = new Cell
-                {
-                    position = cellPosition,
-                    gridIndex = i,
-                    gridX = x,
-                    gridZ = y,
-                    isWalkable = isWalkable,
-                };
+                nativeFinalBlocked[i] = (int)finalBlocked[i];
+                nativeCliffBlocked[i] = (int)cliffBlocked[i];
             }
 
-            // Precompute neighbors.
-            JobHandle job = new PrecomputeNeighborsJob
+            // Raycast batch arrays
+            NativeArray<RaycastCommand> commands = new(total, Allocator.TempJob);
+            NativeArray<RaycastHit> results = new(total, Allocator.TempJob);
+
+            var prepareJob = new PrepareRaycastCommandsJob
+            {
+                commands = commands,
+                origin = transform.position,
+                cellDiameter = cellDiameter,
+                gridSizeX = gridSize.x,
+                gridSizeY = gridSize.y,
+                maxDistance = maxDistance,
+                walkableMask = walkableMask,
+                physicsScene = Physics.defaultPhysicsScene
+            };
+
+            JobHandle prepareHandle = prepareJob.Schedule(total, 32);
+
+            JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, prepareHandle);
+
+            var createGridJob = new CreateGridJob
+            {
+                grid = grid,
+                origin = transform.position,
+                cellDiameter = cellDiameter,
+                total = total,
+                gridSizeX = gridSize.x,
+                gridSizeY = gridSize.y,
+                results = results,
+                finalBlocked = nativeFinalBlocked,
+                cliffBlocked = nativeCliffBlocked
+            };
+
+            JobHandle createHandle = createGridJob.Schedule(batchHandle);
+
+            var neighborsPerCell = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.TempJob);
+
+            var neighborsJob = new PrecomputeNeighborsJob
             {
                 grid = grid,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
-                neighborsPerCell = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.Persistent),
-            }.Schedule(grid.Length, 32);
+                neighborsPerCell = neighborsPerCell
+            }.Schedule(grid.Length, 32, createHandle);
 
-            job.Complete();
+            neighborsJob.Complete();
+
+            neighborsPerCell.Dispose();
+            commands.Dispose();
+            results.Dispose();
+            nativeFinalBlocked.Dispose();
+            nativeCliffBlocked.Dispose();
         }
 
         private bool[] CollectBlockedByExpandedBounds()
@@ -221,6 +248,84 @@ namespace NavigationGraph.Graph
             queue.Enqueue(neighborIndex);
         }
 
+        #region Jobs & Burst
+
+        [BurstCompile]
+        public struct PrepareRaycastCommandsJob : IJobParallelFor
+        {
+            public NativeArray<RaycastCommand> commands;
+            public Vector3 origin;
+            public float cellDiameter;
+            public int gridSizeX;
+            public int gridSizeY;
+            public float maxDistance;
+            public int walkableMask;
+            public PhysicsScene physicsScene;
+
+            public void Execute(int i)
+            {
+                int x = i % gridSizeX;
+                int y = i / gridSizeX;
+
+                Vector3 cellPosition = origin
+                    + Vector3.right * ((x + 0.5f) * cellDiameter)
+                    + Vector3.forward * ((y + 0.5f) * cellDiameter);
+
+                var queryParams = new QueryParameters { layerMask = walkableMask };
+
+                commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * maxDistance, Vector3.down, queryParams, maxDistance);
+            }
+        }
+
+        [BurstCompile]
+        private struct CreateGridJob : IJob
+        {
+            public NativeArray<Cell> grid;
+            public Vector3 origin;
+            public float cellDiameter;
+            public int total;
+            public int gridSizeX;
+            public int gridSizeY;
+
+            [ReadOnly] public NativeArray<RaycastHit> results;
+            [ReadOnly] public NativeArray<int> finalBlocked;
+            [ReadOnly] public NativeArray<int> cliffBlocked;
+
+            public void Execute()
+            {
+                const float kHitEpsilon = 1e-4f;
+
+                for (int i = 0; i < total; i++)
+                {
+                    int x = i % gridSizeX;
+                    int y = i / gridSizeX;
+
+                    Vector3 defaultPos = origin
+                        + Vector3.right * ((x + 0.5f) * cellDiameter)
+                        + Vector3.forward * ((y + 0.5f) * cellDiameter);
+
+                    bool hit = results[i].distance > kHitEpsilon;
+                    Vector3 cellPosition = hit ? results[i].point : defaultPos;
+
+                    bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
+                                   && (cliffBlocked[i] == (int)WalkableType.Walkable);
+
+                    grid[i] = new Cell
+                    {
+                        position = cellPosition,
+                        gridIndex = i,
+                        gridX = x,
+                        gridZ = y,
+                        isWalkable = isWalkable,
+                    };
+                }
+            }
+        }
+
+        #endregion
+
+        #region Gizmos
+
         public override void DrawGizmos()
         {
             base.DrawGizmos();
@@ -232,5 +337,6 @@ namespace NavigationGraph.Graph
             Gizmos.DrawWireCube(areaCenter, gridWorldSize);
         }
 
+        #endregion
     }
 }

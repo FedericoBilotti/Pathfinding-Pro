@@ -107,6 +107,7 @@ namespace NavigationGraph
             return transform.position;
         }
 
+        // Pass this to Jobs
         protected WalkableType IsCellWalkable(Vector3 cellPosition, float radius)
         {
             Vector3 origin = cellPosition + Vector3.up * 0.1f;
@@ -133,7 +134,7 @@ namespace NavigationGraph
             return CheckPoint(cellPosition);
         }
 
-        private Vector3 GetCellPositionInGrid(int gridX, int gridY)
+        protected Vector3 GetCellPositionInGrid(int gridX, int gridY)
         {
             return transform.position
                    + Vector3.right * ((gridX + 0.5f) * cellDiameter)
