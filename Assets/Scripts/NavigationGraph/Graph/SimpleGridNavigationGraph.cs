@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -62,6 +63,17 @@ namespace NavigationGraph.Graph
                     isWalkable = isWalkable,
                 };
             }
+
+            // Precompute neighbors.
+            JobHandle job = new PrecomputeNeighborsJob
+            {
+                grid = grid,
+                gridSizeX = gridSize.x,
+                gridSizeZ = gridSize.y,
+                neighborsPerCell = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.Persistent),
+            }.Schedule(grid.Length, 32);
+
+            job.Complete();
         }
 
         private bool[] CollectBlockedByExpandedBounds()
