@@ -33,27 +33,18 @@ namespace NavigationGraph.Graph
             // Dilate the mask for non-walkable cells according to obstacle margin converted to cells
             int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
             if (obstacleRadiusCells == 0 && obstacleMargin > 0f) obstacleRadiusCells = 1; // At least one
-            WalkableType[] finalBlocked = DilateBlockedMask(computedWalkable, obstacleRadiusCells, WalkableType.Obstacle);
+            NativeArray<int> nativeObstacleBlocked = DilateBlockedMask(computedWalkable, obstacleRadiusCells, WalkableType.Obstacle);
 
             // Dilate the mask for non-walkable cells according to cliff margin converted to cells
             int airRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
             if (airRadiusCells == 0 && cliffMargin > 0f) airRadiusCells = 1; // At least one
-            WalkableType[] cliffBlocked = DilateBlockedMask(computedWalkable, airRadiusCells, WalkableType.Air);
-
-            var nativeFinalBlocked = new NativeArray<int>(total, Allocator.TempJob);
-            var nativeCliffBlocked = new NativeArray<int>(total, Allocator.TempJob);
-
-            for (int i = 0; i < total; i++)
-            {
-                nativeFinalBlocked[i] = (int)finalBlocked[i];
-                nativeCliffBlocked[i] = (int)cliffBlocked[i];
-            }
+            NativeArray<int> nativeCliffBlocked = DilateBlockedMask(computedWalkable, airRadiusCells, WalkableType.Air);
 
             // Raycast batch arrays
             NativeArray<RaycastCommand> commands = new(total, Allocator.TempJob);
             NativeArray<RaycastHit> results = new(total, Allocator.TempJob);
 
-            var prepareJob = new PrepareRaycastCommandsJob
+            var prepareJob = new CheckPointsJob
             {
                 commands = commands,
                 origin = transform.position,
@@ -78,7 +69,7 @@ namespace NavigationGraph.Graph
                 gridSizeX = gridSize.x,
                 gridSizeY = gridSize.y,
                 results = results,
-                finalBlocked = nativeFinalBlocked,
+                finalBlocked = nativeObstacleBlocked,
                 cliffBlocked = nativeCliffBlocked
             };
 
@@ -99,7 +90,7 @@ namespace NavigationGraph.Graph
             neighborsPerCell.Dispose();
             commands.Dispose();
             results.Dispose();
-            nativeFinalBlocked.Dispose();
+            nativeObstacleBlocked.Dispose();
             nativeCliffBlocked.Dispose();
         }
 
@@ -173,13 +164,13 @@ namespace NavigationGraph.Graph
         }
 
         // Dilate (BFS) with all non-walkable-air cells airRadiusCells steps, and return finalBlocked[] (WalkableType)
-        private WalkableType[] DilateBlockedMask(WalkableType[] computedWalkable, int airRadiusCells, WalkableType walkableType)
+        private NativeArray<int> DilateBlockedMask(WalkableType[] computedWalkable, int airRadiusCells, WalkableType walkableType)
         {
             int total = GetGridSize();
-            var finalBlocked = new WalkableType[total];
+            var finalBlocked = new NativeArray<int>(total, Allocator.TempJob);
 
             for (int i = 0; i < total; i++)
-                finalBlocked[i] = computedWalkable[i];
+                finalBlocked[i] = (int)computedWalkable[i];
 
             if (airRadiusCells <= 0)
                 return finalBlocked;
@@ -214,7 +205,7 @@ namespace NavigationGraph.Graph
                 {
                     distances[i] = 0;
                     queue.Enqueue(i);
-                    finalBlocked[i] = walkableType;
+                    finalBlocked[i] = (int)walkableType;
                 }
             }
 
@@ -236,7 +227,7 @@ namespace NavigationGraph.Graph
             return finalBlocked;
         }
 
-        private void TryEnqueueNeighbor(int neighborX, int neighborY, int currentDistance, int[] distances, Queue<int> queue, WalkableType[] finalBlocked, WalkableType walkableType)
+        private void TryEnqueueNeighbor(int neighborX, int neighborY, int currentDistance, int[] distances, Queue<int> queue, NativeArray<int> finalBlocked, WalkableType walkableType)
         {
             if (neighborX < 0 || neighborY < 0 || neighborX >= gridSize.x || neighborY >= gridSize.y) return;
 
@@ -244,14 +235,14 @@ namespace NavigationGraph.Graph
             if (distances[neighborIndex] != -1) return;
 
             distances[neighborIndex] = currentDistance + 1;
-            finalBlocked[neighborIndex] = walkableType;
+            finalBlocked[neighborIndex] = (int)walkableType;
             queue.Enqueue(neighborIndex);
         }
 
         #region Jobs & Burst
 
         [BurstCompile]
-        public struct PrepareRaycastCommandsJob : IJobParallelFor
+        private struct CheckPointsJob : IJobParallelFor
         {
             public NativeArray<RaycastCommand> commands;
             public Vector3 origin;
