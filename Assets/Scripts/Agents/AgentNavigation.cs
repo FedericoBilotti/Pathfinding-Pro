@@ -21,6 +21,7 @@ namespace Agents
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
         [Header("Pathfinding")]
+        [SerializeField, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
         [SerializeField, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         [Header("Debug")]
@@ -36,7 +37,7 @@ namespace Agents
 
 
         protected float3 lastTargetPosition = new(0, 0, 0);
-        private Transform _actualTargetTransform;
+        private Cell _agentTargetLastCell;
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
         public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
@@ -51,6 +52,10 @@ namespace Agents
             _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
 
+            // In the worst case scenario, the agent will have a path of length grid size / 4
+            // So for that i divide by 5
+            waypointsPath = new List<Vector3>(graph.GetGridSize() / 5);
+
             InitializeTimer();
             Initialize();
         }
@@ -58,9 +63,11 @@ namespace Agents
         private void InitializeTimer()
         {
             _timer = new CountdownTimer(rePath);
-            _timer.onTimerStop += () => RequestPath(_actualTargetTransform);
-
-            waypointsPath = new List<Vector3>(10);
+            _timer.onTimerStop += () =>
+            {
+                if (allowRePath)
+                    RequestPath(_agentTargetLastCell);
+            };
         }
 
         protected virtual void Initialize() { }
@@ -121,7 +128,7 @@ namespace Agents
             return margin;
         }
 
-        public virtual bool RequestPath(Transform targetTransform)
+        public bool RequestPath(Cell targetCell)
         {
             if (StatusPath == PathStatus.Requested) return false;
             if (_timer.IsRunning) return false;
@@ -136,7 +143,7 @@ namespace Agents
                 // Change this and obtain the result with the cellSize and cellDiameter, 
                 // the min distance to change must be two cells away.
                 const float margin = 2f;
-                
+
                 // Map the agent if the distance is to far.
                 Vector3 distance = agentPosition - ownTransform.position;
                 if (distance.sqrMagnitude >= margin * margin)
@@ -145,9 +152,9 @@ namespace Agents
                 }
             }
 
-            _actualTargetTransform = targetTransform;
-            float3 target = targetTransform.position;
-            Cell endCell = graph.GetCellWithWorldPosition(target);
+            // Changed the transform for the cell
+            _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
+            Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
             if (all(lastTargetPosition == endCell.position)) return false;
 
             StatusPath = PathStatus.Requested;
@@ -163,6 +170,18 @@ namespace Agents
 
             StatusPath = PathStatus.Failed;
             return false;
+        }
+
+        public bool RequestPath(Transform targetTransform)
+        {
+            var cell = graph.GetCellWithWorldPosition(targetTransform.position);
+            return RequestPath(cell);
+        }
+
+        public bool RequestPath(Vector3 targetPosition)
+        {
+            var cell = graph.GetCellWithWorldPosition(targetPosition);
+            return RequestPath(cell);
         }
 
         public virtual void SetPath(NativeList<Cell> path)

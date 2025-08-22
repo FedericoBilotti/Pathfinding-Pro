@@ -16,11 +16,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // if (_agentNavigation.HasPath) return;
-
-        // var gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
-        //var target = GetRandomTarget(gridSystem);
-
         _agentNavigation.RequestPath(_followTarget);
     }
 

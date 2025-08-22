@@ -11,6 +11,7 @@ namespace Pathfinding.PathImplementation
     internal struct AStarJob : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
 
         public NativeHashSet<int> closedList;
         public NativePriorityQueue<PathCellData> openList;
@@ -32,18 +33,17 @@ namespace Pathfinding.PathImplementation
             while (openList.Length > 0)
             {
                 if (patience-- < 0) break;
-                
+
                 PathCellData currentData = openList.Dequeue();
                 int currentIndex = currentData.cellIndex;
                 closedList.Add(currentIndex);
 
-                if (currentIndex == endIndex)
-                {
-                    return;
-                }
+                if (currentIndex == endIndex) return;
 
-                NativeList<int> neighbors = new NativeList<int>(8, Allocator.Temp);
-                GetNeighbors(currentIndex, ref neighbors);
+                // NativeList<int> neighbors = new NativeList<int>(8, Allocator.Temp);
+                // GetNeighbors(currentIndex, ref neighbors);
+
+                FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
 
                 foreach (int neighborIndex in neighbors)
                 {
@@ -61,7 +61,23 @@ namespace Pathfinding.PathImplementation
                     openList.Enqueue(newNeighborData);
                 }
 
-                neighbors.Dispose();
+                // foreach (int neighborIndex in neighbors)
+                // {
+                //     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
+
+                //     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex);
+                //     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
+                //     {
+                //         if (costToNeighbor >= neighborData.gCost) continue;
+                //     }
+
+                //     var newNeighborData = new PathCellData { cellIndex = neighborIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), cameFrom = currentIndex, HeapIndex = int.MaxValue };
+                //     visitedNodes[neighborIndex] = newNeighborData;
+
+                //     openList.Enqueue(newNeighborData);
+                // }
+
+                // neighbors.Dispose();
             }
         }
 
@@ -106,7 +122,7 @@ namespace Pathfinding.PathImplementation
         [ReadOnly] public NativeArray<Cell> grid;
         public NativeList<Cell> finalPath;
         public NativeHashMap<int, PathCellData> visitedNodes;
-        
+
         [ReadOnly] public int endIndex;
 
         public void Execute()
@@ -123,7 +139,7 @@ namespace Pathfinding.PathImplementation
                 finalPath.Add(grid[currentIndex]);
                 currentIndex = visitedNodes[currentIndex].cameFrom;
             }
-            
+
             finalPath.RemoveAt(finalPath.Length - 1);
         }
     }

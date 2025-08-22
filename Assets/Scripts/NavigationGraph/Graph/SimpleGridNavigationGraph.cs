@@ -80,14 +80,14 @@ namespace NavigationGraph.Graph
                 cliffBlocked = nativeCliffBlocked
             }.Schedule(batchHandle);
 
-            var neighborsPerCell = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.TempJob);
+            cellNeighbors = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.Persistent);
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
                 grid = grid,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
-                neighborsPerCell = neighborsPerCell
+                neighborsPerCell = cellNeighbors
             }.Schedule(grid.Length, 32, createGridJob);
 
             neighborsJob.Complete();
@@ -96,7 +96,6 @@ namespace NavigationGraph.Graph
             distCliff.Dispose();
             queueObstacle.Dispose();
             queueCliff.Dispose();
-            neighborsPerCell.Dispose();
             commands.Dispose();
             results.Dispose();
             nativeObstacleBlocked.Dispose();

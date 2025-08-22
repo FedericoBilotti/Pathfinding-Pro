@@ -1,14 +1,30 @@
+using Agents;
+using NavigationGraph;
 using UnityEngine;
 
 public class MoveCube : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    private AgentNavigation _agentNavigation;
+
+    private void Awake()
+    {
+        _agentNavigation = GetComponent<AgentNavigation>();
+    }
 
     private void Update()
     {
-        Vector3 direction = Input.GetAxisRaw("Horizontal") * transform.right;
-        direction += Input.GetAxisRaw("Vertical") * transform.forward;
+        if (_agentNavigation.HasPath) return;
 
-        transform.position += direction.normalized * (_speed * Time.deltaTime);
+        var gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
+        var target = GetRandomTarget(gridSystem);
+        
+        _agentNavigation.RequestPath(target);
+    }
+
+    private Cell GetRandomTarget(INavigationGraph graph)
+    {
+        Cell target = graph.GetRandomCell();
+
+        return target.isWalkable ? target : GetRandomTarget(graph);
     }
 }
