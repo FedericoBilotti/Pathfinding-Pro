@@ -18,6 +18,7 @@ namespace Pathfinding.RequesterStrategy
             JobHandle aStarJob = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
+                neighborsPerCell = navigationGraph.GetNeighbors(),
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,

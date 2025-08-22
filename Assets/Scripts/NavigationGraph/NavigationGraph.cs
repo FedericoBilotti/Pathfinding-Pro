@@ -22,7 +22,7 @@ namespace NavigationGraph
         protected float obstacleMargin;
         protected float cliffMargin;
 
-        NativeArray<FixedList32Bytes<int>> cellNeighbors;
+        protected NativeArray<FixedList32Bytes<int>> cellNeighbors;
 
         public NavigationGraphType GraphType { get; protected set; }
 
@@ -222,6 +222,7 @@ namespace NavigationGraph
         public void Destroy()
         {
             if (grid.IsCreated) grid.Dispose();
+            if (cellNeighbors.IsCreated) cellNeighbors.Dispose();
         }
 
         #endregion
