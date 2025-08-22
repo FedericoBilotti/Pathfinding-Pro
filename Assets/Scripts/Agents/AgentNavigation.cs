@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using NavigationGraph;
@@ -16,25 +15,20 @@ namespace Agents
         [Header("Steering")]
         [SerializeField] protected float speed = 5;
         [SerializeField] protected float rotationSpeed = 10;
-        [SerializeField] protected float changeWaypointDistance = 0.5f;
+        [SerializeField] protected float changeWaypointDistance = 1.5f;
         [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
-        [Header("Pathfinding")]
-        [SerializeField, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
-        [SerializeField, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
+        [SerializeField, HideInInspector, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
+        [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
-        [Header("Debug")]
-        [SerializeField] private bool _showPath = true;
-
-        private Timer _timer;
         private IPathfinding _pathfinding;
         private Coroutine _moveAgentCoroutine;
         protected INavigationGraph graph;
         protected List<Vector3> waypointsPath;
         protected Transform ownTransform;
         protected int currentWaypoint;
-
+        protected Timer timer;
 
         protected float3 lastTargetPosition = new(0, 0, 0);
         private Cell _agentTargetLastCell;
@@ -44,6 +38,11 @@ namespace Agents
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+
+        // For inspector
+        public List<Vector3> WaypointsPath => waypointsPath;
+        public int CurrentWaypoint => currentWaypoint;
+        public float StoppingDistance => stoppingDistance;
 
         private void Awake()
         {
@@ -62,11 +61,14 @@ namespace Agents
 
         private void InitializeTimer()
         {
-            _timer = new CountdownTimer(rePath);
-            _timer.onTimerStop += () =>
+            timer = new CountdownTimer(rePath);
+            timer.onTimerStop += () =>
             {
                 if (allowRePath)
+                {
+                    timer.Reset(rePath);
                     RequestPath(_agentTargetLastCell);
+                }
             };
         }
 
@@ -83,34 +85,52 @@ namespace Agents
 
         protected virtual IEnumerator MoveAgent()
         {
-            _timer.Start();
+            if (allowRePath)
+                timer.Start();
+
             while (currentWaypoint < waypointsPath.Count)
             {
-                _timer.Tick(Time.deltaTime);
+                timer.Tick(Time.deltaTime);
 
                 Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
 
-                Move(distanceToTarget);
+                Vector3 target = lastTargetPosition;
+                Vector3 direction = target - ownTransform.position;
+
                 Rotate(distanceToTarget);
                 CheckWaypoints(distanceToTarget);
+
+                if (StopMovement(direction))
+                {
+                    yield return null;
+                    continue;
+                }
+
+                if (IsBraking(distanceToTarget, direction))
+                {
+                    yield return null;
+                    continue;
+                }
+
+                Move(distanceToTarget);
                 yield return null;
             }
 
             ClearPath();
-            _timer.Pause();
-            _timer.Reset(rePath);
+            timer.Pause();
+            timer.Reset(rePath);
             StatusPath = PathStatus.Idle;
         }
 
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
-        protected abstract bool IsBraking(Vector3 targetDistance);
+        protected abstract bool IsBraking(Vector3 targetDistance, Vector3 direction);
 
-        protected bool StopMovement(Vector3 targetDistance)
+        protected bool StopMovement(Vector3 direction)
         {
-            bool distance = targetDistance.sqrMagnitude < stoppingDistance * stoppingDistance;
+            bool stopMovement = direction.sqrMagnitude < stoppingDistance * stoppingDistance;
 
-            if (distance)
+            if (stopMovement)
             {
                 ClearPath();
                 StatusPath = PathStatus.Idle;
@@ -131,7 +151,7 @@ namespace Agents
         public bool RequestPath(Cell targetCell)
         {
             if (StatusPath == PathStatus.Requested) return false;
-            if (_timer.IsRunning) return false;
+            if (timer.IsRunning) return false;
 
             Vector3 agentPosition = ownTransform.position;
             if (!IsAgentInGrid(graph, ownTransform.position))
@@ -209,11 +229,6 @@ namespace Agents
         {
             if (distance.sqrMagnitude > changeWaypointDistance * changeWaypointDistance) return;
             currentWaypoint++;
-
-            if (currentWaypoint < waypointsPath.Count) return;
-
-            ClearPath();
-            StatusPath = PathStatus.Idle;
         }
 
         protected void ClearPath()
@@ -230,20 +245,6 @@ namespace Agents
             Failed,
             Requested,
             Success
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!_showPath) return;
-            if (waypointsPath == null || waypointsPath.Count == 0) return;
-
-            Gizmos.color = Color.black;
-
-            for (int i = currentWaypoint; i < waypointsPath.Count; i++)
-            {
-                Gizmos.DrawLine(i == currentWaypoint ? transform.position : waypointsPath[i - 1], waypointsPath[i]);
-                Gizmos.DrawCube(waypointsPath[i], Vector3.one * 0.35f);
-            }
         }
     }
 }

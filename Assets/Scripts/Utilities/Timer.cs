@@ -1,10 +1,6 @@
-
-
-using UnityEngine;
-
 namespace Utilities
 {
-    internal abstract class Timer
+    public abstract class Timer
     {
         protected float initialTime;
 
@@ -54,7 +50,7 @@ namespace Utilities
         public abstract void Tick(float deltaTime);
     }
 
-    internal class StopWatchTimer : Timer
+    public sealed class StopWatchTimer : Timer
     {
         public StopWatchTimer(float value) : base(0) { }
 
@@ -67,7 +63,7 @@ namespace Utilities
         public override void Reset(float newTime = 0) => Time = 0;
     }
 
-    internal class CountdownTimer : Timer
+    public sealed class CountdownTimer : Timer
     {
         public CountdownTimer(float value) : base(value) { }
 
