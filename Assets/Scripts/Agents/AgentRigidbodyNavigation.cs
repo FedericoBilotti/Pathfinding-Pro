@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Agents
 {
+    /// <summary>
+    /// The class is deprecated
+    /// </summary>
     public class AgentRigidbodyNavigation : AgentNavigation
     {
         [Header("Rigidbody Settings")]
@@ -57,7 +60,7 @@ namespace Agents
             Vector3 target = lastTargetPosition;
             Vector3 direction = target - ownTransform.position;
             if (StopMovement(direction)) return;
-            if (IsBraking(direction)) return;
+            if (IsBraking(targetDistance, direction)) return;
 
             // If makes the camera fill buggy, use AddForce instead of MovePosition or maybe it's the rigidbody that doesn't allow 
             _rigidbody.MovePosition(_rigidbody.position + targetDistance.normalized * (speed * Time.deltaTime));
@@ -70,7 +73,7 @@ namespace Agents
             _rigidbody.MoveRotation(actualRotation);
         }
 
-        protected override bool IsBraking(Vector3 direction)
+        protected override bool IsBraking(Vector3 targetDistance, Vector3 direction)
         {
             if (!autoBraking) return false;
 
@@ -81,7 +84,7 @@ namespace Agents
                 return false;
 
             float actualSpeed = speed * (distance / GetMarginBraking());
-            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * (actualSpeed * Time.fixedDeltaTime));
+            _rigidbody.MovePosition(_rigidbody.position + targetDistance.normalized * (actualSpeed * Time.fixedDeltaTime));
 
             return true;
         }

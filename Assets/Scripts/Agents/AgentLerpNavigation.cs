@@ -2,9 +2,12 @@ using UnityEngine;
 
 namespace Agents
 {
+    /// <summary>
+    /// The class is deprecated
+    /// </summary>
     public class AgentLerpNavigation : AgentNavigation
     {
-        protected override bool IsBraking(Vector3 direction)
+        protected override bool IsBraking(Vector3 targetDistance, Vector3 direction)
         {
             if (!autoBraking) return false;
 
@@ -17,7 +20,7 @@ namespace Agents
 
             float dampingFactor = 0.3f;
             float t = speed * Time.deltaTime * (distance / GetMarginBraking()) * dampingFactor;
-            ownTransform.position = Vector3.Lerp(ownTransform.position, target, t);
+            ownTransform.position = Vector3.Lerp(ownTransform.position, targetDistance, t);
 
             return true;
         }
@@ -27,7 +30,7 @@ namespace Agents
             Vector3 target = lastTargetPosition;
             Vector3 direction = target - ownTransform.position;
             if (StopMovement(direction)) return;
-            if (IsBraking(direction)) return;
+            if (IsBraking(targetDistance, direction)) return;
 
             ownTransform.position = Vector3.MoveTowards(
                 ownTransform.position,

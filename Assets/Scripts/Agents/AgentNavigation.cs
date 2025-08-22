@@ -108,13 +108,13 @@ namespace Agents
 
         protected abstract void Move(Vector3 targetDistance);
         protected abstract void Rotate(Vector3 targetDistance);
-        protected abstract bool IsBraking(Vector3 targetDistance);
+        protected abstract bool IsBraking(Vector3 targetDistance, Vector3 direction);
 
-        protected bool StopMovement(Vector3 targetDistance)
+        protected bool StopMovement(Vector3 direction)
         {
-            bool distance = targetDistance.sqrMagnitude < stoppingDistance * stoppingDistance;
+            bool stopMovement = direction.sqrMagnitude < stoppingDistance * stoppingDistance;
 
-            if (distance)
+            if (stopMovement)
             {
                 ClearPath();
                 StatusPath = PathStatus.Idle;

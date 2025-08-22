@@ -4,7 +4,7 @@ namespace Agents
 {
     public class AgentTransformNavigation : AgentNavigation
     {
-        protected override bool IsBraking(Vector3 direction)
+        protected override bool IsBraking(Vector3 targetDistance, Vector3 direction)
         {
             if (!autoBraking) return false;
 
@@ -15,7 +15,7 @@ namespace Agents
                 return false;
 
             var actualSpeed = speed * (distance / GetMarginBraking());
-            ownTransform.position += actualSpeed * Time.deltaTime * direction.normalized;
+            ownTransform.position += actualSpeed * Time.deltaTime * targetDistance.normalized;
 
             return true;
         }
@@ -25,7 +25,7 @@ namespace Agents
             Vector3 target = lastTargetPosition;
             Vector3 direction = target - ownTransform.position;
             if (StopMovement(direction)) return;
-            if (IsBraking(direction)) return;
+            if (IsBraking(targetDistance, direction)) return;
 
             ownTransform.position += targetDistance.normalized * (speed * Time.deltaTime);
         }

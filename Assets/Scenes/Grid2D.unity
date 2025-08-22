@@ -22289,7 +22289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1472a05f4e0bdea49b5e448f749c00a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followTarget: {fileID: 295909835}
+  _followTarget: {fileID: 195021665}
 --- !u!114 &1224878555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22305,7 +22305,7 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 1.5
-  stoppingDistance: 2
+  stoppingDistance: 5
   autoBraking: 1
   allowRePath: 0
   rePath: 0.5
