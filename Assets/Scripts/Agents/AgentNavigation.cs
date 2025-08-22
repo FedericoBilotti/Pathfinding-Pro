@@ -67,7 +67,10 @@ namespace Agents
             _timer.onTimerStop += () =>
             {
                 if (allowRePath)
+                {
+                    _timer.Reset(rePath);
                     RequestPath(_agentTargetLastCell);
+                }
             };
         }
 
@@ -210,11 +213,6 @@ namespace Agents
         {
             if (distance.sqrMagnitude > changeWaypointDistance * changeWaypointDistance) return;
             currentWaypoint++;
-
-            if (currentWaypoint < waypointsPath.Count) return;
-
-            ClearPath();
-            StatusPath = PathStatus.Idle;
         }
 
         protected void ClearPath()
