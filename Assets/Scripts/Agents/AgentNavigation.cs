@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using NavigationGraph;
@@ -20,9 +19,8 @@ namespace Agents
         [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
-        [Header("Pathfinding")]
-        [SerializeField, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
-        [SerializeField, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
+        [SerializeField, HideInInspector, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
+        [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         private Timer _timer;
         private IPathfinding _pathfinding;
@@ -45,6 +43,7 @@ namespace Agents
         // For inspector
         public List<Vector3> WaypointsPath => waypointsPath;
         public int CurrentWaypoint => currentWaypoint;
+        public float StoppingDistance => stoppingDistance;
 
         private void Awake()
         {

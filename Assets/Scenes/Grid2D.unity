@@ -1148,7 +1148,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &77661075
 Transform:
   m_ObjectHideFlags: 0
@@ -1343,7 +1342,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &86019627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,7 +1691,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &98107728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1957,7 +1954,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &127141370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2032,7 +2028,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &130662727
 Transform:
   m_ObjectHideFlags: 0
@@ -2296,7 +2291,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &152220634
 Transform:
   m_ObjectHideFlags: 0
@@ -2388,7 +2382,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &153926668
 Transform:
   m_ObjectHideFlags: 0
@@ -2927,7 +2920,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &192534534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3030,7 +3022,6 @@ MonoBehaviour:
   autoBraking: 0
   allowRePath: 0
   rePath: 0.5
-  _showPath: 1
 --- !u!1 &198850790
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3100,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &198850794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3201,7 +3191,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &201008796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3293,7 +3282,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &202760905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3454,7 +3442,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &205086508
 Transform:
   m_ObjectHideFlags: 0
@@ -3563,7 +3550,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &205262417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3896,7 +3882,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &224912984
 Transform:
   m_ObjectHideFlags: 0
@@ -4246,7 +4231,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &234758188
 Transform:
   m_ObjectHideFlags: 0
@@ -4441,7 +4425,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &244531713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5027,7 +5010,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &288986760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,7 +5084,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &292549823
 Transform:
   m_ObjectHideFlags: 0
@@ -5663,7 +5644,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &312878074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5910,7 +5890,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &325904775
 Transform:
   m_ObjectHideFlags: 0
@@ -6225,7 +6204,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &345853462
 Transform:
   m_ObjectHideFlags: 0
@@ -6614,7 +6592,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &356763664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6814,7 +6791,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &361463461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7061,7 +7037,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &371104047
 Transform:
   m_ObjectHideFlags: 0
@@ -7411,7 +7386,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &381791779
 Transform:
   m_ObjectHideFlags: 0
@@ -7641,7 +7615,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &418047232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7819,7 +7792,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &421042518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7911,7 +7883,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &423923717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8416,7 +8387,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &450071279
 Transform:
   m_ObjectHideFlags: 0
@@ -9282,7 +9252,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &489848668
 Transform:
   m_ObjectHideFlags: 0
@@ -9391,7 +9360,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &492547066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9746,7 +9714,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &515315020
 Transform:
   m_ObjectHideFlags: 0
@@ -10720,7 +10687,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &586149326
 Transform:
   m_ObjectHideFlags: 0
@@ -10937,7 +10903,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &613704841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11098,7 +11063,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &622670370
 Transform:
   m_ObjectHideFlags: 0
@@ -11207,7 +11171,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &623858031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12164,7 +12127,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &698888052
 Transform:
   m_ObjectHideFlags: 0
@@ -12359,7 +12321,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &702893308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12451,7 +12412,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &704756342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12737,7 +12697,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &709772198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13156,7 +13115,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &737714740
 Transform:
   m_ObjectHideFlags: 0
@@ -13764,7 +13722,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &772563131
 Transform:
   m_ObjectHideFlags: 0
@@ -14032,7 +13989,7 @@ MonoBehaviour:
   _maxDistance: 45
   _cellSize: 0.5
   _obstacleMargin: 0
-  _cliffMargin: 0
+  _cliffMargin: 1.79
   _maxHits: 10
   _notWalkableMask:
     serializedVersion: 2
@@ -14190,7 +14147,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &788103158
 Transform:
   m_ObjectHideFlags: 0
@@ -14884,7 +14840,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &826887495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14976,7 +14931,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &828770575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15186,7 +15140,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &839254370
 Transform:
   m_ObjectHideFlags: 0
@@ -15725,7 +15678,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &864886274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15903,7 +15855,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &873078490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16064,7 +16015,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &880723447
 Transform:
   m_ObjectHideFlags: 0
@@ -16156,7 +16106,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &884103937
 Transform:
   m_ObjectHideFlags: 0
@@ -16609,7 +16558,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &901500495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16770,7 +16718,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &922410580
 Transform:
   m_ObjectHideFlags: 0
@@ -17051,7 +16998,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &931264762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17747,7 +17693,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &972502190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18011,7 +17956,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &984451115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18516,7 +18460,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1009500053
 Transform:
   m_ObjectHideFlags: 0
@@ -18711,7 +18654,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1016226420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18803,7 +18745,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1021287145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19158,7 +19099,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1034878187
 Transform:
   m_ObjectHideFlags: 0
@@ -19267,7 +19207,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1037371682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19622,7 +19561,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1062122868
 Transform:
   m_ObjectHideFlags: 0
@@ -20161,7 +20099,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1088375713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20236,7 +20173,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1096568566
 Transform:
   m_ObjectHideFlags: 0
@@ -20517,7 +20453,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1115286370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20592,7 +20527,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1116018985
 Transform:
   m_ObjectHideFlags: 0
@@ -20684,7 +20618,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1120177201
 Transform:
   m_ObjectHideFlags: 0
@@ -20965,7 +20898,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1127376663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21126,7 +21058,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1135816669
 Transform:
   m_ObjectHideFlags: 0
@@ -21218,7 +21149,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1138881700
 Transform:
   m_ObjectHideFlags: 0
@@ -22150,7 +22080,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1224264286
 Transform:
   m_ObjectHideFlags: 0
@@ -22376,11 +22305,10 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 1.5
-  stoppingDistance: 2
+  stoppingDistance: 8
   autoBraking: 1
-  allowRePath: 1
+  allowRePath: 0
   rePath: 0.5
-  _showPath: 1
 --- !u!1 &1226337116
 GameObject:
   m_ObjectHideFlags: 0
@@ -22528,7 +22456,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1228384602
 Transform:
   m_ObjectHideFlags: 0
@@ -22809,7 +22736,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1257562789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23009,7 +22935,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1264087051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23273,7 +23198,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1271131665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23537,7 +23461,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1282507284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23612,7 +23535,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1285454357
 Transform:
   m_ObjectHideFlags: 0
@@ -23790,7 +23712,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1306809010
 Transform:
   m_ObjectHideFlags: 0
@@ -24437,7 +24358,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1361581140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24529,7 +24449,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1361930231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24862,7 +24781,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1373053186
 Transform:
   m_ObjectHideFlags: 0
@@ -25126,7 +25044,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1397532414
 Transform:
   m_ObjectHideFlags: 0
@@ -25321,7 +25238,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1405822184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25413,7 +25329,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1406609279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25935,7 +25850,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1444294633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26027,7 +25941,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1452780623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26188,7 +26101,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1469152948
 Transform:
   m_ObjectHideFlags: 0
@@ -26840,7 +26752,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1497478634
 Transform:
   m_ObjectHideFlags: 0
@@ -27104,7 +27015,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1516308642
 Transform:
   m_ObjectHideFlags: 0
@@ -27196,7 +27106,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1518012574
 Transform:
   m_ObjectHideFlags: 0
@@ -27563,7 +27472,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1534744202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28259,7 +28167,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1555821104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28437,7 +28344,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1559003643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28512,7 +28418,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1559515571
 Transform:
   m_ObjectHideFlags: 0
@@ -28621,7 +28526,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1560807159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28696,7 +28600,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1562384764
 Transform:
   m_ObjectHideFlags: 0
@@ -28788,7 +28691,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1582162103
 Transform:
   m_ObjectHideFlags: 0
@@ -29435,7 +29337,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1631913547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29527,7 +29428,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1632213310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29688,7 +29588,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1638083139
 Transform:
   m_ObjectHideFlags: 0
@@ -29883,7 +29782,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1641086301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30255,7 +30153,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1660705617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31143,7 +31040,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1694818835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31218,7 +31114,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1694989118
 Transform:
   m_ObjectHideFlags: 0
@@ -31499,7 +31394,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1707688785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31574,7 +31468,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1710998281
 Transform:
   m_ObjectHideFlags: 0
@@ -31838,7 +31731,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1729244281
 Transform:
   m_ObjectHideFlags: 0
@@ -32232,7 +32124,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1740020593
 Transform:
   m_ObjectHideFlags: 0
@@ -32754,7 +32645,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1777356752
 Transform:
   m_ObjectHideFlags: 0
@@ -33104,7 +32994,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1800604031
 Transform:
   m_ObjectHideFlags: 0
@@ -33213,7 +33102,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1811153551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33590,7 +33478,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1825904272
 Transform:
   m_ObjectHideFlags: 0
@@ -33699,7 +33586,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1828088764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34162,7 +34048,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1867122714
 Transform:
   m_ObjectHideFlags: 0
@@ -34340,7 +34225,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1873720850
 Transform:
   m_ObjectHideFlags: 0
@@ -34449,7 +34333,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1879172339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34782,7 +34665,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1915543233
 Transform:
   m_ObjectHideFlags: 0
@@ -35240,7 +35122,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &1946177579
 Transform:
   m_ObjectHideFlags: 0
@@ -35779,7 +35660,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1962854208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36151,7 +36031,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &1993244465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36592,7 +36471,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &2049310281
 Transform:
   m_ObjectHideFlags: 0
@@ -37114,7 +36992,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &2106872424
 Transform:
   m_ObjectHideFlags: 0
@@ -37206,7 +37083,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &2116964856
 Transform:
   m_ObjectHideFlags: 0
@@ -37384,7 +37260,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!4 &2128756997
 Transform:
   m_ObjectHideFlags: 0
@@ -37859,7 +37734,6 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
-  _showPath: 1
 --- !u!114 &2141442235
 MonoBehaviour:
   m_ObjectHideFlags: 0

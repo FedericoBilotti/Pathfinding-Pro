@@ -6,8 +6,15 @@ using UnityEngine;
 [CanEditMultipleObjects]
 public class AgentNavigationGUIEditor : Editor
 {
+    private SerializedProperty _allowRepath;
+    private SerializedProperty _rePath;
     private bool _showPath = true;
-    private Vector3 size = Vector3.one * 0.1f;
+
+    void OnEnable()
+    {
+        _allowRepath = serializedObject.FindProperty("allowRePath");
+        _rePath = serializedObject.FindProperty("rePath");
+    }
 
     public override void OnInspectorGUI()
     {
@@ -15,18 +22,41 @@ public class AgentNavigationGUIEditor : Editor
 
         base.OnInspectorGUI();
 
+        DrawRePath();
+        DrawDebug();
+
+        serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawRePath()
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Pathfinding Settings", EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(_allowRepath);
+
+        if (_allowRepath.boolValue)
+        {
+            EditorGUILayout.PropertyField(_rePath);
+        }
+    }
+
+    private void DrawDebug()
+    {
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Debug", EditorStyles.boldLabel);
 
         _showPath = EditorGUILayout.Toggle("Show Path", _showPath);
     }
 
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
         AgentNavigation agent = (AgentNavigation)target;
 
         Handles.color = Color.red;
         Handles.DrawWireDisc(agent.transform.position + Vector3.up, Vector3.up, agent.ChangeWaypointDistance);
+
+        Handles.color = Color.black;
+        Handles.DrawWireDisc(agent.transform.position + Vector3.up, Vector3.up, agent.StoppingDistance);
 
         if (!_showPath) return;
         if (!agent.HasPath) return;
