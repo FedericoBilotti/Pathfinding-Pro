@@ -22305,7 +22305,7 @@ MonoBehaviour:
   speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 1.5
-  stoppingDistance: 8
+  stoppingDistance: 2
   autoBraking: 1
   allowRePath: 0
   rePath: 0.5

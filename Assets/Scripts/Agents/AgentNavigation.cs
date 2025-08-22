@@ -86,7 +86,9 @@ namespace Agents
 
         protected virtual IEnumerator MoveAgent()
         {
-            _timer.Start();
+            if (allowRePath)
+                _timer.Start();
+
             while (currentWaypoint < waypointsPath.Count)
             {
                 _timer.Tick(Time.deltaTime);
