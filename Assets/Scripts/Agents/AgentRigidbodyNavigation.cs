@@ -33,6 +33,9 @@ namespace Agents
 
         protected override IEnumerator MoveAgent()
         {
+            if (allowRePath)
+                timer.Start();
+
             while (currentWaypoint < waypointsPath.Count)
             {
                 Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
@@ -44,6 +47,8 @@ namespace Agents
             }
 
             ClearPath();
+            timer.Pause();
+            timer.Reset(rePath);
             StatusPath = PathStatus.Idle;
         }
 

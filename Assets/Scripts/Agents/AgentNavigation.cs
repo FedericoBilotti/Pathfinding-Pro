@@ -22,14 +22,13 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
-        private Timer _timer;
         private IPathfinding _pathfinding;
         private Coroutine _moveAgentCoroutine;
         protected INavigationGraph graph;
         protected List<Vector3> waypointsPath;
         protected Transform ownTransform;
         protected int currentWaypoint;
-
+        protected Timer timer;
 
         protected float3 lastTargetPosition = new(0, 0, 0);
         private Cell _agentTargetLastCell;
@@ -62,12 +61,12 @@ namespace Agents
 
         private void InitializeTimer()
         {
-            _timer = new CountdownTimer(rePath);
-            _timer.onTimerStop += () =>
+            timer = new CountdownTimer(rePath);
+            timer.onTimerStop += () =>
             {
                 if (allowRePath)
                 {
-                    _timer.Reset(rePath);
+                    timer.Reset(rePath);
                     RequestPath(_agentTargetLastCell);
                 }
             };
@@ -87,11 +86,11 @@ namespace Agents
         protected virtual IEnumerator MoveAgent()
         {
             if (allowRePath)
-                _timer.Start();
+                timer.Start();
 
             while (currentWaypoint < waypointsPath.Count)
             {
-                _timer.Tick(Time.deltaTime);
+                timer.Tick(Time.deltaTime);
 
                 Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
 
@@ -102,8 +101,8 @@ namespace Agents
             }
 
             ClearPath();
-            _timer.Pause();
-            _timer.Reset(rePath);
+            timer.Pause();
+            timer.Reset(rePath);
             StatusPath = PathStatus.Idle;
         }
 
@@ -136,7 +135,7 @@ namespace Agents
         public bool RequestPath(Cell targetCell)
         {
             if (StatusPath == PathStatus.Requested) return false;
-            if (_timer.IsRunning) return false;
+            if (timer.IsRunning) return false;
 
             Vector3 agentPosition = ownTransform.position;
             if (!IsAgentInGrid(graph, ownTransform.position))
