@@ -94,9 +94,25 @@ namespace Agents
 
                 Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
 
-                Move(distanceToTarget);
+                Vector3 target = lastTargetPosition;
+                Vector3 direction = target - ownTransform.position;
+
                 Rotate(distanceToTarget);
                 CheckWaypoints(distanceToTarget);
+
+                if (StopMovement(direction))
+                {
+                    yield return null;
+                    continue;
+                }
+
+                if (IsBraking(distanceToTarget, direction))
+                {
+                    yield return null;
+                    continue;
+                }
+
+                Move(distanceToTarget);
                 yield return null;
             }
 

@@ -27,11 +27,6 @@ namespace Agents
 
         protected override void Move(Vector3 targetDistance)
         {
-            Vector3 target = lastTargetPosition;
-            Vector3 direction = target - ownTransform.position;
-            if (StopMovement(direction)) return;
-            if (IsBraking(targetDistance, direction)) return;
-
             ownTransform.position = Vector3.MoveTowards(
                 ownTransform.position,
                 waypointsPath[currentWaypoint],

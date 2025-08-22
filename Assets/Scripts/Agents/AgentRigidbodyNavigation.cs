@@ -57,11 +57,6 @@ namespace Agents
 
         protected override void Move(Vector3 targetDistance)
         {
-            Vector3 target = lastTargetPosition;
-            Vector3 direction = target - ownTransform.position;
-            if (StopMovement(direction)) return;
-            if (IsBraking(targetDistance, direction)) return;
-
             // If makes the camera fill buggy, use AddForce instead of MovePosition or maybe it's the rigidbody that doesn't allow 
             _rigidbody.MovePosition(_rigidbody.position + targetDistance.normalized * (speed * Time.deltaTime));
         }
