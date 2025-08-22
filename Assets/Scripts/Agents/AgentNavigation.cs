@@ -16,16 +16,13 @@ namespace Agents
         [Header("Steering")]
         [SerializeField] protected float speed = 5;
         [SerializeField] protected float rotationSpeed = 10;
-        [SerializeField] protected float changeWaypointDistance = 0.5f;
+        [SerializeField] protected float changeWaypointDistance = 1.5f;
         [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
         [Header("Pathfinding")]
         [SerializeField, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
         [SerializeField, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
-
-        [Header("Debug")]
-        [SerializeField] private bool _showPath = true;
 
         private Timer _timer;
         private IPathfinding _pathfinding;
@@ -44,6 +41,10 @@ namespace Agents
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+
+        // For inspector
+        public List<Vector3> WaypointsPath => waypointsPath;
+        public int CurrentWaypoint => currentWaypoint;
 
         private void Awake()
         {
@@ -230,20 +231,6 @@ namespace Agents
             Failed,
             Requested,
             Success
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!_showPath) return;
-            if (waypointsPath == null || waypointsPath.Count == 0) return;
-
-            Gizmos.color = Color.black;
-
-            for (int i = currentWaypoint; i < waypointsPath.Count; i++)
-            {
-                Gizmos.DrawLine(i == currentWaypoint ? transform.position : waypointsPath[i - 1], waypointsPath[i]);
-                Gizmos.DrawCube(waypointsPath[i], Vector3.one * 0.35f);
-            }
         }
     }
 }
