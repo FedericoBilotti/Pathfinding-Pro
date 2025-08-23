@@ -116,9 +116,9 @@ namespace NavigationGraph
             if (hitObstacles) return WalkableType.Obstacle;
 
             // Check if it's something up.
-            var ray = new Ray(origin + Vector3.up * 0.1f, Vector3.up);
-            bool hitHeight = Physics.SphereCast(ray, 0.5f, 1.5f, ~agentMask.value);
-            if (hitHeight) return WalkableType.Obstacle;
+            // var ray = new Ray(origin + Vector3.up * 0.1f, Vector3.up);
+            // bool hitHeight = Physics.SphereCast(ray, 0.5f, 1.5f, ~agentMask.value);
+            // if (hitHeight) return WalkableType.Obstacle;
 
             // This is for check the air, so if it touches walkable area, it's okay, but if it doesn't, it's not walkable because it's the air.
             bool hitWalkableArea = Physics.CheckSphere(origin, radius, walkableMask.value);

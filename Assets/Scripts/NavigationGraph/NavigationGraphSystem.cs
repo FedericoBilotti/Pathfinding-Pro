@@ -6,7 +6,6 @@ namespace NavigationGraph
     {
         [Header("Gizmos")]
         [SerializeField] private bool _boxGrid;
-        [SerializeField] private Vector2 _cellSizeGizmos;
 
         [Header("Graph")]
         [SerializeField] private NavigationGraphType _graphType;
@@ -32,14 +31,6 @@ namespace NavigationGraph
             _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _obstacleMargin, _cliffMargin, _maxHits);
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
-        }
-
-        private void OnValidate()
-        {
-            _cellSizeGizmos.x = Mathf.Max(0.01f, _cellSizeGizmos.x);
-            _cellSizeGizmos.x = Mathf.Min(0.99f, _cellSizeGizmos.x);
-            _cellSizeGizmos.y = Mathf.Max(0.01f, _cellSizeGizmos.y);
-            _cellSizeGizmos.y = Mathf.Min(0.99f, _cellSizeGizmos.y);
         }
 
         private void OnDestroy() => _graph?.Destroy();

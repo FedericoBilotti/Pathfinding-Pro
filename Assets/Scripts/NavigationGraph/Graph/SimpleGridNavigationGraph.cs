@@ -32,8 +32,6 @@ namespace NavigationGraph.Graph
 
             int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
             int airRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
-            if (obstacleRadiusCells == 0) obstacleRadiusCells = 1;
-            if (airRadiusCells == 0) airRadiusCells = 1;
 
             var nativeObstacleBlocked = new NativeArray<int>(total, Allocator.TempJob);
             var nativeCliffBlocked = new NativeArray<int>(total, Allocator.TempJob);
@@ -45,13 +43,13 @@ namespace NavigationGraph.Graph
             var queueCliff = new NativeQueue<int>(Allocator.TempJob);
 
             // Dilate the mask for non-walkable cells.
-            var dilateMaskJob = CombinedDilateMasks(computedWalkable, new int2(gridSize.x, gridSize.y), obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked, nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
+            JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int2(gridSize.x, gridSize.y), obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked, nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
 
             // Raycast batch arrays
-            NativeArray<RaycastCommand> commands = new(total, Allocator.TempJob);
-            NativeArray<RaycastHit> results = new(total, Allocator.TempJob);
+            var commands = new NativeArray<RaycastCommand>(total, Allocator.TempJob);
+            var results = new NativeArray<RaycastHit>(total, Allocator.TempJob);
 
-            var prepareJob = new CheckPointsJob
+            var checkPointJob = new CheckPointsJob
             {
                 commands = commands,
                 origin = transform.position,
@@ -61,11 +59,9 @@ namespace NavigationGraph.Graph
                 maxDistance = maxDistance,
                 walkableMask = walkableMask,
                 physicsScene = Physics.defaultPhysicsScene
-            };
+            }.Schedule(total, 32, dilateMaskJob);
 
-            JobHandle prepareHandle = prepareJob.Schedule(total, 32, dilateMaskJob);
-
-            JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, prepareHandle);
+            JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, checkPointJob);
 
             JobHandle createGridJob = new CreateGridJob
             {
@@ -182,9 +178,9 @@ namespace NavigationGraph.Graph
                 computedWalkable = computedWalkable,
                 gridSize = gridSize,
 
-                Walkable = 0,
-                Obstacle = 1,
-                Air = 2,
+                Walkable = (int)WalkableType.Walkable,
+                Obstacle = (int)WalkableType.Obstacle,
+                Air = (int)WalkableType.Air,
 
                 finalObstacle = finalObstacle,
                 finalCliff = finalCliff,
@@ -200,8 +196,8 @@ namespace NavigationGraph.Graph
                 obstacleRadius = obstacleRadiusCells,
                 cliffRadius = cliffRadiusCells,
 
-                Obstacle = 1,
-                Air = 2,
+                Obstacle = (int)WalkableType.Obstacle,
+                Air = (int)WalkableType.Air,
 
                 distObstacle = distObstacle,
                 distCliff = distCliff,
@@ -254,25 +250,25 @@ namespace NavigationGraph.Graph
                     if (x + 1 < gridSize.x)
                     {
                         int n = i + 1;
-                        hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
+                        // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
                         hasCliffNeighbor |= computedWalkable[n] == Air;
                     }
                     if (x - 1 >= 0)
                     {
                         int n = i - 1;
-                        hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
+                        // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
                         hasCliffNeighbor |= computedWalkable[n] == Air;
                     }
                     if (y + 1 < gridSize.y)
                     {
                         int n = i + gridSize.x;
-                        hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
+                        // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
                         hasCliffNeighbor |= computedWalkable[n] == Air;
                     }
                     if (y - 1 >= 0)
                     {
                         int n = i - gridSize.x;
-                        hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
+                        // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
                         hasCliffNeighbor |= computedWalkable[n] == Air;
                     }
 
@@ -330,7 +326,6 @@ namespace NavigationGraph.Graph
                         EnqueueNeighborObstacle(cx, cy - 1, cd);
                     }
 
-                    // Paso de CLIFFS
                     int iterC = queueCliff.Count;
                     for (int k = 0; k < iterC; k++)
                     {
@@ -431,6 +426,9 @@ namespace NavigationGraph.Graph
                     bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
                                    && (cliffBlocked[i] == (int)WalkableType.Walkable);
 
+                    // If what I hit it's air, continue
+                    if (!isWalkable && cliffBlocked[i] == (int)WalkableType.Air) continue;
+
                     grid[i] = new Cell
                     {
                         position = cellPosition,
@@ -441,21 +439,6 @@ namespace NavigationGraph.Graph
                     };
                 }
             }
-        }
-
-        #endregion
-
-        #region Gizmos
-
-        public override void DrawGizmos()
-        {
-            base.DrawGizmos();
-
-            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance, gridSize.y * cellDiameter);
-            Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, gridWorldSize.y / 2, gridWorldSize.z * 0.5f);
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(areaCenter, gridWorldSize);
         }
 
         #endregion
