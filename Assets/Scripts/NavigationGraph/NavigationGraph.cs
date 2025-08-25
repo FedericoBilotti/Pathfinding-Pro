@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Unity.Burst;
+using NavigationGraph.RaycastCheck;
 using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 
 namespace NavigationGraph
@@ -9,9 +8,10 @@ namespace NavigationGraph
     internal abstract class NavigationGraph : INavigationGraph
     {
         protected readonly LayerMask notWalkableMask;
-        protected readonly LayerMask agentMask;
         protected readonly LayerMask walkableMask;
         protected readonly float maxDistance;
+        protected readonly IRaycastType checkType;
+
         protected float cellSize;
         protected float cellDiameter;
         protected Vector2Int gridSize;
@@ -26,8 +26,10 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin)
+        protected NavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
         {
+            this.checkType = checkType;
+
             this.cellSize = cellSize;
             this.gridSize = gridSize;
 
@@ -36,7 +38,6 @@ namespace NavigationGraph
             this.notWalkableMask = notWalkableMask;
 
             this.transform = transform;
-            this.agentMask = agentMask;
 
 
             this.obstacleMargin = obstacleMargin;
@@ -110,21 +111,7 @@ namespace NavigationGraph
         // Pass this to Jobs
         protected WalkableType IsCellWalkable(Vector3 cellPosition, float radius)
         {
-            Vector3 origin = cellPosition + Vector3.up * 0.1f;
-
-            var hitObstacles = Physics.CheckSphere(origin, radius, notWalkableMask.value);
-            if (hitObstacles) return WalkableType.Obstacle;
-
-            // Check if it's something up.
-            var ray = new Ray(origin + Vector3.up * 0.1f, Vector3.up);
-            bool hitHeight = Physics.SphereCast(ray, 0.5f, 1.5f, ~agentMask.value);
-            if (hitHeight) return WalkableType.Obstacle;
-
-            // This is for check the air, so if it touches walkable area, it's okay, but if it doesn't, it's not walkable because it's the air.
-            bool hitWalkableArea = Physics.CheckSphere(origin, radius, walkableMask.value);
-            if (!hitWalkableArea) return WalkableType.Air;
-
-            return WalkableType.Walkable;
+            return checkType.IsCellWalkable(cellPosition);
         }
 
         protected Vector3 GetCellPositionInWorldMap(int gridX, int gridY)
@@ -162,51 +149,6 @@ namespace NavigationGraph
             int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.y - 1);
 
             return (x, y);
-        }
-
-        public enum WalkableType
-        {
-            Walkable,
-            Obstacle,
-            Air
-        }
-
-        [BurstCompile]
-        public struct PrecomputeNeighborsJob : IJobParallelFor
-        {
-            [ReadOnly] public NativeArray<Cell> grid;
-            public int gridSizeX;
-            public int gridSizeZ;
-
-            [WriteOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
-
-            public void Execute(int index)
-            {
-                Cell cell = grid[index];
-                var neighbors = new FixedList32Bytes<int>();
-
-                for (int offsetX = -1; offsetX <= 1; offsetX++)
-                {
-                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                    {
-                        if (offsetX == 0 && offsetZ == 0) continue;
-
-                        int gridX = cell.gridX + offsetX;
-                        int gridZ = cell.gridZ + offsetZ;
-
-                        if (gridX >= 0 && gridX < gridSizeX &&
-                            gridZ >= 0 && gridZ < gridSizeZ)
-                        {
-                            // Remove error with fixed list (maybe are troubles in the future).
-                            // The if was aggregated, because of the capacity of the fixed list, that sometimes was trying to add more elements than the capacity.
-                            if (neighbors.Length < neighbors.Capacity)
-                                neighbors.Add(gridZ * gridSizeX + gridX);
-                        }
-                    }
-                }
-
-                neighborsPerCell[index] = neighbors;
-            }
         }
 
         #region Unity Methods

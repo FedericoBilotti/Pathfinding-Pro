@@ -6,7 +6,6 @@ namespace NavigationGraph
     {
         [Header("Gizmos")]
         [SerializeField] private bool _boxGrid;
-        [SerializeField] private Vector2 _cellSizeGizmos;
 
         [Header("Graph")]
         [SerializeField] private NavigationGraphType _graphType;
@@ -16,30 +15,26 @@ namespace NavigationGraph
         [SerializeField, Range(0f, 5f)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 5f)] private float _cliffMargin = 0.5f;
 
-        [Header("Check Wall")]
+        [Header("Check Obstacles")]
         [SerializeField] private int _maxHits = 10;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private LayerMask _walkableMask;
-        [SerializeField] private LayerMask _agentMask;
-
+        [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
-        private GraphFactory _graphFactory;
+
+        private float _radius = 1f;
+        private float _height = 2f;
+
+        public float Radius { get => _radius; set => _radius = value; }
+        public float Height { get => _height; set => _height = value; }
+        public RaycastType RaycastCheckType => _raycastCheckType;
 
         private void Awake()
         {
-            // Should be injected the factory
-            _graphFactory = new();
-            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _obstacleMargin, _cliffMargin, _maxHits);
+            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
+            _graph = GraphFactory.Create(_graphType, checkType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
-        }
-
-        private void OnValidate()
-        {
-            _cellSizeGizmos.x = Mathf.Max(0.01f, _cellSizeGizmos.x);
-            _cellSizeGizmos.x = Mathf.Min(0.99f, _cellSizeGizmos.x);
-            _cellSizeGizmos.y = Mathf.Max(0.01f, _cellSizeGizmos.y);
-            _cellSizeGizmos.y = Mathf.Min(0.99f, _cellSizeGizmos.y);
         }
 
         private void OnDestroy() => _graph?.Destroy();
@@ -51,8 +46,8 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            _graphFactory = new();
-            _graph = _graphFactory.Create(_graphType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _agentMask, _obstacleMargin, _cliffMargin, _maxHits);
+            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
+            _graph = GraphFactory.Create(_graphType, checkType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
         }
 
