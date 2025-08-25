@@ -18,7 +18,7 @@ namespace NavigationGraph.RaycastCheck
         // Pass this to Jobs -> This are raycast, so it can be passed to jobs.
         public WalkableType IsCellWalkable(Vector3 cellPosition)
         {
-            Vector3 origin = cellPosition + Vector3.up * 0.1f;
+            Vector3 origin = cellPosition + Vector3.up * _maxDistance;
 
             var hitObstacle = Physics.Raycast(origin, Vector3.down, _maxDistance, _notWalkableMask.value);
             if (hitObstacle) return WalkableType.Obstacle;

@@ -13985,14 +13985,14 @@ MonoBehaviour:
   _boxGrid: 1
   _graphType: 0
   _gridSize: {x: 272, y: 106}
-  _maxDistance: 45
+  _maxDistance: 47.55
   _cellSize: 0.5
-  _obstacleMargin: 1
-  _cliffMargin: 2
+  _obstacleMargin: 0
+  _cliffMargin: 0
   _maxHits: 10
-  _radius: 1
-  _height: 0
-  _raycastCheckType: 2
+  _radius: 2
+  _height: 5
+  _raycastCheckType: 1
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64

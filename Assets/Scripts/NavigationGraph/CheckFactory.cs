@@ -12,7 +12,7 @@ namespace NavigationGraph
             return checkTypes switch
             {
                 CheckTypes.Raycast => new RaycastCheckType(maxDistance, notWalkableMask, walkableMask),
-                CheckTypes.Sphere => new SphereCheckType(radius, notWalkableMask, walkableMask),
+                CheckTypes.Sphere => new SphereCheckType(radius, maxDistance, notWalkableMask, walkableMask),
                 CheckTypes.Capsule => new CapsuleCheckType(height, radius, maxDistance, notWalkableMask, walkableMask),
                 _ => throw new System.NotImplementedException()
             };

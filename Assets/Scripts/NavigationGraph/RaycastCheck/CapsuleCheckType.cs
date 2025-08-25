@@ -21,13 +21,13 @@ namespace NavigationGraph.RaycastCheck
 
         public WalkableType IsCellWalkable(Vector3 cellPosition)
         {
-            Vector3 p1 = cellPosition + Vector3.up * _halfHeight;
-            Vector3 p2 = cellPosition - Vector3.up * _halfHeight;
+            Vector3 p1 = cellPosition + Vector3.up * (_halfHeight + _maxDistance);
+            Vector3 p2 = cellPosition - Vector3.up * (_halfHeight - _maxDistance);
 
             var hitObstacles = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _maxDistance, _notWalkableMask.value);
             if (hitObstacles) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _maxDistance, _walkableMask.value);
+            var hitWalkableArea = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _maxDistance * 2, _walkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
             return WalkableType.Walkable;
