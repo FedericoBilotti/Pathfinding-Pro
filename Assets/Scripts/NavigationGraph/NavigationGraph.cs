@@ -10,7 +10,7 @@ namespace NavigationGraph
         protected readonly LayerMask notWalkableMask;
         protected readonly LayerMask walkableMask;
         protected readonly float maxDistance;
-        protected readonly ICheckType checkType;
+        protected readonly IRaycastType checkType;
 
         protected float cellSize;
         protected float cellDiameter;
@@ -26,7 +26,7 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(ICheckType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+        protected NavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
         {
             this.checkType = checkType;
 

@@ -7,13 +7,13 @@ namespace NavigationGraph
 {
     internal static class CheckFactory
     {
-        public static ICheckType Create(CheckTypes checkTypes, float maxDistance, float radius, float height, LayerMask notWalkableMask, LayerMask walkableMask)
+        public static IRaycastType Create(RaycastType checkTypes, float maxDistance, float radius, float height, LayerMask notWalkableMask, LayerMask walkableMask)
         {
             return checkTypes switch
             {
-                CheckTypes.Raycast => new RaycastCheckType(maxDistance, notWalkableMask, walkableMask),
-                CheckTypes.Sphere => new SphereCheckType(radius, maxDistance, notWalkableMask, walkableMask),
-                CheckTypes.Capsule => new CapsuleCheckType(height, radius, maxDistance, notWalkableMask, walkableMask),
+                RaycastType.Raycast => new RaycastCheckType(maxDistance, notWalkableMask, walkableMask),
+                RaycastType.Sphere => new SphereCheckType(radius, maxDistance, notWalkableMask, walkableMask),
+                RaycastType.Capsule => new CapsuleCheckType(height, radius, maxDistance, notWalkableMask, walkableMask),
                 _ => throw new System.NotImplementedException()
             };
         }

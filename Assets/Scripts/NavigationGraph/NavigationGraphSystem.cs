@@ -17,13 +17,17 @@ namespace NavigationGraph
 
         [Header("Check Obstacles")]
         [SerializeField] private int _maxHits = 10;
-        [SerializeField] private float _radius = 1f;
-        [SerializeField] private float _height = 2f;
-        [SerializeField] private CheckTypes _raycastCheckType;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private LayerMask _walkableMask;
-
+        [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
+
+        private float _radius = 1f;
+        private float _height = 2f;
+
+        public float Radius { get => _radius; set => _radius = value; }
+        public float Height { get => _height; set => _height = value; }
+        public RaycastType RaycastCheckType => _raycastCheckType;
 
         private void Awake()
         {

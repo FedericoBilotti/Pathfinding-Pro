@@ -13951,7 +13951,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -91.3, y: -1.8, z: -29.7}
+  m_LocalPosition: {x: -98.9, y: -1.8, z: -37.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13984,21 +13984,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boxGrid: 1
   _graphType: 0
-  _gridSize: {x: 272, y: 106}
+  _gridSize: {x: 298, y: 127}
   _maxDistance: 47.55
   _cellSize: 0.5
   _obstacleMargin: 0
-  _cliffMargin: 0
+  _cliffMargin: 1
   _maxHits: 10
-  _radius: 2
-  _height: 5
-  _raycastCheckType: 1
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
   _walkableMask:
     serializedVersion: 2
     m_Bits: 128
+  _raycastCheckType: 2
 --- !u!1 &784245669
 GameObject:
   m_ObjectHideFlags: 0

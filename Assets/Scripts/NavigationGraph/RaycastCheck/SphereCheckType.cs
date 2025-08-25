@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NavigationGraph.RaycastCheck
 {
-    public class SphereCheckType : ICheckType
+    public class SphereCheckType : IRaycastType
     {
         private readonly float _radius;
         private readonly float _maxDistance;

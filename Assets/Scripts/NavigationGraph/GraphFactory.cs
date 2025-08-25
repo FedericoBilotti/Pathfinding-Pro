@@ -6,7 +6,7 @@ namespace NavigationGraph
 {
     internal static class GraphFactory
     {
-        public static INavigationGraph Create(NavigationGraphType graphType, ICheckType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+        public static INavigationGraph Create(NavigationGraphType graphType, IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
         {
             return graphType switch
             {

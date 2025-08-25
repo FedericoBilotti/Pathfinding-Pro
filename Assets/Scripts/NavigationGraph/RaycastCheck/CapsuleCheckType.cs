@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NavigationGraph.RaycastCheck
 {
-    public class CapsuleCheckType : ICheckType
+    public class CapsuleCheckType : IRaycastType
     {
         private readonly float _halfHeight;
         private readonly float _radius;

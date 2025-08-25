@@ -8,7 +8,7 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(ICheckType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin) : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
+        public WorldNavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin) : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid3D;
         }

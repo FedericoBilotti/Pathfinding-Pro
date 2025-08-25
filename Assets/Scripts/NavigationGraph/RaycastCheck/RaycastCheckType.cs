@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NavigationGraph.RaycastCheck
 {
-    public class RaycastCheckType : ICheckType
+    public class RaycastCheckType : IRaycastType
     {
         private readonly float _maxDistance;
         private readonly LayerMask _notWalkableMask;
