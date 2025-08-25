@@ -1,4 +1,5 @@
 using System.Collections;
+using NavigationGraph.RaycastCheck;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -10,9 +11,8 @@ namespace NavigationGraph.Graph
 {
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
-        public SimpleGridNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize,
-                LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin)
-            : base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin, cliffMargin)
+        public SimpleGridNavigationGraph(ICheckType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+            : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
@@ -438,6 +438,44 @@ namespace NavigationGraph.Graph
                         isWalkable = isWalkable,
                     };
                 }
+            }
+        }
+
+        [BurstCompile]
+        public struct PrecomputeNeighborsJob : IJobParallelFor
+        {
+            [ReadOnly] public NativeArray<Cell> grid;
+            public int gridSizeX;
+            public int gridSizeZ;
+
+            [WriteOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
+
+            public void Execute(int index)
+            {
+                Cell cell = grid[index];
+                var neighbors = new FixedList32Bytes<int>();
+
+                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                {
+                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
+                    {
+                        if (offsetX == 0 && offsetZ == 0) continue;
+
+                        int gridX = cell.gridX + offsetX;
+                        int gridZ = cell.gridZ + offsetZ;
+
+                        if (gridX >= 0 && gridX < gridSizeX &&
+                            gridZ >= 0 && gridZ < gridSizeZ)
+                        {
+                            // Remove error with fixed list (maybe are troubles in the future).
+                            // The if was aggregated, because of the capacity of the fixed list, that sometimes was trying to add more elements than the capacity.
+                            if (neighbors.Length < neighbors.Capacity)
+                                neighbors.Add(gridZ * gridSizeX + gridX);
+                        }
+                    }
+                }
+
+                neighborsPerCell[index] = neighbors;
             }
         }
 

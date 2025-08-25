@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, LayerMask agentMask, float obstacleMargin, float cliffMargin, int maxHits = 10) : base(cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, agentMask, obstacleMargin, cliffMargin)
+        public WorldNavigationGraph(ICheckType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin) : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid3D;
         }

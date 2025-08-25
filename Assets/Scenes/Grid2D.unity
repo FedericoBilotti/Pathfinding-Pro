@@ -13987,18 +13987,18 @@ MonoBehaviour:
   _gridSize: {x: 272, y: 106}
   _maxDistance: 45
   _cellSize: 0.5
-  _obstacleMargin: 0
-  _cliffMargin: 0
+  _obstacleMargin: 1
+  _cliffMargin: 2
   _maxHits: 10
+  _radius: 1
+  _height: 0
+  _raycastCheckType: 2
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
   _walkableMask:
     serializedVersion: 2
     m_Bits: 128
-  _agentMask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!1 &784245669
 GameObject:
   m_ObjectHideFlags: 0
