@@ -39,7 +39,6 @@ namespace Pathfinding.PathImplementation
                 closedList.Add(currentIndex);
 
                 if (currentIndex == endIndex) return;
-
                 FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
 
                 foreach (int neighborIndex in neighbors)
