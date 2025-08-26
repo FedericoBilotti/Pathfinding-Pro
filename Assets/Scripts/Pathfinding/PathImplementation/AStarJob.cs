@@ -45,7 +45,7 @@ namespace Pathfinding.PathImplementation
                 {
                     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
 
-                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty * 10;
+                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
                     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
