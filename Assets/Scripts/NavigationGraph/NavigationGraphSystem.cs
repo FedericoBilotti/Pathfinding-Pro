@@ -15,6 +15,8 @@ namespace NavigationGraph
         [SerializeField, Range(0f, 5f)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 5f)] private float _cliffMargin = 0.5f;
 
+        [SerializeField] private TerrainType[] _terrainTypes;
+
         [Header("Check Obstacles")]
         [SerializeField] private int _maxHits = 10;
         [SerializeField] private LayerMask _notWalkableMask;
@@ -32,12 +34,19 @@ namespace NavigationGraph
         private void Awake()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
+            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
         private void OnDestroy() => _graph?.Destroy();
+
+        [System.Serializable]
+        public struct TerrainType
+        {
+            public LayerMask terrainMask;
+            public int terrainPenalty;
+        }
 
 #if UNITY_EDITOR
 
@@ -47,7 +56,7 @@ namespace NavigationGraph
         public void Scan()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
+            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
         }
 

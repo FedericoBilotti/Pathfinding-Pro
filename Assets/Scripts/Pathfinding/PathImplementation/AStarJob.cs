@@ -7,7 +7,7 @@ using Utilities;
 
 namespace Pathfinding.PathImplementation
 {
-    [BurstCompile]
+    [BurstCompile(Debug = true)]
     internal struct AStarJob : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
@@ -40,16 +40,13 @@ namespace Pathfinding.PathImplementation
 
                 if (currentIndex == endIndex) return;
 
-                // NativeList<int> neighbors = new NativeList<int>(8, Allocator.Temp);
-                // GetNeighbors(currentIndex, ref neighbors);
-
                 FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
 
                 foreach (int neighborIndex in neighbors)
                 {
                     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
-
-                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex);
+                    
+                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
                     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
@@ -59,45 +56,6 @@ namespace Pathfinding.PathImplementation
                     visitedNodes[neighborIndex] = newNeighborData;
 
                     openList.Enqueue(newNeighborData);
-                }
-
-                // foreach (int neighborIndex in neighbors)
-                // {
-                //     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
-
-                //     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex);
-                //     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
-                //     {
-                //         if (costToNeighbor >= neighborData.gCost) continue;
-                //     }
-
-                //     var newNeighborData = new PathCellData { cellIndex = neighborIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), cameFrom = currentIndex, HeapIndex = int.MaxValue };
-                //     visitedNodes[neighborIndex] = newNeighborData;
-
-                //     openList.Enqueue(newNeighborData);
-                // }
-
-                // neighbors.Dispose();
-            }
-        }
-
-        private void GetNeighbors(int indexCell, ref NativeList<int> neighbors)
-        {
-            Cell cell = grid[indexCell];
-
-            for (int offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                {
-                    if (offsetX == 0 && offsetZ == 0) continue;
-
-                    int gridX = cell.gridX + offsetX;
-                    int gridZ = cell.gridZ + offsetZ;
-
-                    if (gridX >= 0 && gridX < gridSizeX && gridZ >= 0 && gridZ < grid.Length / gridSizeX)
-                    {
-                        neighbors.Add(gridZ * gridSizeX + gridX);
-                    }
                 }
             }
         }

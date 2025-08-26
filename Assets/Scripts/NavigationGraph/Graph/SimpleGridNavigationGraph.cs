@@ -1,18 +1,19 @@
-using System.Collections;
 using NavigationGraph.RaycastCheck;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Jobs.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
+using static NavigationGraph.NavigationGraphSystem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
 {
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
-        public SimpleGridNavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
-            : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
+        public SimpleGridNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+            : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
@@ -63,8 +64,23 @@ namespace NavigationGraph.Graph
 
             JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, checkPointJob);
 
+            // TODO: Delete this 'Complete', and pass to multithread the asignment of penalty.
+            batchHandle.Complete();
+
+            NativeArray<int> layerPerCell = new NativeArray<int>(total, Allocator.TempJob);
+            int count = 0;
+            foreach (var res in results)
+            {
+                var col = res.collider;
+                if (col == null) continue;
+                if (col.gameObject == null) continue;
+
+                layerPerCell[count++] = col.gameObject.layer;
+            }
+
             JobHandle createGridJob = new CreateGridJob
             {
+                walkableRegionsDic = walkableRegionsDic,
                 grid = grid,
                 origin = transform.position,
                 cellDiameter = cellDiameter,
@@ -72,6 +88,7 @@ namespace NavigationGraph.Graph
                 gridSizeX = gridSize.x,
                 gridSizeY = gridSize.y,
                 results = results,
+                layerPerCell = layerPerCell,
                 finalBlocked = nativeObstacleBlocked,
                 cliffBlocked = nativeCliffBlocked
             }.Schedule(batchHandle);
@@ -97,6 +114,7 @@ namespace NavigationGraph.Graph
             nativeObstacleBlocked.Dispose();
             nativeCliffBlocked.Dispose();
             computedWalkable.Dispose();
+            layerPerCell.Dispose();
         }
 
         private bool[] CollectBlockedByExpandedBounds()
@@ -369,7 +387,7 @@ namespace NavigationGraph.Graph
         [BurstCompile]
         private struct CheckPointsJob : IJobParallelFor
         {
-            public NativeArray<RaycastCommand> commands;
+            [WriteOnly] public NativeArray<RaycastCommand> commands;
             public Vector3 origin;
             public float cellDiameter;
             public int gridSizeX;
@@ -396,13 +414,15 @@ namespace NavigationGraph.Graph
         [BurstCompile]
         private struct CreateGridJob : IJob
         {
-            public NativeArray<Cell> grid;
+            [ReadOnly] public NativeHashMap<int, int> walkableRegionsDic;
+            [WriteOnly] public NativeArray<Cell> grid;
             public Vector3 origin;
             public float cellDiameter;
             public int total;
             public int gridSizeX;
             public int gridSizeY;
 
+            [ReadOnly] public NativeArray<int> layerPerCell;
             [ReadOnly] public NativeArray<RaycastHit> results;
             [ReadOnly] public NativeArray<int> finalBlocked;
             [ReadOnly] public NativeArray<int> cliffBlocked;
@@ -429,6 +449,8 @@ namespace NavigationGraph.Graph
                     // If what I hit it's air, continue
                     if (!isWalkable && cliffBlocked[i] == (int)WalkableType.Air) continue;
 
+                    walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
+
                     grid[i] = new Cell
                     {
                         position = cellPosition,
@@ -436,6 +458,7 @@ namespace NavigationGraph.Graph
                         gridX = x,
                         gridZ = y,
                         isWalkable = isWalkable,
+                        cellCostPenalty = penalty
                     };
                 }
             }

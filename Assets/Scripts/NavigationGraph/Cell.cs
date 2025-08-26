@@ -11,6 +11,7 @@ namespace NavigationGraph
         public int gridIndex;
         public int gridX;
         public int gridZ;
+        public int cellCostPenalty;
         public float height;
 
         public bool Equals(Cell other) => gridX == other.gridX && gridZ == other.gridZ;
@@ -21,9 +22,10 @@ namespace NavigationGraph
     {
         public int cellIndex;
         public int cameFrom;
+        public int cellCostPenalty;
         public int gCost;
         public int hCost;
-        public int FCost => gCost + hCost;
+        public int FCost => gCost + hCost + cellCostPenalty;
 
         public int HeapIndex { get; set; }
 

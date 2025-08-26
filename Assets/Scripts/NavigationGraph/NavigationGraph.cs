@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using UnityEngine;
+using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
+        protected LayerMask walkableMask;
         protected readonly LayerMask notWalkableMask;
-        protected readonly LayerMask walkableMask;
         protected readonly float maxDistance;
         protected readonly IRaycastType checkType;
 
@@ -16,8 +17,11 @@ namespace NavigationGraph
         protected float cellDiameter;
         protected Vector2Int gridSize;
         protected NativeArray<Cell> grid;
+        protected NativeHashMap<int, int> walkableRegionsDic;
 
         protected readonly Transform transform;
+
+        protected TerrainType[] terrainTypes;
 
         protected float obstacleMargin;
         protected float cliffMargin;
@@ -26,10 +30,10 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+        protected NavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
         {
             this.checkType = checkType;
-
+            this.terrainTypes = terrainTypes;
             this.cellSize = cellSize;
             this.gridSize = gridSize;
 
@@ -158,6 +162,14 @@ namespace NavigationGraph
             cellSize = Mathf.Max(0.05f, cellSize);
             cellDiameter = cellSize * 2;
 
+            walkableRegionsDic = new NativeHashMap<int, int>(terrainTypes.Length, Allocator.Persistent);
+
+            foreach (var region in terrainTypes)
+            {
+                walkableMask.value |= region.terrainMask.value;
+                walkableRegionsDic.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+            }
+
             CreateGrid();
         }
 
@@ -179,7 +191,7 @@ namespace NavigationGraph
 
             var walkableColor = new Color(0, 1, 0.5f, 0.5f);
             var nonWalkableSize = new Vector3(0.2f, 0.2f, 0.2f);
-            
+
             for (int i = 0; i < grid.Length; i++)
             {
                 Vector3 drawPos = grid[i].position;
