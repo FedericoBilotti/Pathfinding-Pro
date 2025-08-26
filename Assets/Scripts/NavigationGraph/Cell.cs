@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace NavigationGraph
 {
@@ -7,6 +8,8 @@ namespace NavigationGraph
     {
         public float3 position;
         public bool isWalkable;
+
+        public int walkableType;
 
         public int gridIndex;
         public int gridX;
@@ -22,10 +25,9 @@ namespace NavigationGraph
     {
         public int cellIndex;
         public int cameFrom;
-        public int cellCostPenalty;
         public int gCost;
         public int hCost;
-        public int FCost => gCost + hCost + cellCostPenalty;
+        public int FCost => gCost + hCost;
 
         public int HeapIndex { get; set; }
 

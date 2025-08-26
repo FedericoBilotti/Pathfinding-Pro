@@ -7,7 +7,7 @@ using Utilities;
 
 namespace Pathfinding.PathImplementation
 {
-    [BurstCompile(Debug = true)]
+    [BurstCompile]
     internal struct AStarJob : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
@@ -45,14 +45,14 @@ namespace Pathfinding.PathImplementation
                 foreach (int neighborIndex in neighbors)
                 {
                     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
-                    
-                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
+
+                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty * 10;
                     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
                     }
 
-                    var newNeighborData = new PathCellData { cellIndex = neighborIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), cameFrom = currentIndex, HeapIndex = int.MaxValue };
+                    var newNeighborData = new PathCellData { cellIndex = neighborIndex, cameFrom = currentIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), HeapIndex = int.MaxValue };
                     visitedNodes[neighborIndex] = newNeighborData;
 
                     openList.Enqueue(newNeighborData);

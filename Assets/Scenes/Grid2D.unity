@@ -8082,7 +8082,7 @@ Transform:
   m_GameObject: {fileID: 295909830}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -38.2, y: 1, z: 3.6}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10033,7 +10033,7 @@ Transform:
   m_GameObject: {fileID: 360947360}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.5, y: 0, z: 21.8}
+  m_LocalPosition: {x: 8.3, y: 0, z: 21.8}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21448,8 +21448,8 @@ MonoBehaviour:
     terrainPenalty: 0
   - terrainMask:
       serializedVersion: 2
-      m_Bits: 384
-    terrainPenalty: 100
+      m_Bits: 256
+    terrainPenalty: 1
   _maxHits: 10
   _notWalkableMask:
     serializedVersion: 2

@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using NavigationGraph.RaycastCheck;
 using Unity.Burst;
 using Unity.Collections;
@@ -68,14 +69,15 @@ namespace NavigationGraph.Graph
             batchHandle.Complete();
 
             NativeArray<int> layerPerCell = new NativeArray<int>(total, Allocator.TempJob);
-            int count = 0;
-            foreach (var res in results)
-            {
-                var col = res.collider;
-                if (col == null) continue;
-                if (col.gameObject == null) continue;
 
-                layerPerCell[count++] = col.gameObject.layer;
+            for (int i = 0; i < total - 1; i++)
+            {
+                var col = results[i].collider;
+                if (col == null) continue;
+                var go = col.gameObject;
+                if (go == null) continue;
+
+                layerPerCell[i] = go.layer;
             }
 
             JobHandle createGridJob = new CreateGridJob
@@ -458,9 +460,30 @@ namespace NavigationGraph.Graph
                         gridX = x,
                         gridZ = y,
                         isWalkable = isWalkable,
+                        walkableType =  GetWalkableType(i),
                         cellCostPenalty = penalty
                     };
                 }
+            }
+
+            private int GetWalkableType(int i)
+            {
+                var cliff = cliffBlocked[i];
+                var finalB = finalBlocked[i];
+
+                return (cliff, finalB) switch
+                {
+                    var (c, f) when c == (int)WalkableType.Air || f == (int)WalkableType.Air
+                        => (int)WalkableType.Air,
+
+                    var (c, f) when c == (int)WalkableType.Walkable || f == (int)WalkableType.Walkable
+                        => (int)WalkableType.Walkable,
+
+                    var (c, f) when c == (int)WalkableType.Obstacle || f == (int)WalkableType.Obstacle
+                        => (int)WalkableType.Obstacle,
+
+                    _ => (int)WalkableType.Roof
+                };
             }
         }
 
