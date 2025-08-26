@@ -1,18 +1,20 @@
-using System.Collections;
+using System.Security.Cryptography;
 using NavigationGraph.RaycastCheck;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Jobs.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
+using static NavigationGraph.NavigationGraphSystem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
 {
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
-        public SimpleGridNavigationGraph(IRaycastType checkType, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
-            : base(checkType, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
+        public SimpleGridNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+            : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
@@ -59,24 +61,40 @@ namespace NavigationGraph.Graph
                 maxDistance = maxDistance,
                 walkableMask = walkableMask,
                 physicsScene = Physics.defaultPhysicsScene
-            }.Schedule(total, 32, dilateMaskJob);
+            }.Schedule(total, 64, dilateMaskJob);
 
-            JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 32, checkPointJob);
+            JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 64, checkPointJob);
+
+            // TODO: Delete this 'Complete', and pass to multithread the asignment of penalty.
+            batchHandle.Complete();
+
+            NativeArray<int> layerPerCell = new NativeArray<int>(total, Allocator.TempJob);
+
+            for (int i = 0; i < total - 1; i++)
+            {
+                var col = results[i].collider;
+                if (col == null) continue;
+                var go = col.gameObject;
+                if (go == null) continue;
+
+                layerPerCell[i] = go.layer;
+            }
 
             JobHandle createGridJob = new CreateGridJob
             {
+                walkableRegionsDic = walkableRegionsDic,
                 grid = grid,
                 origin = transform.position,
                 cellDiameter = cellDiameter,
-                total = total,
                 gridSizeX = gridSize.x,
                 gridSizeY = gridSize.y,
                 results = results,
+                layerPerCell = layerPerCell,
                 finalBlocked = nativeObstacleBlocked,
                 cliffBlocked = nativeCliffBlocked
-            }.Schedule(batchHandle);
+            }.Schedule(total, 64, batchHandle);
 
-            cellNeighbors = new NativeArray<FixedList32Bytes<int>>(grid.Length, Allocator.Persistent);
+            cellNeighbors = new NativeArray<FixedList32Bytes<int>>(total, Allocator.Persistent);
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
@@ -84,7 +102,7 @@ namespace NavigationGraph.Graph
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
                 neighborsPerCell = cellNeighbors
-            }.Schedule(grid.Length, 32, createGridJob);
+            }.Schedule(total, 32, createGridJob);
 
             neighborsJob.Complete();
 
@@ -97,6 +115,7 @@ namespace NavigationGraph.Graph
             nativeObstacleBlocked.Dispose();
             nativeCliffBlocked.Dispose();
             computedWalkable.Dispose();
+            layerPerCell.Dispose();
         }
 
         private bool[] CollectBlockedByExpandedBounds()
@@ -369,7 +388,7 @@ namespace NavigationGraph.Graph
         [BurstCompile]
         private struct CheckPointsJob : IJobParallelFor
         {
-            public NativeArray<RaycastCommand> commands;
+            [WriteOnly] public NativeArray<RaycastCommand> commands;
             public Vector3 origin;
             public float cellDiameter;
             public int gridSizeX;
@@ -394,50 +413,72 @@ namespace NavigationGraph.Graph
         }
 
         [BurstCompile]
-        private struct CreateGridJob : IJob
+        private struct CreateGridJob : IJobParallelFor
         {
-            public NativeArray<Cell> grid;
+            [ReadOnly] public NativeHashMap<int, int> walkableRegionsDic;
+            [WriteOnly] public NativeArray<Cell> grid;
             public Vector3 origin;
             public float cellDiameter;
-            public int total;
             public int gridSizeX;
             public int gridSizeY;
 
+            [ReadOnly] public NativeArray<int> layerPerCell;
             [ReadOnly] public NativeArray<RaycastHit> results;
             [ReadOnly] public NativeArray<int> finalBlocked;
             [ReadOnly] public NativeArray<int> cliffBlocked;
 
-            public void Execute()
+            public void Execute(int i)
             {
                 const float kHitEpsilon = 1e-4f;
 
-                for (int i = 0; i < total; i++)
+                int x = i % gridSizeX;
+                int y = i / gridSizeX;
+
+                Vector3 defaultPos = origin
+                    + Vector3.right * ((x + 0.5f) * cellDiameter)
+                    + Vector3.forward * ((y + 0.5f) * cellDiameter);
+
+                bool hit = results[i].distance > kHitEpsilon;
+                Vector3 cellPosition = hit ? results[i].point : defaultPos;
+
+                bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
+                               && (cliffBlocked[i] == (int)WalkableType.Walkable);
+
+                // If what I hit it's air, continue
+                if (!isWalkable && cliffBlocked[i] == (int)WalkableType.Air) return;
+
+                walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
+
+                grid[i] = new Cell
                 {
-                    int x = i % gridSizeX;
-                    int y = i / gridSizeX;
+                    position = cellPosition,
+                    gridIndex = i,
+                    gridX = x,
+                    gridZ = y,
+                    isWalkable = isWalkable,
+                    walkableType = GetWalkableType(i),
+                    cellCostPenalty = penalty
+                };
+            }
 
-                    Vector3 defaultPos = origin
-                        + Vector3.right * ((x + 0.5f) * cellDiameter)
-                        + Vector3.forward * ((y + 0.5f) * cellDiameter);
+            private int GetWalkableType(int i)
+            {
+                var cliff = cliffBlocked[i];
+                var finalB = finalBlocked[i];
 
-                    bool hit = results[i].distance > kHitEpsilon;
-                    Vector3 cellPosition = hit ? results[i].point : defaultPos;
+                return (cliff, finalB) switch
+                {
+                    var (c, f) when c == (int)WalkableType.Air || f == (int)WalkableType.Air
+                        => (int)WalkableType.Air,
 
-                    bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
-                                   && (cliffBlocked[i] == (int)WalkableType.Walkable);
+                    var (c, f) when c == (int)WalkableType.Walkable || f == (int)WalkableType.Walkable
+                        => (int)WalkableType.Walkable,
 
-                    // If what I hit it's air, continue
-                    if (!isWalkable && cliffBlocked[i] == (int)WalkableType.Air) continue;
+                    var (c, f) when c == (int)WalkableType.Obstacle || f == (int)WalkableType.Obstacle
+                        => (int)WalkableType.Obstacle,
 
-                    grid[i] = new Cell
-                    {
-                        position = cellPosition,
-                        gridIndex = i,
-                        gridX = x,
-                        gridZ = y,
-                        isWalkable = isWalkable,
-                    };
-                }
+                    _ => (int)WalkableType.Roof
+                };
             }
         }
 

@@ -39,44 +39,22 @@ namespace Pathfinding.PathImplementation
                 closedList.Add(currentIndex);
 
                 if (currentIndex == endIndex) return;
-
                 FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
 
                 foreach (int neighborIndex in neighbors)
                 {
                     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
 
-                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex);
+                    int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty * 10;
                     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
                     }
 
-                    var newNeighborData = new PathCellData { cellIndex = neighborIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), cameFrom = currentIndex, HeapIndex = int.MaxValue };
+                    var newNeighborData = new PathCellData { cellIndex = neighborIndex, cameFrom = currentIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), HeapIndex = int.MaxValue };
                     visitedNodes[neighborIndex] = newNeighborData;
 
                     openList.Enqueue(newNeighborData);
-                }
-            }
-        }
-
-        private void GetNeighbors(int indexCell, ref NativeList<int> neighbors)
-        {
-            Cell cell = grid[indexCell];
-
-            for (int offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                {
-                    if (offsetX == 0 && offsetZ == 0) continue;
-
-                    int gridX = cell.gridX + offsetX;
-                    int gridZ = cell.gridZ + offsetZ;
-
-                    if (gridX >= 0 && gridX < gridSizeX && gridZ >= 0 && gridZ < grid.Length / gridSizeX)
-                    {
-                        neighbors.Add(gridZ * gridSizeX + gridX);
-                    }
                 }
             }
         }

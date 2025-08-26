@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace NavigationGraph
 {
@@ -8,9 +9,12 @@ namespace NavigationGraph
         public float3 position;
         public bool isWalkable;
 
+        public int walkableType;
+
         public int gridIndex;
         public int gridX;
         public int gridZ;
+        public int cellCostPenalty;
         public float height;
 
         public bool Equals(Cell other) => gridX == other.gridX && gridZ == other.gridZ;
