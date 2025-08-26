@@ -177,21 +177,22 @@ namespace NavigationGraph
 
             Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * cellDiameter;
 
+            var walkableColor = new Color(0, 1, 0.5f, 0.5f);
+            var nonWalkableSize = new Vector3(0.2f, 0.2f, 0.2f);
+            
             for (int i = 0; i < grid.Length; i++)
             {
                 Vector3 drawPos = grid[i].position;
 
                 if (grid[i].isWalkable)
                 {
-                    Gizmos.color = new Color(0, 1, 0.2f, 0.5f);
-                    Gizmos.DrawCube(drawPos, sizeCell);
-                    Gizmos.color = Color.green;
+                    Gizmos.color = walkableColor;
                     Gizmos.DrawWireCube(drawPos, sizeCell);
                 }
                 else
                 {
                     Gizmos.color = Color.red;
-                    Gizmos.DrawCube(drawPos, new Vector3(0.2f, 0.2f, 0.2f));
+                    Gizmos.DrawCube(drawPos, nonWalkableSize);
                 }
             }
         }
