@@ -40,9 +40,6 @@ namespace Pathfinding.PathImplementation
 
                 if (currentIndex == endIndex) return;
 
-                // NativeList<int> neighbors = new NativeList<int>(8, Allocator.Temp);
-                // GetNeighbors(currentIndex, ref neighbors);
-
                 FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
 
                 foreach (int neighborIndex in neighbors)
@@ -60,24 +57,6 @@ namespace Pathfinding.PathImplementation
 
                     openList.Enqueue(newNeighborData);
                 }
-
-                // foreach (int neighborIndex in neighbors)
-                // {
-                //     if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
-
-                //     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex);
-                //     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
-                //     {
-                //         if (costToNeighbor >= neighborData.gCost) continue;
-                //     }
-
-                //     var newNeighborData = new PathCellData { cellIndex = neighborIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), cameFrom = currentIndex, HeapIndex = int.MaxValue };
-                //     visitedNodes[neighborIndex] = newNeighborData;
-
-                //     openList.Enqueue(newNeighborData);
-                // }
-
-                // neighbors.Dispose();
             }
         }
 
