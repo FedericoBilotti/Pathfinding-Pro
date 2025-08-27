@@ -30,20 +30,20 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin)
+        protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
         {
             this.checkType = checkType;
-            this.terrainTypes = terrainTypes;
-            this.cellSize = cellSize;
-            this.gridSize = gridSize;
+            this.terrainTypes = navigationGraphConfig.terrainTypes;
+            this.cellSize = navigationGraphConfig.cellSize;
+            this.gridSize = navigationGraphConfig.gridSize;
 
-            this.maxDistance = maxDistance;
-            this.notWalkableMask = notWalkableMask;
+            this.maxDistance = navigationGraphConfig.maxDistance;
+            this.notWalkableMask = navigationGraphConfig.notWalkableMask;
 
-            this.transform = transform;
-            
-            this.obstacleMargin = obstacleMargin;
-            this.cliffMargin = cliffMargin;
+            this.transform = navigationGraphConfig.transform;
+
+            this.obstacleMargin = navigationGraphConfig.obstacleMargin;
+            this.cliffMargin = navigationGraphConfig.cliffMargin;
         }
 
         protected abstract void CreateGrid();

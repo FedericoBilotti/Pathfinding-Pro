@@ -1,6 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph
 {
@@ -36,19 +35,13 @@ namespace NavigationGraph
         private void Awake()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _obstacleMargin, _cliffMargin);
+
+            _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
         private void OnDestroy() => _graph?.Destroy();
-
-        [System.Serializable]
-        public struct TerrainType
-        {
-            public LayerMask terrainMask;
-            public int terrainPenalty;
-        }
 
 #if UNITY_EDITOR
 
@@ -58,7 +51,8 @@ namespace NavigationGraph
         public void Scan()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _obstacleMargin, _cliffMargin);
+
+            _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
         }
 
@@ -68,6 +62,22 @@ namespace NavigationGraph
         public void Clear() => _graph?.Destroy();
 
 #endif
+
+        private NavigationGraphConfig GetNavigationGraphConfig()
+        {
+            return new NavigationGraphConfig
+            {
+                gridSize = _gridSize,
+                transform = transform,
+                notWalkableMask = _notWalkableMask,
+                terrainTypes = _terrainTypes,
+                raycastCheckType = _raycastCheckType,
+                cellSize = _cellSize,
+                maxDistance = _maxDistance,
+                obstacleMargin = _obstacleMargin,
+                cliffMargin = _cliffMargin,
+            };
+        }
 
         #region Gizmos
 
@@ -100,10 +110,30 @@ namespace NavigationGraph
         #endregion
     }
 
+    [System.Serializable]
+    public struct TerrainType
+    {
+        public LayerMask terrainMask;
+        public int terrainPenalty;
+    }
+
     public enum NeighborsPerCell
     {
         Four = 0,
         Eight = 1,
         Sixteen = 2
+    }
+
+    public class NavigationGraphConfig
+    {
+        public Vector2Int gridSize;
+        public Transform transform;
+        public LayerMask notWalkableMask;
+        public RaycastType raycastCheckType;
+        public TerrainType[] terrainTypes;
+        public float cellSize;
+        public float maxDistance;
+        public float obstacleMargin;
+        public float cliffMargin;
     }
 }

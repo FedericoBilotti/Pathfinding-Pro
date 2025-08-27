@@ -11,8 +11,8 @@ namespace NavigationGraph.Graph
 {
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
-        public SimpleGridNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin)
-        : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
+        public SimpleGridNavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
+        : base(checkType, navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
