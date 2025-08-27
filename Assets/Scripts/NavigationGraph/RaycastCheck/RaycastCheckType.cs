@@ -6,13 +6,11 @@ namespace NavigationGraph.RaycastCheck
     {
         private readonly float _maxDistance;
         private readonly LayerMask _notWalkableMask;
-        private readonly LayerMask _walkableMask;
 
-        public RaycastCheckType(float maxDistance, LayerMask notWalkableMask, LayerMask walkableMask)
+        public RaycastCheckType(float maxDistance, LayerMask notWalkableMask)
         {
             _maxDistance = maxDistance;
             _notWalkableMask = notWalkableMask;
-            _walkableMask = walkableMask;
         }
 
         // Pass this to Jobs -> This are raycast, so it can be passed to jobs.
@@ -23,7 +21,7 @@ namespace NavigationGraph.RaycastCheck
             var hitObstacle = Physics.Raycast(origin, Vector3.down, _maxDistance, _notWalkableMask.value);
             if (hitObstacle) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, _maxDistance, _walkableMask.value);
+            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, _maxDistance, ~_notWalkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
             return WalkableType.Walkable;

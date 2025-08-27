@@ -12,15 +12,14 @@ namespace NavigationGraph
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
-        [SerializeField, Range(0f, 5f)] private float _obstacleMargin = 0.5f;
-        [SerializeField, Range(0f, 5f)] private float _cliffMargin = 0.5f;
+        [SerializeField, Range(0f, 50f)] private float _obstacleMargin = 0.5f;
+        [SerializeField, Range(0f, 50f)] private float _cliffMargin = 0.5f;
 
         [SerializeField] private TerrainType[] _terrainTypes;
 
         [Header("Check Obstacles")]
         [SerializeField] private int _maxHits = 10;
         [SerializeField] private LayerMask _notWalkableMask;
-        [SerializeField] private LayerMask _walkableMask;
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
 
@@ -33,8 +32,8 @@ namespace NavigationGraph
 
         private void Awake()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
+            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
+            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
@@ -55,8 +54,8 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask, _walkableMask);
-            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _walkableMask, _obstacleMargin, _cliffMargin);
+            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
+            _graph = GraphFactory.Create(_graphType, checkType, _terrainTypes, _cellSize, _maxDistance, _gridSize, _notWalkableMask, transform, _obstacleMargin, _cliffMargin);
             _graph?.Initialize();
         }
 

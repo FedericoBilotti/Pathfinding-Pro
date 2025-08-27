@@ -9,7 +9,7 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin) : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, walkableMask, obstacleMargin, cliffMargin)
+        public WorldNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin) : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid3D;
         }

@@ -7,14 +7,12 @@ namespace NavigationGraph.RaycastCheck
         private readonly float _radius;
         private readonly float _maxDistance;
         private readonly LayerMask _notWalkableMask;
-        private readonly LayerMask _walkableMask;
 
-        public SphereCheckType(float radius, float maxDistance, LayerMask notWalkableMask, LayerMask walkableMask)
+        public SphereCheckType(float radius, float maxDistance, LayerMask notWalkableMask)
         {
             _radius = radius;
             _maxDistance = maxDistance;
             _notWalkableMask = notWalkableMask;
-            _walkableMask = walkableMask;
         }
 
         public WalkableType IsCellWalkable(Vector3 cellPosition)
@@ -24,7 +22,7 @@ namespace NavigationGraph.RaycastCheck
             var hitObstacle = Physics.SphereCast(origin, _radius, Vector3.down, out RaycastHit hitInfo, _maxDistance, _notWalkableMask.value);
             if (hitObstacle) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.SphereCast(origin, _radius, Vector3.down, out hitInfo, _maxDistance, _walkableMask.value);
+            var hitWalkableArea = Physics.SphereCast(origin, _radius, Vector3.down, out hitInfo, _maxDistance, ~_notWalkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
             return WalkableType.Walkable;
