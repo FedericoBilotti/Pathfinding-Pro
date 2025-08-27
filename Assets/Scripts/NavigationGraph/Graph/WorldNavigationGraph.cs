@@ -9,7 +9,8 @@ namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin) : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
+        public WorldNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin) 
+        : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid3D;
         }
@@ -32,7 +33,7 @@ namespace NavigationGraph.Graph
                                      + Vector3.forward * ((z + 0.5f) * cellDiameter)
                                      + Vector3.up * maxDistance;
 
-                    List<RaycastHit> hits = RaycastContinuous(origin, walkableMask | notWalkableMask);
+                    List<RaycastHit> hits = RaycastContinuous(origin, walkableMask);
 
                     foreach (var hit in hits)
                     {

@@ -30,7 +30,7 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
-        protected NavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, LayerMask walkableMask, float obstacleMargin, float cliffMargin)
+        protected NavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin)
         {
             this.checkType = checkType;
             this.terrainTypes = terrainTypes;
@@ -38,7 +38,6 @@ namespace NavigationGraph
             this.gridSize = gridSize;
 
             this.maxDistance = maxDistance;
-            this.walkableMask = walkableMask;
             this.notWalkableMask = notWalkableMask;
 
             this.transform = transform;

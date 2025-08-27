@@ -1,9 +1,7 @@
-using System.Security.Cryptography;
 using NavigationGraph.RaycastCheck;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Jobs.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 using static NavigationGraph.NavigationGraphSystem;
@@ -14,10 +12,11 @@ namespace NavigationGraph.Graph
     internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
         public SimpleGridNavigationGraph(IRaycastType checkType, TerrainType[] terrainTypes, float cellSize, float maxDistance, Vector2Int gridSize, LayerMask notWalkableMask, Transform transform, float obstacleMargin, float cliffMargin)
-            : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
+        : base(checkType, terrainTypes, cellSize, maxDistance, gridSize, notWalkableMask, transform, obstacleMargin, cliffMargin)
         {
             GraphType = NavigationGraphType.Grid2D;
         }
+
 
         protected override void CreateGrid()
         {
