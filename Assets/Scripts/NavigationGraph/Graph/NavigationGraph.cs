@@ -26,7 +26,7 @@ namespace NavigationGraph
         protected float obstacleMargin;
         protected float cliffMargin;
 
-        protected NativeArray<FixedList32Bytes<int>> cellNeighbors;
+        protected NativeArray<FixedList64Bytes<int>> cellNeighbors;
 
         public NavigationGraphType GraphType { get; protected set; }
 
@@ -41,11 +41,9 @@ namespace NavigationGraph
             this.notWalkableMask = notWalkableMask;
 
             this.transform = transform;
-
-
+            
             this.obstacleMargin = obstacleMargin;
             this.cliffMargin = cliffMargin;
-
         }
 
         protected abstract void CreateGrid();
@@ -54,7 +52,7 @@ namespace NavigationGraph
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
         public int GetGridSize() => gridSize.x * gridSize.y;
         public int GetGridSizeX() => gridSize.x;
-        public NativeArray<FixedList32Bytes<int>> GetNeighbors() => cellNeighbors;
+        public NativeArray<FixedList64Bytes<int>> GetNeighbors() => cellNeighbors;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {

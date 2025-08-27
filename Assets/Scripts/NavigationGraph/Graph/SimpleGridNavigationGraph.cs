@@ -93,7 +93,7 @@ namespace NavigationGraph.Graph
                 cliffBlocked = nativeCliffBlocked
             }.Schedule(total, 64, batchHandle);
 
-            cellNeighbors = new NativeArray<FixedList32Bytes<int>>(total, Allocator.Persistent);
+            cellNeighbors = new NativeArray<FixedList64Bytes<int>>(total, Allocator.Persistent);
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
@@ -487,30 +487,73 @@ namespace NavigationGraph.Graph
             [ReadOnly] public NativeArray<Cell> grid;
             public int gridSizeX;
             public int gridSizeZ;
+            public NeighborsPerCell neighborsMode;
 
-            [WriteOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
+            [WriteOnly] public NativeArray<FixedList64Bytes<int>> neighborsPerCell;
 
             public void Execute(int index)
             {
                 Cell cell = grid[index];
-                var neighbors = new FixedList32Bytes<int>();
+                var neighbors = new FixedList64Bytes<int>();
 
-                for (int offsetX = -1; offsetX <= 1; offsetX++)
+                // Para Four y Eight
+                int range = neighborsMode switch
                 {
-                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                    {
-                        if (offsetX == 0 && offsetZ == 0) continue;
+                    NeighborsPerCell.Four => 1,
+                    NeighborsPerCell.Eight => 1,
+                    NeighborsPerCell.Sixteen => 2, // rango 2 pero se filtra después
+                    _ => 1
+                };
 
-                        int gridX = cell.gridX + offsetX;
-                        int gridZ = cell.gridZ + offsetZ;
+                if (neighborsMode != NeighborsPerCell.Sixteen)
+                {
+                    for (int offsetX = -range; offsetX <= range; offsetX++)
+                    {
+                        for (int offsetZ = -range; offsetZ <= range; offsetZ++)
+                        {
+                            if (offsetX == 0 && offsetZ == 0)
+                                continue;
+
+                            if (neighborsMode == NeighborsPerCell.Four &&
+                                Mathf.Abs(offsetX) + Mathf.Abs(offsetZ) != 1)
+                                continue;
+
+                            if (neighborsMode == NeighborsPerCell.Eight &&
+                                Mathf.Max(Mathf.Abs(offsetX), Mathf.Abs(offsetZ)) > 1)
+                                continue;
+
+                            int gridX = cell.gridX + offsetX;
+                            int gridZ = cell.gridZ + offsetZ;
+
+                            if (gridX >= 0 && gridX < gridSizeX &&
+                                gridZ >= 0 && gridZ < gridSizeZ)
+                            {
+                                neighbors.Add(gridZ * gridSizeX + gridX);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    int2[] offsets16 = new int2[]
+                    {
+                        new int2(-2, 0), new int2(-2, -1), new int2(-2, 1),
+                        new int2(-1, -2), new int2(-1, 2), new int2(0, -2),
+                        new int2(0, 2), new int2(1, -2), new int2(1, 2),
+                        new int2(2, -1), new int2(2, 0), new int2(2, 1),
+                        new int2(-1, -1), new int2(-1, 1), new int2(1, -1),
+                        new int2(1, 1)
+                    };
+
+                    foreach (var offset in offsets16)
+                    {
+                        int gridX = cell.gridX + offset.x;
+                        int gridZ = cell.gridZ + offset.y;
 
                         if (gridX >= 0 && gridX < gridSizeX &&
                             gridZ >= 0 && gridZ < gridSizeZ)
                         {
-                            // Remove error with fixed list (maybe are troubles in the future).
-                            // The if was aggregated, because of the capacity of the fixed list, that sometimes was trying to add more elements than the capacity.
-                            if (neighbors.Length < neighbors.Capacity)
-                                neighbors.Add(gridZ * gridSizeX + gridX);
+                            neighbors.Add(gridZ * gridSizeX + gridX);
                         }
                     }
                 }

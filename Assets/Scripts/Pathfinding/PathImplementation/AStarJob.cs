@@ -11,7 +11,7 @@ namespace Pathfinding.PathImplementation
     internal struct AStarJob : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
-        [ReadOnly] public NativeArray<FixedList32Bytes<int>> neighborsPerCell;
+        [ReadOnly] public NativeArray<FixedList64Bytes<int>> neighborsPerCell;
 
         public NativeHashSet<int> closedList;
         public NativePriorityQueue<PathCellData> openList;

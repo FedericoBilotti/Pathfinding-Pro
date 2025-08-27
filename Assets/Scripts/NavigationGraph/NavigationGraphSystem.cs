@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NavigationGraph
 {
@@ -9,6 +11,7 @@ namespace NavigationGraph
 
         [Header("Graph")]
         [SerializeField] private NavigationGraphType _graphType;
+        [SerializeField] private NeighborsPerCell _neighborsPerCell;
         [SerializeField] private Vector2Int _gridSize = new(100, 100);
         [SerializeField] private float _maxDistance = 15;
         [SerializeField] private float _cellSize = 0.5f;
@@ -95,5 +98,12 @@ namespace NavigationGraph
         }
 
         #endregion
+    }
+
+    public enum NeighborsPerCell
+    {
+        Four = 0,
+        Eight = 1,
+        Sixteen = 2
     }
 }
