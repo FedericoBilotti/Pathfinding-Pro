@@ -4,7 +4,6 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
-using static NavigationGraph.NavigationGraphSystem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
@@ -95,9 +94,28 @@ namespace NavigationGraph.Graph
 
             cellNeighbors = new NativeArray<FixedList64Bytes<int>>(total, Allocator.Persistent);
 
+            NativeArray<int2> offsets16 = new NativeArray<int2>(16, Allocator.TempJob);
+            offsets16[0] = new int2(-2, 0);
+            offsets16[1] = new int2(-2, -1);
+            offsets16[2] = new int2(-2, 1);
+            offsets16[3] = new int2(-1, -2);
+            offsets16[4] = new int2(-1, 2);
+            offsets16[5] = new int2(0, -2);
+            offsets16[6] = new int2(0, 2);
+            offsets16[7] = new int2(1, -2);
+            offsets16[8] = new int2(1, 2);
+            offsets16[9] = new int2(2, -1);
+            offsets16[10] = new int2(2, 0);
+            offsets16[11] = new int2(2, 1);
+            offsets16[12] = new int2(-1, -1);
+            offsets16[13] = new int2(-1, 1);
+            offsets16[14] = new int2(1, -1);
+            offsets16[15] = new int2(1, 1);
+
             var neighborsJob = new PrecomputeNeighborsJob
             {
                 grid = grid,
+                offsets16 = offsets16,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
                 neighborsPerCell = cellNeighbors
@@ -115,6 +133,7 @@ namespace NavigationGraph.Graph
             nativeCliffBlocked.Dispose();
             computedWalkable.Dispose();
             layerPerCell.Dispose();
+            offsets16.Dispose();
         }
 
         private bool[] CollectBlockedByExpandedBounds()
@@ -488,6 +507,7 @@ namespace NavigationGraph.Graph
             public int gridSizeX;
             public int gridSizeZ;
             public NeighborsPerCell neighborsMode;
+            [ReadOnly] public NativeArray<int2> offsets16;
 
             [WriteOnly] public NativeArray<FixedList64Bytes<int>> neighborsPerCell;
 
@@ -535,16 +555,6 @@ namespace NavigationGraph.Graph
                 }
                 else
                 {
-                    int2[] offsets16 = new int2[]
-                    {
-                        new int2(-2, 0), new int2(-2, -1), new int2(-2, 1),
-                        new int2(-1, -2), new int2(-1, 2), new int2(0, -2),
-                        new int2(0, 2), new int2(1, -2), new int2(1, 2),
-                        new int2(2, -1), new int2(2, 0), new int2(2, 1),
-                        new int2(-1, -1), new int2(-1, 1), new int2(1, -1),
-                        new int2(1, 1)
-                    };
-
                     foreach (var offset in offsets16)
                     {
                         int gridX = cell.gridX + offset.x;

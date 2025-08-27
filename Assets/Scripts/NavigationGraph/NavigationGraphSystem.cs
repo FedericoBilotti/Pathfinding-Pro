@@ -1,5 +1,4 @@
 using UnityEngine;
-using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph
 {
@@ -70,6 +69,7 @@ namespace NavigationGraph
                 gridSize = _gridSize,
                 transform = transform,
                 notWalkableMask = _notWalkableMask,
+                neighborsPerCell = _neighborsPerCell,
                 terrainTypes = _terrainTypes,
                 raycastCheckType = _raycastCheckType,
                 cellSize = _cellSize,
@@ -130,6 +130,7 @@ namespace NavigationGraph
         public Transform transform;
         public LayerMask notWalkableMask;
         public RaycastType raycastCheckType;
+        public NeighborsPerCell neighborsPerCell;
         public TerrainType[] terrainTypes;
         public float cellSize;
         public float maxDistance;

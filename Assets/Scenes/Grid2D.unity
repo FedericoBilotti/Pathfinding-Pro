@@ -4697,8 +4697,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 195021665}
-  - component: {fileID: 195021668}
   - component: {fileID: 195021667}
+  - component: {fileID: 195021668}
   - component: {fileID: 195021666}
   m_Layer: 0
   m_Name: Target
@@ -4716,7 +4716,7 @@ Transform:
   m_GameObject: {fileID: 195021664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.26, y: 0, z: 17.5}
+  m_LocalPosition: {x: -56, y: 0, z: -1.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4753,7 +4753,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195021664}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b702572e9f3b8b4a96ccd86616d12d3, type: 3}
   m_Name: 
@@ -4765,7 +4765,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195021664}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 667ed6a1edc84d24099e55b69930ac34, type: 3}
   m_Name: 
@@ -21436,11 +21436,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boxGrid: 1
   _graphType: 0
+  _neighborsPerCell: 1
   _gridSize: {x: 185, y: 125}
   _maxDistance: 47.55
   _cellSize: 0.5
-  _obstacleMargin: 0
-  _cliffMargin: 0.81
+  _obstacleMargin: 1
+  _cliffMargin: 2
   _terrainTypes:
   - terrainMask:
       serializedVersion: 2
@@ -21449,7 +21450,7 @@ MonoBehaviour:
   - terrainMask:
       serializedVersion: 2
       m_Bits: 256
-    terrainPenalty: 2
+    terrainPenalty: 1
   _maxHits: 10
   _notWalkableMask:
     serializedVersion: 2
@@ -22082,7 +22083,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0

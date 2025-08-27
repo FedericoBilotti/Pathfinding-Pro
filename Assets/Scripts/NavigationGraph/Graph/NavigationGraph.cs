@@ -2,26 +2,25 @@ using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using UnityEngine;
-using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
-        protected LayerMask walkableMask;
-        protected readonly LayerMask notWalkableMask;
-        protected readonly float maxDistance;
         protected readonly IRaycastType checkType;
+        protected readonly LayerMask notWalkableMask;
+        protected TerrainType[] terrainTypes;
+        protected Vector2Int gridSize;
+        protected LayerMask walkableMask;
 
+        protected readonly float maxDistance;
         protected float cellSize;
         protected float cellDiameter;
-        protected Vector2Int gridSize;
         protected NativeArray<Cell> grid;
         protected NativeHashMap<int, int> walkableRegionsDic;
 
         protected readonly Transform transform;
 
-        protected TerrainType[] terrainTypes;
 
         protected float obstacleMargin;
         protected float cliffMargin;
@@ -36,12 +35,9 @@ namespace NavigationGraph
             this.terrainTypes = navigationGraphConfig.terrainTypes;
             this.cellSize = navigationGraphConfig.cellSize;
             this.gridSize = navigationGraphConfig.gridSize;
-
             this.maxDistance = navigationGraphConfig.maxDistance;
             this.notWalkableMask = navigationGraphConfig.notWalkableMask;
-
             this.transform = navigationGraphConfig.transform;
-
             this.obstacleMargin = navigationGraphConfig.obstacleMargin;
             this.cliffMargin = navigationGraphConfig.cliffMargin;
         }
