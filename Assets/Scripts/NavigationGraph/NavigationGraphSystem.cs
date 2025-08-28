@@ -119,9 +119,9 @@ namespace NavigationGraph
 
     public enum NeighborsPerCell
     {
-        Four = 0,
-        Eight = 1,
-        Sixteen = 2
+        Four = 4,
+        Eight = 8,
+        Sixteen = 16
     }
 
     public class NavigationGraphConfig

@@ -1,4 +1,3 @@
-using NavigationGraph.RaycastCheck;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +24,17 @@ namespace NavigationGraph
                 visualizer.Scan();
             }
 
+            if (GUILayout.Button("Destroy Grid"))
+            {
+                visualizer.Clear();
+            }
+
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void OnSceneGUI()
+        {
+            SceneView.RepaintAll();
         }
 
         private void DrawCheckType(NavigationGraphSystem visualizer)

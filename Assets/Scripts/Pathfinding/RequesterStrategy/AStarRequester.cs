@@ -1,15 +1,16 @@
 using Agents;
 using NavigationGraph;
-using NUnit.Framework;
 using Pathfinding.PathImplementation;
 using Unity.Jobs;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pathfinding.RequesterStrategy
 {
     public class AStarRequester : Pathfinding
     {
         public AStarRequester(INavigationGraph navigationGraph) : base(navigationGraph) { }
-        
+
         public override bool RequestPath(IAgent agent, Cell start, Cell end)
         {
             if (!end.isWalkable) return false;
@@ -21,7 +22,9 @@ namespace Pathfinding.RequesterStrategy
             JobHandle aStarJob = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
-                neighborsPerCell = navigationGraph.GetNeighbors(),
+                allNeighbors = navigationGraph.GetNeighbors(),
+                neighborCounts = navigationGraph.GetNeighborCounts(),
+                neighborsPerCell = navigationGraph.GetNeighborsPerCellCount(),
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,
@@ -50,10 +53,12 @@ namespace Pathfinding.RequesterStrategy
                 finalPath = pathRequest.path
             }.Schedule(addPath);
 
+
             pathRequest.agent = agent;
             pathRequest.handle = reversePath;
             requests.Add(pathRequest);
 
+            Debug.Log("Terminando el path");
             return true;
         }
     }

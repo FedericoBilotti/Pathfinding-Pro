@@ -25,8 +25,8 @@ namespace Pathfinding
         {
             return _requestType switch
             {
-                PathRequestType.ThetaStar => _thetaStar.RequestPath(agent, start, end),
                 PathRequestType.AStar => _aStar.RequestPath(agent, start, end),
+                PathRequestType.ThetaStar => _thetaStar.RequestPath(agent, start, end),
                 _ => throw new System.Exception("Unknown request type")
             };
         }
@@ -35,14 +35,16 @@ namespace Pathfinding
         {
             switch (_requestType)
             {
+                case PathRequestType.AStar:
+                    _aStar.FinishPath();
+                    break;
+
                 case PathRequestType.ThetaStar:
                     _thetaStar.FinishPath();
                     break;
 
-                case PathRequestType.AStar:
                 default:
-                    _aStar.FinishPath();
-                    break;
+                    throw new System.Exception("Unknown request type");
             }
         }
 

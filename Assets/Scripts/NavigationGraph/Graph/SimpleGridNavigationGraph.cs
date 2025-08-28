@@ -16,7 +16,6 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid2D;
         }
 
-
         protected override void CreateGrid()
         {
             if (grid.IsCreated) grid.Dispose();
@@ -43,7 +42,9 @@ namespace NavigationGraph.Graph
             var queueCliff = new NativeQueue<int>(Allocator.TempJob);
 
             // Dilate the mask for non-walkable cells.
-            JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int2(gridSize.x, gridSize.y), obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked, nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
+            JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int2(gridSize.x, gridSize.y),
+                                                          obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked,
+                                                          nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
 
             // Raycast batch arrays
             var commands = new NativeArray<RaycastCommand>(total, Allocator.TempJob);
@@ -68,7 +69,7 @@ namespace NavigationGraph.Graph
 
             NativeArray<int> layerPerCell = new NativeArray<int>(total, Allocator.TempJob);
 
-            for (int i = 0; i < total - 1; i++)
+            for (int i = 0; i < total; i++)
             {
                 var col = results[i].collider;
                 if (col == null) continue;
@@ -92,7 +93,8 @@ namespace NavigationGraph.Graph
                 cliffBlocked = nativeCliffBlocked
             }.Schedule(total, 64, batchHandle);
 
-            cellNeighbors = new NativeArray<FixedList64Bytes<int>>(total, Allocator.Persistent);
+            allNeighbors = new NativeArray<int>(total * GetNeighborsPerCellCount(), Allocator.Persistent);
+            neighborCounts = new NativeArray<int>(total, Allocator.Persistent);
 
             NativeArray<int2> offsets16 = new NativeArray<int2>(16, Allocator.TempJob);
             offsets16[0] = new int2(-2, 0);
@@ -118,8 +120,10 @@ namespace NavigationGraph.Graph
                 offsets16 = offsets16,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.y,
-                neighborsPerCell = cellNeighbors
-            }.Schedule(total, 32, createGridJob);
+                neighborsPerCell = neighborsPerCell,
+                allNeighbors = allNeighbors,
+                neighborCounts = neighborCounts
+            }.Schedule(createGridJob);
 
             neighborsJob.Complete();
 
@@ -462,9 +466,6 @@ namespace NavigationGraph.Graph
                 bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
                                && (cliffBlocked[i] == (int)WalkableType.Walkable);
 
-                // If what I hit it's air, continue
-                if (!isWalkable && cliffBlocked[i] == (int)WalkableType.Air) return;
-
                 walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
 
                 grid[i] = new Cell
@@ -501,74 +502,78 @@ namespace NavigationGraph.Graph
         }
 
         [BurstCompile]
-        public struct PrecomputeNeighborsJob : IJobParallelFor
+        public struct PrecomputeNeighborsJob : IJob
         {
             [ReadOnly] public NativeArray<Cell> grid;
+            [ReadOnly] public NativeArray<int2> offsets16;
+            [WriteOnly] public NativeArray<int> allNeighbors;
+            [WriteOnly] public NativeArray<int> neighborCounts;
+
             public int gridSizeX;
             public int gridSizeZ;
-            public NeighborsPerCell neighborsMode;
-            [ReadOnly] public NativeArray<int2> offsets16;
+            public NeighborsPerCell neighborsPerCell;
 
-            [WriteOnly] public NativeArray<FixedList64Bytes<int>> neighborsPerCell;
-
-            public void Execute(int index)
+            public void Execute()
             {
-                Cell cell = grid[index];
-                var neighbors = new FixedList64Bytes<int>();
-
-                // Para Four y Eight
-                int range = neighborsMode switch
+                int numCells = grid.Length;
+                for (int index = 0; index < numCells; index++)
                 {
-                    NeighborsPerCell.Four => 1,
-                    NeighborsPerCell.Eight => 1,
-                    NeighborsPerCell.Sixteen => 2, // rango 2 pero se filtra después
-                    _ => 1
-                };
-
-                if (neighborsMode != NeighborsPerCell.Sixteen)
-                {
-                    for (int offsetX = -range; offsetX <= range; offsetX++)
+                    Cell cell = grid[index];
+                    int maxNeighbors = neighborsPerCell switch
                     {
-                        for (int offsetZ = -range; offsetZ <= range; offsetZ++)
+                        NeighborsPerCell.Four => 4,
+                        NeighborsPerCell.Eight => 8,
+                        NeighborsPerCell.Sixteen => 16,
+                        _ => 4
+                    };
+
+                    int count = 0;
+
+                    if (neighborsPerCell != NeighborsPerCell.Sixteen)
+                    {
+                        int range = 1;
+                        for (int offsetX = -range; offsetX <= range; offsetX++)
                         {
-                            if (offsetX == 0 && offsetZ == 0)
-                                continue;
+                            for (int offsetZ = -range; offsetZ <= range; offsetZ++)
+                            {
+                                if (offsetX == 0 && offsetZ == 0) continue;
 
-                            if (neighborsMode == NeighborsPerCell.Four &&
-                                Mathf.Abs(offsetX) + Mathf.Abs(offsetZ) != 1)
-                                continue;
+                                if (neighborsPerCell == NeighborsPerCell.Four &&
+                                    math.abs(offsetX) + math.abs(offsetZ) != 1) continue;
 
-                            if (neighborsMode == NeighborsPerCell.Eight &&
-                                Mathf.Max(Mathf.Abs(offsetX), Mathf.Abs(offsetZ)) > 1)
-                                continue;
+                                if (neighborsPerCell == NeighborsPerCell.Eight &&
+                                    math.max(math.abs(offsetX), math.abs(offsetZ)) > 1) continue;
 
-                            int gridX = cell.gridX + offsetX;
-                            int gridZ = cell.gridZ + offsetZ;
+                                int gridX = cell.gridX + offsetX;
+                                int gridZ = cell.gridZ + offsetZ;
+
+                                if (gridX >= 0 && gridX < gridSizeX &&
+                                    gridZ >= 0 && gridZ < gridSizeZ)
+                                {
+                                    allNeighbors[index * maxNeighbors + count] = gridZ * gridSizeX + gridX;
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var offset in offsets16)
+                        {
+                            int gridX = cell.gridX + offset.x;
+                            int gridZ = cell.gridZ + offset.y;
 
                             if (gridX >= 0 && gridX < gridSizeX &&
                                 gridZ >= 0 && gridZ < gridSizeZ)
                             {
-                                neighbors.Add(gridZ * gridSizeX + gridX);
+                                allNeighbors[index * maxNeighbors + count] = gridZ * gridSizeX + gridX;
+                                count++;
                             }
                         }
                     }
-                }
-                else
-                {
-                    foreach (var offset in offsets16)
-                    {
-                        int gridX = cell.gridX + offset.x;
-                        int gridZ = cell.gridZ + offset.y;
 
-                        if (gridX >= 0 && gridX < gridSizeX &&
-                            gridZ >= 0 && gridZ < gridSizeZ)
-                        {
-                            neighbors.Add(gridZ * gridSizeX + gridX);
-                        }
-                    }
+                    neighborCounts[index] = count;
                 }
-
-                neighborsPerCell[index] = neighbors;
             }
         }
 

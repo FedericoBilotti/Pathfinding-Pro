@@ -21385,8 +21385,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 781907328}
-  - component: {fileID: 781907332}
   - component: {fileID: 781907331}
+  - component: {fileID: 781907332}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -21436,7 +21436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boxGrid: 1
   _graphType: 0
-  _neighborsPerCell: 1
+  _neighborsPerCell: 4
   _gridSize: {x: 185, y: 125}
   _maxDistance: 47.55
   _cellSize: 0.5
@@ -21455,7 +21455,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _raycastCheckType: 0
+  _raycastCheckType: 1
 --- !u!1 &781919201
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
 
@@ -11,7 +12,9 @@ namespace Pathfinding.PathImplementation
     internal struct AStarJob : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
-        [ReadOnly] public NativeArray<FixedList64Bytes<int>> neighborsPerCell;
+        [ReadOnly] public NativeArray<int> allNeighbors;
+        [ReadOnly] public NativeArray<int> neighborCounts;
+        [ReadOnly] public int neighborsPerCell;
 
         public NativeHashSet<int> closedList;
         public NativePriorityQueue<PathCellData> openList;
@@ -30,33 +33,51 @@ namespace Pathfinding.PathImplementation
             openList.Enqueue(startData);
             visitedNodes.Add(startIndex, startData);
 
-            while (openList.Length > 0)
+            while (openList.Length > 0 && patience >= 0)
             {
-                if (patience-- < 0) break;
-
                 PathCellData currentData = openList.Dequeue();
                 int currentIndex = currentData.cellIndex;
                 closedList.Add(currentIndex);
 
                 if (currentIndex == endIndex) return;
-                FixedList32Bytes<int> neighbors = neighborsPerCell[currentIndex];
+
+                NativeSlice<int> neighbors = GetNeighbors(currentIndex);
 
                 foreach (int neighborIndex in neighbors)
                 {
-                    if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex)) continue;
+                    if (neighborIndex < 0 || neighborIndex >= grid.Length) break;
+
+                    if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex))
+                        continue;
 
                     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
+
                     if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
                     }
 
-                    var newNeighborData = new PathCellData { cellIndex = neighborIndex, cameFrom = currentIndex, gCost = costToNeighbor, hCost = GetDistance(neighborIndex, endIndex), HeapIndex = int.MaxValue };
+                    var newNeighborData = new PathCellData
+                    {
+                        cellIndex = neighborIndex,
+                        cameFrom = currentIndex,
+                        gCost = costToNeighbor,
+                        hCost = GetDistance(neighborIndex, endIndex),
+                        HeapIndex = int.MaxValue
+                    };
                     visitedNodes[neighborIndex] = newNeighborData;
-
                     openList.Enqueue(newNeighborData);
                 }
             }
+        }
+
+        private NativeSlice<int> GetNeighbors(int currentIndex)
+        {
+            int maxNeighbors = neighborsPerCell;
+            int start = currentIndex * maxNeighbors;
+            int count = neighborCounts[currentIndex];
+
+            return allNeighbors.Slice(start, count);
         }
 
         private int GetDistance(int indexCellA, int indexCellB)
@@ -64,8 +85,8 @@ namespace Pathfinding.PathImplementation
             Cell cellA = grid[indexCellA];
             Cell cellB = grid[indexCellB];
 
-            int xDistance = Mathf.Abs(cellA.gridX - cellB.gridX);
-            int zDistance = Mathf.Abs(cellA.gridZ - cellB.gridZ);
+            int xDistance = math.abs(cellA.gridX - cellB.gridX);
+            int zDistance = math.abs(cellA.gridZ - cellB.gridZ);
 
             if (xDistance > zDistance) return 14 * zDistance + 10 * (xDistance - zDistance);
 
@@ -77,8 +98,8 @@ namespace Pathfinding.PathImplementation
     internal struct AddPath : IJob
     {
         [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeHashMap<int, PathCellData> visitedNodes;
         public NativeList<Cell> finalPath;
-        public NativeHashMap<int, PathCellData> visitedNodes;
 
         [ReadOnly] public int endIndex;
 
@@ -97,7 +118,8 @@ namespace Pathfinding.PathImplementation
                 currentIndex = visitedNodes[currentIndex].cameFrom;
             }
 
-            finalPath.RemoveAt(finalPath.Length - 1);
+            if (finalPath.Length > 0)
+                finalPath.RemoveAt(finalPath.Length - 1);
         }
     }
 
@@ -108,7 +130,11 @@ namespace Pathfinding.PathImplementation
 
         public void Execute()
         {
-            finalPath.Reverse();
+            int length = finalPath.Length;
+            for (int i = 0; i < length / 2; i++)
+            {
+                (finalPath[i], finalPath[length - i - 1]) = (finalPath[length - i - 1], finalPath[i]);
+            }
         }
     }
 }
