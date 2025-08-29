@@ -20,10 +20,11 @@ Built with JobSystem + Burst for maximum speed and scalability.
 - **Agent-size awareness**
 - **(Optional) RVO integration**.
 
-![Grid Creation Gif](https://github.com/user-attachments/assets/296ac2ce-369f-43b0-93f3-bbb11243205a)
-
 ## Final Grid Creation
 ![Grid Creation](https://github.com/user-attachments/assets/1ca34e03-0c87-4646-8eb0-231a13a908ea)
+
+## Implementation of margin
+![Grid Creation Gif](https://github.com/user-attachments/assets/296ac2ce-369f-43b0-93f3-bbb11243205a)
 
 ## Demo of the pathfinding requesting every frame
 ![Demo pathfinding Gif](https://github.com/user-attachments/assets/c351143a-9db6-4a73-bd8f-a0ee960639d5)
