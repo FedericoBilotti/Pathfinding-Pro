@@ -11,6 +11,7 @@ Built with JobSystem + Burst for maximum speed and scalability.
 - **Custom Native Priority Queue**: High-performance open list implementation.
 - **Scalable performance**: Tested with 300+ agents in a 280x115 grid (≈ 30,200 nodes).
 - **Schedules Requests**: Request paths without blocking the main thread.
+- **Weighted paths**: Supports different movement costs per node for more realistic navigation.
 
 ## 🛠️ Roadmap
 - **Multi-level support**
