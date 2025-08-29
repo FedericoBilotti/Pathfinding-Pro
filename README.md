@@ -1,9 +1,11 @@
 # Pathfinding-Pro
-Multithreading pathfinding.
+An advanced, high-performance implementation of the A* algorithm for Unity.  
+Built with JobSystem + Burst for maximum speed and scalability.
 
-Features:
+## ✨ Features:
 
 - **Multi-threaded pathfinding**: Parallel path calculation with Unity JobSystem + Burst.
+- **Grid-threaded creation**: Supports multithread creation of the grid.
 - **Grid-based navigation**: Supports 2D.
 - **Optimized memory usage**: Precomputed grids stored and reused for different agents.
 - **Custom Native Priority Queue**: High-performance open list implementation.
@@ -19,6 +21,6 @@ Features:
 - **(Optional) RVO integration**.
 
 ![Grid Creation Gif]()
-![Grid Creation](https://imgur.com/a/m9iLUni)
-![Demo pathfinding Gif](https://imgur.com/a/lBxbR0K)
-![Multithreading Profiler](https://imgur.com/a/r2VGlck)
+![Grid Creation](https://github.com/user-attachments/assets/1ca34e03-0c87-4646-8eb0-231a13a908ea)
+![Demo pathfinding Gif](https://github.com/user-attachments/assets/c351143a-9db6-4a73-bd8f-a0ee960639d5)
+![Multithreading Profiler](https://github.com/user-attachments/assets/afb8c8e8-006e-4116-b54d-1150a5f61f1a)
