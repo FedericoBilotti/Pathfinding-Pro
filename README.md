@@ -12,6 +12,7 @@ Built with JobSystem + Burst for maximum speed and scalability.
 - **Scalable performance**: Tested with 300+ agents in a 280x115 grid (≈ 30,200 nodes).
 - **Schedules Requests**: Request paths without blocking the main thread.
 - **Weighted paths**: Supports different movement costs per node for more realistic navigation.
+- **Differents pathfinding**: Supports A* and Theta*
 
 ## 🛠️ Roadmap
 - **Multi-level support**
