@@ -83,8 +83,10 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
-            DrawCubeForGrid();
-            _graph?.DrawGizmos();
+            bool? drawed = _graph?.DrawGizmos();
+
+            if (drawed == null || drawed == false)
+                DrawCubeForGrid();
         }
 
         private void DrawCubeForGrid()
@@ -100,9 +102,11 @@ namespace NavigationGraph
             Vector3 gridCenter = transform.position + Vector3.right * (width * 0.5f) + Vector3.forward * (depth * 0.5f) + Vector3.up * (height * 0.5f);
 
             Vector3 boxSize = new Vector3(width, height, depth);
-
-            Gizmos.color = Color.black;
+            
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(gridCenter, boxSize);
+            Gizmos.color = new Color(0, 0, 0.8f, 0.1f);
+            Gizmos.DrawCube(gridCenter, boxSize);
         }
 
         #endregion

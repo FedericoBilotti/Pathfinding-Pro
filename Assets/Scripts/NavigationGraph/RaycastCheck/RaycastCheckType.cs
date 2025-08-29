@@ -24,10 +24,10 @@ namespace NavigationGraph.RaycastCheck
             var hitObstacle = Physics.Raycast(origin, Vector3.down, _gridSizeY, _notWalkableMask.value);
             if (hitObstacle) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, out RaycastHit hit, _gridSizeY, ~_notWalkableMask.value);
+            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, out RaycastHit hitInfo, _gridSizeY, ~_notWalkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
-            if (hit.normal.y < Mathf.Cos(_inclineLimit * Mathf.Deg2Rad))
+            if (hitInfo.normal.y <= Mathf.Cos(_inclineLimit * Mathf.Deg2Rad))
                 return WalkableType.Obstacle;
 
             return WalkableType.Walkable;

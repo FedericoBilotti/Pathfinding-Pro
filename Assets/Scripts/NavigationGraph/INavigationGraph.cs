@@ -7,7 +7,7 @@ namespace NavigationGraph
     {
         void Initialize();
         void Destroy();
-        void DrawGizmos();
+        bool? DrawGizmos();
         int GetGridSizeX();
         int GetGridSize();
         NativeArray<Cell> GetGrid();

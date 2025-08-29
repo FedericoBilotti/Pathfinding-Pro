@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 
@@ -194,9 +195,9 @@ namespace NavigationGraph
 
         #region Gizmos
 
-        public virtual void DrawGizmos()
+        public virtual bool? DrawGizmos()
         {
-            if (!grid.IsCreated || grid.Length == 0) return;
+            if (!grid.IsCreated || grid.Length == 0) return false;
 
             Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * cellDiameter;
 
@@ -220,6 +221,8 @@ namespace NavigationGraph
                     Gizmos.DrawCube(drawPos, nonWalkableSize);
                 }
             }
+
+            return true;
         }
 
         #endregion
