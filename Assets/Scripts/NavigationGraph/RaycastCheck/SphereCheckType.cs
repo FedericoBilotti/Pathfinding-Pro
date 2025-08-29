@@ -28,6 +28,9 @@ namespace NavigationGraph.RaycastCheck
             var hitWalkableArea = Physics.SphereCast(origin, _radius, Vector3.down, out hitInfo, _gridSizeY, ~_notWalkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
+            if (hitInfo.normal.y < Mathf.Cos(_inclineLimit * Mathf.Deg2Rad))
+                return WalkableType.Obstacle;
+
             return WalkableType.Walkable;
         }
     }
