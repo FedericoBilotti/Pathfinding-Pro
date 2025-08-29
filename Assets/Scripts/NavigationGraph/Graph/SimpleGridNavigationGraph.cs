@@ -42,7 +42,7 @@ namespace NavigationGraph.Graph
             var queueCliff = new NativeQueue<int>(Allocator.TempJob);
 
             // Dilate the mask for non-walkable cells.
-            JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int2(gridSize.x, gridSize.y),
+            JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int3(gridSize.x, gridSize.y, gridSize.z),
                                                           obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked,
                                                           nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
 
@@ -57,7 +57,6 @@ namespace NavigationGraph.Graph
                 cellDiameter = cellDiameter,
                 gridSizeX = gridSize.x,
                 gridSizeY = gridSize.y,
-                maxDistance = maxDistance,
                 walkableMask = walkableMask,
                 physicsScene = Physics.defaultPhysicsScene
             }.Schedule(total, 64, dilateMaskJob);
@@ -86,7 +85,6 @@ namespace NavigationGraph.Graph
                 origin = transform.position,
                 cellDiameter = cellDiameter,
                 gridSizeX = gridSize.x,
-                gridSizeY = gridSize.y,
                 results = results,
                 layerPerCell = layerPerCell,
                 finalBlocked = nativeObstacleBlocked,
@@ -119,7 +117,7 @@ namespace NavigationGraph.Graph
                 grid = grid,
                 offsets16 = offsets16,
                 gridSizeX = gridSize.x,
-                gridSizeZ = gridSize.y,
+                gridSizeZ = gridSize.z,
                 neighborsPerCell = neighborsPerCell,
                 allNeighbors = allNeighbors,
                 neighborCounts = neighborCounts
@@ -142,12 +140,12 @@ namespace NavigationGraph.Graph
 
         private bool[] CollectBlockedByExpandedBounds()
         {
-            int total = gridSize.x * gridSize.y;
+            int total = gridSize.x * gridSize.z;
             var blocked = new bool[total];
 
-            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, maxDistance, gridSize.y * cellDiameter);
+            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, gridSize.y, gridSize.z * cellDiameter);
             Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, gridWorldSize.y / 2, gridWorldSize.z * 0.5f);
-            Vector3 halfAreaExtents = new(gridWorldSize.x * 0.5f, maxDistance / 2, gridWorldSize.z * 0.5f);
+            Vector3 halfAreaExtents = new(gridWorldSize.x * 0.5f, gridSize.y / 2, gridWorldSize.z * 0.5f);
 
             Collider[] hits = Physics.OverlapBox(areaCenter, halfAreaExtents, transform.rotation, notWalkableMask.value);
 
@@ -210,9 +208,9 @@ namespace NavigationGraph.Graph
         }
 
         // Dilate (BFS) with all non-walkable cells radius steps
-        private JobHandle CombinedDilateMasks(NativeArray<int> computedWalkable, int2 gridSize, int obstacleRadiusCells, int cliffRadiusCells, NativeArray<int> finalObstacle, NativeArray<int> finalCliff, NativeArray<int> distObstacle, NativeArray<int> distCliff, NativeQueue<int> queueObstacle, NativeQueue<int> queueCliff)
+        private JobHandle CombinedDilateMasks(NativeArray<int> computedWalkable, int3 gridSize, int obstacleRadiusCells, int cliffRadiusCells, NativeArray<int> finalObstacle, NativeArray<int> finalCliff, NativeArray<int> distObstacle, NativeArray<int> distCliff, NativeQueue<int> queueObstacle, NativeQueue<int> queueCliff)
         {
-            int total = gridSize.x * gridSize.y;
+            int total = gridSize.x * gridSize.z;
 
             var initJob = new InitSeedsJob
             {
@@ -257,7 +255,7 @@ namespace NavigationGraph.Graph
         public struct InitSeedsJob : IJobParallelFor
         {
             [ReadOnly] public NativeArray<int> computedWalkable;
-            [ReadOnly] public int2 gridSize;
+            [ReadOnly] public int3 gridSize;
 
             [ReadOnly] public int Walkable;
             [ReadOnly] public int Obstacle;
@@ -300,7 +298,7 @@ namespace NavigationGraph.Graph
                         // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
                         hasCliffNeighbor |= computedWalkable[n] == Air;
                     }
-                    if (y + 1 < gridSize.y)
+                    if (y + 1 < gridSize.z)
                     {
                         int n = i + gridSize.x;
                         // hasObstacleNeighbor |= computedWalkable[n] == Obstacle;
@@ -332,7 +330,7 @@ namespace NavigationGraph.Graph
         [BurstCompile]
         public struct BFSCombinedJob : IJob
         {
-            [ReadOnly] public int2 gridSize;
+            [ReadOnly] public int3 gridSize;
             [ReadOnly] public int obstacleRadius;
             [ReadOnly] public int cliffRadius;
 
@@ -386,7 +384,7 @@ namespace NavigationGraph.Graph
 
             private void EnqueueNeighborObstacle(int x, int y, int currentDist)
             {
-                if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.y) return;
+                if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.z) return;
                 int idx = x + y * gridSize.x;
                 if (distObstacle[idx] != -1) return;
 
@@ -397,7 +395,7 @@ namespace NavigationGraph.Graph
 
             private void EnqueueNeighborCliff(int x, int y, int currentDist)
             {
-                if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.y) return;
+                if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.z) return;
                 int idx = x + y * gridSize.x;
                 if (distCliff[idx] != -1) return;
 
@@ -415,7 +413,6 @@ namespace NavigationGraph.Graph
             public float cellDiameter;
             public int gridSizeX;
             public int gridSizeY;
-            public float maxDistance;
             public int walkableMask;
             public PhysicsScene physicsScene;
 
@@ -430,7 +427,7 @@ namespace NavigationGraph.Graph
 
                 var queryParams = new QueryParameters { layerMask = walkableMask };
 
-                commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * maxDistance, Vector3.down, queryParams, maxDistance);
+                commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * gridSizeY, Vector3.down, queryParams, gridSizeY);
             }
         }
 
@@ -442,7 +439,6 @@ namespace NavigationGraph.Graph
             public Vector3 origin;
             public float cellDiameter;
             public int gridSizeX;
-            public int gridSizeY;
 
             [ReadOnly] public NativeArray<int> layerPerCell;
             [ReadOnly] public NativeArray<RaycastHit> results;

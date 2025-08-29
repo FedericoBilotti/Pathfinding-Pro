@@ -3,7 +3,6 @@ using System.Linq;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using UnityEngine;
-using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph.Graph
 {
@@ -26,12 +25,12 @@ namespace NavigationGraph.Graph
 
             for (int x = 0; x < gridSize.x; x++)
             {
-                for (int z = 0; z < gridSize.y; z++)
+                for (int z = 0; z < gridSize.z; z++)
                 {
                     Vector3 origin = transform.position
                                      + Vector3.right * ((x + 0.5f) * cellDiameter)
                                      + Vector3.forward * ((z + 0.5f) * cellDiameter)
-                                     + Vector3.up * maxDistance;
+                                     + Vector3.up * gridSize.y;
 
                     List<RaycastHit> hits = RaycastContinuous(origin, walkableMask);
 
@@ -66,7 +65,7 @@ namespace NavigationGraph.Graph
         private List<RaycastHit> RaycastContinuous(Vector3 from, LayerMask mask)
         {
             List<RaycastHit> hits = new List<RaycastHit>();
-            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, maxDistance, mask)) return hits;
+            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, gridSize.y, mask)) return hits;
 
             hits.Add(hit);
             float minDist = cellSize * 0.5f;
@@ -75,7 +74,7 @@ namespace NavigationGraph.Graph
             for (int i = 0; i < MAX_HITS; i++)
             {
                 Vector3 nextOrigin = hit.point + Vector3.down * minDist;
-                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, maxDistance, mask)) break;
+                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, gridSize.y, mask)) break;
 
                 if (hits.Any(h => Mathf.Abs(h.point.y - hit.point.y) < minDist)) continue;
 

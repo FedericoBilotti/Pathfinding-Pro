@@ -6,26 +6,29 @@ namespace NavigationGraph.RaycastCheck
     {
         private readonly float _halfHeight;
         private readonly float _radius;
-        private readonly float _maxDistance;
+        private readonly float _gridSizeY;
+        private readonly float _inclineLimit;
+
         private readonly LayerMask _notWalkableMask;
 
-        public CapsuleCheckType(float height, float radius, float maxDistance, LayerMask notWalkableMask)
+        public CapsuleCheckType(float height, float radius, float gridSizeY, float inclineLimit, LayerMask notWalkableMask)
         {
             _halfHeight = height / 2;
             _radius = radius;
-            _maxDistance = maxDistance;
+            _gridSizeY = gridSizeY;
+            _inclineLimit = inclineLimit;
             _notWalkableMask = notWalkableMask;
         }
 
         public WalkableType IsCellWalkable(Vector3 cellPosition)
         {
-            Vector3 p1 = cellPosition + Vector3.up * (_halfHeight + _maxDistance);
-            Vector3 p2 = cellPosition - Vector3.up * (_halfHeight - _maxDistance);
+            Vector3 p1 = cellPosition + Vector3.up * (_halfHeight + _gridSizeY);
+            Vector3 p2 = cellPosition - Vector3.up * (_halfHeight - _gridSizeY);
 
-            var hitObstacles = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _maxDistance, _notWalkableMask.value);
+            var hitObstacles = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _gridSizeY, _notWalkableMask.value);
             if (hitObstacles) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _maxDistance * 2, ~_notWalkableMask.value);
+            var hitWalkableArea = Physics.CapsuleCast(p1, p2, _radius, Vector3.down, _gridSizeY * 2, ~_notWalkableMask.value);
             if (!hitWalkableArea) return WalkableType.Air;
 
             return WalkableType.Walkable;

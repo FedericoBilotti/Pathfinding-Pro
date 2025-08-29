@@ -10,7 +10,7 @@ namespace NavigationGraph
         protected readonly IRaycastType checkType;
         protected readonly LayerMask notWalkableMask;
         protected TerrainType[] terrainTypes;
-        protected Vector2Int gridSize;
+        protected Vector3Int gridSize;
         protected LayerMask walkableMask;
 
         protected readonly Transform transform;
@@ -23,7 +23,6 @@ namespace NavigationGraph
         protected NeighborsPerCell neighborsPerCell;
         protected int neighborsPerCellCount;
 
-        protected readonly float maxDistance;
         protected float cellSize;
         protected float cellDiameter;
         protected float height;
@@ -41,7 +40,6 @@ namespace NavigationGraph
             this.terrainTypes = navigationGraphConfig.terrainTypes;
             this.cellSize = navigationGraphConfig.cellSize;
             this.gridSize = navigationGraphConfig.gridSize;
-            this.maxDistance = navigationGraphConfig.maxDistance;
             this.notWalkableMask = navigationGraphConfig.notWalkableMask;
             this.transform = navigationGraphConfig.transform;
             this.obstacleMargin = navigationGraphConfig.obstacleMargin;
@@ -61,7 +59,7 @@ namespace NavigationGraph
 
         public NativeArray<Cell> GetGrid() => grid;
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
-        public int GetGridSize() => gridSize.x * gridSize.y;
+        public int GetGridSize() => gridSize.x * gridSize.z;
         public int GetGridSizeX() => gridSize.x;
 
         public NativeArray<int> GetNeighbors() => allNeighbors;
@@ -82,7 +80,7 @@ namespace NavigationGraph
             int x = Mathf.FloorToInt(gridPos.x / cellDiameter);
             int y = Mathf.FloorToInt(gridPos.z / cellDiameter);
 
-            if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.y) return false;
+            if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) return false;
 
             int gridIndex = x + y * gridSize.x;
             return grid[gridIndex].isWalkable;
@@ -102,7 +100,7 @@ namespace NavigationGraph
                 int x = current.x;
                 int y = current.y;
 
-                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.y) continue;
+                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) continue;
 
                 int index = x + y * gridSize.x;
                 if (visited[index]) continue;
@@ -150,8 +148,8 @@ namespace NavigationGraph
         /// <returns></returns>
         private Vector3 CheckPoint(Vector3 cellPosition)
         {
-            return Physics.Raycast(cellPosition + Vector3.up * maxDistance,
-                    Vector3.down, out RaycastHit raycastHit, maxDistance, walkableMask)
+            return Physics.Raycast(cellPosition + Vector3.up * gridSize.y,
+                    Vector3.down, out RaycastHit raycastHit, gridSize.y, walkableMask)
                     ? raycastHit.point
                     : cellPosition;
         }
@@ -161,7 +159,7 @@ namespace NavigationGraph
             Vector3 gridPos = worldPosition - transform.position;
 
             int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.y - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.z - 1);
 
             return (x, y);
         }

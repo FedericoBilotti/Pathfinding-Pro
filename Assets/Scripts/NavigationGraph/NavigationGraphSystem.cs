@@ -10,8 +10,7 @@ namespace NavigationGraph
         [Header("Graph")]
         [SerializeField] private NavigationGraphType _graphType;
         [SerializeField] private NeighborsPerCell _neighborsPerCell;
-        [SerializeField] private Vector2Int _gridSize = new(100, 100);
-        [SerializeField] private float _maxDistance = 15;
+        [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
         [SerializeField] private float _cellSize = 0.5f;
         [SerializeField, Range(0f, 50f)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 50f)] private float _cliffMargin = 0.5f;
@@ -19,7 +18,7 @@ namespace NavigationGraph
         [SerializeField] private TerrainType[] _terrainTypes;
 
         [Header("Check Obstacles")]
-        [SerializeField] private int _maxHits = 10;
+        [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
@@ -33,7 +32,7 @@ namespace NavigationGraph
 
         private void Awake()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
+            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _radius, _height, _inclineLimit, _notWalkableMask);
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
@@ -49,7 +48,7 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _maxDistance, _radius, _height, _notWalkableMask);
+            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _radius, _height, _inclineLimit, _notWalkableMask);
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
@@ -73,7 +72,6 @@ namespace NavigationGraph
                 terrainTypes = _terrainTypes,
                 raycastCheckType = _raycastCheckType,
                 cellSize = _cellSize,
-                maxDistance = _maxDistance,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
             };
@@ -96,8 +94,8 @@ namespace NavigationGraph
             var cellDiameter = _cellSize * 2;
 
             float width = _gridSize.x * cellDiameter;
-            float depth = _gridSize.y * cellDiameter;
-            float height = _maxDistance;
+            float depth = _gridSize.z * cellDiameter;
+            float height = _gridSize.y;
 
             Vector3 gridCenter = transform.position + Vector3.right * (width * 0.5f) + Vector3.forward * (depth * 0.5f) + Vector3.up * (height * 0.5f);
 
@@ -126,14 +124,13 @@ namespace NavigationGraph
 
     public struct NavigationGraphConfig
     {
-        public Vector2Int gridSize;
+        public Vector3Int gridSize;
         public Transform transform;
         public LayerMask notWalkableMask;
         public RaycastType raycastCheckType;
         public NeighborsPerCell neighborsPerCell;
         public TerrainType[] terrainTypes;
         public float cellSize;
-        public float maxDistance;
         public float obstacleMargin;
         public float cliffMargin;
     }
