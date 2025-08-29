@@ -2,6 +2,7 @@ using Agents;
 using NavigationGraph;
 using UnityEngine;
 
+[SelectionBase]
 public class MoveCube : MonoBehaviour
 {
     private AgentNavigation _agentNavigation;
@@ -17,7 +18,7 @@ public class MoveCube : MonoBehaviour
 
         var gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
         var target = GetRandomTarget(gridSystem);
-        
+
         _agentNavigation.RequestPath(target);
     }
 

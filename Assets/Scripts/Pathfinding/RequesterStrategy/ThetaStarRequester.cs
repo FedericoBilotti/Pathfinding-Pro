@@ -2,6 +2,7 @@ using Agents;
 using NavigationGraph;
 using Pathfinding.PathImplementation;
 using Unity.Jobs;
+using UnityEngine.Assertions;
 
 namespace Pathfinding.RequesterStrategy
 {
@@ -15,17 +16,28 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
+            int patience = navigationGraph.GetGridSize() / 4;
+
             JobHandle aStarJob = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
-                neighborsPerCell = navigationGraph.GetNeighbors(),
+                allNeighbors = navigationGraph.GetNeighbors(),
+                neighborCounts = navigationGraph.GetNeighborCounts(),
+                neighborsPerCell = navigationGraph.GetNeighborsPerCellCount(),
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,
                 gridSizeX = navigationGraph.GetGridSizeX(),
                 startIndex = start.gridIndex,
-                endIndex = end.gridIndex
+                endIndex = end.gridIndex,
+                patience = patience,
             }.Schedule();
+
+            if (patience < 0)
+            {
+                Assert.IsFalse(patience < 0, "Pathfinding timed out");
+                return false;
+            }
 
             JobHandle addPath = new AddPath
             {

@@ -11,7 +11,9 @@ namespace NavigationGraph
         int GetGridSizeX();
         int GetGridSize();
         NativeArray<Cell> GetGrid();
-        NativeArray<FixedList32Bytes<int>> GetNeighbors();
+        NativeArray<int> GetNeighbors();
+        NativeArray<int> GetNeighborCounts();
+        int GetNeighborsPerCellCount();
         Cell GetRandomCell(); // Eliminate this in the future.
         Cell GetCellWithWorldPosition(Vector3 worldPosition);
         Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
