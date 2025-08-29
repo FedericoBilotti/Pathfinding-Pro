@@ -10,7 +10,7 @@ Built with JobSystem + Burst for maximum speed and scalability.
 - **Optimized memory usage**: Precomputed grids stored and reused for different agents.
 - **Custom Native Priority Queue**: High-performance open list implementation.
 - **Scalable performance**: Tested with 300+ agents in a 280x115 grid (≈ 30,200 nodes).
-- **Schedules Requests**: Request a path without blocking the main thread.
+- **Schedules Requests**: Request paths without blocking the main thread.
 
 ## 🛠️ Roadmap
 - **Multi-level support**
@@ -20,7 +20,13 @@ Built with JobSystem + Burst for maximum speed and scalability.
 - **Agent-size awareness**
 - **(Optional) RVO integration**.
 
-![Grid Creation Gif]()
+![Grid Creation Gif](https://github.com/user-attachments/assets/296ac2ce-369f-43b0-93f3-bbb11243205a)
+
+## Final Grid Creation
 ![Grid Creation](https://github.com/user-attachments/assets/1ca34e03-0c87-4646-8eb0-231a13a908ea)
+
+## Demo of the pathfinding requesting every frame
 ![Demo pathfinding Gif](https://github.com/user-attachments/assets/c351143a-9db6-4a73-bd8f-a0ee960639d5)
+
+## Profiler of the pathfinding requests
 ![Multithreading Profiler](https://github.com/user-attachments/assets/afb8c8e8-006e-4116-b54d-1150a5f61f1a)
