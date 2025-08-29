@@ -58,7 +58,6 @@ namespace Pathfinding.RequesterStrategy
             pathRequest.handle = reversePath;
             requests.Add(pathRequest);
 
-            Debug.Log("Terminando el path");
             return true;
         }
     }

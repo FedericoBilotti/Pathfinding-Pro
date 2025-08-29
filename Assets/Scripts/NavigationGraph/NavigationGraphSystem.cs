@@ -124,7 +124,7 @@ namespace NavigationGraph
         Sixteen = 16
     }
 
-    public class NavigationGraphConfig
+    public struct NavigationGraphConfig
     {
         public Vector2Int gridSize;
         public Transform transform;

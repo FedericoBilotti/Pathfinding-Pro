@@ -26,6 +26,8 @@ namespace NavigationGraph
         protected readonly float maxDistance;
         protected float cellSize;
         protected float cellDiameter;
+        protected float height;
+        // protected float 
 
         protected float obstacleMargin;
         protected float cliffMargin;

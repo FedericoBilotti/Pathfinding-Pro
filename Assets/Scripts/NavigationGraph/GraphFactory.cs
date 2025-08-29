@@ -1,7 +1,5 @@
 using NavigationGraph.Graph;
 using NavigationGraph.RaycastCheck;
-using UnityEngine;
-using static NavigationGraph.NavigationGraphSystem;
 
 namespace NavigationGraph
 {
