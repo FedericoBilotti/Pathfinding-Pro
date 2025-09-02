@@ -123,7 +123,7 @@ namespace NavigationGraph
         }
 
         // Pass this to Jobs
-        protected WalkableType IsCellWalkable(Vector3 cellPosition, float radius)
+        protected WalkableType IsCellWalkable(Vector3 cellPosition)
         {
             return checkType.IsCellWalkable(cellPosition);
         }

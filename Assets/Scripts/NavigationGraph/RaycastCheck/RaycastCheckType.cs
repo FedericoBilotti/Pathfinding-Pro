@@ -2,33 +2,24 @@ using UnityEngine;
 
 namespace NavigationGraph.RaycastCheck
 {
-    public class RaycastCheckType : IRaycastType
+    public class RaycastCheckType : CheckType
     {
-        private readonly float _gridSizeY;
-        private readonly float _inclineLimit;
+        public RaycastCheckType(float gridSizeY, float inclineLimit, Transform gridTransform, LayerMask notWalkableMask, LayerMask walkableMask) : base(gridSizeY, inclineLimit, gridTransform, notWalkableMask, walkableMask) { }
 
-        private readonly LayerMask _notWalkableMask;
-
-        public RaycastCheckType(float gridSizeY, float inclineLimit, LayerMask notWalkableMask)
+        public override WalkableType IsCellWalkable(Vector3 cellPosition)
         {
-            _gridSizeY = gridSizeY;
-            _inclineLimit = inclineLimit;
-            _notWalkableMask = notWalkableMask;
-        }
+            float maxHeight = gridTransform.position.y + gridSizeY;
+            Vector3 cellPos = new(cellPosition.x, gridTransform.position.y, cellPosition.z);
+            Vector3 origin = cellPos + Vector3.up * maxHeight;
 
-        // Pass this to Jobs -> This are raycast, so it can be passed to jobs.
-        public WalkableType IsCellWalkable(Vector3 cellPosition)
-        {
-            Vector3 origin = cellPosition + Vector3.up * _gridSizeY;
-
-            var hitObstacle = Physics.Raycast(origin, Vector3.down, _gridSizeY, _notWalkableMask.value);
+            var hitObstacle = Physics.Raycast(origin, Vector3.down, out RaycastHit hitInfo, gridSizeY, notWalkableMask);
             if (hitObstacle) return WalkableType.Obstacle;
 
-            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, out RaycastHit hitInfo, _gridSizeY, ~_notWalkableMask.value);
+            var hitWalkableArea = Physics.Raycast(origin, Vector3.down, out hitInfo, gridSizeY, walkableMask);
             if (!hitWalkableArea) return WalkableType.Air;
 
-            if (hitInfo.normal.y <= Mathf.Cos(_inclineLimit * Mathf.Deg2Rad))
-                return WalkableType.Obstacle;
+            if (hitInfo.normal.y <= Mathf.Cos(inclineLimit * Mathf.Deg2Rad))
+                return WalkableType.Air;
 
             return WalkableType.Walkable;
         }
