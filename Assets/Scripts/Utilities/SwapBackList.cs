@@ -49,7 +49,7 @@ public class SwapBackList<T> : IEnumerable<T>
         if (index < 0 || index >= _lastIndex)
             return false;
 
-        _items[index] = _items[_lastIndex--];
+        _items[index] = _items[--_lastIndex];
         return true;
     }
 
@@ -58,7 +58,7 @@ public class SwapBackList<T> : IEnumerable<T>
         if (index < 0 || index >= _lastIndex)
             throw new System.IndexOutOfRangeException();
 
-        _items[index] = _items[_lastIndex--];
+        _items[index] = _items[--_lastIndex];
     }
 
     public IEnumerator<T> GetEnumerator()

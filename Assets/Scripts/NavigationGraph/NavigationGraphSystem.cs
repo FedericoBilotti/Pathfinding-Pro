@@ -1,7 +1,10 @@
+using Pathfinding;
 using UnityEngine;
 
 namespace NavigationGraph
 {
+    [RequireComponent(typeof(PathRequester))]
+    [RequireComponent(typeof(AgentUpdateManager))]
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
         [Header("Gizmos")]

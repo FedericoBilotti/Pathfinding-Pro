@@ -10,7 +10,7 @@ using static Unity.Mathematics.math;
 
 namespace Agents
 {
-    public abstract class AgentNavigation : MonoBehaviour, IAgent
+    public abstract class AgentNavigation : MonoBehaviour, IAgent, IUpdate
     {
         [Header("Steering")]
         [SerializeField] protected float speed = 5;
@@ -59,6 +59,38 @@ namespace Agents
             Initialize();
         }
 
+        private void OnEnable() => AgentUpdateManager.Exists?.RegisterAgent(this);
+        private void OnDisable() => AgentUpdateManager.Exists?.UnregisterAgent(this);
+
+        private void OnValidate()
+        {
+            speed = Mathf.Max(0.01f, speed);
+            rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
+            changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
+            stoppingDistance = Mathf.Max(0f, stoppingDistance);
+            rePath = Mathf.Max(0f, rePath);
+        }
+
+        public void CustomUpdate()
+        {
+            if (!HasPath) return;
+
+            if (allowRePath)
+                timer.Tick(Time.deltaTime);
+
+            Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
+            Vector3 target = lastTargetPosition;
+            Vector3 direction = target - ownTransform.position;
+
+            Rotate(distanceToTarget);
+            CheckWaypoints(distanceToTarget);
+
+            if (StopMovement(direction)) return;
+            if (IsBraking(distanceToTarget, direction)) return;
+
+            Move(distanceToTarget);
+        }
+
         private void InitializeTimer()
         {
             timer = new CountdownTimer(rePath);
@@ -73,15 +105,6 @@ namespace Agents
         }
 
         protected virtual void Initialize() { }
-
-        private void OnValidate()
-        {
-            speed = Mathf.Max(0.01f, speed);
-            rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
-            changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
-            stoppingDistance = Mathf.Max(0f, stoppingDistance);
-            rePath = Mathf.Max(0f, rePath);
-        }
 
         protected virtual IEnumerator MoveAgent()
         {
@@ -221,15 +244,34 @@ namespace Agents
             }
 
             StatusPath = PathStatus.Success;
-            if (_moveAgentCoroutine != null) StopCoroutine(_moveAgentCoroutine);
-            _moveAgentCoroutine = StartCoroutine(MoveAgent());
+
+            if (allowRePath)
+            {
+                timer.Reset(rePath);
+                timer.Start();
+            }
+            // if (_moveAgentCoroutine != null) StopCoroutine(_moveAgentCoroutine);
+            // _moveAgentCoroutine = StartCoroutine(MoveAgent());
         }
 
         protected void CheckWaypoints(Vector3 distance)
         {
             if (distance.sqrMagnitude > changeWaypointDistance * changeWaypointDistance) return;
             currentWaypoint++;
+
+            if (currentWaypoint >= waypointsPath.Count)
+            {
+                Reset();
+            }
         }
+
+        private void Reset()
+        {
+            ClearPath();
+            timer.Pause();
+            StatusPath = PathStatus.Idle;
+        }
+
 
         protected void ClearPath()
         {
@@ -238,6 +280,7 @@ namespace Agents
         }
 
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
+
 
         public enum PathStatus
         {
