@@ -23,7 +23,7 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         private IPathfinding _pathfinding;
-        
+
         protected int currentWaypoint;
         protected INavigationGraph graph;
         protected List<Vector3> waypointsPath;
@@ -43,6 +43,10 @@ namespace Agents
         public List<Vector3> WaypointsPath => waypointsPath;
         public int CurrentWaypoint => currentWaypoint;
         public float StoppingDistance => stoppingDistance;
+
+        public int Index { get; } = 0;
+        int IIndexed.Index { get => Index; set { } }
+
 
         private void Awake()
         {

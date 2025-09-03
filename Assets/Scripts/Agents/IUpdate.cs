@@ -1,6 +1,6 @@
 namespace Agents
 {
-    public interface IUpdate
+    public interface IUpdate : IIndexed
     {
         void CustomUpdate();
     }

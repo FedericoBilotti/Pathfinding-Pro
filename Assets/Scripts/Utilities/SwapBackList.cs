@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class SwapBackList<T> : IEnumerable<T>
+public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
 {
     private List<T> _items;
     private int _lastIndex;
@@ -40,25 +40,21 @@ public class SwapBackList<T> : IEnumerable<T>
         else
             _items.Add(item);
 
-        _lastIndex++;
+        item.Index = _lastIndex++;
     }
 
-    public bool Remove(T item)
+    public void Remove(T item)
     {
-        int index = _items.IndexOf(item);
-        if (index < 0 || index >= _lastIndex)
-            return false;
-
-        _items[index] = _items[--_lastIndex];
-        return true;
-    }
-
-    public void RemoveAt(int index)
-    {
+        int index = item.Index;
         if (index < 0 || index >= _lastIndex)
             throw new System.IndexOutOfRangeException();
 
-        _items[index] = _items[--_lastIndex];
+        _lastIndex--;
+
+        T lastItem = _items[_lastIndex];
+        _items[index] = lastItem;
+        lastItem.Index = index;
+        item.Index = -1;
     }
 
     public IEnumerator<T> GetEnumerator()
