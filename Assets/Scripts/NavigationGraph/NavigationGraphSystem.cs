@@ -32,7 +32,7 @@ namespace NavigationGraph
 
         private void Awake()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _radius, _height, _inclineLimit, _notWalkableMask);
+            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
@@ -48,7 +48,7 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _radius, _height, _inclineLimit, _notWalkableMask);
+            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
             _graph?.Initialize();
@@ -60,6 +60,23 @@ namespace NavigationGraph
         public void Clear() => _graph?.Destroy();
 
 #endif
+
+        private void OnValidate()
+        {
+            _gridSize.x = Mathf.Max(1, _gridSize.x);
+            _gridSize.y = Mathf.Max(1, _gridSize.y);
+            _gridSize.z = Mathf.Max(1, _gridSize.z);
+        }
+
+        private LayerMask GetWalkableMask()
+        {
+            LayerMask walkableMask = 0;
+            foreach (var region in _terrainTypes)
+            {
+                walkableMask.value |= region.terrainMask.value;
+            }
+            return walkableMask;
+        }
 
         private NavigationGraphConfig GetNavigationGraphConfig()
         {
@@ -83,8 +100,10 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
-            DrawCubeForGrid();
-            _graph?.DrawGizmos();
+            bool? drawed = _graph?.DrawGizmos();
+
+            if (drawed == null || drawed == false)
+                DrawCubeForGrid();
         }
 
         private void DrawCubeForGrid()
@@ -101,8 +120,10 @@ namespace NavigationGraph
 
             Vector3 boxSize = new Vector3(width, height, depth);
 
-            Gizmos.color = Color.black;
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(gridCenter, boxSize);
+            Gizmos.color = new Color(0, 0, 0.8f, 0.1f);
+            Gizmos.DrawCube(gridCenter, boxSize);
         }
 
         #endregion

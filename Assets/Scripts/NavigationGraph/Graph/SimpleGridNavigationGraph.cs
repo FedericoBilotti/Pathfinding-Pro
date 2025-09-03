@@ -200,7 +200,7 @@ namespace NavigationGraph.Graph
                 int y = i / gridSize.x;
 
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
-                WalkableType walkableType = IsCellWalkable(cellPosition, cellSize);
+                WalkableType walkableType = IsCellWalkable(cellPosition);
                 computedWalkable[i] = (int)walkableType;
             }
 
