@@ -18,7 +18,7 @@ public class AgentUpdateManager : MonoBehaviour
         }
     }
 
-    private readonly SwapBackList<IUpdate> _agents = new();
+    // private readonly SwapBackList<IUpdate> _agents = new();
 
     private void Awake()
     {
@@ -31,23 +31,23 @@ public class AgentUpdateManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void RegisterAgent(IUpdate agent)
-    {
-        if (agent == null) return;
-        _agents.Add(agent);
-    }
+    // public void RegisterAgent(IUpdate agent)
+    // {
+    //     if (agent == null) return;
+    //     _agents.Add(agent);
+    // }
 
-    public void UnregisterAgent(IUpdate agent)
-    {
-        if (agent == null) return;
-        _agents.Remove(agent);
-    }
+    // public void UnregisterAgent(IUpdate agent)
+    // {
+    //     if (agent == null) return;
+    //     _agents.Remove(agent);
+    // }
 
-    private void Update()
-    {
-        foreach (var agent in _agents)
-        {
-            agent.CustomUpdate();
-        }
-    }
+    // private void Update()
+    // {
+    //     foreach (var agent in _agents)
+    //     {
+    //         agent.CustomUpdate();
+    //     }
+    // }
 }
