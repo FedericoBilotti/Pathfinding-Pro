@@ -65,6 +65,12 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
         removeItem.Index = -1;
     }
 
+    public bool Contains(T item)
+    {
+        int index = item.Index;
+        return index >= 0 && index < _lastIndex && _items[index].Equals(item);
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
         for (int i = 0; i < _lastIndex; i++)

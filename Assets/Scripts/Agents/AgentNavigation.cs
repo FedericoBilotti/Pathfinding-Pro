@@ -5,7 +5,6 @@ using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
-using static Unity.Mathematics.math;
 
 namespace Agents
 {
@@ -34,9 +33,11 @@ namespace Agents
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
         public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
+        public bool AutoBraking { get => autoBraking; set => autoBraking = value; }
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+        public float3 LastTargetPosition => lastTargetPosition;
 
         // For inspector
         public List<Vector3> WaypointsPath => waypointsPath;
@@ -111,6 +112,22 @@ namespace Agents
         protected abstract void Rotate(Vector3 targetDistance);
         protected abstract bool IsBraking(Vector3 targetDistance, Vector3 direction);
 
+        public float3 GetCurrentTarget()
+        {
+            if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
+                return transform.position;
+
+            float3 target = waypointsPath[currentWaypoint];
+            float3 distance = target - (float3)transform.position;
+
+            // Check if waypoint reached
+            if (math.lengthsq(distance) < changeWaypointDistance * changeWaypointDistance)
+                currentWaypoint++;
+
+            return target;
+        }
+
+
         protected bool StopMovement(Vector3 direction)
         {
             bool stopMovement = direction.sqrMagnitude < stoppingDistance * stoppingDistance;
@@ -160,7 +177,7 @@ namespace Agents
             // Changed the transform for the cell
             _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
             Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
-            if (all(lastTargetPosition == endCell.position)) return false;
+            if (math.all(lastTargetPosition == endCell.position)) return false;
 
             StatusPath = PathStatus.Requested;
 
@@ -242,7 +259,7 @@ namespace Agents
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
 
 
-        public enum PathStatus
+        public enum PathStatus // : byte
         {
             Idle,
             Failed,
