@@ -15,7 +15,6 @@ namespace Pathfinding.RequesterStrategy
         protected readonly INavigationGraph navigationGraph;
 
         protected SwapBackList<PathRequest> requests;
-        protected HashSet<PathRequest> finished;
         protected IObjectPool<PathRequest> pathRequestPool;
 
         protected Pathfinding(INavigationGraph navigationGraph)
@@ -29,7 +28,6 @@ namespace Pathfinding.RequesterStrategy
             const int CAPACITY = 20;
             const int MAX_SIZE = 1000;
             requests = new SwapBackList<PathRequest>(CAPACITY);
-            finished = new HashSet<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
                 path = new NativeList<Cell>(30, Allocator.Persistent),
@@ -61,26 +59,16 @@ namespace Pathfinding.RequesterStrategy
 
         public virtual void FinishPath()
         {
-            finished.Clear();
-
-            foreach (var req in requests)
+            for (int i = requests.Count - 1; i >= 0; i--)
             {
+                var req = requests[i];
                 if (!req.handle.IsCompleted) continue;
 
                 req.handle.Complete();
                 req.agent.SetPath(req.path);
-                finished.Add(req);
-            }
 
-            if (finished.Count > 0)
-            {
-                foreach (var req in finished)
-                {
-                    pathRequestPool.Release(req);
-                    requests.Remove(req);
-                }
-
-                // requests.RemoveAll(r => finished.Contains(r));
+                pathRequestPool.Release(req);
+                requests.Remove(req);
             }
         }
 
@@ -100,7 +88,7 @@ namespace Pathfinding.RequesterStrategy
 
         public void Clear() => Dispose();
 
-        protected class PathRequest : IIndexed // Pass it to struct
+        protected class PathRequest : IIndexed
         {
             public IAgent agent;
             public JobHandle handle;
