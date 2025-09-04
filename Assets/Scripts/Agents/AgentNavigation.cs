@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using NavigationGraph;
 using Pathfinding;
@@ -44,9 +43,7 @@ namespace Agents
         public int CurrentWaypoint => currentWaypoint;
         public float StoppingDistance => stoppingDistance;
 
-        public int Index { get; } = 0;
-        int IIndexed.Index { get => Index; set { } }
-
+        int IIndexed.Index { get; set; }
 
         private void Awake()
         {
@@ -63,8 +60,8 @@ namespace Agents
             Initialize();
         }
 
-        private void OnEnable() => AgentUpdateManager.Exists?.RegisterAgent(this);
-        private void OnDisable() => AgentUpdateManager.Exists?.UnregisterAgent(this);
+        private void OnEnable() => AgentUpdateManager.Instance.RegisterAgent(this);
+        private void OnDisable() => AgentUpdateManager.Instance.UnregisterAgent(this);
 
         private void OnValidate()
         {

@@ -1,41 +1,11 @@
 using Agents;
-using UnityEngine;
+using Utilities;
 
-public class AgentUpdateManager : MonoBehaviour
+public class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
-    private static AgentUpdateManager _instance;
+    private SwapBackList<IUpdate> _agents;
 
-    public static AgentUpdateManager Exists => _instance != null ? _instance : null;
-
-    public static AgentUpdateManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                Debug.Log("Creating AgentUpdateManager instance");
-                var obj = new GameObject("AgentUpdateManager");
-                _instance = obj.AddComponent<AgentUpdateManager>();
-                DontDestroyOnLoad(obj);
-            }
-
-            return _instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private readonly SwapBackList<IUpdate> _agents = new();
+    protected override void InitializeSingleton() => _agents = new SwapBackList<IUpdate>(10);
 
     public void RegisterAgent(IUpdate agent)
     {
