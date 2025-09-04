@@ -14,8 +14,7 @@ namespace Pathfinding.RequesterStrategy
     {
         protected readonly INavigationGraph navigationGraph;
 
-        protected List<PathRequest> requests;
-        protected HashSet<PathRequest> finished;
+        protected SwapBackList<PathRequest> requests;
         protected IObjectPool<PathRequest> pathRequestPool;
 
         protected Pathfinding(INavigationGraph navigationGraph)
@@ -26,17 +25,17 @@ namespace Pathfinding.RequesterStrategy
 
         private void InitializeRequesters()
         {
-            const int CAPACITY = 100;
+            const int CAPACITY = 20;
             const int MAX_SIZE = 1000;
-            requests = new List<PathRequest>(CAPACITY);
-            finished = new HashSet<PathRequest>(CAPACITY);
+            requests = new SwapBackList<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
                 path = new NativeList<Cell>(30, Allocator.Persistent),
                 simplified = new NativeList<Cell>(30, Allocator.Persistent),
                 closedList = new NativeHashSet<int>(64, Allocator.Persistent),
                 openList = new NativePriorityQueue<PathCellData>(navigationGraph.GetGridSize() / 4, Allocator.Persistent),
-                visitedNodes = new NativeHashMap<int, PathCellData>(64, Allocator.Persistent)
+                visitedNodes = new NativeHashMap<int, PathCellData>(64, Allocator.Persistent),
+                Index = -1
             }, actionOnGet: pathReq =>
             {
                 pathReq.path.Clear();
@@ -45,6 +44,7 @@ namespace Pathfinding.RequesterStrategy
                 pathReq.openList.Clear();
                 pathReq.visitedNodes.Clear();
                 pathReq.agent = null;
+                pathReq.Index = -1;
             }, actionOnRelease: null, actionOnDestroy: pathReq =>
             {
                 if (pathReq.path.IsCreated) pathReq.path.Dispose();
@@ -59,22 +59,16 @@ namespace Pathfinding.RequesterStrategy
 
         public virtual void FinishPath()
         {
-            finished.Clear();
-            foreach (var req in requests)
+            for (int i = requests.Count - 1; i >= 0; i--)
             {
+                var req = requests[i];
                 if (!req.handle.IsCompleted) continue;
 
                 req.handle.Complete();
                 req.agent.SetPath(req.path);
-                finished.Add(req);
-            }
 
-            if (finished.Count > 0)
-            {
-                foreach (var req in finished)
-                    pathRequestPool.Release(req);
-
-                requests.RemoveAll(r => finished.Contains(r));
+                pathRequestPool.Release(req);
+                requests.Remove(req);
             }
         }
 
@@ -94,7 +88,7 @@ namespace Pathfinding.RequesterStrategy
 
         public void Clear() => Dispose();
 
-        protected class PathRequest
+        protected class PathRequest : IIndexed
         {
             public IAgent agent;
             public JobHandle handle;
@@ -104,6 +98,8 @@ namespace Pathfinding.RequesterStrategy
             public NativeHashSet<int> closedList;
             public NativePriorityQueue<PathCellData> openList;
             public NativeHashMap<int, PathCellData> visitedNodes;
+
+            public int Index { get; set; }
         }
     }
 }

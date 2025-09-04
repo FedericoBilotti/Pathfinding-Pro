@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class SwapBackList<T> : IEnumerable<T>
+public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
 {
     private List<T> _items;
     private int _lastIndex;
@@ -18,47 +19,50 @@ public class SwapBackList<T> : IEnumerable<T>
     {
         get
         {
+#if UNITY_EDITOR
             if (index < 0 || index >= _lastIndex)
                 throw new System.IndexOutOfRangeException();
+#endif
             return _items[index];
         }
         set
         {
+#if UNITY_EDITOR
             if (index < 0 || index >= _lastIndex)
                 throw new System.IndexOutOfRangeException();
+#endif
             _items[index] = value;
         }
     }
 
-    public int GetIndex(T item) => _items.IndexOf(item);
     public void Clear() => _lastIndex = 0;
+    public int GetIndex(T item) => item.Index;
 
-    public void Add(T item)
+    public void Add(T addItem)
     {
         if (_lastIndex < _items.Count)
-            _items[_lastIndex] = item;
+            _items[_lastIndex] = addItem;
         else
-            _items.Add(item);
+            _items.Add(addItem);
 
-        _lastIndex++;
+        addItem.Index = _lastIndex++;
     }
 
-    public bool Remove(T item)
+    public void Remove(T removeItem)
     {
-        int index = _items.IndexOf(item);
-        if (index < 0 || index >= _lastIndex)
-            return false;
+        int index = removeItem.Index;
 
-        _items[index] = _items[_lastIndex--];
-        return true;
-    }
-
-    public void RemoveAt(int index)
-    {
+#if UNITY_EDITOR
         if (index < 0 || index >= _lastIndex)
             throw new System.IndexOutOfRangeException();
+#endif
 
-        _items[index] = _items[_lastIndex--];
+        _lastIndex--;
+
+        T lastItem = _items[_lastIndex];
+        _items[index] = lastItem;
+        lastItem.Index = index;
+        removeItem.Index = -1;
     }
 
     public IEnumerator<T> GetEnumerator()

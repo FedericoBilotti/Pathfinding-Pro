@@ -42,7 +42,7 @@ namespace Utilities
 
         public virtual void Reset(float newTime = 0)
         {
-            if (newTime > 0) initialTime = newTime;
+            if (newTime >= 0) initialTime = newTime;
             
             Time = initialTime;
         }
