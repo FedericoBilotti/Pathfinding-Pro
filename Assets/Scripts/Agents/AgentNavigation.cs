@@ -8,7 +8,7 @@ using Utilities;
 
 namespace Agents
 {
-    public abstract class AgentNavigation : MonoBehaviour, IAgent, IUpdate
+    public abstract class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]
         [SerializeField] protected float speed = 5;
@@ -37,12 +37,12 @@ namespace Agents
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+        public float StoppingDistance => stoppingDistance;
         public float3 LastTargetPosition => lastTargetPosition;
 
-        // For inspector
+        // For custom inspector
         public List<Vector3> WaypointsPath => waypointsPath;
         public int CurrentWaypoint => currentWaypoint;
-        public float StoppingDistance => stoppingDistance;
 
         int IIndexed.Index { get; set; }
 
@@ -73,24 +73,10 @@ namespace Agents
             rePath = Mathf.Max(0f, rePath);
         }
 
-        public void CustomUpdate()
+        public void UpdateTimer()
         {
             if (allowRePath)
                 timer.Tick(Time.deltaTime);
-
-            if (!HasPath) return;
-
-            Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
-            Vector3 target = lastTargetPosition;
-            Vector3 direction = target - ownTransform.position;
-
-            Rotate(distanceToTarget);
-            CheckWaypoints(distanceToTarget);
-
-            if (StopMovement(direction)) return;
-            if (IsBraking(distanceToTarget, direction)) return;
-
-            Move(distanceToTarget);
         }
 
         private void InitializeTimer()
@@ -114,32 +100,29 @@ namespace Agents
 
         public float3 GetCurrentTarget()
         {
+            float3 agentPosition = (float3)ownTransform.position;
             if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
-                return transform.position;
+            {
+                ResetAgent();
+                return agentPosition;
+            }
+
+            float3 distanceToEnd = lastTargetPosition - agentPosition;
+
+            if (math.lengthsq(distanceToEnd) < stoppingDistance * stoppingDistance)
+            {
+                ResetAgent();
+                return agentPosition;
+            }
 
             float3 target = waypointsPath[currentWaypoint];
-            float3 distance = target - (float3)transform.position;
+            float3 distance = target - agentPosition;
 
             // Check if waypoint reached
             if (math.lengthsq(distance) < changeWaypointDistance * changeWaypointDistance)
                 currentWaypoint++;
 
             return target;
-        }
-
-
-        protected bool StopMovement(Vector3 direction)
-        {
-            bool stopMovement = direction.sqrMagnitude < stoppingDistance * stoppingDistance;
-
-            if (stopMovement)
-            {
-                ClearPath();
-                StatusPath = PathStatus.Idle;
-                return true;
-            }
-
-            return false;
         }
 
         protected float GetMarginBraking()
@@ -231,18 +214,7 @@ namespace Agents
             }
         }
 
-        protected void CheckWaypoints(Vector3 distance)
-        {
-            if (distance.sqrMagnitude > changeWaypointDistance * changeWaypointDistance) return;
-            currentWaypoint++;
-
-            if (currentWaypoint >= waypointsPath.Count)
-            {
-                Reset();
-            }
-        }
-
-        private void Reset()
+        private void ResetAgent()
         {
             ClearPath();
             timer.Pause();

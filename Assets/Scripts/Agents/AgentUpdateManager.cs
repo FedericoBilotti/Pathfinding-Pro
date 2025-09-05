@@ -21,13 +21,15 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeArray<bool> _autoBraking;
     private JobHandle handle;
 
-    protected override void InitializeSingleton() => _agents = new SwapBackList<AgentNavigation>(10);
+    protected override void InitializeSingleton()
+    {
+        _agents = new SwapBackList<AgentNavigation>(10);
+        _transforms = new TransformAccessArray(_agents.Count);
+    }
 
     public void RegisterAgent(AgentNavigation agent)
     {
         if (agent == null || _agents.Contains(agent)) return;
-        if (!_transforms.isCreated)
-            _transforms = new TransformAccessArray(_agents.Count);
 
         _agents.Add(agent);
         _transforms.Add(agent.transform);
@@ -39,23 +41,23 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         if (_transforms.isCreated)
             _transforms.Dispose();
 
-        _agents.Remove(agent);
-        _transforms = new TransformAccessArray(_agents.Count);
+        // Remove first to use de Index property of the swapbacklist.
+        if (_agents is IIndexed indexed)
+            _transforms.RemoveAtSwapBack(indexed.Index);
 
-        foreach (var a in _agents)
-            _transforms.Add(a.transform);
+        _agents.Remove(agent);
     }
 
     private void Update()
     {
         if (_agents.Count == 0) return;
-        if (!_transforms.isCreated) return;
 
         CreateArrays();
 
         for (int i = 0; i < _agents.Count; i++)
         {
             var agent = _agents[i];
+            agent.UpdateTimer();
             _finalTargets[i] = math.all(agent.LastTargetPosition == float3.zero) ? float3.zero : agent.LastTargetPosition;
             _targetPositions[i] = agent.GetCurrentTarget();
             _speeds[i] = agent.Speed;
@@ -122,8 +124,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         [ReadOnly] public NativeArray<float> rotationSpeeds;
         [ReadOnly] public NativeArray<float> stoppingDistances;
         [ReadOnly] public NativeArray<float> changeWaypointDistances;
+        [ReadOnly] public float deltaTime;
         [ReadOnly] public NativeArray<bool> autoBraking;
-        public float deltaTime;
 
         public void Execute(int index, TransformAccess transform)
         {
