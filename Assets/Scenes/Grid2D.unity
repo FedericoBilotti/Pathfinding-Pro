@@ -7147,7 +7147,7 @@ MonoBehaviour:
   speed: 20
   rotationSpeed: 10
   changeWaypointDistance: 1.5
-  stoppingDistance: 2
+  stoppingDistance: 4
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5

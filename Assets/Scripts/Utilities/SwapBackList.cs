@@ -48,6 +48,12 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
         addItem.Index = _lastIndex++;
     }
 
+    public void AddRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            Add(item);
+    }
+
     public void Remove(T removeItem)
     {
         int index = removeItem.Index;
@@ -63,6 +69,12 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
         _items[index] = lastItem;
         lastItem.Index = index;
         removeItem.Index = -1;
+    }
+
+    public void RemoveRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            Remove(item);
     }
 
     public bool Contains(T item)

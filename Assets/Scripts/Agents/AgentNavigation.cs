@@ -21,6 +21,7 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         private IPathfinding _pathfinding;
+        private AgentUpdateManager _updateManager;
 
         protected int currentWaypoint;
         protected INavigationGraph graph;
@@ -61,8 +62,8 @@ namespace Agents
             Initialize();
         }
 
-        private void OnEnable() => AgentUpdateManager.Instance.RegisterAgent(this);
-        private void OnDisable() => AgentUpdateManager.Instance.UnregisterAgent(this);
+        private void Start() => _updateManager = AgentUpdateManager.Instance;
+        private void OnDisable() => _updateManager.UnregisterAgent(this);
 
         private void OnValidate()
         {
@@ -204,6 +205,7 @@ namespace Agents
                 waypointsPath.Add(cell.position);
             }
 
+            _updateManager.RegisterAgent(this);
             StatusPath = PathStatus.Success;
 
             if (allowRePath)
@@ -218,8 +220,8 @@ namespace Agents
             ClearPath();
             timer.Pause();
             StatusPath = PathStatus.Idle;
+            _updateManager.UnregisterAgent(this);
         }
-
 
         protected void ClearPath()
         {

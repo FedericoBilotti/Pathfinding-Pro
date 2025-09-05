@@ -9,7 +9,12 @@ using Utilities;
 
 public class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
+    // Maybe I can remove this "_agents" and use only the TransformAccessArray?
+    // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
+    // But now i need to manually do it in register and unregister methods.
     private SwapBackList<AgentNavigation> _agents;
+    private SwapBackList<AgentNavigation> _agentsToAdd;
+    private SwapBackList<AgentNavigation> _agentsToRemove;
     private TransformAccessArray _transforms;
 
     private NativeArray<float3> _finalTargets;
@@ -21,36 +26,33 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeArray<bool> _autoBraking;
     private JobHandle handle;
 
+    private const int InitialCapacity = 10; // Ajustá según máximo esperado
+
     protected override void InitializeSingleton()
     {
-        _agents = new SwapBackList<AgentNavigation>(10);
-        _transforms = new TransformAccessArray(_agents.Count);
+        _agents = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _agentsToAdd = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _agentsToRemove = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _transforms = new TransformAccessArray(InitialCapacity);
     }
 
     public void RegisterAgent(AgentNavigation agent)
     {
-        if (agent == null || _agents.Contains(agent)) return;
-
-        _agents.Add(agent);
-        _transforms.Add(agent.transform);
+        if (!agent || _agents.Contains(agent) || _agentsToAdd.Contains(agent)) return;
+        _agentsToAdd.Add(agent);
     }
 
     public void UnregisterAgent(AgentNavigation agent)
     {
-        if (agent == null) return;
-        if (_transforms.isCreated)
-            _transforms.Dispose();
-
-        // Remove first to use de Index property of the swapbacklist.
-        if (_agents is IIndexed indexed)
-            _transforms.RemoveAtSwapBack(indexed.Index);
-
-        _agents.Remove(agent);
+        if (!agent || _agentsToRemove.Contains(agent)) return;
+        _agentsToRemove.Add(agent);
     }
 
     private void Update()
     {
-        if (_agents.Count == 0) return;
+        ApplyPendingChanges();
+
+        if (_agents.Count == 0 || _transforms.length == 0) return;
 
         CreateArrays();
 
@@ -82,6 +84,38 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         handle = job.Schedule(_transforms);
         handle.Complete();
         DisposeArrays();
+    }
+
+    private void ApplyPendingChanges()
+    {
+        if (_agentsToAdd.Count > 0)
+        {
+            foreach (var agent in _agentsToAdd)
+            {
+                if (agent != null && agent.transform != null)
+                {
+                    _agents.Add(agent);
+                    _transforms.Add(agent.transform);
+                }
+            }
+
+            _agentsToAdd.Clear();
+        }
+
+        if (_agentsToRemove.Count > 0)
+        {
+            foreach (var agent in _agentsToAdd)
+            {
+                if (agent != null && agent.transform != null)
+                {
+                    if (agent is IIndexed indexedAgent)
+                        _transforms.RemoveAtSwapBack(indexedAgent.Index);
+                        
+                    _agents.Remove(agent);
+                }
+            }
+            _agentsToRemove.Clear();
+        }
     }
 
     private void CreateArrays()
@@ -153,8 +187,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
             if (braking)
             {
-                float distance = math.length(direction);
-                float margin = (stopDist <= 1f) ? 2f : stopDist * 2f;
+                float distance = math.length(finalTargetDistance);
+                float margin = stopDist <= 1f ? 2f : stopDist * 3f;
 
                 if (distance < margin && distance > 0.0001f)
                 {

@@ -9,14 +9,20 @@ public class MoveCube : MonoBehaviour
     private INavigationGraph _gridSystem;
 
     private void Awake() => _agentNavigation = GetComponent<AgentNavigation>();
-    private void Start() => _gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
+    private void Start()
+    {
+        _gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
+        var target = GetRandomTarget(_gridSystem);
+        _agentNavigation.RequestPath(target);
+    }
+
 
     private void Update()
     {
-        if (_agentNavigation.HasPath) return;
+        // if (_agentNavigation.HasPath) return;
 
-        var target = GetRandomTarget(_gridSystem);
-        _agentNavigation.RequestPath(target);
+        // var target = GetRandomTarget(_gridSystem);
+        // _agentNavigation.RequestPath(target);
     }
 
     private Cell GetRandomTarget(INavigationGraph graph)
