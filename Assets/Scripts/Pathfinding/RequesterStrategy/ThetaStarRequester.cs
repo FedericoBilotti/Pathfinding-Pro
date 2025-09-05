@@ -27,7 +27,7 @@ namespace Pathfinding.RequesterStrategy
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,
-                gridSizeX = navigationGraph.GetGridSizeX(),
+                gridSizeX = navigationGraph.GetXSize(),
                 startIndex = start.gridIndex,
                 endIndex = end.gridIndex,
                 patience = patience,
@@ -50,7 +50,7 @@ namespace Pathfinding.RequesterStrategy
             JobHandle thetaStarJob = new ThetaStarJob
             {
                 grid = navigationGraph.GetGrid(),
-                gridSizeX = navigationGraph.GetGridSizeX(),
+                gridSizeX = navigationGraph.GetXSize(),
                 finalPath = pathRequest.path,
                 simplified = pathRequest.simplified
             }.Schedule(addPath);

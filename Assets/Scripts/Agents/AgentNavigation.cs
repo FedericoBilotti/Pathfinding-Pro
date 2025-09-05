@@ -143,15 +143,14 @@ namespace Agents
             {
                 agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
                 // Change this cause' the agent maybe isn't on the same height -> This is because a 3D Grid, in a 2D Grid it's okay.
-                agentPosition.y = ownTransform.position.y;
+                agentPosition.y = ownTransform.position.y; // This is for making the Y position of the cell, the same as the agent.
 
-                // Change this and obtain the result with the cellSize and cellDiameter, 
-                // the min distance to change must be two cells away.
-                const float margin = 2f;
+                const float margin = 3f;
+                float changeCell = graph.GetCellDiameter() * margin;
 
                 // Map the agent if the distance is to far.
                 Vector3 distance = agentPosition - ownTransform.position;
-                if (distance.sqrMagnitude >= margin * margin)
+                if (distance.sqrMagnitude >= changeCell * changeCell)
                 {
                     ownTransform.position = agentPosition;
                 }

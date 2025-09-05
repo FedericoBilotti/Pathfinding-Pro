@@ -28,7 +28,7 @@ namespace Pathfinding.RequesterStrategy
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,
-                gridSizeX = navigationGraph.GetGridSizeX(),
+                gridSizeX = navigationGraph.GetXSize(),
                 startIndex = start.gridIndex,
                 endIndex = end.gridIndex,
                 patience = patience,
