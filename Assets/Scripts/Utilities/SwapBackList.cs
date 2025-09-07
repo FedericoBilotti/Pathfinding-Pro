@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
 {
@@ -81,6 +80,14 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
     {
         int index = item.Index;
         return index >= 0 && index < _lastIndex && _items[index].Equals(item);
+    }
+
+    public int IndexOf(T item)
+    {
+        int index = item.Index;
+        if (index >= 0 && index < _lastIndex && _items[index].Equals(item))
+            return index;
+        return -1;
     }
 
     public IEnumerator<T> GetEnumerator()

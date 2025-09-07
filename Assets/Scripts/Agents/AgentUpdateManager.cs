@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Agents;
 using Unity.Burst;
 using Unity.Collections;
@@ -13,8 +14,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
     // But now i need to manually do it in register and unregister methods.
     private SwapBackList<AgentNavigation> _agents;
-    private SwapBackList<AgentNavigation> _agentsToAdd;
-    private SwapBackList<AgentNavigation> _agentsToRemove;
+    private List<AgentNavigation> _agentsToAdd;
+    private List<AgentNavigation> _agentsToRemove;
     private TransformAccessArray _transforms;
 
     private NativeArray<float3> _finalTargets;
@@ -26,13 +27,13 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeArray<bool> _autoBraking;
     private JobHandle handle;
 
-    private const int InitialCapacity = 10; // Ajustá según máximo esperado
+    private const int InitialCapacity = 10;
 
     protected override void InitializeSingleton()
     {
         _agents = new SwapBackList<AgentNavigation>(InitialCapacity);
-        _agentsToAdd = new SwapBackList<AgentNavigation>(InitialCapacity);
-        _agentsToRemove = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _agentsToAdd = new List<AgentNavigation>(InitialCapacity);
+        _agentsToRemove = new List<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
     }
 
@@ -44,7 +45,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     public void UnregisterAgent(AgentNavigation agent)
     {
-        if (!agent || _agentsToRemove.Contains(agent)) return;
+        if (!agent || !_agents.Contains(agent) || _agentsToRemove.Contains(agent)) return;
         _agentsToRemove.Add(agent);
     }
 
@@ -60,7 +61,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             var agent = _agents[i];
             agent.UpdateTimer();
-            _finalTargets[i] = math.all(agent.LastTargetPosition == float3.zero) ? float3.zero : agent.LastTargetPosition;
+            _finalTargets[i] = math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition;
             _targetPositions[i] = agent.GetCurrentTarget();
             _speeds[i] = agent.Speed;
             _rotationSpeeds[i] = agent.RotationSpeed;
@@ -88,32 +89,37 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void ApplyPendingChanges()
     {
+        if (!handle.IsCompleted) handle.Complete();
+
         if (_agentsToAdd.Count > 0)
         {
             foreach (var agent in _agentsToAdd)
             {
-                if (agent != null && agent.transform != null)
+                if (agent)
                 {
-                    _agents.Add(agent);
+                    // First add to transforms, to respect the index of the agent sync in all lists
                     _transforms.Add(agent.transform);
+                    _agents.Add(agent);
                 }
             }
-
             _agentsToAdd.Clear();
         }
 
         if (_agentsToRemove.Count > 0)
         {
-            foreach (var agent in _agentsToAdd)
+            foreach (var agent in _agentsToRemove)
             {
-                if (agent != null && agent.transform != null)
+                if (agent)
                 {
+                    // First remove from transforms, to respect the index of the agent sync in all lists
                     if (agent is IIndexed indexedAgent)
+                    {
                         _transforms.RemoveAtSwapBack(indexedAgent.Index);
-                        
-                    _agents.Remove(agent);
+                        _agents.Remove(agent);
+                    }
                 }
             }
+
             _agentsToRemove.Clear();
         }
     }
@@ -133,7 +139,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void DisposeArrays()
     {
-        handle.Complete();
+        if (!handle.IsCompleted) handle.Complete();
         if (_finalTargets.IsCreated) _finalTargets.Dispose();
         if (_targetPositions.IsCreated) _targetPositions.Dispose();
         if (_speeds.IsCreated) _speeds.Dispose();

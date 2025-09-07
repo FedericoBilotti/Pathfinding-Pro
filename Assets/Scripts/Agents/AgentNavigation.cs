@@ -29,7 +29,7 @@ namespace Agents
         protected Transform ownTransform;
         protected Timer timer;
 
-        protected float3 lastTargetPosition = new(0, 0, 0);
+        protected float3 finalTargetPosition = float3.zero;
         private Cell _agentTargetLastCell;
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
@@ -39,7 +39,7 @@ namespace Agents
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
         public float StoppingDistance => stoppingDistance;
-        public float3 LastTargetPosition => lastTargetPosition;
+        public float3 FinalTargetPosition => finalTargetPosition;
 
         // For custom inspector
         public List<Vector3> WaypointsPath => waypointsPath;
@@ -104,11 +104,10 @@ namespace Agents
             float3 agentPosition = (float3)ownTransform.position;
             if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
             {
-                ResetAgent();
                 return agentPosition;
             }
 
-            float3 distanceToEnd = lastTargetPosition - agentPosition;
+            float3 distanceToEnd = finalTargetPosition - agentPosition;
 
             if (math.lengthsq(distanceToEnd) < stoppingDistance * stoppingDistance)
             {
@@ -160,7 +159,7 @@ namespace Agents
             // Changed the transform for the cell
             _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
             Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
-            if (math.all(lastTargetPosition == endCell.position)) return false;
+            if (math.all(finalTargetPosition == endCell.position)) return false;
 
             StatusPath = PathStatus.Requested;
 
@@ -169,7 +168,7 @@ namespace Agents
 
             if (isPathValid)
             {
-                lastTargetPosition = endCell.position;
+                finalTargetPosition = endCell.position;
                 return true;
             }
 
