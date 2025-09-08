@@ -5,11 +5,10 @@ using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
-using static Unity.Mathematics.math;
 
 namespace Agents
 {
-    public abstract class AgentNavigation : MonoBehaviour, IAgent, IUpdate
+    public abstract class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]
         [SerializeField] protected float speed = 5;
@@ -22,6 +21,7 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         private IPathfinding _pathfinding;
+        private AgentUpdateManager _updateManager;
 
         protected int currentWaypoint;
         protected INavigationGraph graph;
@@ -29,19 +29,21 @@ namespace Agents
         protected Transform ownTransform;
         protected Timer timer;
 
-        protected float3 lastTargetPosition = new(0, 0, 0);
+        protected float3 finalTargetPosition = float3.zero;
         private Cell _agentTargetLastCell;
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
         public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
+        public bool AutoBraking { get => autoBraking; set => autoBraking = value; }
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+        public float StoppingDistance => stoppingDistance;
+        public float3 FinalTargetPosition => finalTargetPosition;
 
-        // For inspector
+        // For custom inspector
         public List<Vector3> WaypointsPath => waypointsPath;
         public int CurrentWaypoint => currentWaypoint;
-        public float StoppingDistance => stoppingDistance;
 
         int IIndexed.Index { get; set; }
 
@@ -60,8 +62,8 @@ namespace Agents
             Initialize();
         }
 
-        private void OnEnable() => AgentUpdateManager.Instance.RegisterAgent(this);
-        private void OnDisable() => AgentUpdateManager.Instance.UnregisterAgent(this);
+        private void Start() => _updateManager = AgentUpdateManager.Instance;
+        private void OnDisable() => _updateManager.UnregisterAgent(this);
 
         private void OnValidate()
         {
@@ -72,24 +74,10 @@ namespace Agents
             rePath = Mathf.Max(0f, rePath);
         }
 
-        public void CustomUpdate()
+        public void UpdateTimer()
         {
             if (allowRePath)
                 timer.Tick(Time.deltaTime);
-
-            if (!HasPath) return;
-
-            Vector3 distanceToTarget = waypointsPath[currentWaypoint] - ownTransform.position;
-            Vector3 target = lastTargetPosition;
-            Vector3 direction = target - ownTransform.position;
-
-            Rotate(distanceToTarget);
-            CheckWaypoints(distanceToTarget);
-
-            if (StopMovement(direction)) return;
-            if (IsBraking(distanceToTarget, direction)) return;
-
-            Move(distanceToTarget);
         }
 
         private void InitializeTimer()
@@ -111,18 +99,30 @@ namespace Agents
         protected abstract void Rotate(Vector3 targetDistance);
         protected abstract bool IsBraking(Vector3 targetDistance, Vector3 direction);
 
-        protected bool StopMovement(Vector3 direction)
+        public float3 GetCurrentTarget()
         {
-            bool stopMovement = direction.sqrMagnitude < stoppingDistance * stoppingDistance;
-
-            if (stopMovement)
+            float3 agentPosition = (float3)ownTransform.position;
+            if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
             {
-                ClearPath();
-                StatusPath = PathStatus.Idle;
-                return true;
+                return agentPosition;
             }
 
-            return false;
+            float3 distanceToEnd = finalTargetPosition - agentPosition;
+
+            if (math.lengthsq(distanceToEnd) < stoppingDistance * stoppingDistance)
+            {
+                ResetAgent();
+                return agentPosition;
+            }
+
+            float3 target = waypointsPath[currentWaypoint];
+            float3 distance = target - agentPosition;
+
+            // Check if waypoint reached
+            if (math.lengthsq(distance) < changeWaypointDistance * changeWaypointDistance)
+                currentWaypoint++;
+
+            return target;
         }
 
         protected float GetMarginBraking()
@@ -143,15 +143,14 @@ namespace Agents
             {
                 agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
                 // Change this cause' the agent maybe isn't on the same height -> This is because a 3D Grid, in a 2D Grid it's okay.
-                agentPosition.y = ownTransform.position.y;
+                agentPosition.y = ownTransform.position.y; // This is for making the Y position of the cell, the same as the agent.
 
-                // Change this and obtain the result with the cellSize and cellDiameter, 
-                // the min distance to change must be two cells away.
-                const float margin = 2f;
+                const float margin = 3f;
+                float changeCell = graph.GetCellDiameter() * margin;
 
                 // Map the agent if the distance is to far.
                 Vector3 distance = agentPosition - ownTransform.position;
-                if (distance.sqrMagnitude >= margin * margin)
+                if (distance.sqrMagnitude >= changeCell * changeCell)
                 {
                     ownTransform.position = agentPosition;
                 }
@@ -160,7 +159,7 @@ namespace Agents
             // Changed the transform for the cell
             _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
             Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
-            if (all(lastTargetPosition == endCell.position)) return false;
+            if (math.all(finalTargetPosition == endCell.position)) return false;
 
             StatusPath = PathStatus.Requested;
 
@@ -169,7 +168,7 @@ namespace Agents
 
             if (isPathValid)
             {
-                lastTargetPosition = endCell.position;
+                finalTargetPosition = endCell.position;
                 return true;
             }
 
@@ -205,6 +204,7 @@ namespace Agents
                 waypointsPath.Add(cell.position);
             }
 
+            _updateManager.RegisterAgent(this);
             StatusPath = PathStatus.Success;
 
             if (allowRePath)
@@ -214,24 +214,13 @@ namespace Agents
             }
         }
 
-        protected void CheckWaypoints(Vector3 distance)
-        {
-            if (distance.sqrMagnitude > changeWaypointDistance * changeWaypointDistance) return;
-            currentWaypoint++;
-
-            if (currentWaypoint >= waypointsPath.Count)
-            {
-                Reset();
-            }
-        }
-
-        private void Reset()
+        private void ResetAgent()
         {
             ClearPath();
             timer.Pause();
             StatusPath = PathStatus.Idle;
+            _updateManager.UnregisterAgent(this);
         }
-
 
         protected void ClearPath()
         {
@@ -242,7 +231,7 @@ namespace Agents
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
 
 
-        public enum PathStatus
+        public enum PathStatus // : byte
         {
             Idle,
             Failed,

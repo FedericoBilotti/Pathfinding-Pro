@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
 {
@@ -48,6 +47,12 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
         addItem.Index = _lastIndex++;
     }
 
+    public void AddRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            Add(item);
+    }
+
     public void Remove(T removeItem)
     {
         int index = removeItem.Index;
@@ -63,6 +68,26 @@ public class SwapBackList<T> : IEnumerable<T> where T : IIndexed
         _items[index] = lastItem;
         lastItem.Index = index;
         removeItem.Index = -1;
+    }
+
+    public void RemoveRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+            Remove(item);
+    }
+
+    public bool Contains(T item)
+    {
+        int index = item.Index;
+        return index >= 0 && index < _lastIndex && _items[index].Equals(item);
+    }
+
+    public int IndexOf(T item)
+    {
+        int index = item.Index;
+        if (index >= 0 && index < _lastIndex && _items[index].Equals(item))
+            return index;
+        return -1;
     }
 
     public IEnumerator<T> GetEnumerator()

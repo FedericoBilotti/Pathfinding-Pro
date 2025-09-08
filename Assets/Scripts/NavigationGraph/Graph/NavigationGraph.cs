@@ -60,12 +60,14 @@ namespace NavigationGraph
 
         public NativeArray<Cell> GetGrid() => grid;
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
+        public float GetCellSize() => cellSize;
+        public float GetCellDiameter() => cellDiameter;
         public int GetGridSize() => gridSize.x * gridSize.z;
-        public int GetGridSizeX() => gridSize.x;
+        public int GetXSize() => gridSize.x;
 
+        public int GetNeighborsPerCellCount() => neighborsPerCellCount;
         public NativeArray<int> GetNeighbors() => allNeighbors;
         public NativeArray<int> GetNeighborCounts() => neighborCounts;
-        public int GetNeighborsPerCellCount() => neighborsPerCellCount;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
@@ -87,12 +89,13 @@ namespace NavigationGraph
             return grid[gridIndex].isWalkable;
         }
 
-        public Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition)
+        // Extract to other class
+        public Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition, int margin = 20)
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
-            var visited = new bool[grid.Length];
-            var queue = new Queue<Vector2Int>();
+            var visited = new bool[margin];
+            var queue = new Queue<Vector2Int>(margin * 2);
             queue.Enqueue(new Vector2Int(startX, startY));
 
             while (queue.Count > 0)
@@ -224,6 +227,7 @@ namespace NavigationGraph
 
             return true;
         }
+
 
         #endregion
     }

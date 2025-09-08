@@ -6,19 +6,19 @@ using UnityEngine;
 public class MoveCube : MonoBehaviour
 {
     private AgentNavigation _agentNavigation;
+    private INavigationGraph _gridSystem;
 
-    private void Awake()
+    private void Awake() => _agentNavigation = GetComponent<AgentNavigation>();
+    private void Start()
     {
-        _agentNavigation = GetComponent<AgentNavigation>();
+        _gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
     }
 
     private void Update()
     {
         if (_agentNavigation.HasPath) return;
 
-        var gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
-        var target = GetRandomTarget(gridSystem);
-
+        var target = GetRandomTarget(_gridSystem);
         _agentNavigation.RequestPath(target);
     }
 

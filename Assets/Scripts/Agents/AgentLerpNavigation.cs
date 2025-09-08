@@ -11,7 +11,7 @@ namespace Agents
         {
             if (!autoBraking) return false;
 
-            Vector3 target = lastTargetPosition;
+            Vector3 target = finalTargetPosition;
             float distance = direction.magnitude;
             float margin = GetMarginBraking();
 
