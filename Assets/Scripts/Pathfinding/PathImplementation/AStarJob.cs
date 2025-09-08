@@ -28,6 +28,7 @@ namespace Pathfinding.PathImplementation
 
         public void Execute()
         {
+            var unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
             var startData = new PathCellData { cellIndex = startIndex, gCost = 0, hCost = GetDistance(startIndex, endIndex), cameFrom = -1, HeapIndex = int.MaxValue };
             openList.Enqueue(startData);
             visitedNodes.Add(startIndex, startData);
@@ -41,8 +42,6 @@ namespace Pathfinding.PathImplementation
                 if (currentIndex == endIndex) return;
 
                 NativeSlice<int> neighbors = GetNeighbors(currentIndex);
-
-                WalkableType unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
 
                 foreach (int neighborIndex in neighbors)
                 {

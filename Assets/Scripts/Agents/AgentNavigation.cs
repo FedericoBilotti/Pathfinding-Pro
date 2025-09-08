@@ -142,13 +142,10 @@ namespace Agents
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
                 agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
-                // Change this cause' the agent maybe isn't on the same height -> This is because a 3D Grid, in a 2D Grid it's okay.
-                agentPosition.y = ownTransform.position.y; // This is for making the Y position of the cell, the same as the agent.
 
-                const float margin = 3f;
+                const float margin = 2f;
                 float changeCell = graph.GetCellDiameter() * margin;
 
-                // Map the agent if the distance is to far.
                 Vector3 distance = agentPosition - ownTransform.position;
                 if (distance.sqrMagnitude >= changeCell * changeCell)
                 {
@@ -159,12 +156,10 @@ namespace Agents
             // Changed the transform for the cell
             _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
             Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
-            if (math.all(finalTargetPosition == endCell.position)) return false;
-
-            StatusPath = PathStatus.Requested;
-
             Cell startCell = graph.GetCellWithWorldPosition(agentPosition);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
+
+            StatusPath = PathStatus.Requested;
 
             if (isPathValid)
             {
