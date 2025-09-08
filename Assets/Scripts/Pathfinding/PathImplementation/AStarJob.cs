@@ -42,11 +42,13 @@ namespace Pathfinding.PathImplementation
 
                 NativeSlice<int> neighbors = GetNeighbors(currentIndex);
 
+                WalkableType unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
+
                 foreach (int neighborIndex in neighbors)
                 {
                     if (neighborIndex < 0 || neighborIndex >= grid.Length) break;
 
-                    if (grid[neighborIndex].walkableType == WalkableType.Obstacle || closedList.Contains(neighborIndex))
+                    if ((grid[neighborIndex].walkableType & unwalkableTypes) != WalkableType.Walkable || closedList.Contains(neighborIndex))
                         continue;
 
                     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;

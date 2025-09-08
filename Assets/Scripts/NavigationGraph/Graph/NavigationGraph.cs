@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
-using TMPro;
 using Unity.Collections;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
-        private readonly List<bool> _visited;
+        private readonly bool[] _visited;
         private readonly Queue<Vector2Int> _queue;
 
         protected readonly IRaycastType checkType;
@@ -57,7 +56,7 @@ namespace NavigationGraph
                 _ => 8
             };
 
-            _visited = new List<bool>(gridSize.x * gridSize.z);
+            _visited = new bool[gridSize.x * gridSize.z];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
@@ -99,7 +98,7 @@ namespace NavigationGraph
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
-            _visited.Clear();
+            System.Array.Clear(_visited, 0, _visited.Length);
             _queue.Clear();
             _queue.Enqueue(new Vector2Int(startX, startY));
 
