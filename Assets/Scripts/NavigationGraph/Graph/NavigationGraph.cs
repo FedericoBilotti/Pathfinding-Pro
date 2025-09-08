@@ -94,7 +94,7 @@ namespace NavigationGraph
         }
 
         // Extract to other class
-        public Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition, int margin = 20)
+        public Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition)
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
@@ -117,7 +117,7 @@ namespace NavigationGraph
 
                 if (grid[index].walkableType == WalkableType.Walkable)
                 {
-                    return transform.position + new Vector3(x * cellDiameter + cellSize, 0f, y * cellDiameter + cellSize);
+                    return GetCellPositionInWorldMap(x, y);
                 }
 
                 _queue.Enqueue(new Vector2Int(x + 1, y));

@@ -18,7 +18,7 @@ namespace NavigationGraph
         int GetNeighborsPerCellCount();
         Cell GetRandomCell(); // Eliminate this in the future.
         Cell GetCellWithWorldPosition(Vector3 worldPosition);
-        Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition, int margin = 20);
+        Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
     }
 }
