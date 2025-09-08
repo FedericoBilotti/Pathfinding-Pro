@@ -46,8 +46,7 @@ namespace NavigationGraph.Graph
                             gridX = x,
                             gridZ = z,
                             height = hit.point.y, // TODO: Change this.
-                            gridIndex = tempCells.Count,
-                            isWalkable = isWalkable
+                            gridIndex = tempCells.Count
                         };
 
                         tempCells.Add(cell);

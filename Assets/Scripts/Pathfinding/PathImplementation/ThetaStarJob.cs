@@ -2,7 +2,7 @@ using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine;
+using Unity.Mathematics;
 
 namespace Pathfinding.PathImplementation
 {
@@ -47,15 +47,15 @@ namespace Pathfinding.PathImplementation
         }
 
         // Bresenham algorithm
-        private bool HasLineOfSight(Cell startCell, Cell endCell)
+        private bool HasLineOfSight(in Cell startCell, in Cell endCell)
         {
             int startX = startCell.gridX;
             int startY = startCell.gridZ;
             int endX = endCell.gridX;
             int endY = endCell.gridZ;
 
-            int deltaX = Mathf.Abs(endX - startX);
-            int deltaY = Mathf.Abs(endY - startY);
+            int deltaX = math.abs(endX - startX);
+            int deltaY = math.abs(endY - startY);
 
             int stepX = startX < endX ? 1 : -1;
             int stepY = startY < endY ? 1 : -1;
@@ -66,7 +66,7 @@ namespace Pathfinding.PathImplementation
             {
                 int index = GetIndex(startX, startY);
 
-                if (!grid[index].isWalkable) return false;
+                if (grid[index].walkableType == WalkableType.Obstacle) return false;
 
                 int doubleError = 2 * error;
 
@@ -86,7 +86,7 @@ namespace Pathfinding.PathImplementation
             return true;
         }
 
-        private int GetIndex(int x, int y)
+        private readonly int GetIndex(int x, int y)
         {
             return x + y * gridSizeX;
         }

@@ -1,24 +1,20 @@
 using System;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace NavigationGraph
 {
     public struct Cell : IEquatable<Cell>
     {
         public float3 position;
-        public bool isWalkable;
-
-        public int walkableType;
-
+        public float height;
         public int gridIndex;
         public int gridX;
         public int gridZ;
         public int cellCostPenalty;
-        public float height;
+        public WalkableType walkableType;
 
-        public bool Equals(Cell other) => gridX == other.gridX && gridZ == other.gridZ;
-        public override int GetHashCode() => (int)math.hash(new int3(gridX, gridZ, gridIndex));
+        public readonly bool Equals(Cell other) => gridX == other.gridX && gridZ == other.gridZ;
+        public override readonly int GetHashCode() => (int)math.hash(new int3(gridX, gridZ, gridIndex));
     }
 
     public struct PathCellData : IHeapComparable<PathCellData>

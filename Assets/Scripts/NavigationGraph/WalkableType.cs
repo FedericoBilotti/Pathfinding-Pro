@@ -1,4 +1,4 @@
-public enum WalkableType
+public enum WalkableType : byte
 {
     Walkable,
     Obstacle,
