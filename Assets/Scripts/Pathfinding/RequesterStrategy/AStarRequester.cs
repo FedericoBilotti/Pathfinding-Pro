@@ -13,7 +13,7 @@ namespace Pathfinding.RequesterStrategy
 
         public override bool RequestPath(IAgent agent, Cell start, Cell end)
         {
-            if (!end.isWalkable) return false;
+            if (end.walkableType == WalkableType.Obstacle) return false;
 
             PathRequest pathRequest = pathRequestPool.Get();
 

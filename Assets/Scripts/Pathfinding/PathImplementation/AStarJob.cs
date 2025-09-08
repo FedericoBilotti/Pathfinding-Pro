@@ -3,7 +3,6 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
-using UnityEngine;
 using Utilities;
 
 namespace Pathfinding.PathImplementation
@@ -43,11 +42,13 @@ namespace Pathfinding.PathImplementation
 
                 NativeSlice<int> neighbors = GetNeighbors(currentIndex);
 
+                WalkableType unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
+
                 foreach (int neighborIndex in neighbors)
                 {
                     if (neighborIndex < 0 || neighborIndex >= grid.Length) break;
 
-                    if (!grid[neighborIndex].isWalkable || closedList.Contains(neighborIndex))
+                    if ((grid[neighborIndex].walkableType & unwalkableTypes) != WalkableType.Walkable || closedList.Contains(neighborIndex))
                         continue;
 
                     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
@@ -82,11 +83,8 @@ namespace Pathfinding.PathImplementation
 
         private int GetDistance(int indexCellA, int indexCellB)
         {
-            Cell cellA = grid[indexCellA];
-            Cell cellB = grid[indexCellB];
-
-            int xDistance = math.abs(cellA.gridX - cellB.gridX);
-            int zDistance = math.abs(cellA.gridZ - cellB.gridZ);
+            int xDistance = math.abs(grid[indexCellA].gridX - grid[indexCellB].gridX);
+            int zDistance = math.abs(grid[indexCellA].gridZ - grid[indexCellB].gridZ);
 
             if (xDistance > zDistance) return 14 * zDistance + 10 * (xDistance - zDistance);
 

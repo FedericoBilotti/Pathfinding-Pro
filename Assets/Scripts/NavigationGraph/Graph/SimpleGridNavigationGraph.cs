@@ -27,13 +27,13 @@ namespace NavigationGraph.Graph
             bool[] blockedByBounds = CollectBlockedByExpandedBounds();
 
             // For the remaining cells, compute if they are walkable
-            NativeArray<int> computedWalkable = ComputeRemainingWalkableCells(blockedByBounds);
+            NativeArray<WalkableType> computedWalkable = ComputeRemainingWalkableCells(blockedByBounds);
 
             int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
-            int airRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
+            int cliffRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
 
-            var nativeObstacleBlocked = new NativeArray<int>(total, Allocator.TempJob);
-            var nativeCliffBlocked = new NativeArray<int>(total, Allocator.TempJob);
+            var nativeObstacleBlocked = new NativeArray<WalkableType>(total, Allocator.TempJob);
+            var nativeCliffBlocked = new NativeArray<WalkableType>(total, Allocator.TempJob);
 
             var distObstacle = new NativeArray<int>(total, Allocator.TempJob);
             var distCliff = new NativeArray<int>(total, Allocator.TempJob);
@@ -43,7 +43,7 @@ namespace NavigationGraph.Graph
 
             // Dilate the mask for non-walkable cells.
             JobHandle dilateMaskJob = CombinedDilateMasks(computedWalkable, new int3(gridSize.x, gridSize.y, gridSize.z),
-                                                          obstacleRadiusCells, airRadiusCells, nativeObstacleBlocked,
+                                                          obstacleRadiusCells, cliffRadiusCells, nativeObstacleBlocked,
                                                           nativeCliffBlocked, distObstacle, distCliff, queueObstacle, queueCliff);
 
             // Raycast batch arrays
@@ -183,16 +183,16 @@ namespace NavigationGraph.Graph
         }
 
         // Returns a new array[gridSize] with true if the cell is walkable or not.
-        private NativeArray<int> ComputeRemainingWalkableCells(bool[] blockedByBounds)
+        private NativeArray<WalkableType> ComputeRemainingWalkableCells(bool[] blockedByBounds)
         {
             int total = GetGridSize();
-            var computedWalkable = new NativeArray<int>(total, Allocator.TempJob);
+            var computedWalkable = new NativeArray<WalkableType>(total, Allocator.TempJob);
 
             for (int i = 0; i < total; i++)
             {
                 if (blockedByBounds[i])
                 {
-                    computedWalkable[i] = (int)WalkableType.Obstacle;
+                    computedWalkable[i] = WalkableType.Obstacle;
                     continue;
                 }
 
@@ -201,14 +201,14 @@ namespace NavigationGraph.Graph
 
                 Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
                 WalkableType walkableType = IsCellWalkable(cellPosition);
-                computedWalkable[i] = (int)walkableType;
+                computedWalkable[i] = walkableType;
             }
 
             return computedWalkable;
         }
 
         // Dilate (BFS) with all non-walkable cells radius steps
-        private JobHandle CombinedDilateMasks(NativeArray<int> computedWalkable, int3 gridSize, int obstacleRadiusCells, int cliffRadiusCells, NativeArray<int> finalObstacle, NativeArray<int> finalCliff, NativeArray<int> distObstacle, NativeArray<int> distCliff, NativeQueue<int> queueObstacle, NativeQueue<int> queueCliff)
+        private JobHandle CombinedDilateMasks(NativeArray<WalkableType> computedWalkable, int3 gridSize, int obstacleRadiusCells, int cliffRadiusCells, NativeArray<WalkableType> nativeObstacleBlocked, NativeArray<WalkableType> nativeCliffBlocked, NativeArray<int> distObstacle, NativeArray<int> distCliff, NativeQueue<int> queueObstacle, NativeQueue<int> queueCliff)
         {
             int total = gridSize.x * gridSize.z;
 
@@ -217,12 +217,12 @@ namespace NavigationGraph.Graph
                 computedWalkable = computedWalkable,
                 gridSize = gridSize,
 
-                Walkable = (int)WalkableType.Walkable,
-                Obstacle = (int)WalkableType.Obstacle,
-                Air = (int)WalkableType.Air,
+                Walkable = WalkableType.Walkable,
+                Obstacle = WalkableType.Obstacle,
+                Air = WalkableType.Air,
 
-                finalObstacle = finalObstacle,
-                finalCliff = finalCliff,
+                finalObstacle = nativeObstacleBlocked,
+                finalCliff = nativeCliffBlocked,
                 distObstacle = distObstacle,
                 distCliff = distCliff,
                 queueObstacle = queueObstacle.AsParallelWriter(),
@@ -235,13 +235,13 @@ namespace NavigationGraph.Graph
                 obstacleRadius = obstacleRadiusCells,
                 cliffRadius = cliffRadiusCells,
 
-                Obstacle = (int)WalkableType.Obstacle,
-                Air = (int)WalkableType.Air,
+                Obstacle = WalkableType.Obstacle,
+                Air = WalkableType.Air,
 
                 distObstacle = distObstacle,
                 distCliff = distCliff,
-                finalObstacle = finalObstacle,
-                finalCliff = finalCliff,
+                finalObstacle = nativeObstacleBlocked,
+                finalCliff = nativeCliffBlocked,
                 queueObstacle = queueObstacle,
                 queueCliff = queueCliff
             }.Schedule(initJob);
@@ -254,15 +254,15 @@ namespace NavigationGraph.Graph
         [BurstCompile]
         public struct InitSeedsJob : IJobParallelFor
         {
-            [ReadOnly] public NativeArray<int> computedWalkable;
+            [ReadOnly] public NativeArray<WalkableType> computedWalkable;
             [ReadOnly] public int3 gridSize;
 
-            [ReadOnly] public int Walkable;
-            [ReadOnly] public int Obstacle;
-            [ReadOnly] public int Air;
+            [ReadOnly] public WalkableType Walkable;
+            [ReadOnly] public WalkableType Obstacle;
+            [ReadOnly] public WalkableType Air;
 
-            public NativeArray<int> finalObstacle;
-            public NativeArray<int> finalCliff;
+            public NativeArray<WalkableType> finalObstacle;
+            public NativeArray<WalkableType> finalCliff;
 
             public NativeArray<int> distObstacle;
             public NativeArray<int> distCliff;
@@ -334,14 +334,14 @@ namespace NavigationGraph.Graph
             [ReadOnly] public int obstacleRadius;
             [ReadOnly] public int cliffRadius;
 
-            [ReadOnly] public int Obstacle;
-            [ReadOnly] public int Air;
+            [ReadOnly] public WalkableType Obstacle;
+            [ReadOnly] public WalkableType Air;
 
             public NativeArray<int> distObstacle;
             public NativeArray<int> distCliff;
 
-            public NativeArray<int> finalObstacle;
-            public NativeArray<int> finalCliff;
+            public NativeArray<WalkableType> finalObstacle;
+            public NativeArray<WalkableType> finalCliff;
 
             public NativeQueue<int> queueObstacle;
             public NativeQueue<int> queueCliff;
@@ -440,10 +440,10 @@ namespace NavigationGraph.Graph
             public float cellDiameter;
             public int gridSizeX;
 
-            [ReadOnly] public NativeArray<int> layerPerCell;
             [ReadOnly] public NativeArray<RaycastHit> results;
-            [ReadOnly] public NativeArray<int> finalBlocked;
-            [ReadOnly] public NativeArray<int> cliffBlocked;
+            [ReadOnly] public NativeArray<int> layerPerCell;
+            [ReadOnly] public NativeArray<WalkableType> finalBlocked;
+            [ReadOnly] public NativeArray<WalkableType> cliffBlocked;
 
             public void Execute(int i)
             {
@@ -459,9 +459,6 @@ namespace NavigationGraph.Graph
                 bool hit = results[i].distance > kHitEpsilon;
                 Vector3 cellPosition = hit ? results[i].point : defaultPos;
 
-                bool isWalkable = (finalBlocked[i] == (int)WalkableType.Walkable)
-                               && (cliffBlocked[i] == (int)WalkableType.Walkable);
-
                 walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
 
                 grid[i] = new Cell
@@ -470,29 +467,28 @@ namespace NavigationGraph.Graph
                     gridIndex = i,
                     gridX = x,
                     gridZ = y,
-                    isWalkable = isWalkable,
                     walkableType = GetWalkableType(i),
                     cellCostPenalty = penalty
                 };
             }
 
-            private int GetWalkableType(int i)
+            private WalkableType GetWalkableType(int index)
             {
-                var cliff = cliffBlocked[i];
-                var finalB = finalBlocked[i];
+                WalkableType cliff = cliffBlocked[index];
+                WalkableType finalB = finalBlocked[index];
 
                 return (cliff, finalB) switch
                 {
-                    var (c, f) when c == (int)WalkableType.Air || f == (int)WalkableType.Air
-                        => (int)WalkableType.Air,
+                    var (c, f) when c == WalkableType.Air || f == WalkableType.Air
+                        => WalkableType.Air,
 
-                    var (c, f) when c == (int)WalkableType.Walkable || f == (int)WalkableType.Walkable
-                        => (int)WalkableType.Walkable,
+                    var (c, f) when c == WalkableType.Walkable || f == WalkableType.Walkable
+                        => WalkableType.Walkable,
 
-                    var (c, f) when c == (int)WalkableType.Obstacle || f == (int)WalkableType.Obstacle
-                        => (int)WalkableType.Obstacle,
+                    var (c, f) when c == WalkableType.Obstacle || f == WalkableType.Obstacle
+                        => WalkableType.Obstacle,
 
-                    _ => (int)WalkableType.Roof
+                    _ => WalkableType.Roof
                 };
             }
         }

@@ -26,6 +26,6 @@ public class MoveCube : MonoBehaviour
     {
         Cell target = graph.GetRandomCell();
 
-        return target.isWalkable ? target : GetRandomTarget(graph);
+        return target.walkableType == WalkableType.Obstacle ? target : GetRandomTarget(graph);
     }
 }

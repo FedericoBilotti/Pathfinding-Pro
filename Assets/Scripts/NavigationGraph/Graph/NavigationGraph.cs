@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
-using TMPro;
 using Unity.Collections;
 using UnityEngine;
 
@@ -8,6 +7,9 @@ namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
+        private readonly bool[] _visited;
+        private readonly Queue<Vector2Int> _queue;
+
         protected readonly IRaycastType checkType;
         protected readonly LayerMask notWalkableMask;
         protected TerrainType[] terrainTypes;
@@ -27,7 +29,6 @@ namespace NavigationGraph
         protected float cellSize;
         protected float cellDiameter;
         protected float height;
-        // protected float 
 
         protected float obstacleMargin;
         protected float cliffMargin;
@@ -38,14 +39,14 @@ namespace NavigationGraph
         protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
         {
             this.checkType = checkType;
-            this.terrainTypes = navigationGraphConfig.terrainTypes;
-            this.cellSize = navigationGraphConfig.cellSize;
-            this.gridSize = navigationGraphConfig.gridSize;
-            this.notWalkableMask = navigationGraphConfig.notWalkableMask;
-            this.transform = navigationGraphConfig.transform;
-            this.obstacleMargin = navigationGraphConfig.obstacleMargin;
-            this.cliffMargin = navigationGraphConfig.cliffMargin;
-            this.neighborsPerCell = navigationGraphConfig.neighborsPerCell;
+            terrainTypes = navigationGraphConfig.terrainTypes;
+            cellSize = navigationGraphConfig.cellSize;
+            gridSize = navigationGraphConfig.gridSize;
+            notWalkableMask = navigationGraphConfig.notWalkableMask;
+            transform = navigationGraphConfig.transform;
+            obstacleMargin = navigationGraphConfig.obstacleMargin;
+            cliffMargin = navigationGraphConfig.cliffMargin;
+            neighborsPerCell = navigationGraphConfig.neighborsPerCell;
 
             neighborsPerCellCount = neighborsPerCell switch
             {
@@ -54,6 +55,9 @@ namespace NavigationGraph
                 NeighborsPerCell.Sixteen => 16,
                 _ => 8
             };
+
+            _visited = new bool[gridSize.x * gridSize.z];
+            _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
         protected abstract void CreateGrid();
@@ -86,7 +90,7 @@ namespace NavigationGraph
             if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) return false;
 
             int gridIndex = x + y * gridSize.x;
-            return grid[gridIndex].isWalkable;
+            return grid[gridIndex].walkableType == WalkableType.Walkable;
         }
 
         // Extract to other class
@@ -94,32 +98,32 @@ namespace NavigationGraph
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
-            var visited = new bool[margin];
-            var queue = new Queue<Vector2Int>(margin * 2);
-            queue.Enqueue(new Vector2Int(startX, startY));
+            System.Array.Clear(_visited, 0, _visited.Length);
+            _queue.Clear();
+            _queue.Enqueue(new Vector2Int(startX, startY));
 
-            while (queue.Count > 0)
+            while (_queue.Count > 0)
             {
-                var current = queue.Dequeue();
+                var current = _queue.Dequeue();
                 int x = current.x;
                 int y = current.y;
 
                 if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) continue;
 
                 int index = x + y * gridSize.x;
-                if (visited[index]) continue;
+                if (_visited[index]) continue;
 
-                visited[index] = true;
+                _visited[index] = true;
 
-                if (grid[index].isWalkable)
+                if (grid[index].walkableType == WalkableType.Walkable)
                 {
                     return transform.position + new Vector3(x * cellDiameter + cellSize, 0f, y * cellDiameter + cellSize);
                 }
 
-                queue.Enqueue(new Vector2Int(x + 1, y));
-                queue.Enqueue(new Vector2Int(x - 1, y));
-                queue.Enqueue(new Vector2Int(x, y + 1));
-                queue.Enqueue(new Vector2Int(x, y - 1));
+                _queue.Enqueue(new Vector2Int(x + 1, y));
+                _queue.Enqueue(new Vector2Int(x - 1, y));
+                _queue.Enqueue(new Vector2Int(x, y + 1));
+                _queue.Enqueue(new Vector2Int(x, y - 1));
             }
 
             return transform.position;
@@ -211,9 +215,9 @@ namespace NavigationGraph
             {
                 Vector3 drawPos = grid[i].position;
 
-                if (grid[i].walkableType == (int)WalkableType.Air) continue;
+                if (grid[i].walkableType == WalkableType.Air) continue;
 
-                if (grid[i].isWalkable)
+                if (grid[i].walkableType == WalkableType.Walkable)
                 {
                     Gizmos.color = walkableColor;
                     Gizmos.DrawWireCube(drawPos, sizeCell);
