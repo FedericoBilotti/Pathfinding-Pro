@@ -30737,6 +30737,7 @@ MonoBehaviour:
   _neighborsPerCell: 4
   _gridSize: {x: 110, y: 20, z: 55}
   _cellSize: 1
+  _maxHeightDifference: 2
   _obstacleMargin: 0
   _cliffMargin: 0
   _terrainTypes:
@@ -31392,7 +31393,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0
@@ -31406,7 +31407,6 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1224878552}
   - {fileID: 1516308642}
   - {fileID: 622670370}
   - {fileID: 381791779}
@@ -48268,13 +48268,13 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -152.3, y: 7.17, z: -11}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -119.5, y: 5.736, z: 15}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 262210255}
   - {fileID: 460713363}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1224878554
 MonoBehaviour:
@@ -85707,6 +85707,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 781907328}
   - {fileID: 195021665}
+  - {fileID: 1224878552}
   - {fileID: 799020131}
   - {fileID: 246702431}
   - {fileID: 1483148470}

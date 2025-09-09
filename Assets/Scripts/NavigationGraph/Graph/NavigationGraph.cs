@@ -19,20 +19,19 @@ namespace NavigationGraph
         protected readonly Transform transform;
 
         protected NativeArray<Cell> grid;
-        protected NativeArray<int> allNeighbors;
-        protected NativeArray<int> neighborCounts;
+        protected NativeArray<int> neighbors;
+        protected NativeArray<int> neighborTotalCount;
+        protected NativeArray<int> neighborOffSet;
         protected NativeHashMap<int, int> walkableRegionsDic;
 
         protected NeighborsPerCell neighborsPerCell;
-        protected int neighborsPerCellCount;
 
         protected float cellSize;
         protected float cellDiameter;
-        protected float height;
+        protected float maxHeightDifference;
 
         protected float obstacleMargin;
         protected float cliffMargin;
-
 
         public NavigationGraphType GraphType { get; protected set; }
 
@@ -47,14 +46,7 @@ namespace NavigationGraph
             obstacleMargin = navigationGraphConfig.obstacleMargin;
             cliffMargin = navigationGraphConfig.cliffMargin;
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
-
-            neighborsPerCellCount = neighborsPerCell switch
-            {
-                NeighborsPerCell.Four => 4,
-                NeighborsPerCell.Eight => 8,
-                NeighborsPerCell.Sixteen => 16,
-                _ => 8
-            };
+            maxHeightDifference = navigationGraphConfig.maxHeightDifference;
 
             _visited = new bool[gridSize.x * gridSize.z];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
@@ -69,9 +61,9 @@ namespace NavigationGraph
         public int GetGridSize() => gridSize.x * gridSize.z;
         public int GetXSize() => gridSize.x;
 
-        public int GetNeighborsPerCellCount() => neighborsPerCellCount;
-        public NativeArray<int> GetNeighbors() => allNeighbors;
-        public NativeArray<int> GetNeighborCounts() => neighborCounts;
+        public NativeArray<int> GetNeighbors() => neighbors;
+        public NativeArray<int> GetNeighborCounts() => neighborTotalCount;
+        public NativeArray<int> GetNeighborsOffSet() => neighborOffSet;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
@@ -193,8 +185,9 @@ namespace NavigationGraph
         public void Destroy()
         {
             if (grid.IsCreated) grid.Dispose();
-            if (allNeighbors.IsCreated) allNeighbors.Dispose();
-            if (neighborCounts.IsCreated) neighborCounts.Dispose();
+            if (neighbors.IsCreated) neighbors.Dispose();
+            if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
+            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
             if (walkableRegionsDic.IsCreated) walkableRegionsDic.Dispose();
         }
 

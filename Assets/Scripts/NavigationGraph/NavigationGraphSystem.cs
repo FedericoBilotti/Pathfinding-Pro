@@ -15,6 +15,7 @@ namespace NavigationGraph
         [SerializeField] private NeighborsPerCell _neighborsPerCell;
         [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
         [SerializeField] private float _cellSize = 0.5f;
+        [SerializeField] private float _maxHeightDifference = 0.01f;
         [SerializeField, Range(0f, 50f)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 50f)] private float _cliffMargin = 0.5f;
 
@@ -94,6 +95,7 @@ namespace NavigationGraph
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
+                maxHeightDifference =_maxHeightDifference
             };
         }
 
@@ -139,7 +141,7 @@ namespace NavigationGraph
         public int terrainPenalty;
     }
 
-    public enum NeighborsPerCell
+    public enum NeighborsPerCell : byte
     {
         Four = 4,
         Eight = 8,
@@ -157,5 +159,6 @@ namespace NavigationGraph
         public float cellSize;
         public float obstacleMargin;
         public float cliffMargin;
+        public float maxHeightDifference;
     }
 }
