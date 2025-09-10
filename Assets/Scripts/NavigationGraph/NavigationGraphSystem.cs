@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace NavigationGraph
 {
+    [DefaultExecutionOrder(-900)]
     [RequireComponent(typeof(PathRequester))]
     [RequireComponent(typeof(AgentUpdateManager))]
     public sealed class NavigationGraphSystem : MonoBehaviour
@@ -95,7 +96,7 @@ namespace NavigationGraph
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
-                maxHeightDifference =_maxHeightDifference
+                maxHeightDifference = _maxHeightDifference
             };
         }
 
@@ -106,12 +107,10 @@ namespace NavigationGraph
         private void OnDrawGizmos()
         {
             bool? drawed = _graph?.DrawGizmos();
-
-            if (drawed == null || drawed == false)
-                DrawCubeForGrid();
+            DrawCubeForGrid(drawed);
         }
 
-        private void DrawCubeForGrid()
+        private void DrawCubeForGrid(bool? drawed)
         {
             if (!_boxGrid) return;
 
@@ -122,12 +121,15 @@ namespace NavigationGraph
             float height = _gridSize.y;
 
             Vector3 gridCenter = transform.position + Vector3.right * (width * 0.5f) + Vector3.forward * (depth * 0.5f) + Vector3.up * (height * 0.5f);
-
             Vector3 boxSize = new Vector3(width, height, depth);
 
+            const float R = 0;
+            const float G = 0;
+            const float B = 0.8f;
+            float opacity = drawed == null || drawed == false ? 0.2f : 0.1f;
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(gridCenter, boxSize);
-            Gizmos.color = new Color(0, 0, 0.8f, 0.1f);
+            Gizmos.color = new Color(R, G, B, opacity);
             Gizmos.DrawCube(gridCenter, boxSize);
         }
 

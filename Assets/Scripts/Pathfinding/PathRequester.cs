@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Pathfinding
 {
+    [DefaultExecutionOrder(-800)]
     public class PathRequester : MonoBehaviour, IPathfinding
     {
         [SerializeField] private PathRequestType _requestType;

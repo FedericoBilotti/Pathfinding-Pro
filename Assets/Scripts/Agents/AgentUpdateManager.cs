@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using Utilities;
 
+[DefaultExecutionOrder(-700)]
 public class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
     // Maybe I can remove this "_agents" and use only the TransformAccessArray?

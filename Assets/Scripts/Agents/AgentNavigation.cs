@@ -8,6 +8,7 @@ using Utilities;
 
 namespace Agents
 {
+    [DefaultExecutionOrder(-600)]
     public abstract class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]

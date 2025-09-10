@@ -231,7 +231,6 @@ namespace NavigationGraph
             return true;
         }
 
-
         #endregion
     }
 }
