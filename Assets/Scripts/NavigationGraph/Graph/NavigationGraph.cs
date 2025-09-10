@@ -7,7 +7,8 @@ namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
-        private readonly bool[] _visited;
+        private int _visitId = 0;
+        private readonly int[] _visited;
         private readonly Queue<Vector2Int> _queue;
 
         protected readonly IRaycastType checkType;
@@ -48,7 +49,8 @@ namespace NavigationGraph
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
             maxHeightDifference = navigationGraphConfig.maxHeightDifference;
 
-            _visited = new bool[gridSize.x * gridSize.z];
+            var totalGridSize = gridSize.x * gridSize.z;
+            _visited = new int[totalGridSize];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
@@ -90,7 +92,8 @@ namespace NavigationGraph
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
-            System.Array.Clear(_visited, 0, _visited.Length);
+            _visitId++;
+
             _queue.Clear();
             _queue.Enqueue(new Vector2Int(startX, startY));
 
@@ -100,12 +103,15 @@ namespace NavigationGraph
                 int x = current.x;
                 int y = current.y;
 
-                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) continue;
+                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z)
+                    continue;
 
                 int index = x + y * gridSize.x;
-                if (_visited[index]) continue;
 
-                _visited[index] = true;
+                if (_visited[index] == _visitId)
+                    continue;
+
+                _visited[index] = _visitId;
 
                 if (grid[index].walkableType == WalkableType.Walkable)
                 {
