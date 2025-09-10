@@ -1,3 +1,5 @@
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Pathfinding;
 using UnityEngine;
 
@@ -35,6 +37,9 @@ namespace NavigationGraph
         public float Height { get => _height; set => _height = value; }
         public RaycastType RaycastCheckType => _raycastCheckType;
 
+        // This is for saving the path.
+        public GridDataAsset CurrentGrid { get; private set; }
+
         private void Awake()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
@@ -47,6 +52,88 @@ namespace NavigationGraph
         private void OnDestroy() => _graph?.Destroy();
 
 #if UNITY_EDITOR
+
+        public GridDataAsset BakeGridAsset(string assetPath)
+        {
+            // Generar la grilla como siempre
+            Clear();
+            Scan();
+
+            // Crear instancia del ScriptableObject
+            GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
+            asset.gridSize = _gridSize;
+            asset.cells = new CellData[_gridSize.x * _gridSize.z];
+
+            var grid = _graph.GetGrid();
+
+            // Missing to add neighbors.
+            for (int i = 0; i < _gridSize.x; i++)
+            {
+                for (int j = 0; j < _gridSize.z; j++)
+                {
+                    int index = i * _gridSize.z + j;
+                    Cell actualCell = grid[index];
+                    asset.cells[index] = new CellData
+                    {
+                        position = actualCell.position,
+                        gridX = actualCell.gridX,
+                        gridZ = actualCell.gridZ,
+                        gridIndex = actualCell.gridIndex,
+                        cellCostPenalty = actualCell.cellCostPenalty,
+                        height = actualCell.height,
+                        walkableType = actualCell.walkableType
+                    };
+                }
+            }
+
+            string folder = System.IO.Path.GetDirectoryName(assetPath);
+            if (!System.IO.Directory.Exists(folder))
+                System.IO.Directory.CreateDirectory(folder);
+
+            // Save asset
+            UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+
+            Debug.Log($"Grid baked and saved as asset at: {assetPath}");
+
+            return asset;
+        }
+
+        public void SetBakeGrid(GridDataAsset grid) => CurrentGrid = grid;
+
+        public void SaveGrid(string path)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            using FileStream file = File.Create(path);
+            bf.Serialize(file, CurrentGrid);
+        }
+
+        public void LoadFromBakedAsset()
+        {
+            if (CurrentGrid == null)
+            {
+                Debug.LogError("No baked grid assigned!");
+                return;
+            }
+
+            foreach (var cell in CurrentGrid.cells)
+            {
+                Debug.Log("Construct the grid");
+                // Rebuild
+            }
+        }
+
+        public void DeleteGrid(string path)
+        {
+            if (!File.Exists(path))
+            {
+                Debug.LogError("Grid file not found: " + path);
+                return;
+            }
+
+            Debug.Log("Deleting the grid file");
+        }
 
         /// <summary>
         /// Scans the environment and updates the graph. This is for Edit Only.

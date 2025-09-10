@@ -29,6 +29,23 @@ namespace NavigationGraph
                 visualizer.Clear();
             }
 
+            if (GUILayout.Button("Bake Grid Asset"))
+            {
+                string path = EditorUtility.SaveFilePanelInProject(
+                    "Save Baked Grid Asset",
+                    "NewBakedGrid",
+                    "asset",
+                    "Please enter a file name to save the grid asset to",
+                    "Assets/BakedGrids"
+                );
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    GridDataAsset asset = visualizer.BakeGridAsset(path);
+                    visualizer.SetBakeGrid(asset);
+                }
+            }
+
             serializedObject.ApplyModifiedProperties();
         }
 
