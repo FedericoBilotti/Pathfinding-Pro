@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Agents;
 using NavigationGraph;
+using NavigationGraph.Graph;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine;
 using UnityEngine.Pool;
 using Utilities;
 
@@ -16,6 +15,7 @@ namespace Pathfinding.RequesterStrategy
 
         protected SwapBackList<PathRequest> requests;
         protected IObjectPool<PathRequest> pathRequestPool;
+
 
         protected Pathfinding(INavigationGraph navigationGraph)
         {

@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Pathfinding
 {
+    [DefaultExecutionOrder(-800)]
     public class PathRequester : MonoBehaviour, IPathfinding
     {
         [SerializeField] private PathRequestType _requestType;
         private IPathRequest _aStar;
         private IPathRequest _thetaStar;
 
-        private void Awake()
-        {
-            ServiceLocator.Instance.RegisterService<IPathfinding>(this);
+        private void Awake() => ServiceLocator.Instance.RegisterService<IPathfinding>(this);
 
-            // Should be injected
-            var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+        void Start()
+        {
+            INavigationGraph navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
             _aStar = new AStarRequester(navigationGraph);
             _thetaStar = new ThetaStarRequester(navigationGraph);
         }

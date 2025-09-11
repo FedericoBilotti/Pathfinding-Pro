@@ -7,7 +7,8 @@ namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
-        private readonly bool[] _visited;
+        private int _visitId = 0;
+        private readonly int[] _visited;
         private readonly Queue<Vector2Int> _queue;
 
         protected readonly IRaycastType checkType;
@@ -19,20 +20,19 @@ namespace NavigationGraph
         protected readonly Transform transform;
 
         protected NativeArray<Cell> grid;
-        protected NativeArray<int> allNeighbors;
-        protected NativeArray<int> neighborCounts;
+        protected NativeArray<int> neighbors;
+        protected NativeArray<int> neighborTotalCount;
+        protected NativeArray<int> neighborOffSet;
         protected NativeHashMap<int, int> walkableRegionsDic;
 
         protected NeighborsPerCell neighborsPerCell;
-        protected int neighborsPerCellCount;
 
         protected float cellSize;
         protected float cellDiameter;
-        protected float height;
+        protected float maxHeightDifference;
 
         protected float obstacleMargin;
         protected float cliffMargin;
-
 
         public NavigationGraphType GraphType { get; protected set; }
 
@@ -47,19 +47,14 @@ namespace NavigationGraph
             obstacleMargin = navigationGraphConfig.obstacleMargin;
             cliffMargin = navigationGraphConfig.cliffMargin;
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
+            maxHeightDifference = navigationGraphConfig.maxHeightDifference;
 
-            neighborsPerCellCount = neighborsPerCell switch
-            {
-                NeighborsPerCell.Four => 4,
-                NeighborsPerCell.Eight => 8,
-                NeighborsPerCell.Sixteen => 16,
-                _ => 8
-            };
-
-            _visited = new bool[gridSize.x * gridSize.z];
+            var totalGridSize = gridSize.x * gridSize.z;
+            _visited = new int[totalGridSize];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
+        protected abstract void LoadGridFromDisk(GridDataAsset gridBaked);
         protected abstract void CreateGrid();
 
         public NativeArray<Cell> GetGrid() => grid;
@@ -69,9 +64,9 @@ namespace NavigationGraph
         public int GetGridSize() => gridSize.x * gridSize.z;
         public int GetXSize() => gridSize.x;
 
-        public int GetNeighborsPerCellCount() => neighborsPerCellCount;
-        public NativeArray<int> GetNeighbors() => allNeighbors;
-        public NativeArray<int> GetNeighborCounts() => neighborCounts;
+        public NativeArray<int> GetNeighbors() => neighbors;
+        public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
+        public NativeArray<int> GetNeighborOffsets() => neighborOffSet;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
@@ -98,7 +93,8 @@ namespace NavigationGraph
         {
             var (startX, startY) = GetCellsMap(worldPosition);
 
-            System.Array.Clear(_visited, 0, _visited.Length);
+            _visitId++;
+
             _queue.Clear();
             _queue.Enqueue(new Vector2Int(startX, startY));
 
@@ -108,12 +104,15 @@ namespace NavigationGraph
                 int x = current.x;
                 int y = current.y;
 
-                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) continue;
+                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z)
+                    continue;
 
                 int index = x + y * gridSize.x;
-                if (_visited[index]) continue;
 
-                _visited[index] = true;
+                if (_visited[index] == _visitId)
+                    continue;
+
+                _visited[index] = _visitId;
 
                 if (grid[index].walkableType == WalkableType.Walkable)
                 {
@@ -174,7 +173,7 @@ namespace NavigationGraph
 
         #region Unity Methods
 
-        public virtual void Initialize()
+        public virtual void Initialize(GridDataAsset gridBaked)
         {
             cellSize = Mathf.Max(0.05f, cellSize);
             cellDiameter = cellSize * 2;
@@ -187,14 +186,18 @@ namespace NavigationGraph
                 walkableRegionsDic.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
             }
 
-            CreateGrid();
+            if (gridBaked)
+                LoadGridFromDisk(gridBaked);
+            else
+                CreateGrid();
         }
 
         public void Destroy()
         {
             if (grid.IsCreated) grid.Dispose();
-            if (allNeighbors.IsCreated) allNeighbors.Dispose();
-            if (neighborCounts.IsCreated) neighborCounts.Dispose();
+            if (neighbors.IsCreated) neighbors.Dispose();
+            if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
+            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
             if (walkableRegionsDic.IsCreated) walkableRegionsDic.Dispose();
         }
 
@@ -231,7 +234,6 @@ namespace NavigationGraph
 
             return true;
         }
-
 
         #endregion
     }

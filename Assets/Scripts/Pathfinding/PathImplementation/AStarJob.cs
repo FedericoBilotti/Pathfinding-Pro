@@ -13,7 +13,7 @@ namespace Pathfinding.PathImplementation
         [ReadOnly] public NativeArray<Cell> grid;
         [ReadOnly] public NativeArray<int> allNeighbors;
         [ReadOnly] public NativeArray<int> neighborCounts;
-        [ReadOnly] public int neighborsPerCell;
+        [ReadOnly] public NativeArray<int> neighborOffSet;
 
         public NativeHashSet<int> closedList;
         public NativePriorityQueue<PathCellData> openList;
@@ -73,8 +73,7 @@ namespace Pathfinding.PathImplementation
 
         private NativeSlice<int> GetNeighbors(int currentIndex)
         {
-            int maxNeighbors = neighborsPerCell;
-            int start = currentIndex * maxNeighbors;
+            int start = neighborOffSet[currentIndex];
             int count = neighborCounts[currentIndex];
 
             return allNeighbors.Slice(start, count);
@@ -111,8 +110,13 @@ namespace Pathfinding.PathImplementation
 
             while (currentIndex != -1)
             {
+                if (!visitedNodes.TryGetValue(currentIndex, out var data))
+                {
+                    break;
+                }
+
                 finalPath.Add(grid[currentIndex]);
-                currentIndex = visitedNodes[currentIndex].cameFrom;
+                currentIndex = data.cameFrom;
             }
 
             if (finalPath.Length > 0)

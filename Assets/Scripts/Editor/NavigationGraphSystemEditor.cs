@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace NavigationGraph
 {
@@ -18,16 +20,10 @@ namespace NavigationGraph
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Scan Grid"))
-            {
-                visualizer.Clear();
-                visualizer.Scan();
-            }
-
-            if (GUILayout.Button("Destroy Grid"))
-            {
-                visualizer.Clear();
-            }
+            ScanGrid(visualizer);
+            DeleteScanGrid(visualizer);
+            BakeGridAsset(visualizer);
+            DeleteGridAsset(visualizer);
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -47,6 +43,60 @@ namespace NavigationGraph
             else if (visualizer.RaycastCheckType == RaycastType.Sphere)
             {
                 visualizer.Radius = EditorGUILayout.FloatField("Radius", visualizer.Radius);
+            }
+        }
+
+        private void ScanGrid(NavigationGraphSystem visualizer)
+        {
+            if (GUILayout.Button("Scan Grid"))
+            {
+                visualizer.Clear();
+                visualizer.Scan();
+            }
+        }
+
+        private void DeleteScanGrid(NavigationGraphSystem visualizer)
+        {
+            if (GUILayout.Button("Delete Scan Grid"))
+            {
+                visualizer.Clear();
+            }
+        }
+
+        private void BakeGridAsset(NavigationGraphSystem visualizer)
+        {
+            if (GUILayout.Button("Bake Grid Asset"))
+            {
+                string scenePath = SceneManager.GetActiveScene().path;
+                string basePath = Path.ChangeExtension(scenePath, null);
+
+                if (!Directory.Exists(basePath))
+                    Directory.CreateDirectory(basePath);
+
+                string newPath = EditorUtility.SaveFilePanelInProject(
+                    "Save Baked Grid Asset",
+                    "Baked Grid",
+                    "asset",
+                    "Please enter a file name to save the grid asset to",
+                    scenePath
+                );
+
+                if (!string.IsNullOrEmpty(newPath))
+                {
+                    GridDataAsset asset = visualizer.BakeGridAsset(newPath);
+                    visualizer.SetBakeGrid(asset);
+                }
+            }
+        }
+
+        private void DeleteGridAsset(NavigationGraphSystem visualizer)
+        {
+            if (GUILayout.Button("Delete Grid Asset"))
+            {
+                if (visualizer.GridBaked == null) return;
+
+                string path = AssetDatabase.GetAssetPath(visualizer.GridBaked);
+                visualizer.DeleteGrid(path);
             }
         }
     }
