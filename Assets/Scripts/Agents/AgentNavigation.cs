@@ -146,7 +146,7 @@ namespace Agents
             {
                 agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
 
-                const float margin = 2f;
+                const float margin = 1f;
                 float changeCell = graph.GetCellDiameter() * margin;
 
                 Vector3 distance = agentPosition - ownTransform.position;

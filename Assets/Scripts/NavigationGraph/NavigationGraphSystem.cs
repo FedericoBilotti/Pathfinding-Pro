@@ -38,18 +38,56 @@ namespace NavigationGraph
         public RaycastType RaycastCheckType => _raycastCheckType;
 
         // This is for saving the path.
-        public GridDataAsset GridBaked { get; private set; }
+        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
 
         private void Awake()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
-            _graph?.Initialize();
+            _graph?.Initialize(GridBaked);
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
-        private void OnDestroy() => _graph?.Destroy();
+        private void OnDestroy()
+        {
+            _graph?.Destroy();
+            ServiceLocator.Instance.RemoveService<INavigationGraph>();
+        }
+
+        private void OnValidate()
+        {
+            _gridSize.x = Mathf.Max(1, _gridSize.x);
+            _gridSize.y = Mathf.Max(1, _gridSize.y);
+            _gridSize.z = Mathf.Max(1, _gridSize.z);
+        }
+
+        private LayerMask GetWalkableMask()
+        {
+            LayerMask walkableMask = 0;
+            foreach (var region in _terrainTypes)
+            {
+                walkableMask.value |= region.terrainMask.value;
+            }
+            return walkableMask;
+        }
+
+        private NavigationGraphConfig GetNavigationGraphConfig()
+        {
+            return new NavigationGraphConfig
+            {
+                gridSize = _gridSize,
+                transform = transform,
+                notWalkableMask = _notWalkableMask,
+                neighborsPerCell = _neighborsPerCell,
+                terrainTypes = _terrainTypes,
+                raycastCheckType = _raycastCheckType,
+                cellSize = _cellSize,
+                obstacleMargin = _obstacleMargin,
+                cliffMargin = _cliffMargin,
+                maxHeightDifference = _maxHeightDifference
+            };
+        }
 
 #if UNITY_EDITOR
 
@@ -58,19 +96,25 @@ namespace NavigationGraph
             Clear();
             Scan();
 
+            var grid = _graph.GetGrid();
+            var neighbors = _graph.GetNeighbors();
+            var neighborTotalCounts = _graph.GetNeighborTotalCount();
+            var neighborOffsets = _graph.GetNeighborOffsets();
+
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
             asset.gridSize = _gridSize;
             asset.cells = new CellData[_gridSize.x * _gridSize.z];
+            asset.neighborsCell.neighbors = new int[neighbors.Length];
+            asset.neighborsCell.neighborTotalCount = new int[neighborTotalCounts.Length];
+            asset.neighborsCell.neighborOffsets = new int[neighborOffsets.Length];
 
-            var grid = _graph.GetGrid();
-
-            // Missing to add neighbors.
-            for (int i = 0; i < _gridSize.x; i++)
+            for (int x = 0; x < _gridSize.x; x++)
             {
-                for (int j = 0; j < _gridSize.z; j++)
+                for (int y = 0; y < _gridSize.z; y++)
                 {
-                    int index = i * _gridSize.z + j;
+                    int index = x + y * _gridSize.x;
                     Cell actualCell = grid[index];
+
                     asset.cells[index] = new CellData
                     {
                         position = actualCell.position,
@@ -83,6 +127,15 @@ namespace NavigationGraph
                     };
                 }
             }
+
+            for (int i = 0; i < neighbors.Length; i++)
+                asset.neighborsCell.neighbors[i] = neighbors[i];
+
+            for (int i = 0; i < neighborTotalCounts.Length; i++)
+                asset.neighborsCell.neighborTotalCount[i] = neighborTotalCounts[i];
+
+            for (int i = 0; i < neighborOffsets.Length; i++)
+                asset.neighborsCell.neighborOffsets[i] = neighborOffsets[i];
 
             string folder = Path.GetDirectoryName(assetPath);
             if (!Directory.Exists(folder))
@@ -105,21 +158,6 @@ namespace NavigationGraph
             BinaryFormatter bf = new BinaryFormatter();
             using FileStream file = File.Create(path);
             bf.Serialize(file, GridBaked);
-        }
-
-        public void LoadFromBakedAsset()
-        {
-            if (GridBaked == null)
-            {
-                Debug.LogError("No baked grid assigned!");
-                return;
-            }
-
-            foreach (var cell in GridBaked.cells)
-            {
-                Debug.Log("Construct the grid");
-                // Rebuild
-            }
         }
 
         public void DeleteGrid(string path)
@@ -161,7 +199,7 @@ namespace NavigationGraph
             var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
 
             _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
-            _graph?.Initialize();
+            _graph?.Initialize(GridBaked);
         }
 
         /// <summary>
@@ -170,40 +208,6 @@ namespace NavigationGraph
         public void Clear() => _graph?.Destroy();
 
 #endif
-
-        private void OnValidate()
-        {
-            _gridSize.x = Mathf.Max(1, _gridSize.x);
-            _gridSize.y = Mathf.Max(1, _gridSize.y);
-            _gridSize.z = Mathf.Max(1, _gridSize.z);
-        }
-
-        private LayerMask GetWalkableMask()
-        {
-            LayerMask walkableMask = 0;
-            foreach (var region in _terrainTypes)
-            {
-                walkableMask.value |= region.terrainMask.value;
-            }
-            return walkableMask;
-        }
-
-        private NavigationGraphConfig GetNavigationGraphConfig()
-        {
-            return new NavigationGraphConfig
-            {
-                gridSize = _gridSize,
-                transform = transform,
-                notWalkableMask = _notWalkableMask,
-                neighborsPerCell = _neighborsPerCell,
-                terrainTypes = _terrainTypes,
-                raycastCheckType = _raycastCheckType,
-                cellSize = _cellSize,
-                obstacleMargin = _obstacleMargin,
-                cliffMargin = _cliffMargin,
-                maxHeightDifference = _maxHeightDifference
-            };
-        }
 
         #region Gizmos
 

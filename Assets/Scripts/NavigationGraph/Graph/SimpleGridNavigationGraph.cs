@@ -16,8 +16,51 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid2D;
         }
 
+        protected override void LoadGridFromDisk(GridDataAsset gridBaked)
+        {
+            int totalGridSize = GetGridSize();
+            int lengthNeighbors = gridBaked.neighborsCell.neighbors.Length;
+            int lengthCounts = gridBaked.neighborsCell.neighborTotalCount.Length;
+            int lengthOffsets = gridBaked.neighborsCell.neighborOffsets.Length;
+
+            grid = new NativeArray<Cell>(totalGridSize, Allocator.Persistent);
+            neighbors = new NativeArray<int>(lengthNeighbors, Allocator.Persistent);
+            neighborTotalCount = new NativeArray<int>(lengthCounts, Allocator.Persistent);
+            neighborOffSet = new NativeArray<int>(lengthOffsets, Allocator.Persistent);
+
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                for (int y = 0; y < gridSize.z; y++)
+                {
+                    int index = x + y * gridSize.x;
+                    CellData actualCell = gridBaked.cells[index];
+
+                    grid[index] = new Cell
+                    {
+                        position = actualCell.position,
+                        height = actualCell.height,
+                        gridIndex = actualCell.gridIndex,
+                        gridX = actualCell.gridX,
+                        gridZ = actualCell.gridZ,
+                        cellCostPenalty = actualCell.cellCostPenalty,
+                        walkableType = actualCell.walkableType
+                    };
+                }
+            }
+
+            for (int i = 0; i < lengthNeighbors; i++)
+                neighbors[i] = gridBaked.neighborsCell.neighbors[i];
+
+            for (int i = 0; i < lengthCounts; i++)
+                neighborTotalCount[i] = gridBaked.neighborsCell.neighborTotalCount[i];
+
+            for (int i = 0; i < lengthOffsets; i++)
+                neighborOffSet[i] = gridBaked.neighborsCell.neighborOffsets[i];
+        }
+
         protected override void CreateGrid()
         {
+            // In the future this will change, cause I don't want to delete old grid, I want to update it.
             if (grid.IsCreated) grid.Dispose();
 
             int totalGridSize = GetGridSize();
@@ -63,7 +106,6 @@ namespace NavigationGraph.Graph
 
             JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 64, checkPointJob);
 
-            // TODO: Delete this 'Complete', and pass to multithread the asignment of penalty.
             batchHandle.Complete();
 
             NativeArray<int> layerPerCell = new NativeArray<int>(totalGridSize, Allocator.TempJob);
@@ -132,8 +174,8 @@ namespace NavigationGraph.Graph
                 totalLengthOfNeighbors += temporaryNeighborTotalCount[i];
             }
 
-            neighborTotalCount = new NativeArray<int>(totalLengthOfNeighbors, Allocator.Persistent);
             // Add the neighbor count to each cell
+            neighborTotalCount = new NativeArray<int>(totalLengthOfNeighbors, Allocator.Persistent);
             for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
             {
                 neighborTotalCount[i] = temporaryNeighborTotalCount[i];
@@ -161,7 +203,6 @@ namespace NavigationGraph.Graph
                 neighborCounts = neighborTotalCount,
                 neighborOffsets = neighborOffSet
             }.Schedule(createGridJob);
-
 
             neighborsJob.Complete();
 

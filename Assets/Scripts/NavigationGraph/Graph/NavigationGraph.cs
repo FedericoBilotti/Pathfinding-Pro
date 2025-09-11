@@ -54,6 +54,7 @@ namespace NavigationGraph
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
+        protected abstract void LoadGridFromDisk(GridDataAsset gridBaked);
         protected abstract void CreateGrid();
 
         public NativeArray<Cell> GetGrid() => grid;
@@ -64,8 +65,8 @@ namespace NavigationGraph
         public int GetXSize() => gridSize.x;
 
         public NativeArray<int> GetNeighbors() => neighbors;
-        public NativeArray<int> GetNeighborCounts() => neighborTotalCount;
-        public NativeArray<int> GetNeighborsOffSet() => neighborOffSet;
+        public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
+        public NativeArray<int> GetNeighborOffsets() => neighborOffSet;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
@@ -172,7 +173,7 @@ namespace NavigationGraph
 
         #region Unity Methods
 
-        public virtual void Initialize()
+        public virtual void Initialize(GridDataAsset gridBaked)
         {
             cellSize = Mathf.Max(0.05f, cellSize);
             cellDiameter = cellSize * 2;
@@ -185,7 +186,10 @@ namespace NavigationGraph
                 walkableRegionsDic.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
             }
 
-            CreateGrid();
+            if (gridBaked)
+                LoadGridFromDisk(gridBaked);
+            else
+                CreateGrid();
         }
 
         public void Destroy()

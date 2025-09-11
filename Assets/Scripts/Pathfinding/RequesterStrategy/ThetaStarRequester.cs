@@ -22,8 +22,8 @@ namespace Pathfinding.RequesterStrategy
             {
                 grid = navigationGraph.GetGrid(),
                 allNeighbors = navigationGraph.GetNeighbors(),
-                neighborCounts = navigationGraph.GetNeighborCounts(),
-                neighborOffSet = navigationGraph.GetNeighborsOffSet(),
+                neighborCounts = navigationGraph.GetNeighborTotalCount(),
+                neighborOffSet = navigationGraph.GetNeighborOffsets(),
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,

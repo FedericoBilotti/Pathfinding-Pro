@@ -14,49 +14,56 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid3D;
         }
 
+        protected override void LoadGridFromDisk(GridDataAsset gridBaked)
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void CreateGrid()
         {
-            if (grid.IsCreated)
-            {
-                grid.Dispose();
-            }
+            throw new System.NotImplementedException();
+            
+            // if (grid.IsCreated)
+            // {
+            //     grid.Dispose();
+            // }
 
-            List<Cell> tempCells = new List<Cell>();
+            // List<Cell> tempCells = new List<Cell>();
 
-            for (int x = 0; x < gridSize.x; x++)
-            {
-                for (int z = 0; z < gridSize.z; z++)
-                {
-                    Vector3 origin = transform.position
-                                     + Vector3.right * ((x + 0.5f) * cellDiameter)
-                                     + Vector3.forward * ((z + 0.5f) * cellDiameter)
-                                     + Vector3.up * gridSize.y;
+            // for (int x = 0; x < gridSize.x; x++)
+            // {
+            //     for (int z = 0; z < gridSize.z; z++)
+            //     {
+            //         Vector3 origin = transform.position
+            //                          + Vector3.right * ((x + 0.5f) * cellDiameter)
+            //                          + Vector3.forward * ((z + 0.5f) * cellDiameter)
+            //                          + Vector3.up * gridSize.y;
 
-                    List<RaycastHit> hits = RaycastContinuous(origin, walkableMask);
+            //         List<RaycastHit> hits = RaycastContinuous(origin, walkableMask);
 
-                    foreach (var hit in hits)
-                    {
-                        // bool isWalkable = IsCellWalkable(hit.point, 2f);
-                        bool isWalkable = true;
-                        if (!isWalkable) continue;
+            //         foreach (var hit in hits)
+            //         {
+            //             // bool isWalkable = IsCellWalkable(hit.point, 2f);
+            //             bool isWalkable = true;
+            //             if (!isWalkable) continue;
 
-                        var cell = new Cell
-                        {
-                            position = hit.point,
-                            gridX = x,
-                            gridZ = z,
-                            height = hit.point.y, // TODO: Change this.
-                            gridIndex = tempCells.Count
-                        };
+            //             var cell = new Cell
+            //             {
+            //                 position = hit.point,
+            //                 gridX = x,
+            //                 gridZ = z,
+            //                 height = hit.point.y, // TODO: Change this.
+            //                 gridIndex = tempCells.Count
+            //             };
 
-                        tempCells.Add(cell);
-                    }
-                }
-            }
+            //             tempCells.Add(cell);
+            //         }
+            //     }
+            // }
 
-            grid = new NativeArray<Cell>(tempCells.Count, Allocator.Persistent);
-            for (int i = 0; i < tempCells.Count; i++)
-                grid[i] = tempCells[i];
+            // grid = new NativeArray<Cell>(tempCells.Count, Allocator.Persistent);
+            // for (int i = 0; i < tempCells.Count; i++)
+            //     grid[i] = tempCells[i];
         }
 
 
@@ -125,5 +132,6 @@ namespace NavigationGraph.Graph
         //     LayerMask combined = _walkableMask | _notWalkableMask;
         //     return RaycastContinuous(from, combined).Select(h => h.point).ToArray();
         // }
+
     }
 }
