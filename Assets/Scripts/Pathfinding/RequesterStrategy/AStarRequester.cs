@@ -32,13 +32,7 @@ namespace Pathfinding.RequesterStrategy
                 endIndex = end.gridIndex,
                 patience = patience,
             }.Schedule();
-
-            if (patience < 0)
-            {
-                Assert.IsFalse(patience < 0, "Pathfinding timed out");
-                return false;
-            }
-
+            
             JobHandle addPath = new AddPath
             {
                 grid = navigationGraph.GetGrid(),

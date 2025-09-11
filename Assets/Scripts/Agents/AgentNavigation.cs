@@ -22,16 +22,13 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
         private IPathfinding _pathfinding;
-        private AgentUpdateManager _updateManager;
 
         protected int currentWaypoint;
-        protected INavigationGraph graph;
         protected List<Vector3> waypointsPath;
+        protected float3 finalTargetPosition;
         protected Transform ownTransform;
+        protected INavigationGraph graph;
         protected Timer timer;
-
-        protected float3 finalTargetPosition = float3.zero;
-        private Cell _agentTargetLastCell;
 
         public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
         public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
@@ -50,8 +47,6 @@ namespace Agents
 
         private void Awake()
         {
-            // In the worst case scenario, the agent will have a path of length grid size / 4
-            // So for that I divide by 7 to have some extra space.
             ownTransform = transform;
 
             InitializeTimer();
@@ -60,13 +55,23 @@ namespace Agents
 
         private void Start()
         {
-            _updateManager = AgentUpdateManager.Instance;
             _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             waypointsPath = new List<Vector3>(graph.GetGridSize() / 7);
+
+            var agentUpdateManager = AgentUpdateManager.Instance;
+            if (agentUpdateManager)
+                agentUpdateManager.RegisterAgent(this);
         }
 
-        private void OnDisable() => _updateManager.UnregisterAgent(this);
+        private void OnEnable()
+        {
+            var agentUpdateManager = AgentUpdateManager.Instance;
+            if (agentUpdateManager)
+                agentUpdateManager.RegisterAgent(this);
+        }
+
+        private void OnDisable() => AgentUpdateManager.Instance.UnregisterAgent(this);
 
         private void OnValidate()
         {
@@ -86,14 +91,7 @@ namespace Agents
         private void InitializeTimer()
         {
             timer = new CountdownTimer(rePath);
-            timer.onTimerStop += () =>
-            {
-                if (allowRePath)
-                {
-                    timer.Reset(rePath);
-                    RequestPath(_agentTargetLastCell);
-                }
-            };
+            // timer.onTimerStop += OnStopTimer;
         }
 
         protected virtual void Initialize() { }
@@ -139,7 +137,15 @@ namespace Agents
         public bool RequestPath(Cell targetCell)
         {
             if (StatusPath == PathStatus.Requested) return false;
-            if (timer.IsRunning) return false;
+            if (allowRePath)
+            {
+                if (timer.IsRunning) return false;
+            }
+            else
+            {
+                bool3 samePosition = finalTargetPosition == targetCell.position;
+                if (math.all(samePosition)) return false;
+            }
 
             Vector3 agentPosition = ownTransform.position;
             if (!IsAgentInGrid(graph, ownTransform.position))
@@ -157,9 +163,8 @@ namespace Agents
             }
 
             // Changed the transform for the cell
-            _agentTargetLastCell = graph.GetCellWithWorldPosition(targetCell.position);
-            Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
             Cell startCell = graph.GetCellWithWorldPosition(agentPosition);
+            Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
             StatusPath = PathStatus.Requested;
@@ -202,7 +207,6 @@ namespace Agents
                 waypointsPath.Add(cell.position);
             }
 
-            _updateManager.RegisterAgent(this);
             StatusPath = PathStatus.Success;
 
             if (allowRePath)
@@ -217,7 +221,6 @@ namespace Agents
             ClearPath();
             timer.Pause();
             StatusPath = PathStatus.Idle;
-            _updateManager.UnregisterAgent(this);
         }
 
         protected void ClearPath()

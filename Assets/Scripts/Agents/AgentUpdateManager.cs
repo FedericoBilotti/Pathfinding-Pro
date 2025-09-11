@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Agents;
 using Unity.Burst;
 using Unity.Collections;
@@ -8,15 +7,13 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using Utilities;
 
-[DefaultExecutionOrder(-700)]
+[DefaultExecutionOrder(-950)]
 public class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
     // Maybe I can remove this "_agents" and use only the TransformAccessArray?
     // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
     // But now i need to manually do it in register and unregister methods.
     private SwapBackList<AgentNavigation> _agents;
-    private List<AgentNavigation> _agentsToAdd;
-    private List<AgentNavigation> _agentsToRemove;
     private TransformAccessArray _transforms;
 
     private NativeArray<float3> _finalTargets;
@@ -26,34 +23,40 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeArray<float> _stoppingDistances;
     private NativeArray<float> _changeWaypointDistances;
     private NativeArray<bool> _autoBraking;
-    private JobHandle handle;
+    private JobHandle _handle;
 
     private const int InitialCapacity = 10;
 
     protected override void InitializeSingleton()
     {
         _agents = new SwapBackList<AgentNavigation>(InitialCapacity);
-        _agentsToAdd = new List<AgentNavigation>(InitialCapacity);
-        _agentsToRemove = new List<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
     }
 
     public void RegisterAgent(AgentNavigation agent)
     {
-        if (!agent || _agents.Contains(agent) || _agentsToAdd.Contains(agent)) return;
-        _agentsToAdd.Add(agent);
+        if (!agent || _agents.Contains(agent)) return;
+        if (!_handle.IsCompleted)
+            _handle.Complete();
+
+        _transforms.Add(agent.transform);
+        _agents.Add(agent);
     }
 
     public void UnregisterAgent(AgentNavigation agent)
     {
-        if (!agent || !_agents.Contains(agent) || _agentsToRemove.Contains(agent)) return;
-        _agentsToRemove.Add(agent);
+        if (!agent || !_agents.Contains(agent)) return;
+        if (!_handle.IsCompleted)
+            _handle.Complete();
+
+        if (agent is not IIndexed indexedAgent) throw new System.Exception("Agent Navigation doesn't implement IIndexed interface");
+
+        _transforms.RemoveAtSwapBack(indexedAgent.Index);
+        _agents.Remove(agent);
     }
 
     private void Update()
     {
-        ApplyPendingChanges();
-
         if (_agents.Count == 0 || _transforms.length == 0) return;
 
         CreateArrays();
@@ -83,46 +86,9 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             deltaTime = Time.deltaTime
         };
 
-        handle = job.Schedule(_transforms);
-        handle.Complete();
+        _handle = job.Schedule(_transforms);
+        _handle.Complete();
         DisposeArrays();
-    }
-
-    private void ApplyPendingChanges()
-    {
-        if (!handle.IsCompleted) handle.Complete();
-
-        if (_agentsToAdd.Count > 0)
-        {
-            foreach (var agent in _agentsToAdd)
-            {
-                if (agent)
-                {
-                    // First add to transforms, to respect the index of the agent sync in all lists
-                    _transforms.Add(agent.transform);
-                    _agents.Add(agent);
-                }
-            }
-            _agentsToAdd.Clear();
-        }
-
-        if (_agentsToRemove.Count > 0)
-        {
-            foreach (var agent in _agentsToRemove)
-            {
-                if (agent)
-                {
-                    // First remove from transforms, to respect the index of the agent sync in all lists
-                    if (agent is IIndexed indexedAgent)
-                    {
-                        _transforms.RemoveAtSwapBack(indexedAgent.Index);
-                        _agents.Remove(agent);
-                    }
-                }
-            }
-
-            _agentsToRemove.Clear();
-        }
     }
 
     private void CreateArrays()
@@ -140,7 +106,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void DisposeArrays()
     {
-        if (!handle.IsCompleted) handle.Complete();
+        if (!_handle.IsCompleted) _handle.Complete();
         if (_finalTargets.IsCreated) _finalTargets.Dispose();
         if (_targetPositions.IsCreated) _targetPositions.Dispose();
         if (_speeds.IsCreated) _speeds.Dispose();
