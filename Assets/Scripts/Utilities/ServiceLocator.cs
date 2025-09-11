@@ -25,4 +25,14 @@ public class ServiceLocator : Singleton<ServiceLocator>
 
         throw new Exception($"Service of type {typeof(T)} not found.");
     }
+
+    public void RemoveService<T>()
+    {
+        Type type = typeof(T);
+
+        if (!_services.TryGetValue(type, out var service))
+            Debug.LogError($"The actual service doesn't exist {type} + {service}");
+
+        _services.Remove(type);
+    }
 }

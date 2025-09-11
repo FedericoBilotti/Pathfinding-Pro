@@ -38,7 +38,7 @@ namespace NavigationGraph
         public RaycastType RaycastCheckType => _raycastCheckType;
 
         // This is for saving the path.
-        public GridDataAsset CurrentGrid { get; private set; }
+        public GridDataAsset GridBaked { get; private set; }
 
         private void Awake()
         {
@@ -55,11 +55,9 @@ namespace NavigationGraph
 
         public GridDataAsset BakeGridAsset(string assetPath)
         {
-            // Generar la grilla como siempre
             Clear();
             Scan();
 
-            // Crear instancia del ScriptableObject
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
             asset.gridSize = _gridSize;
             asset.cells = new CellData[_gridSize.x * _gridSize.z];
@@ -86,9 +84,9 @@ namespace NavigationGraph
                 }
             }
 
-            string folder = System.IO.Path.GetDirectoryName(assetPath);
-            if (!System.IO.Directory.Exists(folder))
-                System.IO.Directory.CreateDirectory(folder);
+            string folder = Path.GetDirectoryName(assetPath);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
 
             // Save asset
             UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
@@ -100,24 +98,24 @@ namespace NavigationGraph
             return asset;
         }
 
-        public void SetBakeGrid(GridDataAsset grid) => CurrentGrid = grid;
+        public void SetBakeGrid(GridDataAsset grid) => GridBaked = grid;
 
         public void SaveGrid(string path)
         {
             BinaryFormatter bf = new BinaryFormatter();
             using FileStream file = File.Create(path);
-            bf.Serialize(file, CurrentGrid);
+            bf.Serialize(file, GridBaked);
         }
 
         public void LoadFromBakedAsset()
         {
-            if (CurrentGrid == null)
+            if (GridBaked == null)
             {
                 Debug.LogError("No baked grid assigned!");
                 return;
             }
 
-            foreach (var cell in CurrentGrid.cells)
+            foreach (var cell in GridBaked.cells)
             {
                 Debug.Log("Construct the grid");
                 // Rebuild
@@ -126,13 +124,33 @@ namespace NavigationGraph
 
         public void DeleteGrid(string path)
         {
-            if (!File.Exists(path))
+            if (GridBaked == null)
             {
-                Debug.LogError("Grid file not found: " + path);
+                Debug.LogWarning("No baked grid assigned to delete.");
                 return;
             }
 
-            Debug.Log("Deleting the grid file");
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogWarning("Could not find asset path for grid.");
+                return;
+            }
+
+            bool success = UnityEditor.AssetDatabase.DeleteAsset(path);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+
+            if (success)
+            {
+                Debug.Log($"Deleted baked grid at {path}");
+                GridBaked = null;
+                return;
+            }
+            else
+            {
+                Debug.LogError($"Failed to delete baked grid at {path}");
+                return;
+            }
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Utilities
 {
+    [DefaultExecutionOrder(-1500)]
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         public static T Instance;
@@ -20,7 +21,7 @@ namespace Utilities
 
         protected virtual void InitializeSingleton()
         {
-            
+
         }
     }
 }

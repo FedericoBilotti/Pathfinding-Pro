@@ -50,20 +50,22 @@ namespace Agents
 
         private void Awake()
         {
-            ownTransform = transform;
-
-            _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
-            graph = ServiceLocator.Instance.GetService<INavigationGraph>();
-
             // In the worst case scenario, the agent will have a path of length grid size / 4
             // So for that I divide by 7 to have some extra space.
-            waypointsPath = new List<Vector3>(graph.GetGridSize() / 7);
+            ownTransform = transform;
 
             InitializeTimer();
             Initialize();
         }
 
-        private void Start() => _updateManager = AgentUpdateManager.Instance;
+        private void Start()
+        {
+            _updateManager = AgentUpdateManager.Instance;
+            _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
+            graph = ServiceLocator.Instance.GetService<INavigationGraph>();
+            waypointsPath = new List<Vector3>(graph.GetGridSize() / 7);
+        }
+
         private void OnDisable() => _updateManager.UnregisterAgent(this);
 
         private void OnValidate()
