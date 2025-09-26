@@ -1,5 +1,4 @@
 using Agents;
-using NavigationGraph;
 using UnityEngine;
 
 [SelectionBase]
@@ -17,12 +16,5 @@ public class Player : MonoBehaviour
     private void Update()
     {
         _agentNavigation.RequestPath(_followTarget);
-    }
-
-    private Cell GetRandomTarget(INavigationGraph graph)
-    {
-        Cell target = graph.GetRandomCell();
-
-        return target.walkableType == WalkableType.Obstacle ? target : GetRandomTarget(graph);
     }
 }
