@@ -17,6 +17,7 @@ namespace NavigationGraph
         protected TerrainType[] terrainTypes;
         protected Vector3Int gridSize;
         protected LayerMask walkableMask;
+        protected LayerMask ignoreMasksAtCreateGrid;
 
         protected readonly Transform transform;
 
@@ -53,6 +54,7 @@ namespace NavigationGraph
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
             maxHeightDifference = navigationGraphConfig.maxHeightDifference;
             inclineLimit = navigationGraphConfig.inclineLimit;
+            ignoreMasksAtCreateGrid = navigationGraphConfig.ignoreMaskAtCreateGrid;
 
             var totalGridSize = gridSize.x * gridSize.z;
             _visited = new int[totalGridSize];

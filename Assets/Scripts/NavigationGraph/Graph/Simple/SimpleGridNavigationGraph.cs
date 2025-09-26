@@ -1,4 +1,3 @@
-using System;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using Unity.Jobs;
@@ -80,6 +79,7 @@ namespace NavigationGraph.Graph
                 commands = commands,
                 origin = transform.position,
                 cellDiameter = cellDiameter,
+                ignoreMasks = ignoreMasksAtCreateGrid,
                 gridSizeX = gridSize.x,
                 gridSizeY = gridSize.y,
                 walkableMask = walkableMask,
@@ -107,7 +107,7 @@ namespace NavigationGraph.Graph
                 {
                     var go = hit.collider.gameObject;
                     var layer = go.layer;
-                    bool isWalkable = ((1 << layer) & walkableMask) != 0;      
+                    bool isWalkable = ((1 << layer) & walkableMask) != 0;
                     normalWalkable[i] = hit.normal;
                     computedWalkable[i] = isWalkable ? WalkableType.Walkable : WalkableType.Obstacle;
                     layerPerCell[i] = layer;

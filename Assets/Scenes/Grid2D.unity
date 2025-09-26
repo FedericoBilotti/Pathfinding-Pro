@@ -921,8 +921,8 @@ Transform:
   m_GameObject: {fileID: 27714835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.52880865, w: 0.8487411}
-  m_LocalPosition: {x: -82.35, y: -2.25, z: 21.2}
-  m_LocalScale: {x: 5.8418455, y: 9.953462, z: 9.871037}
+  m_LocalPosition: {x: -82.8323, y: 0.7846, z: 21.2}
+  m_LocalScale: {x: 0.81959933, y: 6.4119544, z: 9.871037}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1483148470}
@@ -31734,9 +31734,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 781907328}
-  - component: {fileID: 781907333}
-  - component: {fileID: 781907331}
   - component: {fileID: 781907332}
+  - component: {fileID: 781907331}
+  - component: {fileID: 781907333}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -31753,7 +31753,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -141, y: -15.5, z: -39.1}
+  m_LocalPosition: {x: -142.5, y: -15.5, z: -34.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31786,12 +31786,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boxGrid: 1
   _graphType: 0
-  _neighborsPerCell: 4
-  _gridSize: {x: 225, y: 40, z: 120}
+  _neighborsPerCell: 8
+  _gridSize: {x: 225, y: 40, z: 115}
   _cellSize: 0.5
-  _maxHeightDifference: 1
+  _maxHeightDifference: 2.5
   _obstacleMargin: 1
-  _cliffMargin: 2
+  _cliffMargin: 1
   _terrainTypes:
   - terrainMask:
       serializedVersion: 2
@@ -31801,7 +31801,10 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
     terrainPenalty: 1
-  _inclineLimit: 34.9
+  _inclineLimit: 34
+  _ignoreMaskAtCreateGrid:
+    serializedVersion: 2
+    m_Bits: 1
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
@@ -50216,7 +50219,7 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -112.51, y: 2.57, z: 16.23}
+  m_LocalPosition: {x: -111.94, y: 2.57, z: 19.22}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:

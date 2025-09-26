@@ -26,6 +26,7 @@ namespace NavigationGraph
 
         [Header("Check Obstacles")]
         [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
+        [SerializeField] private LayerMask _ignoreMaskAtCreateGrid = 0;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
@@ -93,7 +94,8 @@ namespace NavigationGraph
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
                 maxHeightDifference = _maxHeightDifference,
-                inclineLimit = _inclineLimit
+                inclineLimit = _inclineLimit,
+                ignoreMaskAtCreateGrid = _ignoreMaskAtCreateGrid,
             };
         }
 
@@ -280,5 +282,6 @@ namespace NavigationGraph
         public float cliffMargin;
         public float maxHeightDifference;
         public float inclineLimit;
+        public LayerMask ignoreMaskAtCreateGrid;
     }
 }
