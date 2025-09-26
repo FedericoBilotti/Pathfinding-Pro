@@ -61,7 +61,7 @@ namespace NavigationGraph
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
         public float GetCellSize() => cellSize;
         public float GetCellDiameter() => cellDiameter;
-        public int GetGridSize() => gridSize.x * gridSize.z;
+        public int GetGridSizeLength() => gridSize.x * gridSize.z;
         public int GetXSize() => gridSize.x;
 
         public NativeArray<int> GetNeighbors() => neighbors;

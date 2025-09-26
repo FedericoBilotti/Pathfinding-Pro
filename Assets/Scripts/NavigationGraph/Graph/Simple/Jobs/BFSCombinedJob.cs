@@ -10,10 +10,10 @@ namespace NavigationGraph.Graph
     {
         #region Jobs & Burst
 
-        [BurstCompile(Debug = true)]
+        [BurstCompile]
         public struct BFSCombinedJob : IJob
         {
-            [ReadOnly] public int3 gridSize;
+            [ReadOnly] public Vector3Int gridSize;
             [ReadOnly] public int obstacleRadius;
             [ReadOnly] public int cliffRadius;
 
@@ -74,7 +74,6 @@ namespace NavigationGraph.Graph
                 distObstacle[idx] = currentDist + 1;
                 nativeObstacleBlocked[idx] = WalkableType.Obstacle;
                 queueObstacle.Enqueue(idx);
-                Debug.Log("Adding new Obstacle");
             }
 
             private void EnqueueNeighborCliff(int x, int y, int currentDist)
@@ -89,7 +88,6 @@ namespace NavigationGraph.Graph
                 distCliff[idx] = currentDist + 1;
                 nativeCliffBlocked[idx] = WalkableType.Air;
                 queueCliff.Enqueue(idx);
-                Debug.Log("Adding new Air");
             }
         }
     }

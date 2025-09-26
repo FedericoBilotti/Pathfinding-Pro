@@ -33,7 +33,7 @@ namespace Pathfinding.RequesterStrategy
                 path = new NativeList<Cell>(30, Allocator.Persistent),
                 simplified = new NativeList<Cell>(30, Allocator.Persistent),
                 closedList = new NativeHashSet<int>(64, Allocator.Persistent),
-                openList = new NativePriorityQueue<PathCellData>(navigationGraph.GetGridSize() / 4, Allocator.Persistent),
+                openList = new NativePriorityQueue<PathCellData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
                 visitedNodes = new NativeHashMap<int, PathCellData>(64, Allocator.Persistent),
                 Index = -1
             }, actionOnGet: pathReq =>

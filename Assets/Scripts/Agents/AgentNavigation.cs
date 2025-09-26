@@ -57,7 +57,7 @@ namespace Agents
         {
             _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
-            waypointsPath = new List<Vector3>(graph.GetGridSize() / 7);
+            waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
 
             var agentUpdateManager = AgentUpdateManager.Instance;
             if (agentUpdateManager)

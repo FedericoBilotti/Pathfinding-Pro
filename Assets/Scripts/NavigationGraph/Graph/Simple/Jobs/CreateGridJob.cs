@@ -1,21 +1,22 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
 {
     internal sealed partial class SimpleGridNavigationGraph
     {
-        #region Jobs & Burst
-
         [BurstCompile]
         private struct CreateGridJob : IJobParallelFor
         {
             [ReadOnly] public NativeHashMap<int, int> walkableRegionsDic;
             [WriteOnly] public NativeArray<Cell> grid;
-            public Vector3 origin;
+            public float3 origin;
+            public float3 right;
+            public float3 forward;
+
             public float cellDiameter;
             public int gridSizeX;
 
@@ -27,18 +28,19 @@ namespace NavigationGraph.Graph
             public void Execute(int i)
             {
                 const float kHitEpsilon = 1e-4f;
-
                 int x = i % gridSizeX;
                 int y = i / gridSizeX;
 
-                Vector3 defaultPos = origin
-                    + Vector3.right * ((x + 0.5f) * cellDiameter)
-                    + Vector3.forward * ((y + 0.5f) * cellDiameter);
+                float3 defaultPos = origin
+                    + right * ((x + 0.5f) * cellDiameter)
+                    + forward * ((y + 0.5f) * cellDiameter);
 
-                bool hit = results[i].distance > kHitEpsilon;
-                Vector3 cellPosition = hit ? results[i].point : defaultPos;
+                bool hit = results[i].distance > kHitEpsilon;                
+                float3 cellPosition = hit ? results[i].point : defaultPos;
 
                 walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
+
+                var walkableTypeDebug = GetWalkableType(i);
 
                 grid[i] = new Cell
                 {
@@ -46,7 +48,7 @@ namespace NavigationGraph.Graph
                     gridIndex = i,
                     gridX = x,
                     gridZ = y,
-                    walkableType = GetWalkableType(i),
+                    walkableType = walkableTypeDebug,
                     cellCostPenalty = penalty
                 };
             }
@@ -54,24 +56,20 @@ namespace NavigationGraph.Graph
             private WalkableType GetWalkableType(int index)
             {
                 WalkableType cliff = nativeCliffBlocked[index];
-                WalkableType finalB = nativeObstacleBlocked[index];
+                WalkableType blocked = nativeObstacleBlocked[index];
 
-                return (cliff, finalB) switch
+                return (cliff, blocked) switch
                 {
-                    var (c, f) when c == WalkableType.Air || f == WalkableType.Air
+                    var (c, b) when c == WalkableType.Air
                         => WalkableType.Air,
 
-                    var (c, f) when c == WalkableType.Walkable || f == WalkableType.Walkable
-                        => WalkableType.Walkable,
-
-                    var (c, f) when c == WalkableType.Obstacle || f == WalkableType.Obstacle
+                    var (c, b) when b == WalkableType.Obstacle
                         => WalkableType.Obstacle,
 
-                    _ => WalkableType.Roof
+                    _ => WalkableType.Walkable
+                    // Roof is left
                 };
             }
         }
     }
-
-    #endregion
 }

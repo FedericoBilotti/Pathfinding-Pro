@@ -16,7 +16,7 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
-            int patience = navigationGraph.GetGridSize() / 4;
+            int patience = navigationGraph.GetGridSizeLength() / 4;
 
             JobHandle aStarJob = new AStarJob
             {

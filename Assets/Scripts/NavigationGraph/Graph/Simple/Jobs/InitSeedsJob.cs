@@ -3,21 +3,19 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using System;
 
 namespace NavigationGraph.Graph
 {
     internal sealed partial class SimpleGridNavigationGraph
     {
-        #region Jobs & Burst
-
-        [BurstCompile(Debug = true)]
+        [BurstCompile]
         public struct InitSeedsJob : IJobParallelFor
         {
-            [ReadOnly] public int3 gridSize;
-            [ReadOnly] public NativeArray<float> groundHeight;
+            [ReadOnly] public Vector3Int gridSize;
             [ReadOnly] public NativeArray<WalkableType> computedWalkable;
-
-            public float maxHeightDifference;
+            [ReadOnly] public NativeArray<float> groundHeight;
+            [ReadOnly] public float maxHeightDifference;
 
             public NativeArray<WalkableType> finalObstacle;
             public NativeArray<WalkableType> finalCliff;
@@ -28,160 +26,96 @@ namespace NavigationGraph.Graph
             public NativeQueue<int>.ParallelWriter queueObstacle;
             public NativeQueue<int>.ParallelWriter queueCliff;
 
-            // public void Execute(int i)
-            // {
-            //     finalObstacle[i] = computedWalkable[i];
-            //     finalCliff[i] = computedWalkable[i];
-            //     distObstacle[i] = -1;
-            //     distCliff[i] = -1;
-
-            //     int x = i % gridSize.x;
-            //     int y = i / gridSize.x;
-
-            //     if (computedWalkable[i] == WalkableType.Walkable)
-            //     {
-            //         bool hasObstacleNeighbor = false;
-            //         bool hasCliffNeighbor = false;
-
-            //         if (x + 1 < gridSize.x)
-            //         {
-            //             int n = i + 1;
-            //             if (n < gridSize.x)
-            //             {
-            //                 hasObstacleNeighbor = computedWalkable[n] == WalkableType.Obstacle;
-            //                 hasCliffNeighbor = computedWalkable[n] == WalkableType.Air;
-            //             }
-            //         }
-            //         if (x - 1 >= 0)
-            //         {
-            //             int n = i - 1;
-            //             if (n >= gridSize.x)
-            //             {
-            //                 hasObstacleNeighbor = computedWalkable[n] == WalkableType.Obstacle;
-            //                 hasCliffNeighbor = computedWalkable[n] == WalkableType.Air;
-            //             }
-            //         }
-            //         if (y + 1 < gridSize.z)
-            //         {
-            //             int n = i + gridSize.x;
-            //             if (n < gridSize.x)
-            //             {
-            //                 hasObstacleNeighbor = computedWalkable[n] == WalkableType.Obstacle;
-            //                 hasCliffNeighbor = computedWalkable[n] == WalkableType.Air;
-            //             }
-            //         }
-            //         if (y - 1 >= 0)
-            //         {
-            //             int n = i - gridSize.x;
-            //             if (n >= gridSize.x)
-            //             {
-            //                 hasObstacleNeighbor = computedWalkable[n] == WalkableType.Obstacle;
-            //                 hasCliffNeighbor = computedWalkable[n] == WalkableType.Air;
-            //             }
-            //         }
-            //         if (hasObstacleNeighbor)
-            //         {
-            //             distObstacle[i] = 0;
-            //             finalObstacle[i] = WalkableType.Obstacle;
-            //             queueObstacle.Enqueue(i);
-            //         }
-
-            //         if (hasCliffNeighbor)
-            //         {
-            //             distCliff[i] = 0;
-            //             finalCliff[i] = WalkableType.Air;
-            //             queueCliff.Enqueue(i);
-            //         }
-            //     }
-            // }
-
             public void Execute(int i)
             {
-                finalObstacle[i] = computedWalkable[i];
-                finalCliff[i] = computedWalkable[i];
                 distObstacle[i] = -1;
                 distCliff[i] = -1;
+                finalObstacle[i] = computedWalkable[i];
+                finalCliff[i] = computedWalkable[i];
 
-                int x = i % gridSize.x;
-                int y = i / gridSize.x;
-
-                if (computedWalkable[i] == WalkableType.Walkable)
+                if (computedWalkable[i] == WalkableType.Obstacle)
                 {
-                    bool hasObstacleNeigbhor = false;
-                    bool hasCliffNeighbor = false;
+                    distObstacle[i] = 0;
+                    finalObstacle[i] = WalkableType.Obstacle;
+                    queueObstacle.Enqueue(i);
+                }
+                else if (computedWalkable[i] == WalkableType.Air)
+                {
+                    distCliff[i] = 0;
+                    finalCliff[i] = WalkableType.Air;
+                    queueCliff.Enqueue(i);
+                }
+                else // if it's walkable
+                {
+                    int x = i % gridSize.x;
+                    int y = i / gridSize.x;
+
+                    bool isCliffNeighbor = false;
+                    bool isObstacleNeighbor = false;
 
                     if (x + 1 < gridSize.x)
                     {
-                        int n = i + 1;
-                        if (n < computedWalkable.Length)
+                        int ni = i + 1;
+                        if (ni >= 0 && ni < computedWalkable.Length)
                         {
-                            hasObstacleNeigbhor |= computedWalkable[n] == WalkableType.Obstacle;
-                            hasCliffNeighbor |= IsCliff(i, n);
+                            isObstacleNeighbor |= computedWalkable[ni] == WalkableType.Obstacle;
+                            isCliffNeighbor |= IsCliff(i, ni);
                         }
                     }
 
                     if (x - 1 >= 0)
                     {
-                        int n = i - 1;
-                        if (n >= 0)
+                        int ni = i - 1;
+                        if (ni >= 0 && ni < computedWalkable.Length)
                         {
-                            hasObstacleNeigbhor |= computedWalkable[n] == WalkableType.Obstacle;
-                            hasCliffNeighbor |= IsCliff(i, n);
+                            isObstacleNeighbor |= computedWalkable[ni] == WalkableType.Obstacle;
+                            isCliffNeighbor |= IsCliff(i, ni);
                         }
                     }
 
                     if (y + 1 < gridSize.z)
                     {
-                        int n = i + gridSize.x;
-                        if (n < computedWalkable.Length)
+                        int ni = i + gridSize.x;
+                        if (ni >= 0 && ni < computedWalkable.Length)
                         {
-                            hasObstacleNeigbhor |= computedWalkable[n] == WalkableType.Obstacle;
-                            hasCliffNeighbor |= IsCliff(i, n);
+                            isObstacleNeighbor |= computedWalkable[ni] == WalkableType.Obstacle;
+                            isCliffNeighbor |= IsCliff(i, ni);
                         }
                     }
 
                     if (y - 1 >= 0)
                     {
-                        int n = i - gridSize.x;
-                        if (n >= 0)
+                        int ni = i - gridSize.x;
+                        if (ni >= 0 && ni < computedWalkable.Length)
                         {
-                            hasObstacleNeigbhor |= computedWalkable[n] == WalkableType.Obstacle;
-                            hasCliffNeighbor |= IsCliff(i, n);
+                            isObstacleNeighbor |= computedWalkable[ni] == WalkableType.Obstacle;
+                            isCliffNeighbor |= IsCliff(i, ni);
                         }
                     }
 
-                    if (hasObstacleNeigbhor)
-                    {
-                        distObstacle[i] = 0;
-                        finalObstacle[i] = WalkableType.Obstacle;
-                        queueObstacle.Enqueue(i);
-                    }
-
-                    if (hasCliffNeighbor)
+                    if (isCliffNeighbor)
                     {
                         distCliff[i] = 0;
                         finalCliff[i] = WalkableType.Air;
                         queueCliff.Enqueue(i);
+                    }
+
+                    if (isObstacleNeighbor)
+                    {
+                        distObstacle[i] = 0;
+                        finalObstacle[i] = WalkableType.Obstacle;
+                        queueObstacle.Enqueue(i);
                     }
                 }
             }
 
             private bool IsCliff(int currentIndex, int neighborIndex)
             {
-                if (computedWalkable[neighborIndex] != WalkableType.Air) return false;
-
+                // Can check it for the incline first (maaaybe). I don't know.
                 float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);
-
-                Debug.Log("Mi yDistance: " + yDistance);
-                Debug.Log("Mi maxHeightDifference: " + maxHeightDifference);
-
-                if (yDistance >= maxHeightDifference) return false;
-
-                Debug.Log("Adding new Cliff in init");
-                return true;
+                return yDistance >= maxHeightDifference;
             }
         }
     }
 
-    #endregion
 }

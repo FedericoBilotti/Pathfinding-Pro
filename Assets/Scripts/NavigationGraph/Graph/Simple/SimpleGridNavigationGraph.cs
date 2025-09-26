@@ -18,7 +18,7 @@ namespace NavigationGraph.Graph
 
         protected override void LoadGridFromDisk(GridDataAsset gridBaked)
         {
-            int totalGridSize = GetGridSize();
+            int totalGridSize = GetGridSizeLength();
             int lengthNeighbors = gridBaked.neighborsCell.neighbors.Length;
             int lengthCounts = gridBaked.neighborsCell.neighborTotalCount.Length;
             int lengthOffsets = gridBaked.neighborsCell.neighborOffsets.Length;
@@ -66,7 +66,7 @@ namespace NavigationGraph.Graph
             if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
             if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
 
-            int totalGridSize = GetGridSize();
+            int totalGridSize = GetGridSizeLength();
             grid = new NativeArray<Cell>(totalGridSize, Allocator.Persistent);
 
             // --- 1. PREPARAR RAYCASTS ---
@@ -138,14 +138,17 @@ namespace NavigationGraph.Graph
 
             JobHandle initJob = new InitSeedsJob
             {
+                gridSize = gridSize,
                 computedWalkable = computedWalkable,
                 groundHeight = groundHeight,
-                gridSize = totalGridSize,
                 maxHeightDifference = maxHeightDifference,
+
                 finalObstacle = nativeObstacleBlocked,
                 finalCliff = nativeCliffBlocked,
+
                 distObstacle = distObstacle,
                 distCliff = distCliff,
+
                 queueObstacle = queueObstacle.AsParallelWriter(),
                 queueCliff = queueCliff.AsParallelWriter()
             }.Schedule(totalGridSize, 64);
@@ -157,14 +160,16 @@ namespace NavigationGraph.Graph
 
             JobHandle bfsJob = new BFSCombinedJob
             {
-                gridSize = totalGridSize,
+                gridSize = gridSize,
                 obstacleRadius = obstacleRadiusCells,
                 cliffRadius = cliffRadiusCells,
 
                 distObstacle = distObstacle,
                 distCliff = distCliff,
+
                 nativeObstacleBlocked = nativeObstacleBlocked,
                 nativeCliffBlocked = nativeCliffBlocked,
+
                 queueObstacle = queueObstacle,
                 queueCliff = queueCliff
             }.Schedule(initJob);
@@ -177,13 +182,17 @@ namespace NavigationGraph.Graph
                 walkableRegionsDic = walkableRegionsDic,
                 grid = grid,
                 origin = transform.position,
+                right = new float3(1, 0, 0),
+                forward = new float3(0, 0, 1),
+
                 cellDiameter = cellDiameter,
                 gridSizeX = gridSize.x,
+
                 results = results,
                 layerPerCell = layerPerCell,
                 nativeObstacleBlocked = nativeObstacleBlocked,
                 nativeCliffBlocked = nativeCliffBlocked
-            }.Schedule(totalGridSize, 64);
+            }.Schedule(totalGridSize, 64, bfsJob);
 
             // --- 5. PRECOMPUTE VECINOS ---
             NativeArray<int2> offsets16 = new(16, Allocator.TempJob);
@@ -315,7 +324,7 @@ namespace NavigationGraph.Graph
         // Returns a new array[gridSize] with true if the cell is walkable or not.
         private NativeArray<WalkableType> ComputeRemainingWalkableCells(bool[] blockedByBounds)
         {
-            int total = GetGridSize();
+            int total = GetGridSizeLength();
             var computedWalkable = new NativeArray<WalkableType>(total, Allocator.TempJob);
 
             for (int i = 0; i < total; i++)
