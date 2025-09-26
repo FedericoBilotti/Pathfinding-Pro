@@ -30,6 +30,7 @@ namespace NavigationGraph
         protected float cellSize;
         protected float cellDiameter;
         protected float maxHeightDifference;
+        protected float inclineLimit;
 
         protected float obstacleMargin;
         protected float cliffMargin;
@@ -48,14 +49,15 @@ namespace NavigationGraph
             cliffMargin = navigationGraphConfig.cliffMargin;
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
             maxHeightDifference = navigationGraphConfig.maxHeightDifference;
+            inclineLimit = navigationGraphConfig.inclineLimit;
 
             var totalGridSize = gridSize.x * gridSize.z;
             _visited = new int[totalGridSize];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
-        protected abstract void LoadGridFromDisk(GridDataAsset gridBaked);
-        protected abstract void CreateGrid();
+        protected abstract void LoadGridFromMemory(GridDataAsset gridBaked);
+        public abstract void CreateGrid();
 
         public NativeArray<Cell> GetGrid() => grid;
         public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
@@ -187,7 +189,7 @@ namespace NavigationGraph
             }
 
             if (gridBaked)
-                LoadGridFromDisk(gridBaked);
+                LoadGridFromMemory(gridBaked);
             else
                 CreateGrid();
         }

@@ -14,12 +14,12 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid3D;
         }
 
-        protected override void LoadGridFromDisk(GridDataAsset gridBaked)
+        protected override void LoadGridFromMemory(GridDataAsset gridBaked)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void CreateGrid()
+        public override void CreateGrid()
         {
             throw new System.NotImplementedException();
             

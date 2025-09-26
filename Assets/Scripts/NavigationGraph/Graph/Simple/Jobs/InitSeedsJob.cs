@@ -13,9 +13,11 @@ namespace NavigationGraph.Graph
         public struct InitSeedsJob : IJobParallelFor
         {
             [ReadOnly] public Vector3Int gridSize;
+            [ReadOnly] public NativeArray<Vector3> normalWalkable;
             [ReadOnly] public NativeArray<WalkableType> computedWalkable;
             [ReadOnly] public NativeArray<float> groundHeight;
             [ReadOnly] public float maxHeightDifference;
+            [ReadOnly] public float inclineLimit;
 
             public NativeArray<WalkableType> finalObstacle;
             public NativeArray<WalkableType> finalCliff;
@@ -111,7 +113,9 @@ namespace NavigationGraph.Graph
 
             private bool IsCliff(int currentIndex, int neighborIndex)
             {
-                // Can check it for the incline first (maaaybe). I don't know.
+                if (normalWalkable[currentIndex].y <= Mathf.Cos(inclineLimit * Mathf.Deg2Rad))
+                    return true;
+
                 float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);
                 return yDistance >= maxHeightDifference;
             }

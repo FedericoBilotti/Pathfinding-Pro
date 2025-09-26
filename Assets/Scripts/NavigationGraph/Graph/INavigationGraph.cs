@@ -7,6 +7,7 @@ namespace NavigationGraph
     {
         void Initialize(GridDataAsset gridBaked);
         void Destroy();
+        void CreateGrid();
         bool? DrawGizmos();
         int GetGridSizeLength();
         float GetCellSize();

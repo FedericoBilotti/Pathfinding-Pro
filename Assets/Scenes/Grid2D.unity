@@ -920,13 +920,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27714835}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.3953924, w: 0.91851234}
-  m_LocalPosition: {x: -83.87, y: -3.08, z: 21.2}
+  m_LocalRotation: {x: 0, y: 0, z: 0.52880865, w: 0.8487411}
+  m_LocalPosition: {x: -82.35, y: -2.25, z: 21.2}
   m_LocalScale: {x: 5.8418455, y: 9.953462, z: 9.871037}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1483148470}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 63.85}
 --- !u!65 &27714837
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7338,7 +7338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &195021665
 Transform:
   m_ObjectHideFlags: 0
@@ -31753,7 +31753,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -142, y: -15.5, z: -35.4}
+  m_LocalPosition: {x: -141, y: -15.5, z: -39.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31787,11 +31787,11 @@ MonoBehaviour:
   _boxGrid: 1
   _graphType: 0
   _neighborsPerCell: 4
-  _gridSize: {x: 225, y: 40, z: 115}
+  _gridSize: {x: 225, y: 40, z: 120}
   _cellSize: 0.5
-  _maxHeightDifference: 3
-  _obstacleMargin: 2
-  _cliffMargin: 4
+  _maxHeightDifference: 1
+  _obstacleMargin: 0
+  _cliffMargin: 2
   _terrainTypes:
   - terrainMask:
       serializedVersion: 2
@@ -31801,7 +31801,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
     terrainPenalty: 1
-  _inclineLimit: 45
+  _inclineLimit: 34.9
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
@@ -50183,7 +50183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1224878549
 CapsuleCollider:
   m_ObjectHideFlags: 0

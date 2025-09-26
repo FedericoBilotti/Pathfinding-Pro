@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using Unity.Jobs;
@@ -16,7 +16,7 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid2D;
         }
 
-        protected override void LoadGridFromDisk(GridDataAsset gridBaked)
+        protected override void LoadGridFromMemory(GridDataAsset gridBaked)
         {
             int totalGridSize = GetGridSizeLength();
             int lengthNeighbors = gridBaked.neighborsCell.neighbors.Length;
@@ -58,9 +58,9 @@ namespace NavigationGraph.Graph
                 neighborOffSet[i] = gridBaked.neighborsCell.neighborOffsets[i];
         }
 
-        protected override void CreateGrid()
+        public override void CreateGrid()
         {
-            // --- 0. LIMPIEZA ---
+            // --- 0. Clean ---
             if (grid.IsCreated) grid.Dispose();
             if (neighbors.IsCreated) neighbors.Dispose();
             if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
@@ -69,7 +69,7 @@ namespace NavigationGraph.Graph
             int totalGridSize = GetGridSizeLength();
             grid = new NativeArray<Cell>(totalGridSize, Allocator.Persistent);
 
-            // --- 1. PREPARAR RAYCASTS ---
+            // --- 1. PREPARE RAYCASTS ---
             var commands = new NativeArray<RaycastCommand>(totalGridSize, Allocator.TempJob);
             var results = new NativeArray<RaycastHit>(totalGridSize, Allocator.TempJob);
 
@@ -87,10 +87,11 @@ namespace NavigationGraph.Graph
             JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 64, prepareCmdJob);
             batchHandle.Complete();
 
-            // --- 2. CONSTRUIR WALKABLE + ALTURA ---
-            var computedWalkable = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
-            var groundHeight = new NativeArray<float>(totalGridSize, Allocator.TempJob);
+            // --- 2. BUILD WALKABLE + ALTURA ---
+            var normalWalkable = new NativeArray<Vector3>(totalGridSize, Allocator.TempJob);
             var layerPerCell = new NativeArray<int>(totalGridSize, Allocator.TempJob);
+            var groundHeight = new NativeArray<float>(totalGridSize, Allocator.TempJob);
+            var computedWalkable = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
 
             for (int i = 0; i < totalGridSize; i++)
             {
@@ -104,7 +105,8 @@ namespace NavigationGraph.Graph
                 {
                     var go = hit.collider.gameObject;
                     var layer = go.layer;
-                    bool isWalkable = ((1 << layer) & walkableMask) != 0;
+                    bool isWalkable = ((1 << layer) & walkableMask) != 0;      
+                    normalWalkable[i] = hit.normal;
                     computedWalkable[i] = isWalkable ? WalkableType.Walkable : WalkableType.Obstacle;
                     layerPerCell[i] = layer;
 
@@ -127,7 +129,7 @@ namespace NavigationGraph.Graph
                 }
             }
 
-            // --- 3. CALCULAR MÁRGENES (DILATE) ---
+            // --- 3. CALCULATE MARGIN (DILATE) ---
             var nativeObstacleBlocked = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
             var nativeCliffBlocked = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
 
@@ -139,6 +141,8 @@ namespace NavigationGraph.Graph
             JobHandle initJob = new InitSeedsJob
             {
                 gridSize = gridSize,
+                normalWalkable = normalWalkable,
+                inclineLimit = inclineLimit,
                 computedWalkable = computedWalkable,
                 groundHeight = groundHeight,
                 maxHeightDifference = maxHeightDifference,
@@ -152,8 +156,6 @@ namespace NavigationGraph.Graph
                 queueObstacle = queueObstacle.AsParallelWriter(),
                 queueCliff = queueCliff.AsParallelWriter()
             }.Schedule(totalGridSize, 64);
-
-            initJob.Complete();
 
             int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
             int cliffRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
@@ -174,9 +176,7 @@ namespace NavigationGraph.Graph
                 queueCliff = queueCliff
             }.Schedule(initJob);
 
-            bfsJob.Complete();
-
-            // --- 4. CREAR CELDAS DE LA GRILLA ---
+            // --- 4. CREATE CELLS IN GRID ---
             var createGridJob = new CreateGridJob
             {
                 walkableRegionsDic = walkableRegionsDic,
@@ -194,7 +194,7 @@ namespace NavigationGraph.Graph
                 nativeCliffBlocked = nativeCliffBlocked
             }.Schedule(totalGridSize, 64, bfsJob);
 
-            // --- 5. PRECOMPUTE VECINOS ---
+            // --- 5. PRECOMPUTE NEIGHBORS ---
             NativeArray<int2> offsets16 = new(16, Allocator.TempJob);
             offsets16[0] = new int2(-2, 0);
             offsets16[1] = new int2(-2, -1);
@@ -257,93 +257,28 @@ namespace NavigationGraph.Graph
                 maxHeightDifference = maxHeightDifference,
                 neighborCounts = neighborTotalCount,
                 neighborOffsets = neighborOffSet
-            }.Schedule(createGridJob);
+            }.Schedule();
 
             neighborsJob.Complete();
 
             // --- 6. CLEANUP ---
+            commands.Dispose();
+            results.Dispose();
+
+            normalWalkable.Dispose();
             computedWalkable.Dispose();
+            layerPerCell.Dispose();
             groundHeight.Dispose();
+
             nativeObstacleBlocked.Dispose();
             nativeCliffBlocked.Dispose();
             distObstacle.Dispose();
             distCliff.Dispose();
             queueObstacle.Dispose();
             queueCliff.Dispose();
-            commands.Dispose();
-            results.Dispose();
+            
             offsets16.Dispose();
-            layerPerCell.Dispose();
             temporaryNeighborTotalCount.Dispose();
-        }
-
-        private bool[] CollectBlockedByExpandedBounds()
-        {
-            int total = gridSize.x * gridSize.z;
-            var blocked = new bool[total];
-
-            Vector3 gridWorldSize = new(gridSize.x * cellDiameter, gridSize.y, gridSize.z * cellDiameter);
-            Vector3 areaCenter = transform.position + new Vector3(gridWorldSize.x * 0.5f, gridWorldSize.y / 2, gridWorldSize.z * 0.5f);
-            Vector3 halfAreaExtents = new(gridWorldSize.x * 0.5f, gridSize.y / 2, gridWorldSize.z * 0.5f);
-
-            Collider[] hits = Physics.OverlapBox(areaCenter, halfAreaExtents, transform.rotation, notWalkableMask.value);
-
-            // For each collider: expand the bounds and paint the rectangle of the indices affected
-            foreach (var c in hits)
-            {
-                Bounds b = c.bounds;
-
-                b.Expand(obstacleMargin * 2f);
-
-                // If it's negative, use the collider bounds
-                if (b.size.x <= 0f || b.size.y <= 0f || b.size.z <= 0f)
-                {
-                    b = c.bounds;
-                }
-
-                var (minX, minY) = GetCellsMap(b.min);
-                var (maxX, maxY) = GetCellsMap(b.max);
-
-                if (minX > maxX) (maxX, minX) = (minX, maxX);
-                if (minY > maxY) (maxY, minY) = (minY, maxY);
-
-                for (int x = minX; x <= maxX; x++)
-                {
-                    for (int y = minY; y <= maxY; y++)
-                    {
-                        int idx = x + y * gridSize.x;
-                        if (idx >= 0 && idx < total)
-                            blocked[idx] = true;
-                    }
-                }
-            }
-
-            return blocked;
-        }
-
-        // Returns a new array[gridSize] with true if the cell is walkable or not.
-        private NativeArray<WalkableType> ComputeRemainingWalkableCells(bool[] blockedByBounds)
-        {
-            int total = GetGridSizeLength();
-            var computedWalkable = new NativeArray<WalkableType>(total, Allocator.TempJob);
-
-            for (int i = 0; i < total; i++)
-            {
-                if (blockedByBounds[i])
-                {
-                    computedWalkable[i] = WalkableType.Obstacle;
-                    continue;
-                }
-
-                int x = i % gridSize.x;
-                int y = i / gridSize.x;
-
-                Vector3 cellPosition = GetCellPositionInWorldMap(x, y);
-                WalkableType walkableType = IsCellWalkable(cellPosition);
-                computedWalkable[i] = walkableType;
-            }
-
-            return computedWalkable;
         }
     }
 }

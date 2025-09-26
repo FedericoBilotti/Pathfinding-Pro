@@ -19,8 +19,8 @@ namespace NavigationGraph
         [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
         [SerializeField] private float _cellSize = 0.5f;
         [SerializeField] private float _maxHeightDifference = 0.01f;
-        [SerializeField, Range(0f, 50f)] private float _obstacleMargin = 0.5f;
-        [SerializeField, Range(0f, 50f)] private float _cliffMargin = 0.5f;
+        [SerializeField, Range(0f, 10)] private float _obstacleMargin = 0.5f;
+        [SerializeField, Range(0f, 10f)] private float _cliffMargin = 0.5f;
 
         [SerializeField] private TerrainType[] _terrainTypes;
 
@@ -60,6 +60,8 @@ namespace NavigationGraph
             _gridSize.x = Mathf.Max(1, _gridSize.x);
             _gridSize.y = Mathf.Max(1, _gridSize.y);
             _gridSize.z = Mathf.Max(1, _gridSize.z);
+
+            _maxHeightDifference = Mathf.Max(0.1f, _maxHeightDifference);
         }
 
         private LayerMask GetWalkableMask()
@@ -85,7 +87,8 @@ namespace NavigationGraph
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
-                maxHeightDifference = _maxHeightDifference
+                maxHeightDifference = _maxHeightDifference,
+                inclineLimit = _inclineLimit
             };
         }
 
@@ -271,5 +274,6 @@ namespace NavigationGraph
         public float obstacleMargin;
         public float cliffMargin;
         public float maxHeightDifference;
+        public float inclineLimit;
     }
 }
