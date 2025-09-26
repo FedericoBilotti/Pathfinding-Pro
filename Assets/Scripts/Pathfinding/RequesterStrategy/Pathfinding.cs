@@ -22,6 +22,7 @@ namespace Pathfinding.RequesterStrategy
             InitializeRequesters();
 
             navigationGraph.OnCreateGrid += FinishAllPaths;
+            navigationGraph.OnDeleteGrid += FinishAllPaths;
         }
 
         private void InitializeRequesters()
@@ -100,6 +101,7 @@ namespace Pathfinding.RequesterStrategy
             pathRequestPool.Clear();
 
             navigationGraph.OnCreateGrid -= FinishAllPaths;
+            navigationGraph.OnDeleteGrid -= FinishAllPaths;
         }
 
         public void Clear() => Dispose();

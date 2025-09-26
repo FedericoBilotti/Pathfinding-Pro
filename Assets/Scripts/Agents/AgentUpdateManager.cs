@@ -36,9 +36,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     public void RegisterAgent(AgentNavigation agent)
     {
+        if (_agents == null || !_transforms.isCreated) return;
         if (!agent || _agents.Contains(agent)) return;
-        if (!_handle.IsCompleted)
-            _handle.Complete();
 
         _transforms.Add(agent.transform);
         _agents.Add(agent);
@@ -46,11 +45,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     public void UnregisterAgent(AgentNavigation agent)
     {
+        if (_agents == null || !_transforms.isCreated) return;
         if (!agent || !_agents.Contains(agent)) return;
-        if (!_handle.IsCompleted)
-            _handle.Complete();
 
+#if UNITY_EDITOR
         if (agent is not IIndexed indexedAgent) throw new System.Exception("Agent Navigation doesn't implement IIndexed interface");
+#endif
 
         _transforms.RemoveAtSwapBack(indexedAgent.Index);
         _agents.RemoveAtSwapBack(agent);
@@ -121,8 +121,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void OnDestroy()
     {
-        if (_transforms.isCreated) _transforms.Dispose();
         DisposeArrays();
+        if (_transforms.isCreated) _transforms.Dispose();
     }
 
     [BurstCompile]
@@ -141,6 +141,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             float3 finalTarget = finalTargets[index];
             if (finalTarget.Equals(float3.zero)) return;
+            if (!math.all(math.isfinite(finalTarget))) return;
 
             float3 position = transform.position;
             if (!math.all(math.isfinite(position))) return;
@@ -170,6 +171,10 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
                 {
                     float actualSpeed = speed * (distance / margin);
                     position += actualSpeed * deltaTime * math.normalize(direction);
+
+                    if (!math.all(math.isfinite(position)))
+                        return;
+
                     RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
                     transform.position = position;
                     return;
@@ -179,6 +184,10 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             if (math.lengthsq(direction) > 0.0001f)
             {
                 position += deltaTime * speed * math.normalize(direction);
+
+                if (!math.all(math.isfinite(position)))
+                    return;
+
                 RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
                 transform.position = position;
             }

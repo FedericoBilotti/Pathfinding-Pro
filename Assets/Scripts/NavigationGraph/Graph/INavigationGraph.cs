@@ -24,5 +24,6 @@ namespace NavigationGraph
         bool IsInGrid(Vector3 worldPosition);
 
         Action OnCreateGrid { get; set; }
+        Action OnDeleteGrid { get; set; }
     }
 }

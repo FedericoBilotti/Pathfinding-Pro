@@ -56,11 +56,6 @@ namespace NavigationGraph
             ServiceLocator.Instance.RemoveService<INavigationGraph>();
         }
 
-        void Update()
-        {
-            _graph.CreateGrid();   
-        }
-
         private void OnValidate()
         {
             _gridSize.x = Mathf.Max(1, _gridSize.x);
@@ -98,8 +93,6 @@ namespace NavigationGraph
                 ignoreMaskAtCreateGrid = _ignoreMaskAtCreateGrid,
             };
         }
-
-#if UNITY_EDITOR
 
         public GridDataAsset BakeGridAsset(string assetPath)
         {
@@ -169,6 +162,8 @@ namespace NavigationGraph
             using FileStream file = File.Create(path);
             bf.Serialize(file, GridBaked);
         }
+
+#if UNITY_EDITOR
 
         public void DeleteGrid(string path)
         {

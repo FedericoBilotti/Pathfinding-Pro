@@ -40,6 +40,7 @@ namespace NavigationGraph
         public NavigationGraphType GraphType { get; protected set; }
 
         public Action OnCreateGrid { get; set; }
+        public Action OnDeleteGrid { get; set; }
 
         protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
         {
@@ -201,6 +202,8 @@ namespace NavigationGraph
 
         public void Destroy()
         {
+            OnDeleteGrid?.Invoke();
+            
             if (grid.IsCreated) grid.Dispose();
             if (neighbors.IsCreated) neighbors.Dispose();
             if (neighborOffSet.IsCreated) neighborOffSet.Dispose();

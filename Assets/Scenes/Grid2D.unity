@@ -31753,7 +31753,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -142.5, y: -15.5, z: -34.5}
+  m_LocalPosition: {x: -142.4, y: -15.5, z: -37.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31789,7 +31789,7 @@ MonoBehaviour:
   _neighborsPerCell: 8
   _gridSize: {x: 225, y: 40, z: 115}
   _cellSize: 0.5
-  _maxHeightDifference: 2.5
+  _maxHeightDifference: 0.5
   _obstacleMargin: 1
   _cliffMargin: 1
   _terrainTypes:
@@ -32449,7 +32449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0
@@ -36087,7 +36087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &870265828
 Transform:
   m_ObjectHideFlags: 0
@@ -88347,7 +88347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2123478772
 Transform:
   m_ObjectHideFlags: 0
