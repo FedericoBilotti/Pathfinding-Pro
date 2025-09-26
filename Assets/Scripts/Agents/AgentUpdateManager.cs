@@ -13,7 +13,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     // Maybe I can remove this "_agents" and use only the TransformAccessArray?
     // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
     // But now i need to manually do it in register and unregister methods.
-    private SwapBackList<AgentNavigation> _agents;
+    private SwapBackListIndexed<AgentNavigation> _agents;
     private TransformAccessArray _transforms;
 
     private NativeArray<float3> _finalTargets;
@@ -29,7 +29,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     protected override void InitializeSingleton()
     {
-        _agents = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _agents = new SwapBackListIndexed<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
     }
 
@@ -52,7 +52,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         if (agent is not IIndexed indexedAgent) throw new System.Exception("Agent Navigation doesn't implement IIndexed interface");
 
         _transforms.RemoveAtSwapBack(indexedAgent.Index);
-        _agents.Remove(agent);
+        _agents.RemoveAtSwapBack(agent);
     }
 
     private void Update()

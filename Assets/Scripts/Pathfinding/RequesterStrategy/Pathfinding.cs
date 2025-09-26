@@ -13,7 +13,7 @@ namespace Pathfinding.RequesterStrategy
     {
         protected readonly INavigationGraph navigationGraph;
 
-        protected SwapBackList<PathRequest> requests;
+        protected SwapBackListIndexed<PathRequest> requests;
         protected IObjectPool<PathRequest> pathRequestPool;
 
 
@@ -27,7 +27,7 @@ namespace Pathfinding.RequesterStrategy
         {
             const int CAPACITY = 20;
             const int MAX_SIZE = 1000;
-            requests = new SwapBackList<PathRequest>(CAPACITY);
+            requests = new SwapBackListIndexed<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
                 path = new NativeList<Cell>(30, Allocator.Persistent),
@@ -68,7 +68,7 @@ namespace Pathfinding.RequesterStrategy
                 req.agent.SetPath(req.path);
 
                 pathRequestPool.Release(req);
-                requests.Remove(req);
+                requests.RemoveAtSwapBack(req);
             }
         }
 
