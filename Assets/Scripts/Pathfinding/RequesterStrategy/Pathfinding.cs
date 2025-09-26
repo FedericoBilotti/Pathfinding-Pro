@@ -16,11 +16,12 @@ namespace Pathfinding.RequesterStrategy
         protected SwapBackListIndexed<PathRequest> requests;
         protected IObjectPool<PathRequest> pathRequestPool;
 
-
         protected Pathfinding(INavigationGraph navigationGraph)
         {
             this.navigationGraph = navigationGraph;
             InitializeRequesters();
+
+            navigationGraph.OnCreateGrid += FinishAllPaths;
         }
 
         private void InitializeRequesters()
@@ -57,13 +58,26 @@ namespace Pathfinding.RequesterStrategy
 
         public abstract bool RequestPath(IAgent agent, Cell start, Cell end);
 
-        public virtual void FinishPath()
+        public virtual void SetPathToAgent()
         {
             for (int i = requests.Count - 1; i >= 0; i--)
             {
                 var req = requests[i];
                 if (!req.handle.IsCompleted) continue;
 
+                req.handle.Complete();
+                req.agent.SetPath(req.path);
+
+                pathRequestPool.Release(req);
+                requests.RemoveAtSwapBack(req);
+            }
+        }
+
+        private void FinishAllPaths()
+        {
+            for (int i = requests.Count - 1; i >= 0; i--)
+            {
+                var req = requests[i];
                 req.handle.Complete();
                 req.agent.SetPath(req.path);
 
@@ -84,6 +98,8 @@ namespace Pathfinding.RequesterStrategy
             }
 
             pathRequestPool.Clear();
+
+            navigationGraph.OnCreateGrid -= FinishAllPaths;
         }
 
         public void Clear() => Dispose();

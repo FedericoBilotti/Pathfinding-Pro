@@ -1,4 +1,5 @@
 using Agents;
+using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -59,6 +60,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
 
+        // This allows to not blocked the main thread.
+        if (!_handle.IsCompleted)
+            return;
+
+        _handle.Complete();
+        DisposeArrays();
         CreateArrays();
 
         for (int i = 0; i < _agents.Count; i++)
@@ -74,7 +81,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking[i] = agent.AutoBraking;
         }
 
-        var job = new AgentUpdateJob
+        _handle = new AgentUpdateJob
         {
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
@@ -84,11 +91,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             changeWaypointDistances = _changeWaypointDistances,
             autoBraking = _autoBraking,
             deltaTime = Time.deltaTime
-        };
-
-        _handle = job.Schedule(_transforms);
-        _handle.Complete();
-        DisposeArrays();
+        }.Schedule(_transforms);
     }
 
     private void CreateArrays()

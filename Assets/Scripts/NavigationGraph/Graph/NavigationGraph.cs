@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
@@ -37,6 +38,8 @@ namespace NavigationGraph
 
         public NavigationGraphType GraphType { get; protected set; }
 
+        public Action OnCreateGrid { get; set; }
+
         protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
         {
             this.checkType = checkType;
@@ -60,7 +63,7 @@ namespace NavigationGraph
         public abstract void CreateGrid();
 
         public NativeArray<Cell> GetGrid() => grid;
-        public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
+        public Cell GetRandomCell() => grid[UnityEngine.Random.Range(0, grid.Length)];
         public float GetCellSize() => cellSize;
         public float GetCellDiameter() => cellDiameter;
         public int GetGridSizeLength() => gridSize.x * gridSize.z;

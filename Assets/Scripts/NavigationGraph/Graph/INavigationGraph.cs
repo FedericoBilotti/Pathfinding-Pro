@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using UnityEngine;
 
@@ -21,5 +22,7 @@ namespace NavigationGraph
         Cell GetCellWithWorldPosition(Vector3 worldPosition);
         Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
+
+        Action OnCreateGrid { get; set; }
     }
 }

@@ -7338,7 +7338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &195021665
 Transform:
   m_ObjectHideFlags: 0
@@ -7348,7 +7348,7 @@ Transform:
   m_GameObject: {fileID: 195021664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -82.06, y: 0.06, z: -8.45}
+  m_LocalPosition: {x: -76.23, y: 0.06, z: -7.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7385,7 +7385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195021664}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b702572e9f3b8b4a96ccd86616d12d3, type: 3}
   m_Name: 
@@ -31790,7 +31790,7 @@ MonoBehaviour:
   _gridSize: {x: 225, y: 40, z: 120}
   _cellSize: 0.5
   _maxHeightDifference: 1
-  _obstacleMargin: 0
+  _obstacleMargin: 1
   _cliffMargin: 2
   _terrainTypes:
   - terrainMask:
@@ -50183,7 +50183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &1224878549
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -50216,7 +50216,7 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -118.9, y: 2.57, z: 7.6}
+  m_LocalPosition: {x: -112.51, y: 2.57, z: 16.23}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:

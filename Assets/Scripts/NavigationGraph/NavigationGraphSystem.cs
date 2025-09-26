@@ -30,8 +30,8 @@ namespace NavigationGraph
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
 
-        private float _radius = 1f;
-        private float _height = 2f;
+        private float _radius = 1f; // This is for the capsule & sphere
+        private float _height = 2f; // This is for the capsule
 
         public float Radius { get => _radius; set => _radius = value; }
         public float Height { get => _height; set => _height = value; }
@@ -53,6 +53,11 @@ namespace NavigationGraph
         {
             _graph?.Destroy();
             ServiceLocator.Instance.RemoveService<INavigationGraph>();
+        }
+
+        void Update()
+        {
+            _graph.CreateGrid();   
         }
 
         private void OnValidate()

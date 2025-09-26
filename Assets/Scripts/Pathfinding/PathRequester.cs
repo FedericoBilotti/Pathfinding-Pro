@@ -36,11 +36,11 @@ namespace Pathfinding
             switch (_requestType)
             {
                 case PathRequestType.AStar:
-                    _aStar.FinishPath();
+                    _aStar.SetPathToAgent();
                     break;
 
                 case PathRequestType.ThetaStar:
-                    _thetaStar.FinishPath();
+                    _thetaStar.SetPathToAgent();
                     break;
 
                 default:
