@@ -4,12 +4,11 @@ namespace NavigationGraph
 {
     public class GridDataAsset : ScriptableObject
     {
-        public Vector3Int gridSize;
+        [field: SerializeField] public Vector3Int GridSize { get; set; }
         public CellData[] cells;
         public NeighborsCell neighborsCell;
     }
 
-    [System.Serializable]
     public struct NeighborsCell
     {
         public int[] neighbors;
@@ -17,7 +16,6 @@ namespace NavigationGraph
         public int[] neighborOffsets;
     }
 
-    [System.Serializable]
     public struct CellData
     {
         public Vector3 position;

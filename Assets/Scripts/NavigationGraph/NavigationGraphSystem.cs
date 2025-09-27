@@ -105,7 +105,7 @@ namespace NavigationGraph
             var neighborOffsets = _graph.GetNeighborOffsets();
 
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
-            asset.gridSize = _gridSize;
+            asset.GridSize = _gridSize;
             asset.cells = new CellData[_gridSize.x * _gridSize.z];
             asset.neighborsCell.neighbors = new int[neighbors.Length];
             asset.neighborsCell.neighborTotalCount = new int[neighborTotalCounts.Length];
@@ -141,27 +141,26 @@ namespace NavigationGraph
                 asset.neighborsCell.neighborOffsets[i] = neighborOffsets[i];
 
             string folder = Path.GetDirectoryName(assetPath);
+
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            // Save asset
-            UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
+            SaveAsset(assetPath, asset);
 
             Debug.Log($"Grid baked and saved as asset at: {assetPath}");
 
             return asset;
         }
 
-        public void SetBakeGrid(GridDataAsset grid) => GridBaked = grid;
-
-        public void SaveGrid(string path)
+        private static void SaveAsset(string assetPath, GridDataAsset asset)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            using FileStream file = File.Create(path);
-            bf.Serialize(file, GridBaked);
+            UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
         }
+
+
+        public void SetBakeGrid(GridDataAsset grid) => GridBaked = grid;
 
 #if UNITY_EDITOR
 
