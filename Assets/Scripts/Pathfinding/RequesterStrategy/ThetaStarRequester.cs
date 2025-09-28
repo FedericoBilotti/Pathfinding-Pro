@@ -16,8 +16,6 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
-            int patience = navigationGraph.GetGridSizeLength() / 4;
-
             JobHandle aStarJob = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
@@ -30,14 +28,7 @@ namespace Pathfinding.RequesterStrategy
                 gridSizeX = navigationGraph.GetXSize(),
                 startIndex = start.gridIndex,
                 endIndex = end.gridIndex,
-                patience = patience,
             }.Schedule();
-
-            if (patience < 0)
-            {
-                Assert.IsFalse(patience < 0, "Pathfinding timed out");
-                return false;
-            }
 
             JobHandle addPath = new AddPath
             {

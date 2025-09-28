@@ -24,8 +24,6 @@ namespace Pathfinding.PathImplementation
         public int startIndex;
         public int endIndex;
 
-        public int patience;
-
         public void Execute()
         {
             var unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
@@ -33,7 +31,7 @@ namespace Pathfinding.PathImplementation
             openList.Enqueue(startData);
             visitedNodes.Add(startIndex, startData);
 
-            while (openList.Length > 0 && patience >= 0)
+            while (openList.Length > 0)
             {
                 PathCellData currentData = openList.Dequeue();
                 int currentIndex = currentData.cellIndex;
