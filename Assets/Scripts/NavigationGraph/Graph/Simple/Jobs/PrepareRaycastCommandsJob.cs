@@ -15,10 +15,11 @@ namespace NavigationGraph.Graph
         {
             [WriteOnly] public NativeArray<RaycastCommand> commands;
             public Vector3 origin;
-            public float cellDiameter;
+            public int ignoreMasks;
             public int gridSizeX;
             public int gridSizeY;
             public int walkableMask;
+            public float cellDiameter;
             public PhysicsScene physicsScene;
 
             public void Execute(int i)
@@ -30,7 +31,7 @@ namespace NavigationGraph.Graph
                     + Vector3.right * ((x + 0.5f) * cellDiameter)
                     + Vector3.forward * ((y + 0.5f) * cellDiameter);
                 
-                var queryParams = new QueryParameters { layerMask = ~0 };
+                var queryParams = new QueryParameters { layerMask = ~ignoreMasks };
 
                 commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * gridSizeY, Vector3.down, queryParams, gridSizeY);
             }

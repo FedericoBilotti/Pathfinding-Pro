@@ -1,4 +1,5 @@
 using Agents;
+using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
@@ -13,7 +14,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     // Maybe I can remove this "_agents" and use only the TransformAccessArray?
     // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
     // But now i need to manually do it in register and unregister methods.
-    private SwapBackList<AgentNavigation> _agents;
+    private SwapBackListIndexed<AgentNavigation> _agents;
     private TransformAccessArray _transforms;
 
     private NativeArray<float3> _finalTargets;
@@ -29,15 +30,14 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     protected override void InitializeSingleton()
     {
-        _agents = new SwapBackList<AgentNavigation>(InitialCapacity);
+        _agents = new SwapBackListIndexed<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
     }
 
     public void RegisterAgent(AgentNavigation agent)
     {
+        if (_agents == null || !_transforms.isCreated) return;
         if (!agent || _agents.Contains(agent)) return;
-        if (!_handle.IsCompleted)
-            _handle.Complete();
 
         _transforms.Add(agent.transform);
         _agents.Add(agent);
@@ -45,20 +45,27 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     public void UnregisterAgent(AgentNavigation agent)
     {
+        if (_agents == null || !_transforms.isCreated) return;
         if (!agent || !_agents.Contains(agent)) return;
-        if (!_handle.IsCompleted)
-            _handle.Complete();
 
+#if UNITY_EDITOR
         if (agent is not IIndexed indexedAgent) throw new System.Exception("Agent Navigation doesn't implement IIndexed interface");
+#endif
 
         _transforms.RemoveAtSwapBack(indexedAgent.Index);
-        _agents.Remove(agent);
+        _agents.RemoveAtSwapBack(agent);
     }
 
     private void Update()
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
 
+        // This allows to not blocked the main thread.
+        if (!_handle.IsCompleted)
+            return;
+
+        _handle.Complete();
+        DisposeArrays();
         CreateArrays();
 
         for (int i = 0; i < _agents.Count; i++)
@@ -74,7 +81,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking[i] = agent.AutoBraking;
         }
 
-        var job = new AgentUpdateJob
+        _handle = new AgentUpdateJob
         {
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
@@ -84,11 +91,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             changeWaypointDistances = _changeWaypointDistances,
             autoBraking = _autoBraking,
             deltaTime = Time.deltaTime
-        };
-
-        _handle = job.Schedule(_transforms);
-        _handle.Complete();
-        DisposeArrays();
+        }.Schedule(_transforms);
     }
 
     private void CreateArrays()
@@ -118,8 +121,8 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void OnDestroy()
     {
-        if (_transforms.isCreated) _transforms.Dispose();
         DisposeArrays();
+        if (_transforms.isCreated) _transforms.Dispose();
     }
 
     [BurstCompile]
@@ -138,6 +141,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             float3 finalTarget = finalTargets[index];
             if (finalTarget.Equals(float3.zero)) return;
+            if (!math.all(math.isfinite(finalTarget))) return;
 
             float3 position = transform.position;
             if (!math.all(math.isfinite(position))) return;
@@ -167,6 +171,10 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
                 {
                     float actualSpeed = speed * (distance / margin);
                     position += actualSpeed * deltaTime * math.normalize(direction);
+
+                    if (!math.all(math.isfinite(position)))
+                        return;
+
                     RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
                     transform.position = position;
                     return;
@@ -176,6 +184,10 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             if (math.lengthsq(direction) > 0.0001f)
             {
                 position += deltaTime * speed * math.normalize(direction);
+
+                if (!math.all(math.isfinite(position)))
+                    return;
+
                 RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
                 transform.position = position;
             }

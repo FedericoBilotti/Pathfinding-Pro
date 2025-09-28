@@ -4,9 +4,9 @@ namespace NavigationGraph
 {
     public class GridDataAsset : ScriptableObject
     {
-        public Vector3Int gridSize;
-        public CellData[] cells;
-        public NeighborsCell neighborsCell;
+        [field: SerializeField] public Vector3Int GridSize { get; set; }
+        [HideInInspector] public CellData[] cells;
+        [HideInInspector] public NeighborsCell neighborsCell;
     }
 
     [System.Serializable]

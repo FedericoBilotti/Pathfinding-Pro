@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace NavigationGraph
     {
         void Initialize(GridDataAsset gridBaked);
         void Destroy();
+        void CreateGrid();
         bool? DrawGizmos();
         int GetGridSizeLength();
         float GetCellSize();
@@ -20,5 +22,8 @@ namespace NavigationGraph
         Cell GetCellWithWorldPosition(Vector3 worldPosition);
         Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
+
+        Action OnCreateGrid { get; set; }
+        Action OnDeleteGrid { get; set; }
     }
 }

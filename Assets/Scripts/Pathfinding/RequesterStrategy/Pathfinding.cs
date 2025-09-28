@@ -13,21 +13,23 @@ namespace Pathfinding.RequesterStrategy
     {
         protected readonly INavigationGraph navigationGraph;
 
-        protected SwapBackList<PathRequest> requests;
+        protected SwapBackListIndexed<PathRequest> requests;
         protected IObjectPool<PathRequest> pathRequestPool;
-
 
         protected Pathfinding(INavigationGraph navigationGraph)
         {
             this.navigationGraph = navigationGraph;
             InitializeRequesters();
+
+            navigationGraph.OnCreateGrid += FinishAllPaths;
+            navigationGraph.OnDeleteGrid += FinishAllPaths;
         }
 
         private void InitializeRequesters()
         {
             const int CAPACITY = 20;
             const int MAX_SIZE = 1000;
-            requests = new SwapBackList<PathRequest>(CAPACITY);
+            requests = new SwapBackListIndexed<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
                 path = new NativeList<Cell>(30, Allocator.Persistent),
@@ -57,7 +59,7 @@ namespace Pathfinding.RequesterStrategy
 
         public abstract bool RequestPath(IAgent agent, Cell start, Cell end);
 
-        public virtual void FinishPath()
+        public virtual void SetPathToAgent()
         {
             for (int i = requests.Count - 1; i >= 0; i--)
             {
@@ -68,7 +70,20 @@ namespace Pathfinding.RequesterStrategy
                 req.agent.SetPath(req.path);
 
                 pathRequestPool.Release(req);
-                requests.Remove(req);
+                requests.RemoveAtSwapBack(req);
+            }
+        }
+
+        private void FinishAllPaths()
+        {
+            for (int i = requests.Count - 1; i >= 0; i--)
+            {
+                var req = requests[i];
+                req.handle.Complete();
+                req.agent.SetPath(req.path);
+
+                pathRequestPool.Release(req);
+                requests.RemoveAtSwapBack(req);
             }
         }
 
@@ -84,6 +99,9 @@ namespace Pathfinding.RequesterStrategy
             }
 
             pathRequestPool.Clear();
+
+            navigationGraph.OnCreateGrid -= FinishAllPaths;
+            navigationGraph.OnDeleteGrid -= FinishAllPaths;
         }
 
         public void Clear() => Dispose();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
@@ -16,6 +17,7 @@ namespace NavigationGraph
         protected TerrainType[] terrainTypes;
         protected Vector3Int gridSize;
         protected LayerMask walkableMask;
+        protected LayerMask ignoreMasksAtCreateGrid;
 
         protected readonly Transform transform;
 
@@ -30,11 +32,15 @@ namespace NavigationGraph
         protected float cellSize;
         protected float cellDiameter;
         protected float maxHeightDifference;
+        protected float inclineLimit;
 
         protected float obstacleMargin;
         protected float cliffMargin;
 
         public NavigationGraphType GraphType { get; protected set; }
+
+        public Action OnCreateGrid { get; set; }
+        public Action OnDeleteGrid { get; set; }
 
         protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
         {
@@ -48,17 +54,19 @@ namespace NavigationGraph
             cliffMargin = navigationGraphConfig.cliffMargin;
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
             maxHeightDifference = navigationGraphConfig.maxHeightDifference;
+            inclineLimit = navigationGraphConfig.inclineLimit;
+            ignoreMasksAtCreateGrid = navigationGraphConfig.ignoreMaskAtCreateGrid;
 
             var totalGridSize = gridSize.x * gridSize.z;
             _visited = new int[totalGridSize];
             _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
-        protected abstract void LoadGridFromDisk(GridDataAsset gridBaked);
-        protected abstract void CreateGrid();
+        protected abstract void LoadGridFromMemory(GridDataAsset gridBaked);
+        public abstract void CreateGrid();
 
         public NativeArray<Cell> GetGrid() => grid;
-        public Cell GetRandomCell() => grid[Random.Range(0, grid.Length)];
+        public Cell GetRandomCell() => grid[UnityEngine.Random.Range(0, grid.Length)];
         public float GetCellSize() => cellSize;
         public float GetCellDiameter() => cellDiameter;
         public int GetGridSizeLength() => gridSize.x * gridSize.z;
@@ -187,13 +195,15 @@ namespace NavigationGraph
             }
 
             if (gridBaked)
-                LoadGridFromDisk(gridBaked);
+                LoadGridFromMemory(gridBaked);
             else
                 CreateGrid();
         }
 
         public void Destroy()
         {
+            OnDeleteGrid?.Invoke();
+            
             if (grid.IsCreated) grid.Dispose();
             if (neighbors.IsCreated) neighbors.Dispose();
             if (neighborOffSet.IsCreated) neighborOffSet.Dispose();

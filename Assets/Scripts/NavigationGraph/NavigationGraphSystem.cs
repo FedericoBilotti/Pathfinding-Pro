@@ -19,19 +19,20 @@ namespace NavigationGraph
         [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
         [SerializeField] private float _cellSize = 0.5f;
         [SerializeField] private float _maxHeightDifference = 0.01f;
-        [SerializeField, Range(0f, 50f)] private float _obstacleMargin = 0.5f;
-        [SerializeField, Range(0f, 50f)] private float _cliffMargin = 0.5f;
+        [SerializeField, Range(0f, 10)] private float _obstacleMargin = 0.5f;
+        [SerializeField, Range(0f, 10f)] private float _cliffMargin = 0.5f;
 
         [SerializeField] private TerrainType[] _terrainTypes;
 
         [Header("Check Obstacles")]
         [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
+        [SerializeField] private LayerMask _ignoreMaskAtCreateGrid = 0;
         [SerializeField] private LayerMask _notWalkableMask;
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
 
-        private float _radius = 1f;
-        private float _height = 2f;
+        private float _radius = 1f; // This is for the capsule & sphere
+        private float _height = 2f; // This is for the capsule
 
         public float Radius { get => _radius; set => _radius = value; }
         public float Height { get => _height; set => _height = value; }
@@ -60,6 +61,8 @@ namespace NavigationGraph
             _gridSize.x = Mathf.Max(1, _gridSize.x);
             _gridSize.y = Mathf.Max(1, _gridSize.y);
             _gridSize.z = Mathf.Max(1, _gridSize.z);
+
+            _maxHeightDifference = Mathf.Max(0.1f, _maxHeightDifference);
         }
 
         private LayerMask GetWalkableMask()
@@ -85,11 +88,11 @@ namespace NavigationGraph
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
-                maxHeightDifference = _maxHeightDifference
+                maxHeightDifference = _maxHeightDifference,
+                inclineLimit = _inclineLimit,
+                ignoreMaskAtCreateGrid = _ignoreMaskAtCreateGrid,
             };
         }
-
-#if UNITY_EDITOR
 
         public GridDataAsset BakeGridAsset(string assetPath)
         {
@@ -102,7 +105,7 @@ namespace NavigationGraph
             var neighborOffsets = _graph.GetNeighborOffsets();
 
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
-            asset.gridSize = _gridSize;
+            asset.GridSize = _gridSize;
             asset.cells = new CellData[_gridSize.x * _gridSize.z];
             asset.neighborsCell.neighbors = new int[neighbors.Length];
             asset.neighborsCell.neighborTotalCount = new int[neighborTotalCounts.Length];
@@ -138,27 +141,28 @@ namespace NavigationGraph
                 asset.neighborsCell.neighborOffsets[i] = neighborOffsets[i];
 
             string folder = Path.GetDirectoryName(assetPath);
+
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            // Save asset
-            UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
+            SaveAsset(assetPath, asset);
 
             Debug.Log($"Grid baked and saved as asset at: {assetPath}");
 
             return asset;
         }
 
+        private static void SaveAsset(string assetPath, GridDataAsset asset)
+        {
+            UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+        }
+
+
         public void SetBakeGrid(GridDataAsset grid) => GridBaked = grid;
 
-        public void SaveGrid(string path)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            using FileStream file = File.Create(path);
-            bf.Serialize(file, GridBaked);
-        }
+#if UNITY_EDITOR
 
         public void DeleteGrid(string path)
         {
@@ -271,5 +275,7 @@ namespace NavigationGraph
         public float obstacleMargin;
         public float cliffMargin;
         public float maxHeightDifference;
+        public float inclineLimit;
+        public LayerMask ignoreMaskAtCreateGrid;
     }
 }

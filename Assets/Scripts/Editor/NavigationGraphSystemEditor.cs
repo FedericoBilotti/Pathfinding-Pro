@@ -73,19 +73,17 @@ namespace NavigationGraph
                 if (!Directory.Exists(basePath))
                     Directory.CreateDirectory(basePath);
 
-                string newPath = EditorUtility.SaveFilePanelInProject(
-                    "Save Baked Grid Asset",
-                    "Baked Grid",
-                    "asset",
-                    "Please enter a file name to save the grid asset to",
-                    scenePath
-                );
+                string newPath = Path.Combine(basePath, "BakedGrid.asset");
+                newPath = newPath.Replace(Application.dataPath, "Assets");
 
-                if (!string.IsNullOrEmpty(newPath))
+                if (string.IsNullOrEmpty(newPath))
                 {
-                    GridDataAsset asset = visualizer.BakeGridAsset(newPath);
-                    visualizer.SetBakeGrid(asset);
+                    Debug.Log("The path is Null or Empty");
+                    return;
                 }
+
+                GridDataAsset asset = visualizer.BakeGridAsset(newPath);
+                visualizer.SetBakeGrid(asset);
             }
         }
 
