@@ -1,7 +1,6 @@
 using System;
 using Agents;
 using NavigationGraph;
-using NavigationGraph.Graph;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine.Pool;
