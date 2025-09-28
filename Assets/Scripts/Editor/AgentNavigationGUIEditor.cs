@@ -65,7 +65,7 @@ public class AgentNavigationGUIEditor : Editor
         {
             Handles.color = Color.black;
             Handles.DrawLine(i == agent.CurrentWaypoint ? agent.transform.position : agent.WaypointsPath[i - 1], agent.WaypointsPath[i]);
-            Handles.CubeHandleCap(0, agent.WaypointsPath[i], Quaternion.identity, 0.1f, EventType.Repaint);
+            // Handles.CubeHandleCap(0, agent.WaypointsPath[i], Quaternion.identity, 0.1f, EventType.Repaint);
             Handles.color = Color.blue;
             Handles.DrawLine(agent.transform.position, agent.WaypointsPath[agent.CurrentWaypoint]);
         }
