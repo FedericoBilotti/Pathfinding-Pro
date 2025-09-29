@@ -218,6 +218,13 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
+            if (GridBaked != null)
+            {
+                DrawCubeForGrid(true);
+                GridBaked.DrawGizmos(_cellSize * 2);
+                return;
+            }
+
             bool? drawed = _graph?.DrawGizmos();
             DrawCubeForGrid(drawed);
         }
