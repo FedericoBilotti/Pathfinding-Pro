@@ -1252,6 +1252,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &35658292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,6 +1703,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &43940966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1978,6 +1982,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &52956519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2513,6 +2519,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &72871898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2618,6 +2626,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &73642381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3158,6 +3168,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &77661075
 Transform:
   m_ObjectHideFlags: 0
@@ -3280,6 +3292,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &83433719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3471,6 +3485,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &86019627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3748,6 +3764,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &88948213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4283,6 +4301,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &98107728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4388,6 +4408,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &99977761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5009,6 +5031,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &124182590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5114,6 +5138,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &127141370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,6 +5228,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &130662727
 Transform:
   m_ObjectHideFlags: 0
@@ -5995,6 +6023,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &152220634
 Transform:
   m_ObjectHideFlags: 0
@@ -6100,6 +6130,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &153926668
 Transform:
   m_ObjectHideFlags: 0
@@ -6222,6 +6254,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &154130138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6843,6 +6877,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &176819340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6948,6 +6984,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &178931137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7311,6 +7349,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &187921095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7588,6 +7628,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &192534534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7643,7 +7685,7 @@ Transform:
   m_GameObject: {fileID: 195021664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -57.79, y: 0.06, z: 24.69}
+  m_LocalPosition: {x: -65.28, y: 0.06, z: 16.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7692,7 +7734,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195021664}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 667ed6a1edc84d24099e55b69930ac34, type: 3}
   m_Name: 
@@ -7704,6 +7746,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &195021669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7882,6 +7926,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &198850794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7987,6 +8033,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &201008796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8092,6 +8140,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &202760905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8438,6 +8488,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &205086508
 Transform:
   m_ObjectHideFlags: 0
@@ -8560,6 +8612,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &205262417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9422,6 +9476,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &224912984
 Transform:
   m_ObjectHideFlags: 0
@@ -10129,6 +10185,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &234758188
 Transform:
   m_ObjectHideFlags: 0
@@ -10681,6 +10739,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &244531713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10936,6 +10996,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &247919625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11665,6 +11727,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &277478979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11770,6 +11834,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &277675455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12133,6 +12199,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &288986760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12238,6 +12306,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &289626706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12326,6 +12396,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &292549823
 Transform:
   m_ObjectHideFlags: 0
@@ -12534,6 +12606,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &293683853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12639,6 +12713,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &295100511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13088,6 +13164,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &310918336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13193,6 +13271,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &312878074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13733,6 +13813,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &325904775
 Transform:
   m_ObjectHideFlags: 0
@@ -14272,6 +14354,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &333125594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14532,6 +14616,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &345853462
 Transform:
   m_ObjectHideFlags: 0
@@ -15106,6 +15192,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &356763664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15405,6 +15493,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &361463461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15923,6 +16013,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &371104047
 Transform:
   m_ObjectHideFlags: 0
@@ -16217,6 +16309,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &377707734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16477,6 +16571,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &381791779
 Transform:
   m_ObjectHideFlags: 0
@@ -16857,6 +16953,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &404856212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16962,6 +17060,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &405348643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17067,6 +17167,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &407783416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17723,6 +17825,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &418047232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18000,6 +18104,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &421042518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18105,6 +18211,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &423923717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18210,6 +18318,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &424202776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18573,6 +18683,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &435478110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19280,6 +19392,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &445589042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19454,6 +19568,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &450071279
 Transform:
   m_ObjectHideFlags: 0
@@ -20092,6 +20208,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &460023080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20283,6 +20401,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &469293471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20474,6 +20594,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &472687586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20751,6 +20873,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &477207159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20942,6 +21066,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &479336233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21133,6 +21259,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &481374356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21393,6 +21521,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &489848668
 Transform:
   m_ObjectHideFlags: 0
@@ -21515,6 +21645,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &492547066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21728,6 +21860,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &498219161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22091,6 +22225,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &505604952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22282,6 +22418,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &511172414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22456,6 +22594,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &515315020
 Transform:
   m_ObjectHideFlags: 0
@@ -23310,6 +23450,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &536523007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24705,6 +24847,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &567997055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24982,6 +25126,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &577191658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25087,6 +25233,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &580797368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25433,6 +25581,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &586149326
 Transform:
   m_ObjectHideFlags: 0
@@ -25985,6 +26135,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &609014750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26198,6 +26350,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &613704841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26389,6 +26543,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &618685660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26563,6 +26719,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &622670370
 Transform:
   m_ObjectHideFlags: 0
@@ -26685,6 +26843,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &623858031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26962,6 +27122,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &632851546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27411,6 +27573,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &645405256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27602,6 +27766,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &650076454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27965,6 +28131,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &661958939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28500,6 +28668,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &687196947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29315,6 +29485,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &696224554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29403,6 +29575,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &698888052
 Transform:
   m_ObjectHideFlags: 0
@@ -29611,6 +29785,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &700661274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29716,6 +29892,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &700876762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29907,6 +30085,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &702893308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30012,6 +30192,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &704756342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30117,6 +30299,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &705701473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30524,6 +30708,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &709772198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30887,6 +31073,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &718807943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31599,6 +31787,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &737714740
 Transform:
   m_ObjectHideFlags: 0
@@ -31721,6 +31911,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &744544383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32084,6 +32276,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &754708846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32796,6 +32990,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &772563131
 Transform:
   m_ObjectHideFlags: 0
@@ -33124,7 +33320,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -142.4, y: -15.5, z: -37.8}
+  m_LocalPosition: {x: -142.3, y: -15.5, z: -37.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33158,16 +33354,15 @@ MonoBehaviour:
   - terrainMask:
       serializedVersion: 2
       m_Bits: 256
-    terrainPenalty: 1
-  _inclineLimit: 34
+    terrainPenalty: 6
+  _inclineLimit: 45
   _ignoreMaskAtCreateGrid:
     serializedVersion: 2
     m_Bits: 1
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  <GridBaked>k__BackingField: {fileID: 11400000, guid: e6e9e34d0e09c4343a45e23639d2d3e0, type: 2}
-  _raycastCheckType: 0
+  _gridBaked: {fileID: 11400000, guid: e6e9e34d0e09c4343a45e23639d2d3e0, type: 2}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33431,6 +33626,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &784515441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33605,6 +33802,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &788103158
 Transform:
   m_ObjectHideFlags: 0
@@ -34674,6 +34873,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &825510526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34951,6 +35152,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &826887495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35056,6 +35259,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &826902639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35247,6 +35452,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &828770575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35352,6 +35559,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &832343081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35457,6 +35666,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &832372845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35611,6 +35822,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &833239891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35785,6 +35998,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &839254370
 Transform:
   m_ObjectHideFlags: 0
@@ -36681,6 +36896,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &854847711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36872,6 +37089,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &862408845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37063,6 +37282,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &864886274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37426,6 +37647,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &867488210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37789,6 +38012,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &873078490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37894,6 +38119,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &873513033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38240,6 +38467,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &880723447
 Transform:
   m_ObjectHideFlags: 0
@@ -38362,6 +38591,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &880833038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38467,6 +38698,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &881443034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38555,6 +38788,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &884103937
 Transform:
   m_ObjectHideFlags: 0
@@ -39279,6 +39514,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &901500495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39384,6 +39621,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &901506295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39661,6 +39900,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &912725281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39852,6 +40093,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &920290192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39940,6 +40183,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &922410580
 Transform:
   m_ObjectHideFlags: 0
@@ -40062,6 +40307,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &928855655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40425,6 +40672,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &931264762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40940,6 +41189,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &953156298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41131,6 +41382,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &954675362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41344,6 +41597,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &956302964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41449,6 +41704,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &957323227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41554,6 +41811,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &961193579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42089,6 +42348,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &972502190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42624,6 +42885,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &981532935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42729,6 +42992,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &983476136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42834,6 +43099,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &984451115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42939,6 +43206,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &993329658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43130,6 +43399,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &997825941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43235,6 +43506,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &999143764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43684,6 +43957,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1006256017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44030,6 +44305,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1009500053
 Transform:
   m_ObjectHideFlags: 0
@@ -44238,6 +44515,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1016226420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44343,6 +44622,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1021287145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44620,6 +44901,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1027841839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44725,6 +45008,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1028337902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44938,6 +45223,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1030247921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45112,6 +45399,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1034878187
 Transform:
   m_ObjectHideFlags: 0
@@ -45320,6 +45609,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1037371682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45769,6 +46060,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1055032831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46137,6 +46430,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1062122868
 Transform:
   m_ObjectHideFlags: 0
@@ -46259,6 +46554,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1064322439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47418,6 +47715,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1088375713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47523,6 +47822,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1091284222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47628,6 +47929,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1092391318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47802,6 +48105,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1096568566
 Transform:
   m_ObjectHideFlags: 0
@@ -48182,6 +48487,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1111963442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48373,6 +48680,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1115286370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48461,6 +48770,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1116018985
 Transform:
   m_ObjectHideFlags: 0
@@ -48738,6 +49049,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1120177201
 Transform:
   m_ObjectHideFlags: 0
@@ -48946,6 +49259,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1122517276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49137,6 +49452,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1127376663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49311,6 +49628,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1135816669
 Transform:
   m_ObjectHideFlags: 0
@@ -49416,6 +49735,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1138881700
 Transform:
   m_ObjectHideFlags: 0
@@ -49710,6 +50031,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1149993887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49987,6 +50310,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1153513520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50522,6 +50847,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1172306967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51057,6 +51384,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1194262598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51162,6 +51491,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1195201667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51461,6 +51792,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1207050300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51932,6 +52265,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1213827197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52295,6 +52630,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1223934534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52383,6 +52720,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1224264286
 Transform:
   m_ObjectHideFlags: 0
@@ -52586,7 +52925,7 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -96.37, y: 2.56, z: 21.04}
+  m_LocalPosition: {x: -98.18, y: 2.56, z: 22.27}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52619,13 +52958,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667ed6a1edc84d24099e55b69930ac34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 5
   rotationSpeed: 10
   changeWaypointDistance: 1.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1224878556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52804,6 +53145,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1226674338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52892,6 +53235,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1228384602
 Transform:
   m_ObjectHideFlags: 0
@@ -53014,6 +53359,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1233749706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53291,6 +53638,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1236990930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53826,6 +54175,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1250425986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54039,6 +54390,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1257562789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54424,6 +54777,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1264087051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54959,6 +55314,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1271131665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55064,6 +55421,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1271738496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55255,6 +55614,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1274667595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55446,6 +55807,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1275385495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55723,6 +56086,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1281857148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55828,6 +56193,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1282507284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56002,6 +56369,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1285454357
 Transform:
   m_ObjectHideFlags: 0
@@ -56124,6 +56493,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1292744840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56229,6 +56600,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1295884589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56592,6 +56965,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1306638200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56680,6 +57055,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1306809010
 Transform:
   m_ObjectHideFlags: 0
@@ -56974,6 +57351,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1312418842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57337,6 +57716,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1321658405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57872,6 +58253,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1341649733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58235,6 +58618,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1344342800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58878,6 +59263,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1361581140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58983,6 +59370,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1361930231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59454,6 +59843,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1370655861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59714,6 +60105,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1373053186
 Transform:
   m_ObjectHideFlags: 0
@@ -59836,6 +60229,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1373722267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59941,6 +60336,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1373816247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60046,6 +60443,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1382499314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60151,6 +60550,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1384909047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60256,6 +60657,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1386065375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60619,6 +61022,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1388436850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60896,6 +61301,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1391146942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61087,6 +61494,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1392726064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61261,6 +61670,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1397532414
 Transform:
   m_ObjectHideFlags: 0
@@ -61555,6 +61966,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1405822184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61660,6 +62073,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1406609279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61765,6 +62180,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1409481200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62300,6 +62717,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1421841382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62491,6 +62910,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1425023742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62682,6 +63103,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1425918501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62787,6 +63210,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1427644705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63236,6 +63661,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1444294633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63599,6 +64026,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1452780623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63876,6 +64305,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1456903177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64136,6 +64567,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1469152948
 Transform:
   m_ObjectHideFlags: 0
@@ -64452,6 +64885,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1477434185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65300,6 +65735,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1497478634
 Transform:
   m_ObjectHideFlags: 0
@@ -65594,6 +66031,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1508486834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66048,6 +66487,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1516308642
 Transform:
   m_ObjectHideFlags: 0
@@ -66153,6 +66594,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1518012574
 Transform:
   m_ObjectHideFlags: 0
@@ -66533,6 +66976,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1530040923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66896,6 +67341,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1534744202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67411,6 +67858,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1549404520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67882,6 +68331,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1555821104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67987,6 +68438,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1557722706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68264,6 +68717,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1559003643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68352,6 +68807,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1559515571
 Transform:
   m_ObjectHideFlags: 0
@@ -68560,6 +69017,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1560092949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68665,6 +69124,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1560807159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68753,6 +69214,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1562384764
 Transform:
   m_ObjectHideFlags: 0
@@ -69202,6 +69665,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1582162103
 Transform:
   m_ObjectHideFlags: 0
@@ -69324,6 +69789,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1583270771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69515,6 +69982,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1588004962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69620,6 +70089,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1589270425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69811,6 +70282,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1594576122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70088,6 +70561,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1600286446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70301,6 +70776,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1602805362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71008,6 +71485,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1631913547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71199,6 +71678,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1632213310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71304,6 +71785,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1634146841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71564,6 +72047,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1638083139
 Transform:
   m_ObjectHideFlags: 0
@@ -71772,6 +72257,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1641086301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72329,6 +72816,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1648622306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72606,6 +73095,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1654728129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72883,6 +73374,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1660705617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73418,6 +73911,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1678122623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74061,6 +74556,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1682010882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74532,6 +75029,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1694818835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74620,6 +75119,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1694989118
 Transform:
   m_ObjectHideFlags: 0
@@ -74828,6 +75329,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1703058096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75191,6 +75694,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1707688785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75451,6 +75956,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1710998281
 Transform:
   m_ObjectHideFlags: 0
@@ -75659,6 +76166,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1715364460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75764,6 +76273,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1718814319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76196,6 +76707,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1729244281
 Transform:
   m_ObjectHideFlags: 0
@@ -76706,6 +77219,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1739413598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76966,6 +77481,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1740020593
 Transform:
   m_ObjectHideFlags: 0
@@ -77088,6 +77605,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1740855122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77365,6 +77884,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1753138417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78485,6 +79006,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1777356752
 Transform:
   m_ObjectHideFlags: 0
@@ -78887,6 +79410,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1786176809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79078,6 +79603,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1788236383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79183,6 +79710,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1790724503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79443,6 +79972,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1800604031
 Transform:
   m_ObjectHideFlags: 0
@@ -79737,6 +80268,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1807954617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79842,6 +80375,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1809237310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80033,6 +80568,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1811153551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80138,6 +80675,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1813012688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80243,6 +80782,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1814113786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80520,6 +81061,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1819474906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81185,6 +81728,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1824529461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81273,6 +81818,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1825904272
 Transform:
   m_ObjectHideFlags: 0
@@ -81567,6 +82114,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1828088764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82210,6 +82759,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1838675651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82745,6 +83296,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1852793897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82850,6 +83403,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1853490434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83218,6 +83773,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1867122714
 Transform:
   m_ObjectHideFlags: 0
@@ -83512,6 +84069,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1872015799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83617,6 +84176,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1872916212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83705,6 +84266,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1873720850
 Transform:
   m_ObjectHideFlags: 0
@@ -83999,6 +84562,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1879172339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84190,6 +84755,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1885975619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84983,6 +85550,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1911290970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85088,6 +85657,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1912287761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85279,6 +85850,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1915042480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85367,6 +85940,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1915543233
 Transform:
   m_ObjectHideFlags: 0
@@ -86565,6 +87140,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1935740543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86670,6 +87247,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1939824630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86775,6 +87354,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1943306030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86863,6 +87444,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &1946177579
 Transform:
   m_ObjectHideFlags: 0
@@ -87243,6 +87826,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1950229183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87864,6 +88449,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1962854208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88163,6 +88750,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1968410685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88354,6 +88943,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1972220123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88631,6 +89222,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1987509112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88736,6 +89329,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &1993244465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88949,6 +89544,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2003465014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89506,6 +90103,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2017872054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89611,6 +90210,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2019029065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89888,6 +90489,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2025634789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90079,6 +90682,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2027347552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90184,6 +90789,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2029231224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90289,6 +90896,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2034306802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90807,6 +91416,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &2049310281
 Transform:
   m_ObjectHideFlags: 0
@@ -90929,6 +91540,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2053837429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91877,6 +92490,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &2106872424
 Transform:
   m_ObjectHideFlags: 0
@@ -91999,6 +92614,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2107625529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92104,6 +92721,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2108492337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92209,6 +92828,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2111979051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92383,6 +93004,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &2116964856
 Transform:
   m_ObjectHideFlags: 0
@@ -93004,6 +93627,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!4 &2128756997
 Transform:
   m_ObjectHideFlags: 0
@@ -93126,6 +93751,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2131907786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93769,6 +94396,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2141442235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94046,6 +94675,8 @@ MonoBehaviour:
   autoBraking: 1
   allowRePath: 1
   rePath: 0.5
+  agentHeightOffset: 1
+  agentRadius: 0.5
 --- !u!114 &2146908315
 MonoBehaviour:
   m_ObjectHideFlags: 0

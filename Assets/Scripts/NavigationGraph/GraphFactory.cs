@@ -5,12 +5,12 @@ namespace NavigationGraph
 {
     internal static class GraphFactory
     {
-        public static INavigationGraph Create(NavigationGraphType graphType, IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
+        public static INavigationGraph Create(NavigationGraphType graphType, NavigationGraphConfig navigationGraphConfig)
         {
             return graphType switch
             {
-                NavigationGraphType.Grid2D => new SimpleGridNavigationGraph(checkType, navigationGraphConfig),
-                NavigationGraphType.Grid3D => new WorldNavigationGraph(checkType, navigationGraphConfig),
+                NavigationGraphType.Grid2D => new SimpleGridNavigationGraph(navigationGraphConfig),
+                NavigationGraphType.Grid3D => new WorldNavigationGraph(navigationGraphConfig),
                 _ => throw new System.NotImplementedException()
             };
         }
