@@ -22,6 +22,10 @@ namespace Agents
         [SerializeField, HideInInspector, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
         [SerializeField, HideInInspector, Tooltip("Time that the agent it's going to ask a new path when reaching a target")] protected float rePath = 0.5f;
 
+        [Header("Agent Settings")]
+        [SerializeField, Tooltip("Height offset over the cell")] protected float agentHeightOffset = 1f;
+        [SerializeField, Tooltip("Radius of the agent")] protected float agentRadius = 0.5f;
+
         private IPathfinding _pathfinding;
 
         protected int currentWaypoint;
@@ -37,6 +41,8 @@ namespace Agents
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
+        public float AgentHeightOffset { get => agentHeightOffset; set => agentHeightOffset = Mathf.Max(0.1f, value); }
+        public float AgentRadius { get => agentRadius; set => agentRadius = Mathf.Max(0.1f, value); }
         public float StoppingDistance => stoppingDistance;
         public float3 FinalTargetPosition => finalTargetPosition;
 
