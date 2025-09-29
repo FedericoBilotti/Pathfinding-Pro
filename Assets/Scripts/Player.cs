@@ -1,5 +1,6 @@
 using Agents;
 using UnityEngine;
+using UnityEngine.AI;
 
 [SelectionBase]
 public class Player : MonoBehaviour

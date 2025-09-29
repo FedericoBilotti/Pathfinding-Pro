@@ -5,9 +5,6 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
-using Debug = UnityEngine.Debug;
 
 namespace Utilities
 {

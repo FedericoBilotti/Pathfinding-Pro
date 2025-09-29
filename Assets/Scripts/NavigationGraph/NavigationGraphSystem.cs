@@ -26,6 +26,10 @@ namespace NavigationGraph
         [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
         [SerializeField] private LayerMask _ignoreMaskAtCreateGrid = 0;
         [SerializeField] private LayerMask _notWalkableMask;
+
+        // This is for saving the path.
+        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
+
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
 
@@ -35,9 +39,6 @@ namespace NavigationGraph
         public float Radius { get => _radius; set => _radius = value; }
         public float Height { get => _height; set => _height = value; }
         public RaycastType RaycastCheckType => _raycastCheckType;
-
-        // This is for saving the path.
-        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
 
         private void Awake()
         {

@@ -15,7 +15,7 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
-            JobHandle aStarJob = new AStarJob
+            AStarJob aStarJobData = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
                 allNeighbors = navigationGraph.GetNeighbors(),
@@ -27,7 +27,9 @@ namespace Pathfinding.RequesterStrategy
                 gridSizeX = navigationGraph.GetXSize(),
                 startIndex = start.gridIndex,
                 endIndex = end.gridIndex
-            }.Schedule();
+            };
+
+            JobHandle aStarJob = aStarJobData.ScheduleByRef();
             
             JobHandle addPath = new AddPath
             {
