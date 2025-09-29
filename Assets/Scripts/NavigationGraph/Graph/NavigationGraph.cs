@@ -71,6 +71,7 @@ namespace NavigationGraph
         public float GetCellDiameter() => cellDiameter;
         public int GetGridSizeLength() => gridSize.x * gridSize.z;
         public int GetXSize() => gridSize.x;
+        public int GetZSize() => gridSize.z;
 
         public NativeArray<int> GetNeighbors() => neighbors;
         public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
@@ -185,7 +186,16 @@ namespace NavigationGraph
         {
             cellSize = Mathf.Max(0.05f, cellSize);
             cellDiameter = cellSize * 2;
+            InitializeWalkableRegionCost();
 
+            if (gridBaked)
+                LoadGridFromMemory(gridBaked);
+            else
+                CreateGrid();
+        }
+
+        private void InitializeWalkableRegionCost()
+        {
             walkableRegionsDic = new NativeHashMap<int, int>(terrainTypes.Length, Allocator.Persistent);
 
             foreach (var region in terrainTypes)
@@ -193,12 +203,8 @@ namespace NavigationGraph
                 walkableMask.value |= region.terrainMask.value;
                 walkableRegionsDic.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
             }
-
-            if (gridBaked)
-                LoadGridFromMemory(gridBaked);
-            else
-                CreateGrid();
         }
+
 
         public void Destroy()
         {

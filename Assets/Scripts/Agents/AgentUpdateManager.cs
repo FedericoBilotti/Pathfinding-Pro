@@ -1,6 +1,5 @@
 using Agents;
 using NavigationGraph;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -9,7 +8,7 @@ using UnityEngine.Jobs;
 using Utilities;
 
 [DefaultExecutionOrder(-950)]
-public class AgentUpdateManager : Singleton<AgentUpdateManager>
+public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
     // Maybe I can remove this "_agents" and use only the TransformAccessArray?
     // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
@@ -35,7 +34,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         CreateArrays(InitialCapacity);
     }
 
-#region OnEnable & OnDisable
+    #region OnEnable & OnDisable
 
     private void OnEnable()
     {
@@ -59,7 +58,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         navigationGraph.OnDeleteGrid -= DisposeArrays;
     }
 
-#endregion
+    #endregion
 
     public void RegisterAgent(AgentNavigation agent)
     {
@@ -106,16 +105,27 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking.Add(agent.AutoBraking);
         }
 
+        var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
         _handle = new AgentUpdateJob
         {
+            grid = navigationGraph.GetGrid(),
+            gridX = navigationGraph.GetXSize(),
+            gridZ = navigationGraph.GetZSize(),
+
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
-            speeds = _speeds,
+
+            movementSpeeds = _speeds,
             rotationSpeeds = _rotationSpeeds,
             stoppingDistances = _stoppingDistances,
+
             changeWaypointDistances = _changeWaypointDistances,
             autoBraking = _autoBraking,
-            deltaTime = Time.deltaTime
+
+            deltaTime = Time.deltaTime,
+            // This two will change in the future.
+            agentRadius = 0.5f,
+            agentHeightOffset = 1f,
         }.Schedule(_transforms);
     }
 
@@ -156,82 +166,5 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     {
         DisposeArrays();
         if (_transforms.isCreated) _transforms.Dispose();
-    }
-
-    [BurstCompile]
-    public struct AgentUpdateJob : IJobParallelForTransform
-    {
-        [ReadOnly] public NativeList<float3> finalTargets;
-        [ReadOnly] public NativeList<float3> targetPositions;
-        [ReadOnly] public NativeList<float> speeds;
-        [ReadOnly] public NativeList<float> rotationSpeeds;
-        [ReadOnly] public NativeList<float> stoppingDistances;
-        [ReadOnly] public NativeList<float> changeWaypointDistances;
-        [ReadOnly] public NativeList<bool> autoBraking;
-        [ReadOnly] public float deltaTime;
-
-        public void Execute(int index, TransformAccess transform)
-        {
-            float3 finalTarget = finalTargets[index];
-            if (finalTarget.Equals(float3.zero)) return;
-            if (!math.all(math.isfinite(finalTarget))) return;
-
-            float3 position = transform.position;
-            if (!math.all(math.isfinite(position))) return;
-
-            float3 actualTarget = targetPositions[index];
-            if (!math.all(math.isfinite(actualTarget))) return;
-
-            float3 direction = actualTarget - position;
-            float3 finalTargetDistance = finalTarget - position;
-
-            if (!math.all(math.isfinite(direction)) || !math.all(math.isfinite(finalTargetDistance)))
-                return;
-
-            float stopDist = stoppingDistances[index];
-            if (math.lengthsq(finalTargetDistance) < stopDist * stopDist) return;
-
-            float speed = speeds[index];
-            float rotationSpeed = rotationSpeeds[index];
-            bool braking = autoBraking[index];
-
-            if (braking)
-            {
-                float distance = math.length(finalTargetDistance);
-                float margin = stopDist <= 1f ? 2f : stopDist * 3f;
-
-                if (distance < margin && distance > 0.0001f)
-                {
-                    float actualSpeed = speed * (distance / margin);
-                    position += actualSpeed * deltaTime * math.normalize(direction);
-
-                    if (!math.all(math.isfinite(position)))
-                        return;
-
-                    RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
-                    transform.position = position;
-                    return;
-                }
-            }
-
-            if (math.lengthsq(direction) > 0.0001f)
-            {
-                position += deltaTime * speed * math.normalize(direction);
-
-                if (!math.all(math.isfinite(position)))
-                    return;
-
-                RotateTowards(ref transform, direction, rotationSpeed, deltaTime);
-                transform.position = position;
-            }
-        }
-
-        private static void RotateTowards(ref TransformAccess transform, float3 direction, float rotationSpeed, float deltaTime)
-        {
-            if (math.lengthsq(direction) < 0.01f) return;
-            quaternion targetRotation = quaternion.LookRotationSafe(direction, math.up());
-            quaternion newRotation = math.slerp(transform.rotation, targetRotation, rotationSpeed * deltaTime);
-            transform.rotation = newRotation;
-        }
     }
 }
