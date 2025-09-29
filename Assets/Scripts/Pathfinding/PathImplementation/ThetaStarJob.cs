@@ -31,7 +31,7 @@ namespace Pathfinding.PathImplementation
         private void SimplifyPath()
         {
             // Avoid simplifying the path if it has less than 2 cells
-            if (finalPath.Length <= 2) 
+            if (finalPath.Length <= 2)
                 return;
 
             int j = 0;
@@ -64,9 +64,9 @@ namespace Pathfinding.PathImplementation
 
             while (startX != endX || startY != endY)
             {
-                int index = GetIndex(startX, startY);
+                int index = startX + startY * gridSizeX;
 
-                if (grid[index].walkableType == WalkableType.Obstacle) return false;
+                if (grid[index].walkableType != WalkableType.Walkable) return false;
 
                 int doubleError = 2 * error;
 
@@ -84,11 +84,6 @@ namespace Pathfinding.PathImplementation
             }
 
             return true;
-        }
-
-        private readonly int GetIndex(int x, int y)
-        {
-            return x + y * gridSizeX;
         }
     }
 }
