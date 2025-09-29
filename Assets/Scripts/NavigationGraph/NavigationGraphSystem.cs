@@ -1,12 +1,10 @@
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Pathfinding;
 using UnityEngine;
 
 namespace NavigationGraph
 {
     [DefaultExecutionOrder(-900)]
-    [RequireComponent(typeof(PathRequester))]
     [RequireComponent(typeof(AgentUpdateManager))]
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
@@ -50,7 +48,7 @@ namespace NavigationGraph
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _graph?.Destroy();
             ServiceLocator.Instance.RemoveService<INavigationGraph>();

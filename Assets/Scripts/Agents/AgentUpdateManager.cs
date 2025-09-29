@@ -17,13 +17,13 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private SwapBackListIndexed<AgentNavigation> _agents;
     private TransformAccessArray _transforms;
 
-    private NativeArray<float3> _finalTargets;
-    private NativeArray<float3> _targetPositions;
-    private NativeArray<float> _speeds;
-    private NativeArray<float> _rotationSpeeds;
-    private NativeArray<float> _stoppingDistances;
-    private NativeArray<float> _changeWaypointDistances;
-    private NativeArray<bool> _autoBraking;
+    private NativeList<float3> _finalTargets;
+    private NativeList<float3> _targetPositions;
+    private NativeList<float> _speeds;
+    private NativeList<float> _rotationSpeeds;
+    private NativeList<float> _stoppingDistances;
+    private NativeList<float> _changeWaypointDistances;
+    private NativeList<bool> _autoBraking;
     private JobHandle _handle;
 
     private const int InitialCapacity = 10;
@@ -32,7 +32,34 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     {
         _agents = new SwapBackListIndexed<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
+        CreateArrays(InitialCapacity);
     }
+
+#region OnEnable & OnDisable
+
+    private void OnEnable()
+    {
+        var serviceLocator = ServiceLocator.Instance;
+        if (serviceLocator == null) return;
+        var navigationGraph = serviceLocator.GetService<INavigationGraph>();
+        if (navigationGraph == null) return;
+
+        navigationGraph.OnDeleteGrid -= DisposeArrays;
+    }
+
+    private void OnDisable()
+    {
+        _handle.Complete();
+
+        var serviceLocator = ServiceLocator.Instance;
+        if (serviceLocator == null) return;
+        var navigationGraph = serviceLocator.GetService<INavigationGraph>();
+        if (navigationGraph == null) return;
+
+        navigationGraph.OnDeleteGrid -= DisposeArrays;
+    }
+
+#endregion
 
     public void RegisterAgent(AgentNavigation agent)
     {
@@ -59,26 +86,24 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private void Update()
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
-
-        // This allows to not blocked the main thread.
         if (!_handle.IsCompleted)
             return;
 
         _handle.Complete();
-        DisposeArrays();
-        CreateArrays();
+        ClearArrays();
 
         for (int i = 0; i < _agents.Count; i++)
         {
             var agent = _agents[i];
             agent.UpdateTimer();
-            _finalTargets[i] = math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition;
-            _targetPositions[i] = agent.GetCurrentTarget();
-            _speeds[i] = agent.Speed;
-            _rotationSpeeds[i] = agent.RotationSpeed;
-            _stoppingDistances[i] = agent.StoppingDistance;
-            _changeWaypointDistances[i] = agent.ChangeWaypointDistance;
-            _autoBraking[i] = agent.AutoBraking;
+
+            _finalTargets.Add(math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition);
+            _targetPositions.Add(agent.GetCurrentTarget());
+            _speeds.Add(agent.Speed);
+            _rotationSpeeds.Add(agent.RotationSpeed);
+            _stoppingDistances.Add(agent.StoppingDistance);
+            _changeWaypointDistances.Add(agent.ChangeWaypointDistance);
+            _autoBraking.Add(agent.AutoBraking);
         }
 
         _handle = new AgentUpdateJob
@@ -94,22 +119,30 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         }.Schedule(_transforms);
     }
 
-    private void CreateArrays()
+    private void ClearArrays()
     {
-        int count = _agents.Count;
+        _finalTargets.Clear();
+        _targetPositions.Clear();
+        _speeds.Clear();
+        _rotationSpeeds.Clear();
+        _stoppingDistances.Clear();
+        _changeWaypointDistances.Clear();
+        _autoBraking.Clear();
+    }
 
-        _finalTargets = new NativeArray<float3>(count, Allocator.TempJob);
-        _targetPositions = new NativeArray<float3>(count, Allocator.TempJob);
-        _speeds = new NativeArray<float>(count, Allocator.TempJob);
-        _rotationSpeeds = new NativeArray<float>(count, Allocator.TempJob);
-        _stoppingDistances = new NativeArray<float>(count, Allocator.TempJob);
-        _changeWaypointDistances = new NativeArray<float>(count, Allocator.TempJob);
-        _autoBraking = new NativeArray<bool>(count, Allocator.TempJob);
+    private void CreateArrays(int count)
+    {
+        _finalTargets = new NativeList<float3>(count, Allocator.Persistent);
+        _targetPositions = new NativeList<float3>(count, Allocator.Persistent);
+        _speeds = new NativeList<float>(count, Allocator.Persistent);
+        _rotationSpeeds = new NativeList<float>(count, Allocator.Persistent);
+        _stoppingDistances = new NativeList<float>(count, Allocator.Persistent);
+        _changeWaypointDistances = new NativeList<float>(count, Allocator.Persistent);
+        _autoBraking = new NativeList<bool>(count, Allocator.Persistent);
     }
 
     private void DisposeArrays()
     {
-        if (!_handle.IsCompleted) _handle.Complete();
         if (_finalTargets.IsCreated) _finalTargets.Dispose();
         if (_targetPositions.IsCreated) _targetPositions.Dispose();
         if (_speeds.IsCreated) _speeds.Dispose();
@@ -128,14 +161,14 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     [BurstCompile]
     public struct AgentUpdateJob : IJobParallelForTransform
     {
-        [ReadOnly] public NativeArray<float3> finalTargets;
-        [ReadOnly] public NativeArray<float3> targetPositions;
-        [ReadOnly] public NativeArray<float> speeds;
-        [ReadOnly] public NativeArray<float> rotationSpeeds;
-        [ReadOnly] public NativeArray<float> stoppingDistances;
-        [ReadOnly] public NativeArray<float> changeWaypointDistances;
+        [ReadOnly] public NativeList<float3> finalTargets;
+        [ReadOnly] public NativeList<float3> targetPositions;
+        [ReadOnly] public NativeList<float> speeds;
+        [ReadOnly] public NativeList<float> rotationSpeeds;
+        [ReadOnly] public NativeList<float> stoppingDistances;
+        [ReadOnly] public NativeList<float> changeWaypointDistances;
+        [ReadOnly] public NativeList<bool> autoBraking;
         [ReadOnly] public float deltaTime;
-        [ReadOnly] public NativeArray<bool> autoBraking;
 
         public void Execute(int index, TransformAccess transform)
         {

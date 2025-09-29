@@ -10,35 +10,30 @@ namespace Pathfinding
         [SerializeField] private PathRequestType _requestType;
         private IPathRequest _pathRequestStrategy;
 
-        private void Awake() => ServiceLocator.Instance.RegisterService<IPathfinding>(this);
-
-        void Start() => SetPathStrategy(_requestType);
+        private void Start() => SetPathStrategy(_requestType);
 
         public void SetPathStrategy(PathRequestType _requestType)
         {
             var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+#if UNITY_EDITOR
+            if (navigationGraph == null)
+            {
+                Debug.LogError("No Navigation Graph found in the scene, please add one");
+                return;
+            }
+#endif
             _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
-            Debug.Log("Path Requester Strategy set to: " + _requestType);
         }
 
-        public bool RequestPath(IAgent agent, Cell start, Cell end)
-        {
-            Debug.Log("Requesting path");
-            bool p = _pathRequestStrategy.RequestPath(agent, start, end);
-
-            Debug.Log(p);
-            return p;
-        }
-        private void LateUpdate()
-        {
-            Debug.Log("Setting path to agent");
-            _pathRequestStrategy.SetPathToAgent();
-        }
+        public bool RequestPath(IAgent agent, Cell start, Cell end) => _pathRequestStrategy.RequestPath(agent, start, end);
+        private void LateUpdate() => _pathRequestStrategy.SetPathToAgent();
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (Application.isPlaying)
+            if (ServiceLocator.Instance == null) return;
+            if (ServiceLocator.Instance.GetService<INavigationGraph>() == null) return;
+            if (Application.isPlaying && enabled)
                 SetPathStrategy(_requestType);
         }
 #endif

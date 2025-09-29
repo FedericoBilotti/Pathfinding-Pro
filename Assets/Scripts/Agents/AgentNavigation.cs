@@ -9,6 +9,7 @@ using Utilities;
 namespace Agents
 {
     [DefaultExecutionOrder(-600)]
+    [RequireComponent(typeof(PathRequester))]
     public abstract class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]
@@ -55,7 +56,7 @@ namespace Agents
 
         private void Start()
         {
-            _pathfinding = ServiceLocator.Instance.GetService<IPathfinding>();
+            _pathfinding = GetComponent<PathRequester>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
 
