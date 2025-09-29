@@ -42,9 +42,9 @@ namespace NavigationGraph
         public Action OnCreateGrid { get; set; }
         public Action OnDeleteGrid { get; set; }
 
-        protected NavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
+        protected NavigationGraph(NavigationGraphConfig navigationGraphConfig)
         {
-            this.checkType = checkType;
+            // this.checkType = checkType;
             terrainTypes = navigationGraphConfig.terrainTypes;
             cellSize = navigationGraphConfig.cellSize;
             gridSize = navigationGraphConfig.gridSize;

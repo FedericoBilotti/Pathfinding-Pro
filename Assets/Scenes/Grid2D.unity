@@ -33154,11 +33154,11 @@ MonoBehaviour:
   - terrainMask:
       serializedVersion: 2
       m_Bits: 512
-    terrainPenalty: 0
+    terrainPenalty: 1
   - terrainMask:
       serializedVersion: 2
       m_Bits: 256
-    terrainPenalty: 1
+    terrainPenalty: 2
   _inclineLimit: 34
   _ignoreMaskAtCreateGrid:
     serializedVersion: 2
@@ -33166,8 +33166,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  <GridBaked>k__BackingField: {fileID: 11400000, guid: e6e9e34d0e09c4343a45e23639d2d3e0, type: 2}
-  _raycastCheckType: 0
+  _gridBaked: {fileID: 11400000, guid: e6e9e34d0e09c4343a45e23639d2d3e0, type: 2}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -9,8 +8,8 @@ namespace NavigationGraph.Graph
 {
     internal sealed partial class SimpleGridNavigationGraph : NavigationGraph
     {
-        public SimpleGridNavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
-        : base(checkType, navigationGraphConfig)
+        public SimpleGridNavigationGraph(NavigationGraphConfig navigationGraphConfig)
+        : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid2D;
         }

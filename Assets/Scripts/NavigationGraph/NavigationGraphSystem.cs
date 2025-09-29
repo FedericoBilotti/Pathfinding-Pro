@@ -1,5 +1,4 @@
 using System.IO;
-using Pathfinding;
 using UnityEngine;
 
 namespace NavigationGraph
@@ -8,10 +7,10 @@ namespace NavigationGraph
     [RequireComponent(typeof(AgentUpdateManager))]
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
-        [Header("Gizmos")]
+        // Gizmos
         [SerializeField] private bool _boxGrid;
-
-        [Header("Graph")]
+        
+        // Graph Settings
         [SerializeField] private NavigationGraphType _graphType;
         [SerializeField] private NeighborsPerCell _neighborsPerCell;
         [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
@@ -19,33 +18,23 @@ namespace NavigationGraph
         [SerializeField] private float _maxHeightDifference = 0.01f;
         [SerializeField, Range(0f, 10)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 10f)] private float _cliffMargin = 0.5f;
-
         [SerializeField] private TerrainType[] _terrainTypes;
 
-        [Header("Check Obstacles")]
+        // Obstacle Configuration
         [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
         [SerializeField] private LayerMask _ignoreMaskAtCreateGrid = 0;
         [SerializeField] private LayerMask _notWalkableMask;
 
         // This is for saving the path.
-        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
+        [SerializeField] private GridDataAsset _gridBaked;
+        public GridDataAsset GridBaked => _gridBaked;
 
-        [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
-
-        private float _radius = 1f; // This is for the capsule & sphere
-        private float _height = 2f; // This is for the capsule
-
-        public float Radius { get => _radius; set => _radius = value; }
-        public float Height { get => _height; set => _height = value; }
-        public RaycastType RaycastCheckType => _raycastCheckType;
 
         private void Awake()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
-
-            _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
-            _graph?.Initialize(GridBaked);
+            _graph = GraphFactory.Create(_graphType, GetNavigationGraphConfig());
+            _graph?.Initialize(_gridBaked);
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
@@ -83,7 +72,6 @@ namespace NavigationGraph
                 notWalkableMask = _notWalkableMask,
                 neighborsPerCell = _neighborsPerCell,
                 terrainTypes = _terrainTypes,
-                raycastCheckType = _raycastCheckType,
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
@@ -159,13 +147,13 @@ namespace NavigationGraph
         }
 
 
-        public void SetBakeGrid(GridDataAsset grid) => GridBaked = grid;
+        public void SetBakeGrid(GridDataAsset grid) => _gridBaked = grid;
 
 #if UNITY_EDITOR
 
         public void DeleteGrid(string path)
         {
-            if (GridBaked == null)
+            if (_gridBaked == null)
             {
                 Debug.LogWarning("No baked grid assigned to delete.");
                 return;
@@ -184,7 +172,7 @@ namespace NavigationGraph
             if (success)
             {
                 Debug.Log($"Deleted baked grid at {path}");
-                GridBaked = null;
+                _gridBaked = null;
                 return;
             }
             else
@@ -199,10 +187,8 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
-
-            _graph = GraphFactory.Create(_graphType, checkType, GetNavigationGraphConfig());
-            _graph?.Initialize(GridBaked);
+            _graph = GraphFactory.Create(_graphType, GetNavigationGraphConfig());
+            _graph?.Initialize(_gridBaked);
         }
 
         /// <summary>
@@ -218,10 +204,10 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
-            if (GridBaked != null)
+            if (_gridBaked != null)
             {
                 DrawCubeForGrid(true);
-                GridBaked.DrawGizmos(_cellSize * 2);
+                _gridBaked.DrawGizmos(_cellSize * 2);
                 return;
             }
 

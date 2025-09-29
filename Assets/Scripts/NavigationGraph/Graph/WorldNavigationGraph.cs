@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using NavigationGraph.RaycastCheck;
-using Unity.Collections;
 using UnityEngine;
 
 namespace NavigationGraph.Graph
 {
     internal sealed class WorldNavigationGraph : NavigationGraph
     {
-        public WorldNavigationGraph(IRaycastType checkType, NavigationGraphConfig navigationGraphConfig)
-        : base(checkType, navigationGraphConfig)
+        public WorldNavigationGraph(NavigationGraphConfig navigationGraphConfig)
+        : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid3D;
         }
