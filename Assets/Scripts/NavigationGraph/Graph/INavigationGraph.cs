@@ -23,6 +23,7 @@ namespace NavigationGraph
         Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
 
+
         Action OnCreateGrid { get; set; }
         Action OnDeleteGrid { get; set; }
     }

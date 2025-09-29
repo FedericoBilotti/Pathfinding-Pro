@@ -2,7 +2,6 @@ using Agents;
 using NavigationGraph;
 using Pathfinding.PathImplementation;
 using Unity.Jobs;
-using UnityEngine.Assertions;
 
 namespace Pathfinding.RequesterStrategy
 {
@@ -16,7 +15,7 @@ namespace Pathfinding.RequesterStrategy
 
             PathRequest pathRequest = pathRequestPool.Get();
 
-            JobHandle aStarJob = new AStarJob
+            AStarJob aStarJobData = new AStarJob
             {
                 grid = navigationGraph.GetGrid(),
                 allNeighbors = navigationGraph.GetNeighbors(),
@@ -27,8 +26,10 @@ namespace Pathfinding.RequesterStrategy
                 visitedNodes = pathRequest.visitedNodes,
                 gridSizeX = navigationGraph.GetXSize(),
                 startIndex = start.gridIndex,
-                endIndex = end.gridIndex,
-            }.Schedule();
+                endIndex = end.gridIndex
+            };
+
+            JobHandle aStarJob = aStarJobData.ScheduleByRef();
 
             JobHandle addPath = new AddPath
             {

@@ -1,12 +1,10 @@
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Pathfinding;
 using UnityEngine;
 
 namespace NavigationGraph
 {
     [DefaultExecutionOrder(-900)]
-    [RequireComponent(typeof(PathRequester))]
     [RequireComponent(typeof(AgentUpdateManager))]
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
@@ -28,6 +26,10 @@ namespace NavigationGraph
         [SerializeField, Range(0f, 90f)] private float _inclineLimit = 45f;
         [SerializeField] private LayerMask _ignoreMaskAtCreateGrid = 0;
         [SerializeField] private LayerMask _notWalkableMask;
+
+        // This is for saving the path.
+        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
+
         [SerializeField] private RaycastType _raycastCheckType;
         private INavigationGraph _graph;
 
@@ -38,9 +40,6 @@ namespace NavigationGraph
         public float Height { get => _height; set => _height = value; }
         public RaycastType RaycastCheckType => _raycastCheckType;
 
-        // This is for saving the path.
-        [field: SerializeField] public GridDataAsset GridBaked { get; private set; }
-
         private void Awake()
         {
             var checkType = CheckFactory.Create(_raycastCheckType, _gridSize.y, _inclineLimit, _radius, _height, transform, _notWalkableMask, GetWalkableMask());
@@ -50,7 +49,7 @@ namespace NavigationGraph
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _graph?.Destroy();
             ServiceLocator.Instance.RemoveService<INavigationGraph>();
