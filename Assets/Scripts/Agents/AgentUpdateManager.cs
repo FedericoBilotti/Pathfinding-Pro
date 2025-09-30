@@ -108,10 +108,6 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
         _handle = new AgentUpdateJob
         {
-            grid = navigationGraph.GetGrid(),
-            gridX = navigationGraph.GetXSize(),
-            gridZ = navigationGraph.GetZSize(),
-
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
 
@@ -123,9 +119,15 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             autoBraking = _autoBraking,
 
             deltaTime = Time.deltaTime,
-            // This two will change in the future.
-            agentRadius = 0.5f,
-            agentHeightOffset = 1f,
+
+            // grid = navigationGraph.GetGrid(),
+            // gridX = navigationGraph.GetXSize(),
+            // gridZ = navigationGraph.GetZSize(),
+            // agentRadius = 0.5f,
+            // agentHeightOffset = 1f,
+
+            // gridOrigin = navigationGraph.GetOrigin(),
+            // cellDiameter = navigationGraph.GetCellDiameter(),
         }.Schedule(_transforms);
     }
 

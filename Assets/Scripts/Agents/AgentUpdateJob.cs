@@ -1,5 +1,3 @@
-using UnityEngine;
-using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -10,10 +8,6 @@ public partial class AgentUpdateManager
     [BurstCompile]
     public struct AgentUpdateJob : IJobParallelForTransform
     {
-        [ReadOnly] public NativeArray<Cell> grid;
-        [ReadOnly] public int gridX;
-        [ReadOnly] public int gridZ;
-
         [ReadOnly] public NativeList<float3> finalTargets;
         [ReadOnly] public NativeList<float3> targetPositions;
 
@@ -25,58 +19,54 @@ public partial class AgentUpdateManager
         [ReadOnly] public NativeList<bool> autoBraking;
 
         [ReadOnly] public float deltaTime;
+
+        // [ReadOnly] public NativeArray<Cell> grid;
+        // [ReadOnly] public int gridX;
+        // [ReadOnly] public int gridZ;
         // Must be lists of agentRadius and agentHeightOffset in the future or maybe do separate jobs for different types of agents.
-        [ReadOnly] public float agentRadius;
-        [ReadOnly] public float agentHeightOffset;
+        // [ReadOnly] public float agentRadius;
+        // [ReadOnly] public float agentHeightOffset;
+
+        // [ReadOnly] public float3 gridOrigin;
+        // [ReadOnly] public float cellDiameter;
 
         public void Execute(int index, TransformAccess transform)
         {
             float3 finalTarget = finalTargets[index];
-            if (finalTarget.Equals(float3.zero))
-                return;
+            if (finalTarget.Equals(float3.zero)) return;
+            if (!math.all(math.isfinite(finalTarget))) return;
 
-            if (!math.all(math.isfinite(finalTarget)))
-                return;
             float3 position = transform.position;
-
-            if (!math.all(math.isfinite(position)))
-                return;
+            if (!math.all(math.isfinite(position))) return;
 
             float3 actualTarget = targetPositions[index];
-            if (!math.all(math.isfinite(actualTarget)))
-                return;
+            if (!math.all(math.isfinite(actualTarget))) return;
 
-            float3 direction = actualTarget - position;
+            float3 toTarget = actualTarget - position;
             float3 finalTargetDistance = finalTarget - position;
-
-            if (!math.all(math.isfinite(direction)) || !math.all(math.isfinite(finalTargetDistance)))
-                return;
+            if (!math.all(math.isfinite(toTarget)) || !math.all(math.isfinite(finalTargetDistance))) return;
 
             float stopDist = stoppingDistances[index];
-            if (math.lengthsq(finalTargetDistance) < stopDist * stopDist)
-                return;
+            if (math.lengthsq(finalTargetDistance) < stopDist * stopDist) return;
 
-            position += deltaTime * movementSpeeds[index] * math.normalize(direction);
+            if (math.lengthsq(toTarget) > 0.0001f)
+                RotateTowards(ref transform, toTarget, rotationSpeeds[index], deltaTime);
+
+            float3 forward = math.forward(transform.rotation);
+            float actualSpeed = movementSpeeds[index];
 
             if (autoBraking[index])
             {
                 float distance = math.length(finalTargetDistance);
                 float margin = stopDist <= 1f ? 2f : stopDist * 3f;
-
                 if (distance < margin && distance > 0.0001f)
-                {
-                    float actualSpeed = movementSpeeds[index] * (distance / margin);
-                    position = transform.position;
-                    position += actualSpeed * deltaTime * math.normalize(direction);
-                }
+                    actualSpeed *= distance / margin;
             }
 
-            if (math.lengthsq(direction) > 0.0001f)
-            {
-                if (!math.all(math.isfinite(position))) return;
-                RotateTowards(ref transform, direction, rotationSpeeds[index], deltaTime);
-                transform.position = position;
-            }
+            position += actualSpeed * deltaTime * forward;
+
+            if (!math.all(math.isfinite(position))) return;
+            transform.position = position;
         }
 
         private static void RotateTowards(ref TransformAccess transform, float3 direction, float rotationSpeed, float deltaTime)
@@ -87,43 +77,42 @@ public partial class AgentUpdateManager
             transform.rotation = newRotation;
         }
 
-        private Cell GetCellAtPosition(float3 pos)
-        {
-            int x = math.clamp((int)math.floor(pos.x), 0, gridX - 1);
-            int z = math.clamp((int)math.floor(pos.z), 0, gridZ - 1);
-            return grid[x + z * gridX];
-        }
+        // position = SlideAlongObstacle(position, proposed);
+        // const float LERP_SPEED = 50f;
 
-        private float3 CheckGridCollisions(float3 pos)
-        {
-            int x = (int)math.floor(pos.x);
-            int z = (int)math.floor(pos.z);
+        // private float3 SlideAlongObstacle(float3 current, float3 target)
+        // {
+        //     if (!IsBlocked(target))
+        //         return target;
 
-            for (int dz = -1; dz <= 1; dz++)
-            {
-                for (int dx = -1; dx <= 1; dx++)
-                {
-                    int nx = x + dx;
-                    int nz = z + dz;
-                    int idx = nx + nz * gridX;
+        //     float3 delta = target - current;
+        //     float3 move = float3.zero;
 
-                    if (idx < 0 || idx >= grid.Length) continue;
+        //     float3 tryX = new(target.x, current.y, current.z);
+        //     if (!IsBlocked(tryX))
+        //     {
+        //         move.x = delta.x;
+        //     }
 
-                    var cell = grid[idx];
-                    if (cell.walkableType != WalkableType.Walkable)
-                    {
-                        // 0.5f is the CellSize
-                        float dist = math.distance(new float3(nx + 0.5f, pos.y, nz + 0.5f), pos);
-                        if (dist < agentRadius)
-                        {
-                            float3 pushDir = math.normalize(pos - new float3(nx + 0.5f, pos.y, nz + 0.5f));
-                            pos += pushDir * (agentRadius - dist);
-                        }
-                    }
-                }
-            }
+        //     float3 tryZ = new(current.x, current.y, target.z);
+        //     if (!IsBlocked(tryZ))
+        //     {
+        //         move.z = delta.z;
+        //     }
 
-            return pos;
-        }
+        //     float3 newPos = current + move;
+        //     newPos = math.lerp(current, newPos, LERP_SPEED * deltaTime);
+        //     return newPos;
+        // }
+
+        // private bool IsBlocked(float3 pos)
+        // {
+        //     float3 localPos = pos - gridOrigin;
+        //     int x = (int)math.clamp(math.floor(localPos.x / cellDiameter), 0, gridX - 1);
+        //     int z = (int)math.clamp(math.floor(localPos.z / cellDiameter), 0, gridZ - 1);
+
+        //     var cell = grid[x + z * gridX];
+        //     return cell.walkableType != WalkableType.Walkable;
+        // }
     }
 }

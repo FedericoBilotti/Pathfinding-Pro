@@ -154,23 +154,10 @@ namespace Agents
                 if (math.all(samePosition)) return false;
             }
 
-            Vector3 agentPosition = ownTransform.position;
-            if (!IsAgentInGrid(graph, ownTransform.position))
-            {
-                agentPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
-
-                const float margin = 1f;
-                float changeCell = graph.GetCellDiameter() * margin;
-
-                Vector3 distance = agentPosition - ownTransform.position;
-                if (distance.sqrMagnitude >= changeCell * changeCell)
-                {
-                    ownTransform.position = agentPosition;
-                }
-            }
+            Vector3 nearestWalkableCellPosition = MapAgentToGrid(ownTransform.position);
 
             // Changed the transform for the cell
-            Cell startCell = graph.GetCellWithWorldPosition(agentPosition);
+            Cell startCell = graph.GetCellWithWorldPosition(nearestWalkableCellPosition);
             Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
@@ -196,6 +183,23 @@ namespace Agents
         {
             var cell = graph.GetCellWithWorldPosition(targetPosition);
             return RequestPath(cell);
+        }
+
+        private Vector3 MapAgentToGrid(Vector3 nearestWalkableCellPosition)
+        {
+            if (!IsAgentInGrid(graph, ownTransform.position))
+            {
+                nearestWalkableCellPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
+                float changeCell = graph.GetCellDiameter() * 2f;
+
+                Vector3 distance = nearestWalkableCellPosition - ownTransform.position;
+                if (distance.sqrMagnitude >= changeCell * changeCell)
+                {
+                    ownTransform.position = nearestWalkableCellPosition;
+                }
+            }
+
+            return nearestWalkableCellPosition;
         }
 
         public virtual void SetPath(NativeList<Cell> path)

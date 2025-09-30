@@ -72,7 +72,7 @@ namespace NavigationGraph
         public int GetGridSizeLength() => gridSize.x * gridSize.z;
         public int GetXSize() => gridSize.x;
         public int GetZSize() => gridSize.z;
-
+        public Vector3 GetOrigin() => transform.position;
         public NativeArray<int> GetNeighbors() => neighbors;
         public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
         public NativeArray<int> GetNeighborOffsets() => neighborOffSet;

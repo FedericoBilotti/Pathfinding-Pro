@@ -15,6 +15,7 @@ namespace NavigationGraph
         float GetCellDiameter();
         int GetXSize();
         int GetZSize();
+        Vector3 GetOrigin();
         NativeArray<Cell> GetGrid();
         NativeArray<int> GetNeighbors();
         NativeArray<int> GetNeighborTotalCount();
