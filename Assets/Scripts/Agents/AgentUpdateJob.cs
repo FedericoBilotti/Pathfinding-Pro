@@ -1,6 +1,8 @@
+using NavigationGraph;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.Jobs;
 
 public partial class AgentUpdateManager
@@ -20,20 +22,24 @@ public partial class AgentUpdateManager
 
         [ReadOnly] public float deltaTime;
 
-        // [ReadOnly] public NativeArray<Cell> grid;
-        // [ReadOnly] public int gridX;
-        // [ReadOnly] public int gridZ;
+        [ReadOnly] public NativeArray<RaycastHit> results;
+        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public int gridX;
+        [ReadOnly] public int gridZ;
+
+        [ReadOnly] public float3 gridOrigin;
+        [ReadOnly] public float cellSize;
+        [ReadOnly] public float cellDiameter;
+
         // Must be lists of agentRadius and agentHeightOffset in the future or maybe do separate jobs for different types of agents.
         // [ReadOnly] public float agentRadius;
         // [ReadOnly] public float agentHeightOffset;
-
-        // [ReadOnly] public float3 gridOrigin;
-        // [ReadOnly] public float cellDiameter;
 
         public void Execute(int index, TransformAccess transform)
         {
             float3 finalTarget = finalTargets[index];
             if (finalTarget.Equals(float3.zero)) return;
+
             if (!math.all(math.isfinite(finalTarget))) return;
 
             float3 position = transform.position;
@@ -42,37 +48,45 @@ public partial class AgentUpdateManager
             float3 actualTarget = targetPositions[index];
             if (!math.all(math.isfinite(actualTarget))) return;
 
-            float3 toTarget = actualTarget - position;
+            float3 direction = actualTarget - position;
+            if (!math.all(math.isfinite(direction))) return;
+
             float3 finalTargetDistance = finalTarget - position;
-            if (!math.all(math.isfinite(toTarget)) || !math.all(math.isfinite(finalTargetDistance))) return;
+            if (!math.all(math.isfinite(finalTargetDistance))) return;
 
             float stopDist = stoppingDistances[index];
             if (math.lengthsq(finalTargetDistance) < stopDist * stopDist) return;
 
-            if (math.lengthsq(toTarget) > 0.0001f)
-                RotateTowards(ref transform, toTarget, rotationSpeeds[index], deltaTime);
+            var hit = results[index];
+            
+            float3 lookDir = math.normalize(direction);
+            RotateTowards(ref transform, lookDir, hit.normal, rotationSpeeds[index], deltaTime);
 
-            float3 forward = math.forward(transform.rotation);
-            float actualSpeed = movementSpeeds[index];
+            float3 forward = math.normalize(ProjectOnPlane(transform.rotation * new float3(0, 0, 1), hit.normal));
+            float moveSpeed = movementSpeeds[index];
 
             if (autoBraking[index])
             {
                 float distance = math.length(finalTargetDistance);
                 float margin = stopDist <= 1f ? 2f : stopDist * 3f;
                 if (distance < margin && distance > 0.0001f)
-                    actualSpeed *= distance / margin;
+                    moveSpeed *= distance / margin;
             }
 
-            position += actualSpeed * deltaTime * forward;
-
-            if (!math.all(math.isfinite(position))) return;
-            transform.position = position;
+            float3 newPos = position + forward * moveSpeed * deltaTime;
+            newPos.y = hit.point.y;
+            transform.position = newPos;
         }
 
-        private static void RotateTowards(ref TransformAccess transform, float3 direction, float rotationSpeed, float deltaTime)
+        private static float3 ProjectOnPlane(float3 vector, float3 planeNormal)
+        {
+            return vector - math.dot(vector, planeNormal) * planeNormal;
+        }
+
+        private static void RotateTowards(ref TransformAccess transform, float3 direction, float3 up, float rotationSpeed, float deltaTime)
         {
             if (math.lengthsq(direction) < 0.01f) return;
-            quaternion targetRotation = quaternion.LookRotationSafe(direction, math.up());
+            quaternion targetRotation = quaternion.LookRotationSafe(direction, up);
             quaternion newRotation = math.slerp(transform.rotation, targetRotation, rotationSpeed * deltaTime);
             transform.rotation = newRotation;
         }

@@ -23,6 +23,10 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeList<float> _stoppingDistances;
     private NativeList<float> _changeWaypointDistances;
     private NativeList<bool> _autoBraking;
+
+    private NativeList<float3> _agentPositions;
+    private NativeArray<RaycastCommand> _commands;
+    private NativeArray<RaycastHit> _results;
     private JobHandle _handle;
 
     private const int InitialCapacity = 10;
@@ -96,6 +100,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             var agent = _agents[i];
             agent.UpdateTimer();
 
+            _agentPositions.Add(agent.transform.position);
             _finalTargets.Add(math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition);
             _targetPositions.Add(agent.GetCurrentTarget());
             _speeds.Add(agent.Speed);
@@ -105,7 +110,26 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking.Add(agent.AutoBraking);
         }
 
+        _commands = new NativeArray<RaycastCommand>(_agents.Count, Allocator.TempJob);
+        _results = new NativeArray<RaycastHit>(_agents.Count, Allocator.TempJob);
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+
+        var layerMask = LayerMask.GetMask("Road", "Grass");
+
+        GroundRaycastSystem prepareCmd = new GroundRaycastSystem
+        {
+            commands = _commands,
+            origins = _agentPositions,
+            layerMask = layerMask,
+            physicsScene = Physics.defaultPhysicsScene,
+
+            upDirection = Vector3.up,
+            rayDistance = 5f
+        };
+
+        JobHandle prepareCmdJob = prepareCmd.Schedule(_agents.Count, 25);
+        JobHandle batchHandle = RaycastCommand.ScheduleBatch(_commands, _results, 25, prepareCmdJob);
+
         _handle = new AgentUpdateJob
         {
             finalTargets = _finalTargets,
@@ -120,19 +144,25 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
             deltaTime = Time.deltaTime,
 
-            // grid = navigationGraph.GetGrid(),
-            // gridX = navigationGraph.GetXSize(),
-            // gridZ = navigationGraph.GetZSize(),
+            results = _results,
+            grid = navigationGraph.GetGrid(),
+            gridX = navigationGraph.GetXSize(),
+            gridZ = navigationGraph.GetZSize(),
+            gridOrigin = navigationGraph.GetOrigin(),
+            cellSize = navigationGraph.GetCellSize(),
+            cellDiameter = navigationGraph.GetCellDiameter(),
+
             // agentRadius = 0.5f,
             // agentHeightOffset = 1f,
-
-            // gridOrigin = navigationGraph.GetOrigin(),
-            // cellDiameter = navigationGraph.GetCellDiameter(),
-        }.Schedule(_transforms);
+        }.Schedule(_transforms, batchHandle);
+        
+        _commands.Dispose(_handle);
+        _results.Dispose(_handle);
     }
 
     private void ClearArrays()
     {
+        _agentPositions.Clear();
         _finalTargets.Clear();
         _targetPositions.Clear();
         _speeds.Clear();
@@ -144,6 +174,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void CreateArrays(int count)
     {
+        _agentPositions = new NativeList<float3>(count, Allocator.Persistent);
         _finalTargets = new NativeList<float3>(count, Allocator.Persistent);
         _targetPositions = new NativeList<float3>(count, Allocator.Persistent);
         _speeds = new NativeList<float>(count, Allocator.Persistent);
@@ -155,13 +186,14 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void DisposeArrays()
     {
-        if (_finalTargets.IsCreated) _finalTargets.Dispose();
-        if (_targetPositions.IsCreated) _targetPositions.Dispose();
-        if (_speeds.IsCreated) _speeds.Dispose();
-        if (_rotationSpeeds.IsCreated) _rotationSpeeds.Dispose();
-        if (_stoppingDistances.IsCreated) _stoppingDistances.Dispose();
-        if (_changeWaypointDistances.IsCreated) _changeWaypointDistances.Dispose();
-        if (_autoBraking.IsCreated) _autoBraking.Dispose();
+        if (_commands.IsCreated) _commands.Dispose(_handle);
+        if (_finalTargets.IsCreated) _finalTargets.Dispose(_handle);
+        if (_targetPositions.IsCreated) _targetPositions.Dispose(_handle);
+        if (_speeds.IsCreated) _speeds.Dispose(_handle);
+        if (_rotationSpeeds.IsCreated) _rotationSpeeds.Dispose(_handle);
+        if (_stoppingDistances.IsCreated) _stoppingDistances.Dispose(_handle);
+        if (_changeWaypointDistances.IsCreated) _changeWaypointDistances.Dispose(_handle);
+        if (_autoBraking.IsCreated) _autoBraking.Dispose(_handle);
     }
 
     private void OnDestroy()

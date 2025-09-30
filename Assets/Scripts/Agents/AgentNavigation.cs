@@ -242,8 +242,7 @@ namespace Agents
 
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
 
-
-        public enum PathStatus // : byte
+        public enum PathStatus : byte
         {
             Idle,
             Failed,
