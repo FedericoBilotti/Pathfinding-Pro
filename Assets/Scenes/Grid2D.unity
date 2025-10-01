@@ -1594,7 +1594,7 @@ Transform:
   m_GameObject: {fileID: 27714835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.52880865, w: 0.8487411}
-  m_LocalPosition: {x: -82.8323, y: 0.7846, z: 21.2}
+  m_LocalPosition: {x: -86.89, y: 0.7846, z: 21.2}
   m_LocalScale: {x: 0.81959933, y: 6.4119544, z: 9.871037}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31460,11 +31460,11 @@ MonoBehaviour:
   _boxGrid: 1
   _graphType: 0
   _neighborsPerCell: 4
-  _gridSize: {x: 225, y: 40, z: 115}
-  _cellSize: 0.5
+  _gridSize: {x: 112, y: 40, z: 57}
+  _cellSize: 1
   _maxHeightDifference: 2
-  _obstacleMargin: 1
-  _cliffMargin: 1
+  _obstacleMargin: 0
+  _cliffMargin: 0
   _terrainTypes:
   - terrainMask:
       serializedVersion: 2
@@ -31481,7 +31481,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _gridBaked: {fileID: 11400000, guid: e6e9e34d0e09c4343a45e23639d2d3e0, type: 2}
+  _gridBaked: {fileID: 0}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53359,7 +53359,7 @@ Transform:
   m_GameObject: {fileID: 1362782390}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -111.2585, y: -0.52, z: 18.6868}
+  m_LocalPosition: {x: -115, y: -0.52, z: 22.4}
   m_LocalScale: {x: 51.56894, y: 6.163775, z: 41.419777}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -63201,7 +63201,7 @@ Transform:
   m_GameObject: {fileID: 1588796518}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -110.19999, y: 3.23, z: 30.8}
+  m_LocalPosition: {x: -116.53, y: 3.23, z: 30.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
