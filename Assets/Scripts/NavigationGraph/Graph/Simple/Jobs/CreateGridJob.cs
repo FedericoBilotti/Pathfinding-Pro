@@ -35,8 +35,7 @@ namespace NavigationGraph.Graph
                     + right * ((x + 0.5f) * cellDiameter)
                     + forward * ((y + 0.5f) * cellDiameter);
 
-                bool hit = results[i].distance > kHitEpsilon;                
-                float3 cellPosition = hit ? results[i].point : defaultPos;
+                bool hit = results[i].distance > kHitEpsilon;          
 
                 walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
 
@@ -44,7 +43,8 @@ namespace NavigationGraph.Graph
 
                 grid[i] = new Cell
                 {
-                    position = cellPosition,
+                    position = hit ? results[i].point : defaultPos,
+                    normal = hit ? results[i].normal : math.up(),
                     gridIndex = i,
                     gridX = x,
                     gridZ = y,

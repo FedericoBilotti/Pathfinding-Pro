@@ -10,9 +10,9 @@ using Utilities;
 [DefaultExecutionOrder(-950)]
 public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
-    // Maybe I can remove this "_agents" and use only the TransformAccessArray?
-    // Using the interface IIndexed, i can use the Index property to remove the transform at the same index of the agent removed.
-    // But now i need to manually do it in register and unregister methods.
+    [SerializeField, Tooltip("Decides how the agents are going to move in the grid, in less performance")]
+    private EAccurateMovement _accurateMovement = EAccurateMovement.High;
+
     private SwapBackListIndexed<AgentNavigation> _agents;
     private TransformAccessArray _transforms;
 
@@ -60,7 +60,6 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         _agents.RemoveAtSwapBack(agent);
     }
 
-
     private void Update()
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
@@ -84,6 +83,22 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking.Add(agent.AutoBraking);
         }
 
+        var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+
+        if (EAccurateMovement.High == _accurateMovement)
+        {
+            HighUpdate();
+        }
+        else
+        {
+            LowUpdate(navigationGraph);
+        }
+
+        navigationGraph.CombineDependencies(_agentUpdateJob);
+    }
+
+    private void HighUpdate()
+    {
         _results = new NativeArray<RaycastHit>(_agents.Count, Allocator.TempJob);
         _commands = new NativeArray<RaycastCommand>(_agents.Count, Allocator.TempJob);
 
@@ -101,10 +116,10 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         };
 
         int batch = 32;
-        JobHandle prepareCmdJob = prepareRaycastCommands.Schedule(_commands.Length, batch);
+        JobHandle prepareCmdJob = prepareRaycastCommands.ScheduleByRef(_commands.Length, batch);
         JobHandle batchHandle = RaycastCommand.ScheduleBatch(_commands, _results, batch, prepareCmdJob);
 
-        _agentUpdateJob = new AgentUpdateJob
+        _agentUpdateJob = new AgentHighUpdateJob
         {
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
@@ -130,10 +145,33 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             // agentHeightOffset = 1f,
         }.Schedule(_transforms, batchHandle);
 
-        navigationGraph.CombineDependencies(_agentUpdateJob);
-
         _commands.Dispose(_agentUpdateJob);
         _results.Dispose(_agentUpdateJob);
+    }
+
+    private void LowUpdate(INavigationGraph navigationGraph)
+    {
+        _agentUpdateJob = new AgentLowUpdateJob
+        {
+            finalTargets = _finalTargets,
+            targetPositions = _targetPositions,
+
+            movementSpeeds = _speeds,
+            rotationSpeeds = _rotationSpeeds,
+            stoppingDistances = _stoppingDistances,
+
+            changeWaypointDistances = _changeWaypointDistances,
+            autoBraking = _autoBraking,
+
+            deltaTime = Time.deltaTime,
+
+            grid = navigationGraph.GetGrid(),
+            gridX = navigationGraph.GetXSize(),
+            gridZ = navigationGraph.GetZSize(),
+            gridOrigin = navigationGraph.GetOrigin(),
+            cellSize = navigationGraph.GetCellSize(),
+            cellDiameter = navigationGraph.GetCellDiameter(),
+        }.Schedule(_transforms);
     }
 
     private void ClearArrays()
@@ -181,5 +219,11 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     {
         DisposeArrays();
         if (_transforms.isCreated) _transforms.Dispose();
+    }
+
+    private enum EAccurateMovement
+    {
+        High,
+        Low
     }
 }

@@ -31462,7 +31462,7 @@ MonoBehaviour:
   _neighborsPerCell: 4
   _gridSize: {x: 225, y: 40, z: 115}
   _cellSize: 0.5
-  _maxHeightDifference: 0.5
+  _maxHeightDifference: 2
   _obstacleMargin: 1
   _cliffMargin: 1
   _terrainTypes:
@@ -31494,6 +31494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bd729483aefe14aabe26eee27140b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _accurateMovement: 1
 --- !u!1 &783429879
 GameObject:
   m_ObjectHideFlags: 0
@@ -32116,7 +32117,6 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1224878552}
   - {fileID: 1516308642}
   - {fileID: 622670370}
   - {fileID: 381791779}
@@ -48709,13 +48709,13 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -118.237495, y: 3.16, z: 39.737503}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -91.04, y: 2.528, z: 20.54}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1534238708}
   - {fileID: 799482645}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1224878554
 MonoBehaviour:
@@ -48744,11 +48744,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 2
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 2
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
 --- !u!114 &1224878556
@@ -87153,6 +87153,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 781907328}
   - {fileID: 195021665}
+  - {fileID: 1224878552}
   - {fileID: 799020131}
   - {fileID: 246702431}
   - {fileID: 1483148470}
