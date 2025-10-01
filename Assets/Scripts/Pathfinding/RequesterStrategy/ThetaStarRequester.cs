@@ -52,6 +52,8 @@ namespace Pathfinding.RequesterStrategy
                 finalPath = pathRequest.path
             }.Schedule(thetaStarJob);
 
+            navigationGraph.CombineDependencies(reversePath);
+
             pathRequest.agent = agent;
             pathRequest.handle = reversePath;
             requests.Add(pathRequest);

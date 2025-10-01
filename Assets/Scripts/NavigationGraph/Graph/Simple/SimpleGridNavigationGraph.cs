@@ -59,7 +59,7 @@ namespace NavigationGraph.Graph
         public override void CreateGrid()
         {
             // --- 0. Clean ---
-            OnCreateGrid?.Invoke();
+            OnCreateGrid?.Invoke();            
 
             if (grid.IsCreated) grid.Dispose();
             if (neighbors.IsCreated) neighbors.Dispose();

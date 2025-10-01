@@ -27,7 +27,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     private NativeList<float3> _agentPositions;
     private NativeArray<RaycastCommand> _commands;
     private NativeArray<RaycastHit> _results;
-    private JobHandle _handle;
+    private JobHandle _agentUpdateJob;
 
     private const int InitialCapacity = 10;
 
@@ -39,28 +39,6 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     }
 
     #region OnEnable & OnDisable
-
-    private void OnEnable()
-    {
-        var serviceLocator = ServiceLocator.Instance;
-        if (serviceLocator == null) return;
-        var navigationGraph = serviceLocator.GetService<INavigationGraph>();
-        if (navigationGraph == null) return;
-
-        navigationGraph.OnDeleteGrid -= DisposeArrays;
-    }
-
-    private void OnDisable()
-    {
-        _handle.Complete();
-
-        var serviceLocator = ServiceLocator.Instance;
-        if (serviceLocator == null) return;
-        var navigationGraph = serviceLocator.GetService<INavigationGraph>();
-        if (navigationGraph == null) return;
-
-        navigationGraph.OnDeleteGrid -= DisposeArrays;
-    }
 
     #endregion
 
@@ -89,10 +67,10 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     private void Update()
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
-        if (!_handle.IsCompleted)
+        if (!_agentUpdateJob.IsCompleted)
             return;
 
-        _handle.Complete();
+        _agentUpdateJob.Complete();
         ClearArrays();
 
         for (int i = 0; i < _agents.Count; i++)
@@ -130,7 +108,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         JobHandle prepareCmdJob = prepareCmd.Schedule(_agents.Count, 25);
         JobHandle batchHandle = RaycastCommand.ScheduleBatch(_commands, _results, 25, prepareCmdJob);
 
-        _handle = new AgentUpdateJob
+        _agentUpdateJob = new AgentUpdateJob
         {
             finalTargets = _finalTargets,
             targetPositions = _targetPositions,
@@ -155,14 +133,16 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             // agentRadius = 0.5f,
             // agentHeightOffset = 1f,
         }.Schedule(_transforms, batchHandle);
-        
-        _commands.Dispose(_handle);
-        _results.Dispose(_handle);
+
+        navigationGraph.CombineDependencies(_agentUpdateJob);
     }
 
     private void ClearArrays()
     {
+        if (_results.IsCreated) _results.Dispose();
+        if (_commands.IsCreated) _commands.Dispose();
         _agentPositions.Clear();
+
         _finalTargets.Clear();
         _targetPositions.Clear();
         _speeds.Clear();
@@ -186,14 +166,17 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void DisposeArrays()
     {
-        if (_commands.IsCreated) _commands.Dispose(_handle);
-        if (_finalTargets.IsCreated) _finalTargets.Dispose(_handle);
-        if (_targetPositions.IsCreated) _targetPositions.Dispose(_handle);
-        if (_speeds.IsCreated) _speeds.Dispose(_handle);
-        if (_rotationSpeeds.IsCreated) _rotationSpeeds.Dispose(_handle);
-        if (_stoppingDistances.IsCreated) _stoppingDistances.Dispose(_handle);
-        if (_changeWaypointDistances.IsCreated) _changeWaypointDistances.Dispose(_handle);
-        if (_autoBraking.IsCreated) _autoBraking.Dispose(_handle);
+        if (_results.IsCreated) _results.Dispose(_agentUpdateJob);
+        if (_commands.IsCreated) _commands.Dispose(_agentUpdateJob);
+        if (_agentPositions.IsCreated) _agentPositions.Dispose(_agentUpdateJob);
+
+        if (_finalTargets.IsCreated) _finalTargets.Dispose(_agentUpdateJob);
+        if (_targetPositions.IsCreated) _targetPositions.Dispose(_agentUpdateJob);
+        if (_speeds.IsCreated) _speeds.Dispose(_agentUpdateJob);
+        if (_rotationSpeeds.IsCreated) _rotationSpeeds.Dispose(_agentUpdateJob);
+        if (_stoppingDistances.IsCreated) _stoppingDistances.Dispose(_agentUpdateJob);
+        if (_changeWaypointDistances.IsCreated) _changeWaypointDistances.Dispose(_agentUpdateJob);
+        if (_autoBraking.IsCreated) _autoBraking.Dispose(_agentUpdateJob);
     }
 
     private void OnDestroy()

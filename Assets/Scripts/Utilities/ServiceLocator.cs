@@ -14,6 +14,18 @@ public class ServiceLocator : Singleton<ServiceLocator>
 
         _services.TryAdd(type, service);
     }
+    
+    public bool TryGetService<T>(out T serviceOut)
+    {
+        if (_services.TryGetValue(typeof(T), out object service))
+        {
+            serviceOut = (T)service;
+            return true;
+        }
+
+        serviceOut = (T)(object)null;
+        return false;
+    }
 
     public T GetService<T>()
     {
@@ -21,7 +33,7 @@ public class ServiceLocator : Singleton<ServiceLocator>
         {
             return (T)service;
         }
-        
+
         Debug.LogError($"The actual service doesn't exist {typeof(T)}");
         return (T)(object)null;
     }

@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace NavigationGraph
 {
     internal abstract class NavigationGraph : INavigationGraph
     {
+        private JobHandle _allJobsDependencies;
+
         private int _visitId = 0;
         private readonly int[] _visited;
         private readonly Queue<Vector2Int> _queue;
@@ -40,7 +43,6 @@ namespace NavigationGraph
         public NavigationGraphType GraphType { get; protected set; }
 
         public Action OnCreateGrid { get; set; }
-        public Action OnDeleteGrid { get; set; }
 
         protected NavigationGraph(NavigationGraphConfig navigationGraphConfig)
         {
@@ -205,16 +207,18 @@ namespace NavigationGraph
             }
         }
 
+        public void CombineDependencies(JobHandle jobHandle)
+        {
+            _allJobsDependencies = JobHandle.CombineDependencies(_allJobsDependencies, jobHandle);
+        }
 
         public void Destroy()
         {
-            OnDeleteGrid?.Invoke();
-            
-            if (grid.IsCreated) grid.Dispose();
-            if (neighbors.IsCreated) neighbors.Dispose();
-            if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
-            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
-            if (walkableRegionsDic.IsCreated) walkableRegionsDic.Dispose();
+            if (grid.IsCreated) grid.Dispose(_allJobsDependencies);
+            if (neighbors.IsCreated) neighbors.Dispose(_allJobsDependencies);
+            if (neighborOffSet.IsCreated) neighborOffSet.Dispose(_allJobsDependencies);
+            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose(_allJobsDependencies);
+            if (walkableRegionsDic.IsCreated) walkableRegionsDic.Dispose(_allJobsDependencies);
         }
 
         #endregion

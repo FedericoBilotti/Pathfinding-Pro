@@ -30,7 +30,7 @@ namespace Pathfinding.RequesterStrategy
             };
 
             JobHandle aStarJob = aStarJobData.ScheduleByRef();
-            
+
             JobHandle addPath = new AddPath
             {
                 grid = navigationGraph.GetGrid(),
@@ -44,6 +44,7 @@ namespace Pathfinding.RequesterStrategy
                 finalPath = pathRequest.path
             }.Schedule(addPath);
 
+            navigationGraph.CombineDependencies(reversePath);
 
             pathRequest.agent = agent;
             pathRequest.handle = reversePath;
