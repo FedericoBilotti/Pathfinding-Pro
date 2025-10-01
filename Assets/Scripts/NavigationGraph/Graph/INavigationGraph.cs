@@ -22,6 +22,7 @@ namespace NavigationGraph
         NativeArray<int> GetNeighbors();
         NativeArray<int> GetNeighborTotalCount();
         NativeArray<int> GetNeighborOffsets();
+        LayerMask GetWalkableMask();
         Cell GetRandomCell(); // Eliminate this in the future.
         Cell GetCellWithWorldPosition(Vector3 worldPosition);
         Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);

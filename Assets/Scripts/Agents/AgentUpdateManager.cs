@@ -38,10 +38,6 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         CreateArrays(InitialCapacity);
     }
 
-    #region OnEnable & OnDisable
-
-    #endregion
-
     public void RegisterAgent(AgentNavigation agent)
     {
         if (_agents == null || !_transforms.isCreated) return;
@@ -64,11 +60,11 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         _agents.RemoveAtSwapBack(agent);
     }
 
+
     private void Update()
     {
         if (_agents.Count == 0 || _transforms.length == 0) return;
-        if (!_agentUpdateJob.IsCompleted)
-            return;
+        if (!_agentUpdateJob.IsCompleted) return;
 
         _agentUpdateJob.Complete();
         ClearArrays();
@@ -88,25 +84,25 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             _autoBraking.Add(agent.AutoBraking);
         }
 
-        _commands = new NativeArray<RaycastCommand>(_agents.Count, Allocator.TempJob);
         _results = new NativeArray<RaycastHit>(_agents.Count, Allocator.TempJob);
+        _commands = new NativeArray<RaycastCommand>(_agents.Count, Allocator.TempJob);
+
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
 
-        var layerMask = LayerMask.GetMask("Road", "Grass");
-
-        GroundRaycastSystem prepareCmd = new GroundRaycastSystem
+        var prepareRaycastCommands = new GroundRaycastSystem()
         {
             commands = _commands,
-            origins = _agentPositions,
-            layerMask = layerMask,
+            originAgentPositions = _agentPositions,
+            layerMask = navigationGraph.GetWalkableMask(),
             physicsScene = Physics.defaultPhysicsScene,
 
             upDirection = Vector3.up,
-            rayDistance = 5f
+            rayDistance = 2f
         };
 
-        JobHandle prepareCmdJob = prepareCmd.Schedule(_agents.Count, 25);
-        JobHandle batchHandle = RaycastCommand.ScheduleBatch(_commands, _results, 25, prepareCmdJob);
+        int batch = 32;
+        JobHandle prepareCmdJob = prepareRaycastCommands.Schedule(_commands.Length, batch);
+        JobHandle batchHandle = RaycastCommand.ScheduleBatch(_commands, _results, batch, prepareCmdJob);
 
         _agentUpdateJob = new AgentUpdateJob
         {
@@ -135,12 +131,13 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
         }.Schedule(_transforms, batchHandle);
 
         navigationGraph.CombineDependencies(_agentUpdateJob);
+
+        _commands.Dispose(_agentUpdateJob);
+        _results.Dispose(_agentUpdateJob);
     }
 
     private void ClearArrays()
     {
-        if (_results.IsCreated) _results.Dispose();
-        if (_commands.IsCreated) _commands.Dispose();
         _agentPositions.Clear();
 
         _finalTargets.Clear();
@@ -155,6 +152,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
     private void CreateArrays(int count)
     {
         _agentPositions = new NativeList<float3>(count, Allocator.Persistent);
+
         _finalTargets = new NativeList<float3>(count, Allocator.Persistent);
         _targetPositions = new NativeList<float3>(count, Allocator.Persistent);
         _speeds = new NativeList<float>(count, Allocator.Persistent);

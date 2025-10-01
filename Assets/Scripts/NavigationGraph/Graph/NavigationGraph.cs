@@ -78,6 +78,7 @@ namespace NavigationGraph
         public NativeArray<int> GetNeighbors() => neighbors;
         public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
         public NativeArray<int> GetNeighborOffsets() => neighborOffSet;
+        public LayerMask GetWalkableMask() => walkableMask;
 
         public virtual Cell GetCellWithWorldPosition(Vector3 worldPosition)
         {
