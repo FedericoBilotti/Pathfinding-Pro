@@ -9,7 +9,7 @@ using UnityEngine.Jobs;
 using Utilities;
 
 [DefaultExecutionOrder(-950)]
-public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
+public class AgentUpdateManager : Singleton<AgentUpdateManager>
 {
     [SerializeField, Tooltip("Decides how the agents are going to move in the grid, in less performance")]
     private EAccurateMovement _accurateMovement = EAccurateMovement.High;
@@ -100,9 +100,7 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void HighUpdate()
     {
-        _results = new NativeArray<RaycastHit>(_agents.Count, Allocator.TempJob);
-        _commands = new NativeArray<RaycastCommand>(_agents.Count, Allocator.TempJob);
-
+        ResizeArraysIfNeeded(_transforms.length);
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
 
         var prepareRaycastCommands = new GroundRaycastSystem()
@@ -145,9 +143,17 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
             // agentRadius = 0.5f,
             // agentHeightOffset = 1f,
         }.Schedule(_transforms, batchHandle);
+    }
 
-        _commands.Dispose(_agentUpdateJob);
-        _results.Dispose(_agentUpdateJob);
+    private void ResizeArraysIfNeeded(int newCapacity)
+    {
+        if (newCapacity == _results.Length) return;
+        
+        if (_commands.IsCreated) _commands.Dispose();
+        if (_results.IsCreated) _results.Dispose();
+
+        _commands = new NativeArray<RaycastCommand>(newCapacity, Allocator.Persistent);
+        _results = new NativeArray<RaycastHit>(newCapacity, Allocator.Persistent);
     }
 
     private void LowUpdate(INavigationGraph navigationGraph)
@@ -190,6 +196,8 @@ public partial class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private void CreateArrays(int count)
     {
+        _commands = new NativeArray<RaycastCommand>(count, Allocator.Persistent);
+        _results = new NativeArray<RaycastHit>(count, Allocator.Persistent);
         _agentPositions = new NativeList<float3>(count, Allocator.Persistent);
 
         _finalTargets = new NativeList<float3>(count, Allocator.Persistent);
