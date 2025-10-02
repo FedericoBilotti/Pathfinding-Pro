@@ -64,13 +64,17 @@ namespace Agents.Strategies
             float tx = (localPos.x / cellDiameter) - x0;
             float tz = (localPos.z / cellDiameter) - z0;
 
-            float3 finalNormal = BilinealInterpolationNormal(x0, x1, z0, z1, tx, tz);
-            float3 finalHeight = BilinealInterpolationHeight(x0, x1, z0, z1, tx, tz);
+            Cell x0Cell = grid[x0 + z0 * gridX];
+            Cell x1Cell = grid[x1 + z0 * gridX];
+            Cell z0Cell = grid[x0 + z1 * gridX];
+            Cell z1Cell = grid[x1 + z1 * gridX];
 
-            float3 lookDir = math.normalize(direction);
-            transform.rotation = math_utils.rotate_towards(transform, lookDir, finalNormal, rotationSpeeds[index], deltaTime);
+            float3 finalNormal = BilinealInterpolationNormal(ref x0Cell, ref x1Cell, ref z0Cell, ref z1Cell, tx, tz);
+            float3 finalHeight = BilinealInterpolationHeight(ref x0Cell, ref x1Cell, ref z0Cell, ref z1Cell, tx, tz);
+            
+            Rotate(ref transform, index, direction, finalNormal);
 
-            float3 forward = math.normalize(math_utils.project_on_plane(transform.rotation * new float3(0, 0, 1), finalNormal));
+            float3 forward = math.normalize(math_utils.project_on_plane(transform.rotation * math.forward(), finalNormal));
             float moveSpeed = movementSpeeds[index];
 
             if (autoBraking[index])
@@ -83,17 +87,23 @@ namespace Agents.Strategies
 
             float3 newPos = position + deltaTime * moveSpeed * forward;
             newPos.y = finalHeight.y;
-            transform.position = newPos;
+            transform.position = SlideAlongObstacle(position, newPos);
         }
 
-        private float3 BilinealInterpolationNormal(int x0, int x1, int z0, int z1, float tx, float tz)
+        private void Rotate(ref TransformAccess transform, int index, float3 direction, float3 finalNormal)
         {
-            float3 n00 = grid[x0 + z0 * gridX].normal;
-            float3 n10 = grid[x1 + z0 * gridX].normal;
+            float3 lookDir = math.normalize(direction);
+            transform.rotation = math_utils.rotate_towards(transform, lookDir, finalNormal, rotationSpeeds[index], deltaTime);
+        }
+
+        private readonly float3 BilinealInterpolationNormal(ref Cell x0, ref Cell x1, ref Cell z0, ref Cell z1, float tx, float tz)
+        {
+            float3 n00 = x0.normal;
+            float3 n10 = x1.normal;
             float3 nX0 = math.lerp(n00, n10, tx);
 
-            float3 n01 = grid[x0 + z1 * gridX].normal;
-            float3 n11 = grid[x1 + z1 * gridX].normal;
+            float3 n01 = z0.normal;
+            float3 n11 = z1.normal;
             float3 nX1 = math.lerp(n01, n11, tx);
 
             float3 finalNormalUn = math.lerp(nX0, nX1, tz);
@@ -101,55 +111,54 @@ namespace Agents.Strategies
             return len > 0.0001f ? finalNormalUn / len : math.up();
         }
 
-        private float3 BilinealInterpolationHeight(int x0, int x1, int z0, int z1, float tx, float tz)
+        private readonly float3 BilinealInterpolationHeight(ref Cell x0, ref Cell x1, ref Cell z0, ref Cell z1, float tx, float tz)
         {
-            float3 p00 = grid[x0 + z0 * gridX].position;
-            float3 p10 = grid[x1 + z0 * gridX].position;
+            float3 p00 = x0.position;
+            float3 p10 = x1.position;
             float3 posX0 = math.lerp(p00, p10, tx);
 
-            float3 p01 = grid[x0 + z1 * gridX].position;
-            float3 p11 = grid[x1 + z1 * gridX].position;
+            float3 p01 = z0.position;
+            float3 p11 = z1.position;
             float3 posX1 = math.lerp(p01, p11, tx);
             float3 finalPos = math.lerp(posX0, posX1, tz);
             return finalPos;
         }
 
-        // position = SlideAlongObstacle(position, proposed);
-        // const float LERP_SPEED = 50f;
+        const float LERP_SPEED = 50f;
 
-        // private float3 SlideAlongObstacle(float3 current, float3 target)
-        // {
-        //     if (!IsBlocked(target))
-        //         return target;
+        private float3 SlideAlongObstacle(float3 current, float3 target)
+        {
+            if (!IsBlocked(target))
+                return target;
 
-        //     float3 delta = target - current;
-        //     float3 move = float3.zero;
+            float3 delta = target - current;
+            float3 move = float3.zero;
 
-        //     float3 tryX = new(target.x, current.y, current.z);
-        //     if (!IsBlocked(tryX))
-        //     {
-        //         move.x = delta.x;
-        //     }
+            float3 tryX = new(target.x, current.y, current.z);
+            if (!IsBlocked(tryX))
+            {
+                move.x = delta.x;
+            }
 
-        //     float3 tryZ = new(current.x, current.y, target.z);
-        //     if (!IsBlocked(tryZ))
-        //     {
-        //         move.z = delta.z;
-        //     }
+            float3 tryZ = new(current.x, current.y, target.z);
+            if (!IsBlocked(tryZ))
+            {
+                move.z = delta.z;
+            }
 
-        //     float3 newPos = current + move;
-        //     newPos = math.lerp(current, newPos, LERP_SPEED * deltaTime);
-        //     return newPos;
-        // }
+            float3 newPos = current + move;
+            newPos = math.lerp(current, newPos, LERP_SPEED * deltaTime);
+            return newPos;
+        }
 
-        // private bool IsBlocked(float3 pos)
-        // {
-        //     float3 localPos = pos - gridOrigin;
-        //     int x = (int)math.clamp(math.floor(localPos.x / cellDiameter), 0, gridX - 1);
-        //     int z = (int)math.clamp(math.floor(localPos.z / cellDiameter), 0, gridZ - 1);
+        private bool IsBlocked(float3 pos)
+        {
+            float3 localPos = pos - gridOrigin;
+            int x = (int)math.clamp(math.floor(localPos.x / cellDiameter), 0, gridX - 1);
+            int z = (int)math.clamp(math.floor(localPos.z / cellDiameter), 0, gridZ - 1);
 
-        //     var cell = grid[x + z * gridX];
-        //     return cell.walkableType != WalkableType.Walkable;
-        // }
+            var cell = grid[x + z * gridX];
+            return cell.walkableType != WalkableType.Walkable;
+        }
     }
 }

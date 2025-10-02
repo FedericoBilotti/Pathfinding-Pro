@@ -55,10 +55,9 @@ namespace Agents.Strategies
 
             var hit = results[index];
 
-            float3 lookDir = math.normalize(direction);
-            transform.rotation = math_utils.rotate_towards(transform, lookDir, hit.normal, rotationSpeeds[index], deltaTime);
+            Rotate(index, ref transform, direction, ref hit);
 
-            float3 forward = math.normalize(math_utils.project_on_plane(transform.rotation * new float3(0, 0, 1), hit.normal));
+            float3 forward = math.normalize(math_utils.project_on_plane(transform.rotation * math.forward(), hit.normal));
             float moveSpeed = movementSpeeds[index];
 
             if (autoBraking[index])
@@ -71,8 +70,50 @@ namespace Agents.Strategies
 
             float3 newPos = position + deltaTime * moveSpeed * forward;
             newPos.y = hit.point.y;
-            transform.position = newPos;
+            transform.position = SlideAlongObstacle(position, newPos);
+        }
+
+        private void Rotate(int index, ref TransformAccess transform, float3 direction, ref RaycastHit hit)
+        {
+            float3 lookDir = math.normalize(direction);
+            transform.rotation = math_utils.rotate_towards(transform, lookDir, hit.normal, rotationSpeeds[index], deltaTime);
+        }
+
+        const float LERP_SPEED = 50f;
+
+        private float3 SlideAlongObstacle(float3 current, float3 target)
+        {
+            if (!IsBlocked(target))
+                return target;
+
+            float3 delta = target - current;
+            float3 move = float3.zero;
+
+            float3 tryX = new(target.x, current.y, current.z);
+            if (!IsBlocked(tryX))
+            {
+                move.x = delta.x;
+            }
+
+            float3 tryZ = new(current.x, current.y, target.z);
+            if (!IsBlocked(tryZ))
+            {
+                move.z = delta.z;
+            }
+
+            float3 newPos = current + move;
+            newPos = math.lerp(current, newPos, LERP_SPEED * deltaTime);
+            return newPos;
+        }
+
+        private bool IsBlocked(float3 pos)
+        {
+            float3 localPos = pos - gridOrigin;
+            int x = (int)math.clamp(math.floor(localPos.x / cellDiameter), 0, gridX - 1);
+            int z = (int)math.clamp(math.floor(localPos.z / cellDiameter), 0, gridZ - 1);
+
+            var cell = grid[x + z * gridX];
+            return cell.walkableType != WalkableType.Walkable;
         }
     }
-
 }
