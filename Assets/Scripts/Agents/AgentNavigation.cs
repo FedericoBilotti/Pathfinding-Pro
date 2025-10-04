@@ -142,7 +142,7 @@ namespace Agents
             return margin;
         }
 
-        public bool RequestPath(Cell targetCell)
+        public bool RequestPath(Node targetCell)
         {
             if (StatusPath == PathStatus.Requested) return false;
             if (allowRePath)
@@ -158,8 +158,8 @@ namespace Agents
             Vector3 nearestWalkableCellPosition = MapAgentToGrid(ownTransform.position);
 
             // Changed the transform for the cell
-            Cell startCell = graph.GetCellWithWorldPosition(nearestWalkableCellPosition);
-            Cell endCell = graph.GetCellWithWorldPosition(targetCell.position);
+            Node startCell = graph.GetNode(nearestWalkableCellPosition);
+            Node endCell = graph.GetNode(targetCell.position);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
             StatusPath = PathStatus.Requested;
@@ -176,13 +176,13 @@ namespace Agents
 
         public bool RequestPath(Transform targetTransform)
         {
-            var cell = graph.GetCellWithWorldPosition(targetTransform.position);
+            var cell = graph.GetNode(targetTransform.position);
             return RequestPath(cell);
         }
 
         public bool RequestPath(Vector3 targetPosition)
         {
-            var cell = graph.GetCellWithWorldPosition(targetPosition);
+            var cell = graph.GetNode(targetPosition);
             return RequestPath(cell);
         }
 
@@ -190,7 +190,7 @@ namespace Agents
         {
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
-                nearestWalkableCellPosition = graph.GetNearestWalkableCellPosition(ownTransform.position);
+                nearestWalkableCellPosition = graph.GetNearestNode(ownTransform.position);
                 float changeCell = graph.GetCellDiameter() * 2f;
 
                 Vector3 distance = nearestWalkableCellPosition - ownTransform.position;
@@ -203,7 +203,7 @@ namespace Agents
             return nearestWalkableCellPosition;
         }
 
-        public virtual void SetPath(NativeList<Cell> path)
+        public virtual void SetPath(NativeList<Node> path)
         {
             if (!path.IsCreated || path.Length == 0)
             {

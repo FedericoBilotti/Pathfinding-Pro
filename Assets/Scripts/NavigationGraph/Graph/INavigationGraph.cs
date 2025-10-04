@@ -18,14 +18,14 @@ namespace NavigationGraph
         int GetXSize();
         int GetZSize();
         Vector3 GetOrigin();
-        NativeArray<Cell> GetGrid();
+        NativeArray<Node> GetGraph();
         NativeArray<int> GetNeighbors();
         NativeArray<int> GetNeighborTotalCount();
         NativeArray<int> GetNeighborOffsets();
         LayerMask GetWalkableMask();
-        Cell GetRandomCell(); // Eliminate this in the future.
-        Cell GetCellWithWorldPosition(Vector3 worldPosition);
-        Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
+        Node GetRandomCell(); // Eliminate this in the future.
+        Node GetNode(Vector3 worldPosition);
+        Vector3 GetNearestNode(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
 
         void CombineDependencies(JobHandle jobHandle);

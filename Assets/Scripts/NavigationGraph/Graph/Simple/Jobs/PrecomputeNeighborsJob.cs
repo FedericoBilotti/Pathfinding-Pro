@@ -6,9 +6,9 @@ using Unity.Mathematics;
 namespace NavigationGraph.Graph
 {
     [BurstCompile]
-    public struct PrecomputeNeighborsJob : IJob
+    internal struct PrecomputeNeighborsJob : IJob
     {
-        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public NativeArray<int2> offsets16;
         [ReadOnly] public NativeArray<int> neighborCounts;
         [ReadOnly] public NativeArray<int> neighborOffsets;
@@ -24,7 +24,7 @@ namespace NavigationGraph.Graph
             {
                 int count = 0;
                 int baseIndex = neighborOffsets[i];
-                Cell currentCell = grid[i];
+                Node currentCell = grid[i];
                 int maxNeighbors = neighborCounts[i];
 
                 if (neighborsPerCell != NeighborsPerCell.Sixteen)

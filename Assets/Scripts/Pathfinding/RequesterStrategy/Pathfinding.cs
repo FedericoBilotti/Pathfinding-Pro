@@ -31,11 +31,11 @@ namespace Pathfinding.RequesterStrategy
             requests = new SwapBackListIndexed<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
-                path = new NativeList<Cell>(30, Allocator.Persistent),
-                simplified = new NativeList<Cell>(30, Allocator.Persistent),
+                path = new NativeList<Node>(30, Allocator.Persistent),
+                simplified = new NativeList<Node>(30, Allocator.Persistent),
                 closedList = new NativeHashSet<int>(64, Allocator.Persistent),
-                openList = new NativePriorityQueue<PathCellData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
-                visitedNodes = new NativeHashMap<int, PathCellData>(64, Allocator.Persistent),
+                openList = new NativePriorityQueue<PathNodeData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
+                visitedNodes = new NativeHashMap<int, PathNodeData>(64, Allocator.Persistent),
                 Index = -1
             }, actionOnGet: pathReq =>
             {
@@ -56,7 +56,7 @@ namespace Pathfinding.RequesterStrategy
             }, defaultCapacity: CAPACITY, maxSize: MAX_SIZE);
         }
 
-        public abstract bool RequestPath(IAgent agent, Cell start, Cell end);
+        public abstract bool RequestPath(IAgent agent, Node start, Node end);
 
         public virtual void SetPathToAgent()
         {
@@ -109,11 +109,11 @@ namespace Pathfinding.RequesterStrategy
             public IAgent agent;
             public JobHandle handle;
 
-            public NativeList<Cell> path;
-            public NativeList<Cell> simplified;
+            public NativeList<Node> path;
+            public NativeList<Node> simplified;
             public NativeHashSet<int> closedList;
-            public NativePriorityQueue<PathCellData> openList;
-            public NativeHashMap<int, PathCellData> visitedNodes;
+            public NativePriorityQueue<PathNodeData> openList;
+            public NativeHashMap<int, PathNodeData> visitedNodes;
 
             public int Index { get; set; }
         }

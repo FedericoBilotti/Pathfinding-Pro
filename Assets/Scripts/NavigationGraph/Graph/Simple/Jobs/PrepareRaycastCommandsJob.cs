@@ -6,37 +6,30 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
 {
-    internal sealed partial class SimpleGridNavigationGraph
+    [BurstCompile]
+    internal struct PrepareRaycastCommandsJob : IJobParallelFor
     {
-        #region Jobs & Burst
+        [WriteOnly] public NativeArray<RaycastCommand> commands;
+        public Vector3 origin;
+        public int ignoreMasks;
+        public int gridSizeX;
+        public int gridSizeY;
+        public int walkableMask;
+        public float cellDiameter;
+        public PhysicsScene physicsScene;
 
-        [BurstCompile]
-        private struct PrepareRaycastCommandsJob : IJobParallelFor
+        public void Execute(int i)
         {
-            [WriteOnly] public NativeArray<RaycastCommand> commands;
-            public Vector3 origin;
-            public int ignoreMasks;
-            public int gridSizeX;
-            public int gridSizeY;
-            public int walkableMask;
-            public float cellDiameter;
-            public PhysicsScene physicsScene;
+            int x = i % gridSizeX;
+            int y = i / gridSizeX;
 
-            public void Execute(int i)
-            {
-                int x = i % gridSizeX;
-                int y = i / gridSizeX;
+            Vector3 cellPosition = origin
+                + Vector3.right * ((x + 0.5f) * cellDiameter)
+                + Vector3.forward * ((y + 0.5f) * cellDiameter);
 
-                Vector3 cellPosition = origin
-                    + Vector3.right * ((x + 0.5f) * cellDiameter)
-                    + Vector3.forward * ((y + 0.5f) * cellDiameter);
-                
-                var queryParams = new QueryParameters { layerMask = ~ignoreMasks };
+            var queryParams = new QueryParameters { layerMask = ~ignoreMasks };
 
-                commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * gridSizeY, Vector3.down, queryParams, gridSizeY);
-            }
+            commands[i] = new RaycastCommand(physicsScene, cellPosition + Vector3.up * gridSizeY, Vector3.down, queryParams, gridSizeY);
         }
     }
-
-    #endregion
 }

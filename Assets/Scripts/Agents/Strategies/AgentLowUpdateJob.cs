@@ -22,7 +22,7 @@ namespace Agents.Strategies
 
         [ReadOnly] public float deltaTime;
 
-        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public int gridX;
         [ReadOnly] public int gridZ;
 
@@ -65,10 +65,10 @@ namespace Agents.Strategies
             float tx = (localPos.x / cellDiameter) - x0;
             float tz = (localPos.z / cellDiameter) - z0;
 
-            Cell x0Cell = grid[x0 + z0 * gridX];
-            Cell x1Cell = grid[x1 + z0 * gridX];
-            Cell z0Cell = grid[x0 + z1 * gridX];
-            Cell z1Cell = grid[x1 + z1 * gridX];
+            Node x0Cell = grid[x0 + z0 * gridX];
+            Node x1Cell = grid[x1 + z0 * gridX];
+            Node z0Cell = grid[x0 + z1 * gridX];
+            Node z1Cell = grid[x1 + z1 * gridX];
 
             float3 finalNormal = BilinealInterpolationNormal(ref x0Cell, ref x1Cell, ref z0Cell, ref z1Cell, tx, tz);
             float3 finalHeight = BilinealInterpolationHeight(ref x0Cell, ref x1Cell, ref z0Cell, ref z1Cell, tx, tz);
@@ -97,7 +97,7 @@ namespace Agents.Strategies
             transform.rotation = math_utils.rotate_towards(transform, lookDir, finalNormal, rotationSpeeds[index], deltaTime);
         }
 
-        private readonly float3 BilinealInterpolationNormal(ref Cell x0, ref Cell x1, ref Cell z0, ref Cell z1, float tx, float tz)
+        private readonly float3 BilinealInterpolationNormal(ref Node x0, ref Node x1, ref Node z0, ref Node z1, float tx, float tz)
         {
             float3 n00 = x0.normal;
             float3 n10 = x1.normal;
@@ -112,7 +112,7 @@ namespace Agents.Strategies
             return len > 0.0001f ? finalNormalUn / len : math.up();
         }
 
-        private readonly float3 BilinealInterpolationHeight(ref Cell x0, ref Cell x1, ref Cell z0, ref Cell z1, float tx, float tz)
+        private readonly float3 BilinealInterpolationHeight(ref Node x0, ref Node x1, ref Node z0, ref Node z1, float tx, float tz)
         {
             float3 p00 = x0.position;
             float3 p10 = x1.position;

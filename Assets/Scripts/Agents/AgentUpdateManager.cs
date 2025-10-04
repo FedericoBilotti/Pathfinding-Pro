@@ -134,7 +134,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             deltaTime = Time.deltaTime,
 
             results = _results,
-            grid = navigationGraph.GetGrid(),
+            grid = navigationGraph.GetGraph(),
             gridX = navigationGraph.GetXSize(),
             gridZ = navigationGraph.GetZSize(),
             gridOrigin = navigationGraph.GetOrigin(),
@@ -173,7 +173,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
             deltaTime = Time.deltaTime,
 
-            grid = navigationGraph.GetGrid(),
+            grid = navigationGraph.GetGraph(),
             gridX = navigationGraph.GetXSize(),
             gridZ = navigationGraph.GetZSize(),
             gridOrigin = navigationGraph.GetOrigin(),

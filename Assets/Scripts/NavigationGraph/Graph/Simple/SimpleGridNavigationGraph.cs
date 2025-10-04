@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -6,22 +7,30 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph
 {
-    internal sealed partial class SimpleGridNavigationGraph : NavigationGraph
+    internal sealed class SimpleGridNavigationGraph : NavigationGraph
     {
+        private int _visitId = 0;
+        private readonly int[] _visited;
+        private readonly Queue<Vector2Int> _queue;
+
         public SimpleGridNavigationGraph(NavigationGraphConfig navigationGraphConfig)
         : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid2D;
+
+            var totalGridSize = gridSize.x * gridSize.z;
+            _visited = new int[totalGridSize];
+            _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
         }
 
-        protected override void LoadGridFromMemory(GridDataAsset gridBaked)
+        public override void LoadGridFromMemory(GridDataAsset gridBaked)
         {
             int totalGridSize = GetGridSizeLength();
             int lengthNeighbors = gridBaked.neighborsCell.neighbors.Length;
             int lengthCounts = gridBaked.neighborsCell.neighborTotalCount.Length;
             int lengthOffsets = gridBaked.neighborsCell.neighborOffsets.Length;
 
-            grid = new NativeArray<Cell>(totalGridSize, Allocator.Persistent);
+            graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
             neighbors = new NativeArray<int>(lengthNeighbors, Allocator.Persistent);
             neighborTotalCount = new NativeArray<int>(lengthCounts, Allocator.Persistent);
             neighborOffSet = new NativeArray<int>(lengthOffsets, Allocator.Persistent);
@@ -33,7 +42,7 @@ namespace NavigationGraph.Graph
                     int index = x + y * gridSize.x;
                     CellData actualCell = gridBaked.cells[index];
 
-                    grid[index] = new Cell
+                    graph[index] = new Node
                     {
                         position = actualCell.position,
                         height = actualCell.height,
@@ -59,15 +68,15 @@ namespace NavigationGraph.Graph
         public override void CreateGrid()
         {
             // --- 0. Clean ---
-            OnCreateGrid?.Invoke();            
+            OnCreateGrid?.Invoke();
 
-            if (grid.IsCreated) grid.Dispose();
+            if (graph.IsCreated) graph.Dispose();
             if (neighbors.IsCreated) neighbors.Dispose();
             if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
             if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
 
             int totalGridSize = GetGridSizeLength();
-            grid = new NativeArray<Cell>(totalGridSize, Allocator.Persistent);
+            graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
 
             // --- 1. PREPARE RAYCASTS ---
             var commands = new NativeArray<RaycastCommand>(totalGridSize, Allocator.TempJob);
@@ -181,7 +190,7 @@ namespace NavigationGraph.Graph
             var createGridJob = new CreateGridJob
             {
                 walkableRegionsDic = walkableRegionsDic,
-                grid = grid,
+                grid = graph,
                 origin = transform.position,
                 right = new float3(1, 0, 0),
                 forward = new float3(0, 0, 1),
@@ -218,7 +227,7 @@ namespace NavigationGraph.Graph
 
             var countNeighborsJob = new CountNeighborsJob
             {
-                grid = grid,
+                grid = graph,
                 offsets16 = offsets16,
                 neighborCounts = temporaryNeighborTotalCount,
                 gridSizeX = gridSize.x,
@@ -249,7 +258,7 @@ namespace NavigationGraph.Graph
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
-                grid = grid,
+                grid = graph,
                 offsets16 = offsets16,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.z,
@@ -277,9 +286,117 @@ namespace NavigationGraph.Graph
             distCliff.Dispose();
             queueObstacle.Dispose();
             queueCliff.Dispose();
-            
+
             offsets16.Dispose();
             temporaryNeighborTotalCount.Dispose();
+        }
+
+        public override Vector3 GetNearestNode(Vector3 worldPosition)
+        {
+            var (startX, startY) = GetNodesMap(worldPosition);
+
+            _visitId++;
+
+            _queue.Clear();
+            _queue.Enqueue(new Vector2Int(startX, startY));
+
+            while (_queue.Count > 0)
+            {
+                var current = _queue.Dequeue();
+                int x = current.x;
+                int y = current.y;
+
+                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z)
+                    continue;
+
+                int index = x + y * gridSize.x;
+
+                if (_visited[index] == _visitId)
+                    continue;
+
+                _visited[index] = _visitId;
+
+                if (graph[index].walkableType == WalkableType.Walkable)
+                {
+                    return GetCellPositionInWorldMap(x, y);
+                }
+
+                _queue.Enqueue(new Vector2Int(x + 1, y));
+                _queue.Enqueue(new Vector2Int(x - 1, y));
+                _queue.Enqueue(new Vector2Int(x, y + 1));
+                _queue.Enqueue(new Vector2Int(x, y - 1));
+            }
+
+            return transform.position;
+        }
+
+        public override Node GetNode(Vector3 worldPosition)
+        {
+            var (x, y) = GetNodesMap(worldPosition);
+
+            return graph[x + y * gridSize.x];
+        }
+
+        private (int x, int y) GetNodesMap(Vector3 worldPosition)
+        {
+            Vector3 gridPos = worldPosition - transform.position;
+
+            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.z - 1);
+
+            return (x, y);
+        }
+
+        private Vector3 GetCellPositionInWorldMap(int gridX, int gridY)
+        {
+            Vector3 cellPosition = GetCellPositionInGrid(gridX, gridY);
+
+            return CheckPoint(cellPosition);
+        }
+
+        private Vector3 GetCellPositionInGrid(int gridX, int gridY)
+        {
+            return transform.position
+                   + Vector3.right * ((gridX + 0.5f) * cellDiameter)
+                   + Vector3.forward * ((gridY + 0.5f) * cellDiameter);
+        }
+
+        private Vector3 CheckPoint(Vector3 cellPosition)
+        {
+            return Physics.Raycast(cellPosition + Vector3.up * gridSize.y,
+                    Vector3.down, out RaycastHit raycastHit, gridSize.y, walkableMask)
+                    ? raycastHit.point
+                    : cellPosition;
+        }
+
+        public override bool? DrawGizmos()
+        {
+            if (!graph.IsCreated || graph.Length == 0) return false;
+
+            Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * cellDiameter;
+
+            var walkableColor = new Color(0, 1, 0.5f, 0.5f);
+            var nonWalkableSize = new Vector3(0.2f, 0.2f, 0.2f);
+
+            for (int i = 0; i < graph.Length; i++)
+            {
+                Vector3 drawPos = graph[i].position;
+
+                if (graph[i].walkableType == WalkableType.Air) continue;
+
+                if (graph[i].walkableType == WalkableType.Walkable)
+                {
+                    Gizmos.color = walkableColor;
+                    Gizmos.DrawWireCube(drawPos, sizeCell);
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawCube(drawPos, nonWalkableSize);
+                }
+            }
+
+            return true;
         }
     }
 }

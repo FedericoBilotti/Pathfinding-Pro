@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace NavigationGraph
 {
-    public struct Cell : IEquatable<Cell>
+    public struct Node : IEquatable<Node>
     {
         public float3 position;
         public float3 normal;
@@ -14,11 +14,11 @@ namespace NavigationGraph
         public int cellCostPenalty;
         public WalkableType walkableType;
 
-        public readonly bool Equals(Cell other) => gridX == other.gridX && gridZ == other.gridZ;
+        public readonly bool Equals(Node other) => gridX == other.gridX && gridZ == other.gridZ;
         public override readonly int GetHashCode() => (int)math.hash(new int3(gridX, gridZ, gridIndex));
     }
 
-    public struct PathCellData : IHeapComparable<PathCellData>
+    public struct PathNodeData : IHeapComparable<PathNodeData>
     {
         public int cellIndex;
         public int cameFrom;
@@ -28,7 +28,7 @@ namespace NavigationGraph
 
         public int HeapIndex { get; set; }
 
-        public int CompareTo(PathCellData other)
+        public int CompareTo(PathNodeData other)
         {
             int result = FCost.CompareTo(other.FCost);
             if (result == 0) result = hCost.CompareTo(other.hCost);

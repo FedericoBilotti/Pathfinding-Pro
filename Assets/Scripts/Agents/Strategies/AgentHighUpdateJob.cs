@@ -24,7 +24,7 @@ namespace Agents.Strategies
         [ReadOnly] public float deltaTime;
 
         [ReadOnly] public NativeArray<RaycastHit> results;
-        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public int gridX;
         [ReadOnly] public int gridZ;
 

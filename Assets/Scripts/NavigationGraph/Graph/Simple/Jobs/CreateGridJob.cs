@@ -6,70 +6,67 @@ using UnityEngine;
 
 namespace NavigationGraph.Graph
 {
-    internal sealed partial class SimpleGridNavigationGraph
+    [BurstCompile]
+    internal struct CreateGridJob : IJobParallelFor
     {
-        [BurstCompile]
-        private struct CreateGridJob : IJobParallelFor
+        [ReadOnly] public NativeHashMap<int, int> walkableRegionsDic;
+        [WriteOnly] public NativeArray<Node> grid;
+        public float3 origin;
+        public float3 right;
+        public float3 forward;
+
+        public float cellDiameter;
+        public int gridSizeX;
+
+        [ReadOnly] public NativeArray<RaycastHit> results;
+        [ReadOnly] public NativeArray<int> layerPerCell;
+        [ReadOnly] public NativeArray<WalkableType> nativeObstacleBlocked;
+        [ReadOnly] public NativeArray<WalkableType> nativeCliffBlocked;
+
+        public void Execute(int i)
         {
-            [ReadOnly] public NativeHashMap<int, int> walkableRegionsDic;
-            [WriteOnly] public NativeArray<Cell> grid;
-            public float3 origin;
-            public float3 right;
-            public float3 forward;
+            const float kHitEpsilon = 1e-4f;
+            int x = i % gridSizeX;
+            int y = i / gridSizeX;
 
-            public float cellDiameter;
-            public int gridSizeX;
+            float3 defaultPos = origin
+                + right * ((x + 0.5f) * cellDiameter)
+                + forward * ((y + 0.5f) * cellDiameter);
 
-            [ReadOnly] public NativeArray<RaycastHit> results;
-            [ReadOnly] public NativeArray<int> layerPerCell;
-            [ReadOnly] public NativeArray<WalkableType> nativeObstacleBlocked;
-            [ReadOnly] public NativeArray<WalkableType> nativeCliffBlocked;
+            bool hit = results[i].distance > kHitEpsilon;
 
-            public void Execute(int i)
+            walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
+
+            var walkableTypeDebug = GetWalkableType(i);
+
+            grid[i] = new Node
             {
-                const float kHitEpsilon = 1e-4f;
-                int x = i % gridSizeX;
-                int y = i / gridSizeX;
+                position = hit ? results[i].point : defaultPos,
+                normal = hit ? results[i].normal : math.up(),
+                gridIndex = i,
+                gridX = x,
+                gridZ = y,
+                walkableType = walkableTypeDebug,
+                cellCostPenalty = penalty
+            };
+        }
 
-                float3 defaultPos = origin
-                    + right * ((x + 0.5f) * cellDiameter)
-                    + forward * ((y + 0.5f) * cellDiameter);
+        private WalkableType GetWalkableType(int index)
+        {
+            WalkableType cliff = nativeCliffBlocked[index];
+            WalkableType blocked = nativeObstacleBlocked[index];
 
-                bool hit = results[i].distance > kHitEpsilon;          
-
-                walkableRegionsDic.TryGetValue(layerPerCell[i], out int penalty);
-
-                var walkableTypeDebug = GetWalkableType(i);
-
-                grid[i] = new Cell
-                {
-                    position = hit ? results[i].point : defaultPos,
-                    normal = hit ? results[i].normal : math.up(),
-                    gridIndex = i,
-                    gridX = x,
-                    gridZ = y,
-                    walkableType = walkableTypeDebug,
-                    cellCostPenalty = penalty
-                };
-            }
-
-            private WalkableType GetWalkableType(int index)
+            return (cliff, blocked) switch
             {
-                WalkableType cliff = nativeCliffBlocked[index];
-                WalkableType blocked = nativeObstacleBlocked[index];
+                var (c, b) when c == WalkableType.Air
+                    => WalkableType.Air,
 
-                return (cliff, blocked) switch
-                {
-                    var (c, b) when c == WalkableType.Air
-                        => WalkableType.Air,
+                var (c, b) when b == WalkableType.Obstacle
+                    => WalkableType.Obstacle,
 
-                    var (c, b) when b == WalkableType.Obstacle
-                        => WalkableType.Obstacle,
-
-                    _ => WalkableType.Walkable
-                    // Roof is left
-                };
-            }
+                _ => WalkableType.Walkable
+                // Roof is left
+            };
         }
     }
 }

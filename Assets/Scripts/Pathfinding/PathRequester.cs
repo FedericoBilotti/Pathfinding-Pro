@@ -26,7 +26,7 @@ namespace Pathfinding
             _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
         }
 
-        public bool RequestPath(IAgent agent, Cell start, Cell end) => _pathRequestStrategy.RequestPath(agent, start, end);
+        public bool RequestPath(IAgent agent, Node start, Node end) => _pathRequestStrategy.RequestPath(agent, start, end);
         private void LateUpdate() => _pathRequestStrategy.SetPathToAgent();
 
 #if UNITY_EDITOR

@@ -9,12 +9,12 @@ namespace Pathfinding.PathImplementation
     [BurstCompile]
     internal struct ThetaStarJob : IJob
     {
-        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public int endIndex;
         [ReadOnly] public int gridSizeX;
 
-        public NativeList<Cell> finalPath;
-        public NativeList<Cell> simplified;
+        public NativeList<Node> finalPath;
+        public NativeList<Node> simplified;
 
         public void Execute()
         {
@@ -47,7 +47,7 @@ namespace Pathfinding.PathImplementation
         }
 
         // Bresenham algorithm
-        private bool HasLineOfSight(in Cell startCell, in Cell endCell)
+        private bool HasLineOfSight(in Node startCell, in Node endCell)
         {
             int startX = startCell.gridX;
             int startY = startCell.gridZ;

@@ -12,7 +12,7 @@ namespace NavigationGraph.Graph
             GraphType = NavigationGraphType.Grid3D;
         }
 
-        protected override void LoadGridFromMemory(GridDataAsset gridBaked)
+        public override void LoadGridFromMemory(GridDataAsset gridBaked)
         {
             throw new System.NotImplementedException();
         }
@@ -20,7 +20,7 @@ namespace NavigationGraph.Graph
         public override void CreateGrid()
         {
             throw new System.NotImplementedException();
-            
+
             // if (grid.IsCreated)
             // {
             //     grid.Dispose();
@@ -88,14 +88,14 @@ namespace NavigationGraph.Graph
             return hits;
         }
 
-        public Cell GetClosestCell(Vector3 worldPos)
+        public Node GetClosestNode(Vector3 worldPos)
         {
-            var (x, z) = GetCellsMap(worldPos);
+            var (x, z) = GetNodesMap(worldPos);
 
-            Cell? closest = null;
+            Node? closest = null;
             float closestDist = float.MaxValue;
 
-            foreach (var cell in grid)
+            foreach (var cell in graph)
             {
                 if (cell.gridX != x || cell.gridZ != z) continue;
 
@@ -108,6 +108,31 @@ namespace NavigationGraph.Graph
             }
 
             return closest ?? default;
+        }
+
+        private (int x, int y) GetNodesMap(Vector3 worldPosition)
+        {
+            Vector3 gridPos = worldPosition - transform.position;
+
+            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.z - 1);
+
+            return (x, y);
+        }
+
+        public override Vector3 GetNearestNode(Vector3 worldPosition)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Node GetNode(Vector3 worldPosition)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool? DrawGizmos()
+        {
+            throw new System.NotImplementedException();
         }
 
         // private Vector3[] GetCellPositionInWorldMap(int gridX, int gridY)

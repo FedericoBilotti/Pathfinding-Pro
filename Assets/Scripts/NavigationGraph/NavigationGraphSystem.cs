@@ -87,7 +87,7 @@ namespace NavigationGraph
             Clear();
             Scan();
 
-            var grid = _graph.GetGrid();
+            var grid = _graph.GetGraph();
             var neighbors = _graph.GetNeighbors();
             var neighborTotalCounts = _graph.GetNeighborTotalCount();
             var neighborOffsets = _graph.GetNeighborOffsets();
@@ -104,7 +104,7 @@ namespace NavigationGraph
                 for (int y = 0; y < _gridSize.z; y++)
                 {
                     int index = x + y * _gridSize.x;
-                    Cell actualCell = grid[index];
+                    Node actualCell = grid[index];
 
                     asset.cells[index] = new CellData
                     {

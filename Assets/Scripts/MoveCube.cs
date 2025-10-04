@@ -23,9 +23,9 @@ public class MoveCube : MonoBehaviour
         _agentNavigation.RequestPath(target);
     }
 
-    private Cell GetRandomTarget(INavigationGraph graph)
+    private Node GetRandomTarget(INavigationGraph graph)
     {
-        Cell target = graph.GetRandomCell();
+        Node target = graph.GetRandomCell();
 
         return target.walkableType == WalkableType.Walkable ? target : GetRandomTarget(graph);
     }

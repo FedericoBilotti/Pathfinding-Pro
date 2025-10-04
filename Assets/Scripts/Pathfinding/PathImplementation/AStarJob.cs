@@ -10,14 +10,14 @@ namespace Pathfinding.PathImplementation
     [BurstCompile]
     internal struct AStarJob : IJob
     {
-        [ReadOnly] public NativeArray<Cell> grid;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public NativeArray<int> allNeighbors;
         [ReadOnly] public NativeArray<int> neighborCounts;
         [ReadOnly] public NativeArray<int> neighborOffSet;
 
         public NativeHashSet<int> closedList;
-        public NativePriorityQueue<PathCellData> openList;
-        public NativeHashMap<int, PathCellData> visitedNodes;
+        public NativePriorityQueue<PathNodeData> openList;
+        public NativeHashMap<int, PathNodeData> visitedNodes;
 
         public int gridSizeX;
 
@@ -27,13 +27,13 @@ namespace Pathfinding.PathImplementation
         public void Execute()
         {
             var unwalkableTypes = WalkableType.Obstacle | WalkableType.Roof | WalkableType.Air;
-            var startData = new PathCellData { cellIndex = startIndex, gCost = 0, hCost = GetDistance(startIndex, endIndex), cameFrom = -1, HeapIndex = int.MaxValue };
+            var startData = new PathNodeData { cellIndex = startIndex, gCost = 0, hCost = GetDistance(startIndex, endIndex), cameFrom = -1, HeapIndex = int.MaxValue };
             openList.Enqueue(startData);
             visitedNodes.Add(startIndex, startData);
 
             while (openList.Length > 0)
             {
-                PathCellData currentData = openList.Dequeue();
+                PathNodeData currentData = openList.Dequeue();
                 int currentIndex = currentData.cellIndex;
                 closedList.Add(currentIndex);
 
@@ -50,12 +50,12 @@ namespace Pathfinding.PathImplementation
 
                     int costToNeighbor = currentData.gCost + GetDistance(currentIndex, neighborIndex) + grid[neighborIndex].cellCostPenalty;
 
-                    if (visitedNodes.TryGetValue(neighborIndex, out PathCellData neighborData))
+                    if (visitedNodes.TryGetValue(neighborIndex, out PathNodeData neighborData))
                     {
                         if (costToNeighbor >= neighborData.gCost) continue;
                     }
 
-                    var newNeighborData = new PathCellData
+                    var newNeighborData = new PathNodeData
                     {
                         cellIndex = neighborIndex,
                         cameFrom = currentIndex,
@@ -91,9 +91,9 @@ namespace Pathfinding.PathImplementation
     [BurstCompile]
     internal struct AddPath : IJob
     {
-        [ReadOnly] public NativeArray<Cell> grid;
-        [ReadOnly] public NativeHashMap<int, PathCellData> visitedNodes;
-        public NativeList<Cell> finalPath;
+        [ReadOnly] public NativeArray<Node> grid;
+        [ReadOnly] public NativeHashMap<int, PathNodeData> visitedNodes;
+        public NativeList<Node> finalPath;
 
         [ReadOnly] public int endIndex;
 
@@ -125,7 +125,7 @@ namespace Pathfinding.PathImplementation
     [BurstCompile]
     internal struct ReversePath : IJob
     {
-        public NativeList<Cell> finalPath;
+        public NativeList<Node> finalPath;
 
         public void Execute()
         {
