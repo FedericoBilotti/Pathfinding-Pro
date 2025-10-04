@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine.Jobs;
+using Utilities;
 
 namespace Agents.Strategies
 {

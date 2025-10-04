@@ -1,6 +1,7 @@
 using Agents;
 using NavigationGraph;
 using UnityEngine;
+using Utilities;
 
 namespace Pathfinding
 {

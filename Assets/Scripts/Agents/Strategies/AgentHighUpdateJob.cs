@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
+using Utilities;
 
 namespace Agents.Strategies
 {
