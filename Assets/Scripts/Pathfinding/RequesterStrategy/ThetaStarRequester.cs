@@ -39,20 +39,20 @@ namespace Pathfinding.RequesterStrategy
                 endIndex = end.gridIndex
             }.Schedule(aStarJob);
 
-            // Should I ScheduleByRef Theta?
-
-            JobHandle thetaStarJob = new ThetaStarJob
+            ThetaStarJob thetaStarJob = new ThetaStarJob
             {
                 grid = navigationGraph.GetGraph(),
                 gridSizeX = navigationGraph.GetXSize(),
                 finalPath = pathRequest.path,
                 simplified = pathRequest.simplified
-            }.Schedule(addPath);
+            };
+
+            JobHandle thetaStarHandle = thetaStarJob.ScheduleByRef(addPath);
 
             JobHandle reversePath = new ReversePath
             {
                 finalPath = pathRequest.path
-            }.Schedule(thetaStarJob);
+            }.Schedule(thetaStarHandle);
 
             navigationGraph.CombineDependencies(reversePath);
 
