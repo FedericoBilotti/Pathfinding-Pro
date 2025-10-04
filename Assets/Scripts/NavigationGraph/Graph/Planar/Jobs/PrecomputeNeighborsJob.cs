@@ -3,15 +3,16 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar.Jobs
 {
-    // It could be separated in three diferent jobs, so I dont't have to ask all the time the NeigbhorsPerCell size.
     [BurstCompile]
-    internal struct CountNeighborsJob : IJob
+    internal struct PrecomputeNeighborsJob : IJob
     {
         [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public NativeArray<int2> offsets16;
-        [WriteOnly] public NativeArray<int> neighborCounts;
+        [ReadOnly] public NativeArray<int> neighborCounts;
+        [ReadOnly] public NativeArray<int> neighborOffsets;
+        [WriteOnly] public NativeArray<int> allNeighbors;
         public int gridSizeX;
         public int gridSizeZ;
         public float maxHeightDifference;
@@ -22,6 +23,9 @@ namespace NavigationGraph.Graph
             for (int i = 0; i < grid.Length; i++)
             {
                 int count = 0;
+                int baseIndex = neighborOffsets[i];
+                Node currentCell = grid[i];
+                int maxNeighbors = neighborCounts[i];
 
                 if (neighborsPerCell != NeighborsPerCell.Sixteen)
                 {
@@ -30,6 +34,7 @@ namespace NavigationGraph.Graph
                     {
                         for (int offsetZ = -range; offsetZ <= range; offsetZ++)
                         {
+                            if (count >= maxNeighbors) break;
                             if (offsetX == 0 && offsetZ == 0) continue;
 
                             if (neighborsPerCell == NeighborsPerCell.Four &&
@@ -38,15 +43,19 @@ namespace NavigationGraph.Graph
                             if (neighborsPerCell == NeighborsPerCell.Eight &&
                                 math.max(math.abs(offsetX), math.abs(offsetZ)) > 1) continue;
 
-                            int gridX = grid[i].gridX + offsetX;
-                            int gridZ = grid[i].gridZ + offsetZ;
+                            int gridX = currentCell.gridX + offsetX;
+                            int gridZ = currentCell.gridZ + offsetZ;
 
                             if (gridX >= 0 && gridX < gridSizeX &&
                                 gridZ >= 0 && gridZ < gridSizeZ)
                             {
-                                var yDistance = grid[i].position.y - grid[gridX + gridZ * gridSizeX].position.y;
+                                int neighborIndex = gridX + gridZ * gridSizeX;
+                                var yDistance = math.abs(currentCell.position.y - grid[neighborIndex].position.y);
                                 if (yDistance < maxHeightDifference)
+                                {
+                                    allNeighbors[baseIndex + count] = neighborIndex;
                                     count++;
+                                }
                             }
                         }
                     }
@@ -55,20 +64,24 @@ namespace NavigationGraph.Graph
                 {
                     foreach (var offset in offsets16)
                     {
-                        int gridX = grid[i].gridX + offset.x;
-                        int gridZ = grid[i].gridZ + offset.y;
+                        if (count >= maxNeighbors) break;
+
+                        int gridX = currentCell.gridX + offset.x;
+                        int gridZ = currentCell.gridZ + offset.y;
 
                         if (gridX >= 0 && gridX < gridSizeX &&
                             gridZ >= 0 && gridZ < gridSizeZ)
                         {
-                            var yDistance = grid[i].position.y - grid[gridX + gridZ * grid.Length].position.y;
+                            int neighborIndex = gridX + gridZ * gridSizeX;
+                            var yDistance = math.abs(currentCell.position.y - grid[neighborIndex].position.y);
                             if (yDistance < maxHeightDifference)
+                            {
+                                allNeighbors[baseIndex + count] = neighborIndex;
                                 count++;
+                            }
                         }
                     }
                 }
-
-                neighborCounts[i] = count;
             }
         }
     }

@@ -10,7 +10,6 @@ namespace Pathfinding.PathImplementation
     internal struct ThetaStarJob : IJob
     {
         [ReadOnly] public NativeArray<Node> grid;
-        [ReadOnly] public int endIndex;
         [ReadOnly] public int gridSizeX;
 
         public NativeList<Node> finalPath;

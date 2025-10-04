@@ -4,7 +4,7 @@ using Unity.Jobs;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar.Jobs
 {
     [BurstCompile]
     internal struct PrepareRaycastCommandsJob : IJobParallelFor

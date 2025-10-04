@@ -1,10 +1,9 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEngine;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar.Jobs
 {
     [BurstCompile]
     internal struct BFSCombinedJob : IJob

@@ -1,3 +1,4 @@
+using NavigationGraph.Graph.Planar.Jobs;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
@@ -5,15 +6,15 @@ using Unity.Mathematics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar
 {
-    internal sealed class SimpleGridNavigationGraph : NavigationGraph
+    internal sealed class PlanarGrid : NavigationGraph
     {
         private int _visitId = 0;
         private readonly int[] _visited;
         private readonly Queue<Vector2Int> _queue;
 
-        public SimpleGridNavigationGraph(NavigationGraphConfig navigationGraphConfig)
+        public PlanarGrid(NavigationGraphConfig navigationGraphConfig)
         : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid2D;

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Layered
 {
-    internal sealed class WorldNavigationGraph : NavigationGraph
+    internal sealed class LayeredGrid : NavigationGraph
     {
-        public WorldNavigationGraph(NavigationGraphConfig navigationGraphConfig)
+        public LayeredGrid(NavigationGraphConfig navigationGraphConfig)
         : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid3D;

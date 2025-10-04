@@ -39,6 +39,8 @@ namespace Pathfinding.RequesterStrategy
                 endIndex = end.gridIndex
             }.Schedule(aStarJob);
 
+            // Should I ScheduleByRef Theta?
+
             JobHandle thetaStarJob = new ThetaStarJob
             {
                 grid = navigationGraph.GetGraph(),

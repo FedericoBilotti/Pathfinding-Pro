@@ -54,16 +54,6 @@ namespace NavigationGraph
             _maxHeightDifference = Mathf.Max(0.1f, _maxHeightDifference);
         }
 
-        private LayerMask GetWalkableMask()
-        {
-            LayerMask walkableMask = 0;
-            foreach (var region in _terrainTypes)
-            {
-                walkableMask.value |= region.terrainMask.value;
-            }
-            return walkableMask;
-        }
-
         private NavigationGraphConfig GetNavigationGraphConfig()
         {
             return new NavigationGraphConfig

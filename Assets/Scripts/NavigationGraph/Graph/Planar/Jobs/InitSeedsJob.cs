@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using System;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar.Jobs
 {
     [BurstCompile]
     internal struct InitSeedsJob : IJobParallelFor

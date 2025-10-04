@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace NavigationGraph.Graph
+namespace NavigationGraph.Graph.Planar.Jobs
 {
     [BurstCompile]
     internal struct CreateGridJob : IJobParallelFor
