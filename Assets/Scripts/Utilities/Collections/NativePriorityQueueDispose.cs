@@ -2,7 +2,7 @@ using System;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
-namespace Utilities
+namespace Utilities.Collections
 {
     [NativeContainer]
     internal struct NativePriorityQueueDispose<T> where T : unmanaged, IComparable<T>

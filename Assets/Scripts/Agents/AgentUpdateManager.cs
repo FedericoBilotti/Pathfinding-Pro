@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
 using Utilities;
+using Utilities.Collections;
 
 [DefaultExecutionOrder(-950)]
 public class AgentUpdateManager : Singleton<AgentUpdateManager>

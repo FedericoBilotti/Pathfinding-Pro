@@ -1,7 +1,7 @@
 using System;
 using Unity.Collections;
 
-namespace Utilities
+namespace Utilities.Collections
 {
     public static class NativeListExtensions
     {

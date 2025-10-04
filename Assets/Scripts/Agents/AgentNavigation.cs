@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
+using Utilities.Collections;
 
 namespace Agents
 {

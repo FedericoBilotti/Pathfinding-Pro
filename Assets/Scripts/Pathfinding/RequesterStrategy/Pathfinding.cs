@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine.Pool;
 using Utilities;
+using Utilities.Collections;
 
 namespace Pathfinding.RequesterStrategy
 {
