@@ -11,7 +11,7 @@ namespace NavigationGraph
     {
         private JobHandle _allJobsDependencies;
 
-        protected readonly IRaycastType checkType;
+        //protected readonly IRaycastType checkType;
         protected readonly LayerMask notWalkableMask;
         protected TerrainType[] terrainTypes;
         protected Vector3Int gridSize;

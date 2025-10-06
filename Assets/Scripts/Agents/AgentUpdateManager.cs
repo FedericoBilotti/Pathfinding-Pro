@@ -74,6 +74,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             var agent = _agents[i];
             agent.UpdateTimer();
+            //Debug.Log("Timer is running i");
 
             _agentPositions.Add(agent.transform.position);
             _finalTargets.Add(math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition);

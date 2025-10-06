@@ -11,13 +11,13 @@ namespace Agents
 {
     [DefaultExecutionOrder(-600)]
     [RequireComponent(typeof(PathRequester))]
-    public abstract class AgentNavigation : MonoBehaviour, IAgent, IIndexed
+    public class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]
-        [SerializeField] protected float speed = 5;
-        [SerializeField] protected float rotationSpeed = 10;
+        [SerializeField] protected float speed = 5f;
+        [SerializeField] protected float rotationSpeed = 3f;
         [SerializeField] protected float changeWaypointDistance = 1.5f;
-        [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 1f;
+        [SerializeField, Tooltip("Stop from this distance from the target position")] protected float stoppingDistance = 2f;
         [SerializeField, Tooltip("The agent will slowing down in time to reach the target")] protected bool autoBraking = true;
 
         [SerializeField, HideInInspector, Tooltip("Allow rePath for the agent")] protected bool allowRePath = true;
@@ -26,6 +26,8 @@ namespace Agents
         [Header("Agent Settings")]
         [SerializeField, Tooltip("Height offset over the cell")] protected float agentHeightOffset = 1f;
         [SerializeField, Tooltip("Radius of the agent")] protected float agentRadius = 0.5f;
+
+        [SerializeField] private EPathStatus _statusPath = EPathStatus.Idle;
 
         private IPathfinding _pathfinding;
 
@@ -36,8 +38,8 @@ namespace Agents
         protected INavigationGraph graph;
         protected Timer timer;
 
-        public PathStatus StatusPath { get; protected set; } = PathStatus.Idle;
-        public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == PathStatus.Success;
+        public EPathStatus StatusPath { get => _statusPath; set => _statusPath = value; }
+        public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == EPathStatus.Success;
         public bool AutoBraking { get => autoBraking; set => autoBraking = value; }
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
@@ -58,7 +60,6 @@ namespace Agents
             ownTransform = transform;
 
             InitializeTimer();
-            Initialize();
         }
 
         private void Start()
@@ -86,27 +87,23 @@ namespace Agents
             speed = Mathf.Max(0.01f, speed);
             rotationSpeed = Mathf.Max(0.01f, rotationSpeed);
             changeWaypointDistance = Mathf.Max(0.1f, changeWaypointDistance);
-            stoppingDistance = Mathf.Max(0f, stoppingDistance);
+            stoppingDistance = Mathf.Clamp(stoppingDistance, changeWaypointDistance + 0.1f, stoppingDistance);
             rePath = Mathf.Max(0f, rePath);
         }
 
         public void UpdateTimer()
         {
-            if (allowRePath)
-                timer.Tick(Time.deltaTime);
+            if (!allowRePath) return;
+
+            timer.Tick(Time.deltaTime);
+            if (!timer.IsRunning)
+                RequestPath(finalTargetPosition);
         }
 
         private void InitializeTimer()
         {
             timer = new CountdownTimer(rePath);
-            // timer.onTimerStop += OnStopTimer;
         }
-
-        protected virtual void Initialize() { }
-
-        protected abstract void Move(Vector3 targetDistance);
-        protected abstract void Rotate(Vector3 targetDistance);
-        protected abstract bool IsBraking(Vector3 targetDistance, Vector3 direction);
 
         public float3 GetCurrentTarget()
         {
@@ -144,16 +141,8 @@ namespace Agents
 
         public bool RequestPath(Node targetCell)
         {
-            if (StatusPath == PathStatus.Requested) return false;
-            if (allowRePath)
-            {
-                if (timer.IsRunning) return false;
-            }
-            else
-            {
-                bool3 samePosition = finalTargetPosition == targetCell.position;
-                if (math.all(samePosition)) return false;
-            }
+            if (StatusPath == EPathStatus.Requested) return false;
+            if (allowRePath && timer.IsRunning) return false;
 
             Vector3 nearestWalkableCellPosition = MapAgentToGrid(ownTransform.position);
 
@@ -162,7 +151,7 @@ namespace Agents
             Node endCell = graph.GetNode(targetCell.position);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
 
-            StatusPath = PathStatus.Requested;
+            StatusPath = EPathStatus.Requested;
 
             if (isPathValid)
             {
@@ -170,7 +159,7 @@ namespace Agents
                 return true;
             }
 
-            StatusPath = PathStatus.Failed;
+            StatusPath = EPathStatus.Failed;
             return false;
         }
 
@@ -191,7 +180,7 @@ namespace Agents
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
                 nearestWalkableCellPosition = graph.GetNearestNode(ownTransform.position);
-                float changeCell = graph.GetCellDiameter() * 2f;
+                float changeCell = graph.GetCellDiameter();
 
                 Vector3 distance = nearestWalkableCellPosition - ownTransform.position;
                 if (distance.sqrMagnitude >= changeCell * changeCell)
@@ -203,11 +192,11 @@ namespace Agents
             return nearestWalkableCellPosition;
         }
 
-        public virtual void SetPath(NativeList<Node> path)
+        public virtual void SetPath(ref NativeList<Node> path)
         {
             if (!path.IsCreated || path.Length == 0)
             {
-                StatusPath = PathStatus.Failed;
+                StatusPath = EPathStatus.Failed;
                 return;
             }
 
@@ -219,7 +208,7 @@ namespace Agents
                 waypointsPath.Add(cell.position);
             }
 
-            StatusPath = PathStatus.Success;
+            StatusPath = EPathStatus.Success;
 
             if (allowRePath)
             {
@@ -232,7 +221,7 @@ namespace Agents
         {
             ClearPath();
             timer.Pause();
-            StatusPath = PathStatus.Idle;
+            StatusPath = EPathStatus.Idle;
         }
 
         protected void ClearPath()
@@ -242,13 +231,13 @@ namespace Agents
         }
 
         private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
-
-        public enum PathStatus : byte
-        {
-            Idle,
-            Failed,
-            Requested,
-            Success
-        }
     }
+}
+
+public enum EPathStatus : byte
+{
+    Idle,
+    Failed,
+    Requested,
+    Success
 }

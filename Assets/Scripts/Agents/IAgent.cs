@@ -9,6 +9,6 @@ namespace Agents
         bool RequestPath(Transform targetTransform);
         bool RequestPath(Vector3 targetPosition);
         bool RequestPath(Node targetCell);
-        void SetPath(NativeList<Node> path);
+        void SetPath(ref NativeList<Node> path);
     }
 }
