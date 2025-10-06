@@ -24,6 +24,7 @@ namespace Pathfinding
                 return;
             }
 #endif
+            _pathRequestStrategy?.Clear();
             _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
         }
 
@@ -40,7 +41,7 @@ namespace Pathfinding
         }
 #endif
 
-        private void OnDestroy() => _pathRequestStrategy.Clear();
+        private void OnDestroy() => _pathRequestStrategy?.Clear();
     }
 
     public enum PathRequestType

@@ -14,7 +14,7 @@ namespace Pathfinding.RequesterStrategy
         protected readonly INavigationGraph navigationGraph;
 
         protected SwapBackListIndexed<PathRequest> requests;
-        protected IObjectPool<PathRequest> pathRequestPool;
+        protected ObjectPool<PathRequest> pathRequestPool;
 
         protected Pathfinding(INavigationGraph navigationGraph)
         {
@@ -37,7 +37,7 @@ namespace Pathfinding.RequesterStrategy
                 openList = new NativePriorityQueue<PathNodeData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
                 visitedNodes = new NativeHashMap<int, PathNodeData>(64, Allocator.Persistent),
                 Index = -1
-            }, actionOnGet: pathReq =>
+            }, actionOnRelease: pathReq =>
             {
                 pathReq.path.Clear();
                 pathReq.simplified.Clear();
@@ -46,14 +46,16 @@ namespace Pathfinding.RequesterStrategy
                 pathReq.visitedNodes.Clear();
                 pathReq.agent = null;
                 pathReq.Index = -1;
-            }, actionOnRelease: null, actionOnDestroy: pathReq =>
+            }, actionOnDestroy: pathReq =>
             {
-                if (pathReq.path.IsCreated) pathReq.path.Dispose();
-                if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose();
-                if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose();
-                if (pathReq.openList.IsCreated) pathReq.openList.Dispose();
-                if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose();
-            }, defaultCapacity: CAPACITY, maxSize: MAX_SIZE);
+                if (pathReq.path.IsCreated) pathReq.path.Dispose(pathReq.handle);
+                if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose(pathReq.handle);
+                if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose(pathReq.handle);
+                if (pathReq.openList.IsCreated) pathReq.openList.Dispose(pathReq.handle);
+                if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose(pathReq.handle);
+            },
+            defaultCapacity: CAPACITY,
+            maxSize: MAX_SIZE);
         }
 
         public abstract bool RequestPath(IAgent agent, Node start, Node end);
@@ -68,8 +70,8 @@ namespace Pathfinding.RequesterStrategy
                 req.handle.Complete();
                 req.agent.SetPath(req.path);
 
-                pathRequestPool.Release(req);
                 requests.RemoveAtSwapBack(req);
+                pathRequestPool.Release(req);
             }
         }
 
@@ -81,25 +83,30 @@ namespace Pathfinding.RequesterStrategy
                 req.handle.Complete();
                 req.agent.SetPath(req.path);
 
-                pathRequestPool.Release(req);
                 requests.RemoveAtSwapBack(req);
+                pathRequestPool.Release(req);
             }
         }
 
         public void Dispose()
         {
-            foreach (var pathRequest in requests)
+            foreach (var pathReq in requests)
             {
-                pathRequest.handle.Complete();
-                pathRequest.visitedNodes.Dispose();
-                pathRequest.closedList.Dispose();
-                pathRequest.openList.Dispose();
-                pathRequest.path.Dispose();
+                DisposePathRequest(pathReq);
             }
 
-            pathRequestPool.Clear();
-
+            requests.Clear();
+            pathRequestPool.Dispose();
             navigationGraph.OnCreateGrid -= FinishAllPaths;
+        }
+
+        private void DisposePathRequest(PathRequest pathReq)
+        {
+            if (pathReq.path.IsCreated) pathReq.path.Dispose(pathReq.handle);
+            if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose(pathReq.handle);
+            if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose(pathReq.handle);
+            if (pathReq.openList.IsCreated) pathReq.openList.Dispose(pathReq.handle);
+            if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose(pathReq.handle);
         }
 
         public void Clear() => Dispose();
