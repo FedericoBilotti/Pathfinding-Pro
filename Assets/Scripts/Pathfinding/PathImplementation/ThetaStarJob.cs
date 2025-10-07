@@ -68,7 +68,8 @@ namespace Pathfinding.PathImplementation
                 if (grid[index].walkableType != WalkableType.Walkable) return false;
 
                 // For now this work, but maybe when Links are implemented it should be changed.
-                if (math.abs(grid[index].position.y - startCell.position.y) > 0.0001f) return false; 
+                if (math.abs(grid[index].position.y - startCell.position.y) > 0.0001f) return false;
+                if (math.abs(grid[index].position.y - endCell.position.y) > 0.0001f) return false;
 
                 int doubleError = 2 * error;
 

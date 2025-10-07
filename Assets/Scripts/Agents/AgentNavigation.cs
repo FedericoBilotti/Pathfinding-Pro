@@ -96,8 +96,8 @@ namespace Agents
             if (!allowRePath) return;
 
             timer.Tick(Time.deltaTime);
-            if (!timer.IsRunning)
-                RequestPath(finalTargetPosition);
+            //if (!timer.IsRunning)
+            //    RequestPath(finalTargetPosition);
         }
 
         private void InitializeTimer()
@@ -179,7 +179,7 @@ namespace Agents
         {
             if (!IsAgentInGrid(graph, ownTransform.position))
             {
-                nearestWalkableCellPosition = graph.GetNearestNode(ownTransform.position);
+                nearestWalkableCellPosition = graph.TryGetNearestWalkableNode(ownTransform.position);
                 float changeCell = graph.GetCellDiameter();
 
                 Vector3 distance = nearestWalkableCellPosition - ownTransform.position;

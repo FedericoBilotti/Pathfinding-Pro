@@ -25,7 +25,7 @@ namespace NavigationGraph
         LayerMask GetWalkableMask();
         Node GetRandomCell(); // Eliminate this in the future.
         Node GetNode(Vector3 worldPosition);
-        Vector3 GetNearestNode(Vector3 worldPosition);
+        Vector3 TryGetNearestWalkableNode(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
 
         void CombineDependencies(JobHandle jobHandle);

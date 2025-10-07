@@ -111,7 +111,7 @@ namespace NavigationGraph.Graph.Planar.Jobs
 
         private bool IsCliff(int currentIndex, int neighborIndex)
         {
-            if (normalWalkable[currentIndex].y <= Mathf.Cos(inclineLimit * Mathf.Deg2Rad))
+            if (normalWalkable[currentIndex].y <= math.cos(inclineLimit * Mathf.Deg2Rad))
                 return true;
 
             float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);

@@ -120,7 +120,7 @@ namespace NavigationGraph.Graph.Layered
             return (x, y);
         }
 
-        public override Vector3 GetNearestNode(Vector3 worldPosition)
+        public override Vector3 TryGetNearestWalkableNode(Vector3 worldPosition)
         {
             throw new System.NotImplementedException();
         }

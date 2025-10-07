@@ -32,6 +32,8 @@ namespace Agents.Strategies
         [ReadOnly] public float cellSize;
         [ReadOnly] public float cellDiameter;
 
+        const float LERP_SPEED = 50f;
+
         public void Execute(int index, TransformAccess transform)
         {
             float3 finalTarget = finalTargets[index];
@@ -70,7 +72,8 @@ namespace Agents.Strategies
             }
 
             float3 newPos = position + deltaTime * moveSpeed * forward;
-            newPos.y = hit.point.y;
+            //newPos.y = hit.point.y;
+            newPos.y = math.lerp(newPos.y, hit.point.y, deltaTime * LERP_SPEED);
             transform.position = SlideAlongObstacle(position, newPos);
         }
 
@@ -79,8 +82,6 @@ namespace Agents.Strategies
             float3 lookDir = math.normalize(direction);
             transform.rotation = math_utils.rotate_towards(transform, lookDir, hit.normal, rotationSpeeds[index], deltaTime);
         }
-
-        const float LERP_SPEED = 50f;
 
         private float3 SlideAlongObstacle(float3 current, float3 target)
         {

@@ -13,7 +13,7 @@ namespace NavigationGraph
         SerializedProperty neighborsPerCellProp;
         SerializedProperty gridSizeProp;
         SerializedProperty cellSizeProp;
-        SerializedProperty maxHeightDifferenceProp;
+        //SerializedProperty maxHeightDifferenceProp;
         SerializedProperty obstacleMarginProp;
         SerializedProperty cliffMarginProp;
         SerializedProperty terrainTypesProp;
@@ -33,7 +33,7 @@ namespace NavigationGraph
             neighborsPerCellProp = serializedObject.FindProperty("_neighborsPerCell");
             gridSizeProp = serializedObject.FindProperty("_gridSize");
             cellSizeProp = serializedObject.FindProperty("_cellSize");
-            maxHeightDifferenceProp = serializedObject.FindProperty("_maxHeightDifference");
+            //maxHeightDifferenceProp = serializedObject.FindProperty("_maxHeightDifference");
             obstacleMarginProp = serializedObject.FindProperty("_obstacleMargin");
             cliffMarginProp = serializedObject.FindProperty("_cliffMargin");
             terrainTypesProp = serializedObject.FindProperty("_terrainTypes");
@@ -98,7 +98,7 @@ namespace NavigationGraph
             EditorGUILayout.PropertyField(neighborsPerCellProp);
             EditorGUILayout.PropertyField(gridSizeProp);
             EditorGUILayout.PropertyField(cellSizeProp);
-            EditorGUILayout.PropertyField(maxHeightDifferenceProp);
+            //EditorGUILayout.PropertyField(maxHeightDifferenceProp);
             EditorGUILayout.PropertyField(obstacleMarginProp);
             EditorGUILayout.PropertyField(cliffMarginProp);
             EditorGUI.indentLevel++;

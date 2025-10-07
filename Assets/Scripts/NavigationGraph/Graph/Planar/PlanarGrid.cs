@@ -98,7 +98,7 @@ namespace NavigationGraph.Graph.Planar
             JobHandle batchHandle = RaycastCommand.ScheduleBatch(commands, results, 64, prepareCmdJob);
             batchHandle.Complete();
 
-            // --- 2. BUILD WALKABLE + ALTURA ---
+            // --- 2. BUILD WALKABLE + HEIGHT ---
             var normalWalkable = new NativeArray<Vector3>(totalGridSize, Allocator.TempJob);
             var layerPerCell = new NativeArray<int>(totalGridSize, Allocator.TempJob);
             var groundHeight = new NativeArray<float>(totalGridSize, Allocator.TempJob);
@@ -156,7 +156,7 @@ namespace NavigationGraph.Graph.Planar
                 inclineLimit = inclineLimit,
                 computedWalkable = computedWalkable,
                 groundHeight = groundHeight,
-                maxHeightDifference = maxHeightDifference,
+                maxHeightDifference = MAX_HEIGHT_DISTANCE,
 
                 finalObstacle = nativeObstacleBlocked,
                 finalCliff = nativeCliffBlocked,
@@ -233,7 +233,7 @@ namespace NavigationGraph.Graph.Planar
                 neighborCounts = temporaryNeighborTotalCount,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.z,
-                maxHeightDifference = maxHeightDifference,
+                maxHeightDifference = MAX_HEIGHT_DISTANCE,
                 neighborsPerCell = neighborsPerCell
             }.Schedule(createGridJob);
 
@@ -263,9 +263,12 @@ namespace NavigationGraph.Graph.Planar
                 offsets16 = offsets16,
                 gridSizeX = gridSize.x,
                 gridSizeZ = gridSize.z,
+                normalWalkable = normalWalkable,
+                groundHeight = groundHeight,
+                //inclineLimit = inclineLimit,
                 neighborsPerCell = neighborsPerCell,
                 allNeighbors = neighbors,
-                maxHeightDifference = maxHeightDifference,
+                maxHeightDifference = MAX_HEIGHT_DISTANCE,
                 neighborCounts = neighborTotalCount,
                 neighborOffsets = neighborOffSet
             }.Schedule();
@@ -292,7 +295,7 @@ namespace NavigationGraph.Graph.Planar
             temporaryNeighborTotalCount.Dispose();
         }
 
-        public override Vector3 GetNearestNode(Vector3 worldPosition)
+        public override Vector3 TryGetNearestWalkableNode(Vector3 worldPosition)
         {
             var (startX, startY) = GetNodesMap(worldPosition);
 

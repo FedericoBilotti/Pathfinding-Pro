@@ -835,7 +835,7 @@ Transform:
   m_GameObject: {fileID: 27714835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.52880865, w: 0.8487411}
-  m_LocalPosition: {x: -86.89, y: 0.7846, z: 21.2}
+  m_LocalPosition: {x: -86.51, y: 0.79, z: 21.2}
   m_LocalScale: {x: 0.81959933, y: 6.4119544, z: 9.871037}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -991,7 +991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -1763,7 +1763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -1955,7 +1955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -2039,7 +2039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -2209,7 +2209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -2465,7 +2465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -2807,7 +2807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -2891,7 +2891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -3147,7 +3147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -3403,7 +3403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -3487,7 +3487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -3915,7 +3915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -3999,7 +3999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -4513,7 +4513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -4597,7 +4597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -4681,7 +4681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -4851,7 +4851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -5451,7 +5451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -5535,7 +5535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -5571,13 +5571,13 @@ Transform:
   m_GameObject: {fileID: 195021664}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -77.912506, y: 0.074999996, z: 0.325}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalPosition: {x: -101.66, y: 2.352, z: 5.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 295909835}
   - {fileID: 2026207433}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &195021667
 MonoBehaviour:
@@ -5788,7 +5788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -5872,7 +5872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -5956,7 +5956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -6126,7 +6126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -6210,7 +6210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -6466,7 +6466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -6894,7 +6894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -6978,7 +6978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -7406,7 +7406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -7748,7 +7748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -8068,7 +8068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -8604,7 +8604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -8774,7 +8774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -8944,7 +8944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -9028,7 +9028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -9112,7 +9112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -9282,7 +9282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -9710,7 +9710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -10074,7 +10074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -10158,7 +10158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -10831,7 +10831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -11281,7 +11281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -11645,7 +11645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -11901,7 +11901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -12243,7 +12243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -12327,7 +12327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -12790,7 +12790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -12960,7 +12960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -13044,7 +13044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -13128,7 +13128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -13298,7 +13298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -13812,7 +13812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -14240,7 +14240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -14582,7 +14582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15010,7 +15010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15094,7 +15094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15286,7 +15286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15370,7 +15370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15454,7 +15454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -15710,7 +15710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -16784,7 +16784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -16868,7 +16868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -17468,7 +17468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -17552,7 +17552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -17722,7 +17722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -18086,7 +18086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -18342,7 +18342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -18426,7 +18426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -18510,7 +18510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -18680,7 +18680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -19538,7 +19538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -20246,7 +20246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -20502,7 +20502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -20586,7 +20586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -20972,7 +20972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -21228,7 +21228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -21312,7 +21312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -21848,7 +21848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -22900,7 +22900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -23156,7 +23156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -23191,7 +23191,7 @@ Transform:
   m_GameObject: {fileID: 781907326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -142.3, y: -15.5, z: -37.3}
+  m_LocalPosition: {x: -143.8, y: -15.5, z: -35.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23214,7 +23214,6 @@ MonoBehaviour:
   _neighborsPerCell: 4
   _gridSize: {x: 225, y: 40, z: 115}
   _cellSize: 0.5
-  _maxHeightDifference: 2
   _obstacleMargin: 1
   _cliffMargin: 0
   _terrainTypes:
@@ -23233,7 +23232,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _gridBaked: {fileID: 11400000, guid: 9fa06497344c3164786742676212bef6, type: 2}
+  _gridBaked: {fileID: 0}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23246,7 +23245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bd729483aefe14aabe26eee27140b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _accurateMovement: 0
+  _accurateMovement: 1
 --- !u!1 &783429879
 GameObject:
   m_ObjectHideFlags: 0
@@ -23323,7 +23322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -23493,7 +23492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -23749,7 +23748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -23858,7 +23857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799020131
 Transform:
   m_ObjectHideFlags: 0
@@ -23872,9 +23871,6 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 195021665}
-  - {fileID: 1224878552}
-  - {fileID: 1516308642}
   - {fileID: 622670370}
   - {fileID: 381791779}
   - {fileID: 130662727}
@@ -24434,7 +24430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -24604,7 +24600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -24688,7 +24684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -24858,7 +24854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -25114,7 +25110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -25284,7 +25280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -25761,7 +25757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -25883,7 +25879,7 @@ Transform:
   m_GameObject: {fileID: 845055108}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -90.92, y: 0, z: -9.68}
+  m_LocalPosition: {x: -97.93, y: 0, z: -19.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25931,7 +25927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -26617,7 +26613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -26787,7 +26783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -26871,7 +26867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27041,7 +27037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27125,7 +27121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27209,7 +27205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27293,7 +27289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27635,7 +27631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -27891,7 +27887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -28233,7 +28229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -28317,7 +28313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -28401,7 +28397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -28743,7 +28739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -29237,7 +29233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -29429,7 +29425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -29685,7 +29681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -30113,7 +30109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -30799,7 +30795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -31055,7 +31051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -31225,7 +31221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -31309,7 +31305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -31565,7 +31561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -31649,7 +31645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -32185,7 +32181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -32355,7 +32351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -32439,7 +32435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -32953,7 +32949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -33145,7 +33141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -33229,7 +33225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34023,7 +34019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34193,7 +34189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34277,7 +34273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34791,7 +34787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34875,7 +34871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -34959,7 +34955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -35129,7 +35125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -35299,7 +35295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -35555,7 +35551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -35725,7 +35721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -35981,7 +35977,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -36065,7 +36061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -36493,7 +36489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -36663,7 +36659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -36941,7 +36937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -37305,7 +37301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -37475,7 +37471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -37619,13 +37615,13 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -113.8, y: 3.16, z: 25.675001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -85.87, y: -0.056, z: 6.45}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1534238708}
   - {fileID: 799482645}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1224878554
 MonoBehaviour:
@@ -37665,9 +37661,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0ccf3f0b649e7936b8825445391e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 2
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.4
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -37923,7 +37919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -38351,7 +38347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -38543,7 +38539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -38735,7 +38731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -38905,7 +38901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -39075,7 +39071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -39417,7 +39413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -39501,7 +39497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -39843,7 +39839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -40271,7 +40267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -40355,7 +40351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -40611,7 +40607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -40975,7 +40971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -41059,7 +41055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -41509,7 +41505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -41593,7 +41589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -41763,7 +41759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -42019,7 +42015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -42275,7 +42271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -42359,7 +42355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -42443,7 +42439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -43387,7 +43383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -43643,7 +43639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -43727,7 +43723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -43897,7 +43893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -44935,7 +44931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -45105,7 +45101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -45421,13 +45417,13 @@ Transform:
   m_GameObject: {fileID: 1516308638}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.3, y: 0, z: 26.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -85.700005, y: 0, z: 38.3}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 370710352}
   - {fileID: 379603983}
-  m_Father: {fileID: 799020131}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1516308643
 MonoBehaviour:
@@ -45469,7 +45465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -45553,7 +45549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -45809,7 +45805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -46323,7 +46319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -46731,7 +46727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47181,7 +47177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47351,7 +47347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47435,7 +47431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47605,7 +47601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47775,7 +47771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47859,7 +47855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -47943,7 +47939,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -48285,7 +48281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -48455,7 +48451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -49335,7 +49331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -49419,7 +49415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -49503,7 +49499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -49673,7 +49669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -49929,7 +49925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -50379,7 +50375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -50721,7 +50717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -51537,7 +51533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -51621,7 +51617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -51877,7 +51873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -51961,7 +51957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -52131,7 +52127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -52473,7 +52469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -52643,7 +52639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -53201,7 +53197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -53973,7 +53969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -54251,7 +54247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -54335,7 +54331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -54505,7 +54501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -54589,7 +54585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -54931,7 +54927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -55101,7 +55097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -55271,7 +55267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -55355,7 +55351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -55827,7 +55823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -55997,7 +55993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -56985,7 +56981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -57155,7 +57151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -57497,7 +57493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -57581,7 +57577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -58009,7 +58005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -58179,7 +58175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -58823,7 +58819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -58993,7 +58989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -59507,7 +59503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -60129,7 +60125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -60213,7 +60209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -60921,7 +60917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -61715,7 +61711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -61799,7 +61795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -61969,7 +61965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -62483,7 +62479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -62997,7 +62993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -63167,7 +63163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -63423,7 +63419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -63959,7 +63955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -64215,7 +64211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 1.5
+  changeWaypointDistance: 0.5
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
@@ -64403,6 +64399,9 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 781907328}
+  - {fileID: 195021665}
+  - {fileID: 1224878552}
+  - {fileID: 1516308642}
   - {fileID: 799020131}
   - {fileID: 246702431}
   - {fileID: 1483148470}

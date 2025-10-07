@@ -2,9 +2,11 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace NavigationGraph.Graph.Planar.Jobs
 {
+    // Refac this entire class
     [BurstCompile]
     internal struct PrecomputeNeighborsJob : IJob
     {
@@ -13,7 +15,11 @@ namespace NavigationGraph.Graph.Planar.Jobs
         [ReadOnly] public NativeArray<int> neighborCounts;
         [ReadOnly] public NativeArray<int> neighborOffsets;
         [WriteOnly] public NativeArray<int> allNeighbors;
-        public int gridSizeX;
+        [ReadOnly] public NativeArray<float> groundHeight;
+        [ReadOnly] public NativeArray<Vector3> normalWalkable;
+        
+        public float inclineLimit;
+        public int gridSizeX; 
         public int gridSizeZ;
         public float maxHeightDifference;
         public NeighborsPerCell neighborsPerCell;
@@ -24,7 +30,6 @@ namespace NavigationGraph.Graph.Planar.Jobs
             {
                 int count = 0;
                 int baseIndex = neighborOffsets[i];
-                Node currentCell = grid[i];
                 int maxNeighbors = neighborCounts[i];
 
                 if (neighborsPerCell != NeighborsPerCell.Sixteen)
@@ -43,15 +48,14 @@ namespace NavigationGraph.Graph.Planar.Jobs
                             if (neighborsPerCell == NeighborsPerCell.Eight &&
                                 math.max(math.abs(offsetX), math.abs(offsetZ)) > 1) continue;
 
-                            int gridX = currentCell.gridX + offsetX;
-                            int gridZ = currentCell.gridZ + offsetZ;
+                            int gridX = grid[i].gridX + offsetX;
+                            int gridZ = grid[i].gridZ + offsetZ;
 
                             if (gridX >= 0 && gridX < gridSizeX &&
                                 gridZ >= 0 && gridZ < gridSizeZ)
                             {
                                 int neighborIndex = gridX + gridZ * gridSizeX;
-                                var yDistance = math.abs(currentCell.position.y - grid[neighborIndex].position.y);
-                                if (yDistance < maxHeightDifference)
+                                if (CanBeNeighbor(i, neighborIndex))
                                 {
                                     allNeighbors[baseIndex + count] = neighborIndex;
                                     count++;
@@ -66,15 +70,14 @@ namespace NavigationGraph.Graph.Planar.Jobs
                     {
                         if (count >= maxNeighbors) break;
 
-                        int gridX = currentCell.gridX + offset.x;
-                        int gridZ = currentCell.gridZ + offset.y;
+                        int gridX = grid[i].gridX + offset.x;
+                        int gridZ = grid[i].gridZ + offset.y;
 
                         if (gridX >= 0 && gridX < gridSizeX &&
                             gridZ >= 0 && gridZ < gridSizeZ)
                         {
-                            int neighborIndex = gridX + gridZ * gridSizeX;
-                            var yDistance = math.abs(currentCell.position.y - grid[neighborIndex].position.y);
-                            if (yDistance < maxHeightDifference)
+                            int neighborIndex = gridX + gridZ * gridSizeX;                            
+                            if (CanBeNeighbor(i, neighborIndex))
                             {
                                 allNeighbors[baseIndex + count] = neighborIndex;
                                 count++;
@@ -83,6 +86,15 @@ namespace NavigationGraph.Graph.Planar.Jobs
                     }
                 }
             }
+        }
+
+        private bool CanBeNeighbor(int currentIndex, int neighborIndex)
+        {
+            if (normalWalkable[currentIndex].y <= math.cos(inclineLimit * Mathf.Deg2Rad))
+                return true;
+
+            float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);
+            return yDistance >= maxHeightDifference;
         }
     }
 }

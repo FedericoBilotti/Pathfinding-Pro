@@ -29,11 +29,12 @@ namespace NavigationGraph
 
         protected float cellSize;
         protected float cellDiameter;
-        protected float maxHeightDifference;
         protected float inclineLimit;
 
         protected float obstacleMargin;
         protected float cliffMargin;
+
+        protected const float MAX_HEIGHT_DISTANCE = 0.5f;
 
         protected static NativeHashMap<int, int> walkableRegionsDic;
 
@@ -52,14 +53,13 @@ namespace NavigationGraph
             obstacleMargin = navigationGraphConfig.obstacleMargin;
             cliffMargin = navigationGraphConfig.cliffMargin;
             neighborsPerCell = navigationGraphConfig.neighborsPerCell;
-            maxHeightDifference = navigationGraphConfig.maxHeightDifference;
             inclineLimit = navigationGraphConfig.inclineLimit;
             ignoreMasksAtCreateGrid = navigationGraphConfig.ignoreMaskAtCreateGrid;
         }
 
         public abstract void LoadGridFromMemory(GridDataAsset gridBaked);
         public abstract void CreateGrid();
-        public abstract Vector3 GetNearestNode(Vector3 worldPosition);
+        public abstract Vector3 TryGetNearestWalkableNode(Vector3 worldPosition);
         public abstract Node GetNode(Vector3 worldPosition);
 
         public abstract bool? DrawGizmos();
