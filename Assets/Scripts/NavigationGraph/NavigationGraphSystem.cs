@@ -9,6 +9,7 @@ namespace NavigationGraph
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
         // Gizmos
+        [SerializeField] private bool _drawGizmos;
         [SerializeField] private bool _boxGrid;
         
         // Graph Settings
@@ -80,7 +81,7 @@ namespace NavigationGraph
 
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
             asset.GridSize = _gridSize;
-            asset.cells = new CellData[_gridSize.x * _gridSize.z];
+            asset.cells = new  NodeData[_gridSize.x * _gridSize.z];
             asset.neighborsCell.neighbors = new int[neighbors.Length];
             asset.neighborsCell.neighborTotalCount = new int[neighborTotalCounts.Length];
             asset.neighborsCell.neighborOffsets = new int[neighborOffsets.Length];
@@ -90,17 +91,18 @@ namespace NavigationGraph
                 for (int y = 0; y < _gridSize.z; y++)
                 {
                     int index = x + y * _gridSize.x;
-                    Node actualCell = grid[index];
+                    Node actualNode = grid[index];
 
-                    asset.cells[index] = new CellData
+                    asset.cells[index] = new  NodeData
                     {
-                        position = actualCell.position,
-                        gridX = actualCell.gridX,
-                        gridZ = actualCell.gridZ,
-                        gridIndex = actualCell.gridIndex,
-                        cellCostPenalty = actualCell.cellCostPenalty,
-                        height = actualCell.height,
-                        walkableType = actualCell.walkableType
+                        position = actualNode.position,
+                        normal = actualNode.normal,
+                        height = actualNode.height,
+                        gridX = actualNode.gridX,
+                        gridZ = actualNode.gridZ,
+                        gridIndex = actualNode.gridIndex,
+                        cellCostPenalty = actualNode.cellCostPenalty,
+                        walkableType = actualNode.walkableType
                     };
                 }
             }
@@ -191,6 +193,8 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
+            if (!_drawGizmos) return;
+
             if (_gridBaked != null)
             {
                 DrawCubeForGrid(true);

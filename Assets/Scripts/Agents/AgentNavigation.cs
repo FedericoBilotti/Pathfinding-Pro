@@ -11,6 +11,7 @@ namespace Agents
 {
     [DefaultExecutionOrder(-600)]
     [RequireComponent(typeof(PathRequester))]
+    [SelectionBase]
     public class AgentNavigation : MonoBehaviour, IAgent, IIndexed
     {
         [Header("Steering")]
@@ -38,15 +39,18 @@ namespace Agents
         protected INavigationGraph graph;
         protected Timer timer;
 
-        public EPathStatus StatusPath { get => _statusPath; set => _statusPath = value; }
-        public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == EPathStatus.Success;
-        public bool AutoBraking { get => autoBraking; set => autoBraking = value; }
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
         public float ChangeWaypointDistance { get => changeWaypointDistance; set => changeWaypointDistance = Mathf.Max(0.1f, value); }
-        public float AgentHeightOffset { get => agentHeightOffset; set => agentHeightOffset = Mathf.Max(0.1f, value); }
-        public float AgentRadius { get => agentRadius; set => agentRadius = Mathf.Max(0.1f, value); }
         public float StoppingDistance => stoppingDistance;
+        public bool AutoBraking { get => autoBraking; set => autoBraking = value; }
+        public bool AllowRePath { get => allowRePath; set => allowRePath = value; }
+        public float RePath { get => rePath; set => rePath = value; }
+        public float AgentRadius { get => agentRadius; set => agentRadius = Mathf.Max(0.1f, value); }
+        public float AgentHeightOffset { get => agentHeightOffset; set => agentHeightOffset = Mathf.Max(0.1f, value); }
+        public bool HasPath => waypointsPath != null && waypointsPath.Count > 0 && StatusPath == EPathStatus.Success;
+        public EPathStatus StatusPath { get => _statusPath; set => _statusPath = value; }
+
         public float3 FinalTargetPosition => finalTargetPosition;
 
         // For custom inspector

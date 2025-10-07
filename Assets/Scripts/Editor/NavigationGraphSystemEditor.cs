@@ -1,6 +1,7 @@
+using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using System.IO;
 using UnityEngine.SceneManagement;
 
 namespace NavigationGraph
@@ -8,6 +9,7 @@ namespace NavigationGraph
     [CustomEditor(typeof(NavigationGraphSystem))]
     public class NavigationGraphSystemEditor : Editor
     {
+        SerializedProperty drawGizmos;
         SerializedProperty boxGridProp;
         SerializedProperty graphTypeProp;
         SerializedProperty neighborsPerCellProp;
@@ -28,6 +30,7 @@ namespace NavigationGraph
         private void OnEnable()
         {
             // Serializados
+            drawGizmos = serializedObject.FindProperty("_drawGizmos");
             boxGridProp = serializedObject.FindProperty("_boxGrid");
             graphTypeProp = serializedObject.FindProperty("_graphType");
             neighborsPerCellProp = serializedObject.FindProperty("_neighborsPerCell");
@@ -114,6 +117,7 @@ namespace NavigationGraph
         {
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("Gizmos", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(drawGizmos);
             EditorGUILayout.PropertyField(boxGridProp);
             EditorGUILayout.EndVertical();
 

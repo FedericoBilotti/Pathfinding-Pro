@@ -5571,7 +5571,7 @@ Transform:
   m_GameObject: {fileID: 195021664}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -101.66, y: 2.352, z: 5.07}
+  m_LocalPosition: {x: -90.45, y: 2.352, z: 3.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23209,6 +23209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc1fbc0e8cc4b0bba31c143803972f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _drawGizmos: 1
   _boxGrid: 1
   _graphType: 0
   _neighborsPerCell: 4
@@ -23232,7 +23233,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _gridBaked: {fileID: 0}
+  _gridBaked: {fileID: 11400000, guid: 9fa06497344c3164786742676212bef6, type: 2}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23245,7 +23246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bd729483aefe14aabe26eee27140b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _accurateMovement: 1
+  _accurateMovement: 0
 --- !u!1 &783429879
 GameObject:
   m_ObjectHideFlags: 0
@@ -24123,8 +24124,8 @@ Transform:
   m_GameObject: {fileID: 799482644}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3556, z: 0.55}
-  m_LocalScale: {x: 0.6952619, y: 0.38924456, z: 0.5135642}
+  m_LocalPosition: {x: 0, y: 1.3556, z: 0.45}
+  m_LocalScale: {x: 0.7, y: 0.38, z: 0.31}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1224878552}
@@ -37662,7 +37663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  rotationSpeed: 5
+  rotationSpeed: 1
   changeWaypointDistance: 0.4
   stoppingDistance: 2
   autoBraking: 1
@@ -45465,7 +45466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 5
-  changeWaypointDistance: 0.5
+  changeWaypointDistance: 0.4
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1

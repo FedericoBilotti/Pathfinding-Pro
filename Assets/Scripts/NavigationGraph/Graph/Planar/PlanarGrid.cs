@@ -41,17 +41,18 @@ namespace NavigationGraph.Graph.Planar
                 for (int y = 0; y < gridSize.z; y++)
                 {
                     int index = x + y * gridSize.x;
-                    CellData actualCell = gridBaked.cells[index];
+                    NodeData actualNode = gridBaked.cells[index];
 
                     graph[index] = new Node
                     {
-                        position = actualCell.position,
-                        height = actualCell.height,
-                        gridIndex = actualCell.gridIndex,
-                        gridX = actualCell.gridX,
-                        gridZ = actualCell.gridZ,
-                        cellCostPenalty = actualCell.cellCostPenalty,
-                        walkableType = actualCell.walkableType
+                        position = actualNode.position,
+                        normal = actualNode.normal,
+                        height = actualNode.height,
+                        gridX = actualNode.gridX,
+                        gridZ = actualNode.gridZ,
+                        gridIndex = actualNode.gridIndex,
+                        cellCostPenalty = actualNode.cellCostPenalty,
+                        walkableType = actualNode.walkableType
                     };
                 }
             }
@@ -384,20 +385,27 @@ namespace NavigationGraph.Graph.Planar
 
             for (int i = 0; i < graph.Length; i++)
             {
-                Vector3 drawPos = graph[i].position;
+                var node = graph[i];
+                if (node.walkableType == WalkableType.Air) continue;
 
-                if (graph[i].walkableType == WalkableType.Air) continue;
+                Vector3 drawPos = node.position;
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, node.normal);
+                Matrix4x4 oldMatrix = Gizmos.matrix;
 
-                if (graph[i].walkableType == WalkableType.Walkable)
+                Gizmos.matrix = Matrix4x4.TRS(drawPos + Vector3.up * 0.025f, rotation, Vector3.one);
+
+                if (node.walkableType == WalkableType.Walkable)
                 {
                     Gizmos.color = walkableColor;
-                    Gizmos.DrawWireCube(drawPos, sizeCell);
+                    Gizmos.DrawWireCube(Vector3.zero, sizeCell);
                 }
                 else
                 {
                     Gizmos.color = Color.red;
-                    Gizmos.DrawCube(drawPos, nonWalkableSize);
+                    Gizmos.DrawCube(Vector3.zero, nonWalkableSize);
                 }
+
+                Gizmos.matrix = oldMatrix;
             }
 
             return true;

@@ -3,7 +3,6 @@ using NavigationGraph;
 using UnityEngine;
 using Utilities;
 
-[SelectionBase]
 public class MoveCube : MonoBehaviour
 {
     private AgentNavigation _agentNavigation;

@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace NavigationGraph
@@ -5,7 +6,7 @@ namespace NavigationGraph
     public class GridDataAsset : ScriptableObject
     {
         [field: SerializeField] public Vector3Int GridSize { get; set; }
-        [HideInInspector] public CellData[] cells;
+        [HideInInspector] public NodeData[] cells;
         [HideInInspector] public NeighborsCell neighborsCell;
 
         public void DrawGizmos(float cellDiameter)
@@ -17,20 +18,27 @@ namespace NavigationGraph
 
             for (int i = 0; i < cells.Length; i++)
             {
-                Vector3 drawPos = cells[i].position;
+                var node = cells[i];
+                if (node.walkableType == WalkableType.Air) continue;
 
-                if (cells[i].walkableType == WalkableType.Air) continue;
+                Vector3 drawPos = node.position;
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, node.normal);
+                Matrix4x4 oldMatrix = Gizmos.matrix;
 
-                if (cells[i].walkableType == WalkableType.Walkable)
+                Gizmos.matrix = Matrix4x4.TRS(drawPos + Vector3.up * 0.025f, rotation, Vector3.one);
+
+                if (node.walkableType == WalkableType.Walkable)
                 {
                     Gizmos.color = walkableColor;
-                    Gizmos.DrawWireCube(drawPos, sizeCell);
+                    Gizmos.DrawWireCube(Vector3.zero, sizeCell);
                 }
                 else
                 {
                     Gizmos.color = Color.red;
-                    Gizmos.DrawCube(drawPos, nonWalkableSize);
+                    Gizmos.DrawCube(Vector3.zero, nonWalkableSize);
                 }
+
+                Gizmos.matrix = oldMatrix;
             }
         }
     }
@@ -44,9 +52,10 @@ namespace NavigationGraph
     }
 
     [System.Serializable]
-    public struct CellData
+    public struct NodeData
     {
         public Vector3 position;
+        public float3 normal;
         public float height;
         public int gridX;
         public int gridZ;
