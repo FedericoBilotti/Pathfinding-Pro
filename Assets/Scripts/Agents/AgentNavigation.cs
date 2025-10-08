@@ -63,31 +63,9 @@ namespace Agents
         private void Awake()
         {
             ownTransform = transform;
-        }
-
-        private void Start()
-        {
             _pathfinding = GetComponent<PathRequester>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
-        }
-
-        private void OnEnable()
-        {
-            InitializeTimer();
-
-            var agentUpdateManager = AgentUpdateManager.Instance;
-            if (agentUpdateManager)
-                agentUpdateManager.RegisterAgent(this);
-        }
-
-        private void OnDisable()
-        {
-            DisableTimer();
-
-            var agentUpdateManager = AgentUpdateManager.Instance;
-            if (agentUpdateManager)
-                AgentUpdateManager.Instance.UnregisterAgent(this);
         }
 
         private void OnValidate()
@@ -99,11 +77,8 @@ namespace Agents
             rePath = Mathf.Max(0f, rePath);
         }
 
-        public void UpdateTimer()
-        {
-            if (!allowRePath) return;
-            timer.Tick(Time.deltaTime);
-        }
+        private void OnEnable() => InitializeTimer();
+        private void OnDisable() => DisableTimer();
 
         private void InitializeTimer()
         {
@@ -120,6 +95,12 @@ namespace Agents
         {
             if (!allowRePath) return;
             RequestPath(finalTargetPosition);
+        }
+
+        public void UpdateTimer()
+        {
+            if (!allowRePath) return;
+            timer.Tick(Time.deltaTime);
         }
 
         public float3 GetCurrentTarget()
@@ -212,6 +193,7 @@ namespace Agents
             }
 
             StatusPath = EPathStatus.Success;
+            RegisterAgentToUpdateManager();
 
             if (!allowRePath) return;
 
@@ -219,9 +201,24 @@ namespace Agents
             timer.Start();
         }
 
+        private void RegisterAgentToUpdateManager()
+        {
+            var agentUpdateManager = AgentUpdateManager.Instance;
+            if (agentUpdateManager)
+                agentUpdateManager.RegisterAgent(this);
+        }
+
+        private void UnregisterAgentToUpdateManager()
+        {
+            var agentUpdateManager = AgentUpdateManager.Instance;
+            if (agentUpdateManager)
+                agentUpdateManager.UnregisterAgent(this);
+        }
+
         private void ResetAgent()
         {
             ClearPath();
+            UnregisterAgentToUpdateManager();
 
             timer.Pause();
             StatusPath = EPathStatus.Idle;

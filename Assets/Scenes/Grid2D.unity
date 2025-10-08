@@ -5621,7 +5621,7 @@ MonoBehaviour:
   changeWaypointDistance: 1.5
   stoppingDistance: 2
   autoBraking: 1
-  allowRePath: 0
+  allowRePath: 1
   rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
