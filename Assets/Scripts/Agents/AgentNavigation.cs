@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NavigationGraph;
 using Pathfinding;
 using Unity.Collections;
@@ -62,8 +63,6 @@ namespace Agents
         private void Awake()
         {
             ownTransform = transform;
-
-            InitializeTimer();
         }
 
         private void Start()
@@ -79,12 +78,21 @@ namespace Agents
 
         private void OnEnable()
         {
+            InitializeTimer();
+
             var agentUpdateManager = AgentUpdateManager.Instance;
             if (agentUpdateManager)
                 agentUpdateManager.RegisterAgent(this);
         }
 
-        private void OnDisable() => AgentUpdateManager.Instance.UnregisterAgent(this);
+        private void OnDisable()
+        {
+            DisableTimer();
+
+            var agentUpdateManager = AgentUpdateManager.Instance;
+            if (agentUpdateManager)
+                AgentUpdateManager.Instance.UnregisterAgent(this);
+        }
 
         private void OnValidate()
         {
@@ -98,16 +106,21 @@ namespace Agents
         public void UpdateTimer()
         {
             if (!allowRePath) return;
-
             timer.Tick(Time.deltaTime);
-            //if (!timer.IsRunning)
-            //    RequestPath(finalTargetPosition);
         }
 
         private void InitializeTimer()
         {
             timer = new CountdownTimer(rePath);
+            timer.onTimerStop += OnTimerStop;
         }
+
+        private void DisableTimer()
+        {
+            timer.onTimerStop -= OnTimerStop;
+        }
+
+        private void OnTimerStop() => RequestPath(finalTargetPosition);
 
         public float3 GetCurrentTarget()
         {
@@ -145,26 +158,19 @@ namespace Agents
 
         public bool RequestPath(Node targetCell)
         {
+            finalTargetPosition = targetCell.position;
+
             if (StatusPath == EPathStatus.Requested) return false;
             if (allowRePath && timer.IsRunning) return false;
 
             Vector3 nearestWalkableCellPosition = MapAgentToGrid(ownTransform.position);
 
-            // Changed the transform for the cell
             Node startCell = graph.GetNode(nearestWalkableCellPosition);
-            Node endCell = graph.GetNode(targetCell.position);
-            bool isPathValid = _pathfinding.RequestPath(this, startCell, endCell);
+            bool isPathValid = _pathfinding.RequestPath(this, startCell, targetCell);
 
-            StatusPath = EPathStatus.Requested;
+            StatusPath = isPathValid ? EPathStatus.Requested : EPathStatus.Failed;
 
-            if (isPathValid)
-            {
-                finalTargetPosition = endCell.position;
-                return true;
-            }
-
-            StatusPath = EPathStatus.Failed;
-            return false;
+            return isPathValid;
         }
 
         public bool RequestPath(Transform targetTransform)
