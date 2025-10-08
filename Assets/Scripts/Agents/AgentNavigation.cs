@@ -70,10 +70,6 @@ namespace Agents
             _pathfinding = GetComponent<PathRequester>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
-
-            var agentUpdateManager = AgentUpdateManager.Instance;
-            if (agentUpdateManager)
-                agentUpdateManager.RegisterAgent(this);
         }
 
         private void OnEnable()
@@ -120,19 +116,23 @@ namespace Agents
             timer.onTimerStop -= OnTimerStop;
         }
 
-        private void OnTimerStop() => RequestPath(finalTargetPosition);
+        private void OnTimerStop()
+        {
+            if (!allowRePath) return;
+            RequestPath(finalTargetPosition);
+        }
 
         public float3 GetCurrentTarget()
         {
             float3 agentPosition = (float3)ownTransform.position;
             if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
             {
+                ResetAgent();
                 return agentPosition;
             }
 
             float3 distanceToEnd = finalTargetPosition - agentPosition;
-
-            if (math.lengthsq(distanceToEnd) < stoppingDistance * stoppingDistance)
+            if (math.lengthsq(distanceToEnd) <= stoppingDistance * stoppingDistance)
             {
                 ResetAgent();
                 return agentPosition;
@@ -202,16 +202,9 @@ namespace Agents
             return nearestWalkableCellPosition;
         }
 
-        public virtual void SetPath(ref NativeList<Node> path)
+        public virtual void SetPath(in NativeList<Node> path)
         {
-            if (!path.IsCreated || path.Length == 0)
-            {
-                StatusPath = EPathStatus.Failed;
-                return;
-            }
-
-            waypointsPath.Clear();
-            currentWaypoint = 0;
+            ClearPath();
 
             foreach (var cell in path)
             {
@@ -220,16 +213,16 @@ namespace Agents
 
             StatusPath = EPathStatus.Success;
 
-            if (allowRePath)
-            {
-                timer.Reset(rePath);
-                timer.Start();
-            }
+            if (!allowRePath) return;
+
+            timer.Reset(rePath);
+            timer.Start();
         }
 
         private void ResetAgent()
         {
             ClearPath();
+
             timer.Pause();
             StatusPath = EPathStatus.Idle;
         }

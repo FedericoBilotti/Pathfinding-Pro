@@ -68,7 +68,7 @@ namespace Pathfinding.RequesterStrategy
                 if (!req.handle.IsCompleted) continue;
 
                 req.handle.Complete();
-                req.agent.SetPath(ref req.path);
+                req.agent.SetPath(in req.path);
 
                 requests.RemoveAtSwapBack(req);
                 pathRequestPool.Release(req);
@@ -81,7 +81,7 @@ namespace Pathfinding.RequesterStrategy
             {
                 var req = requests[i];
                 req.handle.Complete();
-                req.agent.SetPath(ref req.path);
+                req.agent.SetPath(in req.path);
 
                 requests.RemoveAtSwapBack(req);
                 pathRequestPool.Release(req);

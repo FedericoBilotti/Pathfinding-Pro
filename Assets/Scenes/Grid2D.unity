@@ -5616,7 +5616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0ccf3f0b649e7936b8825445391e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 15
   rotationSpeed: 6
   changeWaypointDistance: 1.5
   stoppingDistance: 2
@@ -37616,7 +37616,7 @@ Transform:
   m_GameObject: {fileID: 1224878548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -85.87, y: -0.056, z: 6.45}
+  m_LocalPosition: {x: -85.7, y: -0.056, z: 11.83}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37662,8 +37662,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0ccf3f0b649e7936b8825445391e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  rotationSpeed: 1
+  speed: 4
+  rotationSpeed: 3
   changeWaypointDistance: 0.4
   stoppingDistance: 2
   autoBraking: 1
@@ -45464,8 +45464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0ccf3f0b649e7936b8825445391e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  rotationSpeed: 5
+  speed: 4
+  rotationSpeed: 3
   changeWaypointDistance: 0.4
   stoppingDistance: 2
   autoBraking: 1
