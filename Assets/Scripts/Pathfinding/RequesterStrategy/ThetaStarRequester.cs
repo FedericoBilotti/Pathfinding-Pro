@@ -9,7 +9,7 @@ namespace Pathfinding.RequesterStrategy
     {
         public ThetaStarRequester(INavigationGraph navigationGraph) : base(navigationGraph) { }
 
-        public override bool RequestPath(IAgent agent, Cell start, Cell end)
+        public override bool RequestPath(IAgent agent, Node start, Node end)
         {
             if (end.walkableType == WalkableType.Obstacle) return false;
 
@@ -17,7 +17,7 @@ namespace Pathfinding.RequesterStrategy
 
             AStarJob aStarJobData = new AStarJob
             {
-                grid = navigationGraph.GetGrid(),
+                grid = navigationGraph.GetGraph(),
                 allNeighbors = navigationGraph.GetNeighbors(),
                 neighborCounts = navigationGraph.GetNeighborTotalCount(),
                 neighborOffSet = navigationGraph.GetNeighborOffsets(),
@@ -33,24 +33,28 @@ namespace Pathfinding.RequesterStrategy
 
             JobHandle addPath = new AddPath
             {
-                grid = navigationGraph.GetGrid(),
+                grid = navigationGraph.GetGraph(),
                 finalPath = pathRequest.path,
                 visitedNodes = pathRequest.visitedNodes,
                 endIndex = end.gridIndex
             }.Schedule(aStarJob);
 
-            JobHandle thetaStarJob = new ThetaStarJob
+            ThetaStarJob thetaStarJob = new ThetaStarJob
             {
-                grid = navigationGraph.GetGrid(),
+                grid = navigationGraph.GetGraph(),
                 gridSizeX = navigationGraph.GetXSize(),
                 finalPath = pathRequest.path,
                 simplified = pathRequest.simplified
-            }.Schedule(addPath);
+            };
+
+            JobHandle thetaStarHandle = thetaStarJob.ScheduleByRef(addPath);
 
             JobHandle reversePath = new ReversePath
             {
                 finalPath = pathRequest.path
-            }.Schedule(thetaStarJob);
+            }.Schedule(thetaStarHandle);
+
+            navigationGraph.CombineDependencies(reversePath);
 
             pathRequest.agent = agent;
             pathRequest.handle = reversePath;

@@ -1,6 +1,7 @@
+using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using System.IO;
 using UnityEngine.SceneManagement;
 
 namespace NavigationGraph
@@ -8,12 +9,13 @@ namespace NavigationGraph
     [CustomEditor(typeof(NavigationGraphSystem))]
     public class NavigationGraphSystemEditor : Editor
     {
+        SerializedProperty drawGizmos;
         SerializedProperty boxGridProp;
         SerializedProperty graphTypeProp;
         SerializedProperty neighborsPerCellProp;
         SerializedProperty gridSizeProp;
         SerializedProperty cellSizeProp;
-        SerializedProperty maxHeightDifferenceProp;
+        //SerializedProperty maxHeightDifferenceProp;
         SerializedProperty obstacleMarginProp;
         SerializedProperty cliffMarginProp;
         SerializedProperty terrainTypesProp;
@@ -28,12 +30,13 @@ namespace NavigationGraph
         private void OnEnable()
         {
             // Serializados
+            drawGizmos = serializedObject.FindProperty("_drawGizmos");
             boxGridProp = serializedObject.FindProperty("_boxGrid");
             graphTypeProp = serializedObject.FindProperty("_graphType");
             neighborsPerCellProp = serializedObject.FindProperty("_neighborsPerCell");
             gridSizeProp = serializedObject.FindProperty("_gridSize");
             cellSizeProp = serializedObject.FindProperty("_cellSize");
-            maxHeightDifferenceProp = serializedObject.FindProperty("_maxHeightDifference");
+            //maxHeightDifferenceProp = serializedObject.FindProperty("_maxHeightDifference");
             obstacleMarginProp = serializedObject.FindProperty("_obstacleMargin");
             cliffMarginProp = serializedObject.FindProperty("_cliffMargin");
             terrainTypesProp = serializedObject.FindProperty("_terrainTypes");
@@ -98,7 +101,7 @@ namespace NavigationGraph
             EditorGUILayout.PropertyField(neighborsPerCellProp);
             EditorGUILayout.PropertyField(gridSizeProp);
             EditorGUILayout.PropertyField(cellSizeProp);
-            EditorGUILayout.PropertyField(maxHeightDifferenceProp);
+            //EditorGUILayout.PropertyField(maxHeightDifferenceProp);
             EditorGUILayout.PropertyField(obstacleMarginProp);
             EditorGUILayout.PropertyField(cliffMarginProp);
             EditorGUI.indentLevel++;
@@ -114,6 +117,7 @@ namespace NavigationGraph
         {
             EditorGUILayout.BeginVertical("box");
             EditorGUILayout.LabelField("Gizmos", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(drawGizmos);
             EditorGUILayout.PropertyField(boxGridProp);
             EditorGUILayout.EndVertical();
 

@@ -1,38 +1,52 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utilities;
 
-[DefaultExecutionOrder(-1000)]
-public class ServiceLocator : Singleton<ServiceLocator>
+namespace Utilities
 {
-    private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
-
-    public void RegisterService<T>(T service)
+    [DefaultExecutionOrder(-1000)]
+    public class ServiceLocator : Singleton<ServiceLocator>
     {
-        Type type = typeof(T);
+        private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
-        _services.TryAdd(type, service);
-    }
-
-    public T GetService<T>()
-    {
-        if (_services.TryGetValue(typeof(T), out object service))
+        public void RegisterService<T>(T service)
         {
-            return (T)service;
+            Type type = typeof(T);
+
+            _services.TryAdd(type, service);
         }
-        
-        Debug.LogError($"The actual service doesn't exist {typeof(T)}");
-        return (T)(object)null;
-    }
 
-    public void RemoveService<T>()
-    {
-        Type type = typeof(T);
+        public bool TryGetService<T>(out T serviceOut)
+        {
+            if (_services.TryGetValue(typeof(T), out object service))
+            {
+                serviceOut = (T)service;
+                return true;
+            }
 
-        if (!_services.TryGetValue(type, out var service))
-            Debug.LogError($"The actual service doesn't exist {type} + {service}");
+            serviceOut = (T)(object)null;
+            return false;
+        }
 
-        _services.Remove(type);
+        public T GetService<T>()
+        {
+            if (_services.TryGetValue(typeof(T), out object service))
+            {
+                return (T)service;
+            }
+
+            Debug.LogError($"The actual service doesn't exist {typeof(T)}");
+            return (T)(object)null;
+        }
+
+        public void RemoveService<T>()
+        {
+            Type type = typeof(T);
+
+            if (!_services.TryGetValue(type, out var service))
+                Debug.LogError($"The actual service doesn't exist {type} + {service}");
+
+            _services.Remove(type);
+        }
     }
 }

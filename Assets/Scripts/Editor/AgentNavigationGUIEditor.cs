@@ -2,7 +2,7 @@ using Agents;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AgentNavigation), true)]
+[CustomEditor(typeof(AgentNavigation))]
 [CanEditMultipleObjects]
 public class AgentNavigationGUIEditor : Editor
 {
@@ -36,7 +36,9 @@ public class AgentNavigationGUIEditor : Editor
 
         if (_allowRepath.boolValue)
         {
+            EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(_rePath);
+            EditorGUI.indentLevel--;
         }
     }
 

@@ -1,9 +1,11 @@
 using System;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace NavigationGraph
 {
+    // Refac this
     public interface INavigationGraph
     {
         void Initialize(GridDataAsset gridBaked);
@@ -15,17 +17,19 @@ namespace NavigationGraph
         float GetCellDiameter();
         int GetXSize();
         int GetZSize();
-        NativeArray<Cell> GetGrid();
+        Vector3 GetOrigin();
+        NativeArray<Node> GetGraph();
         NativeArray<int> GetNeighbors();
         NativeArray<int> GetNeighborTotalCount();
         NativeArray<int> GetNeighborOffsets();
-        Cell GetRandomCell(); // Eliminate this in the future.
-        Cell GetCellWithWorldPosition(Vector3 worldPosition);
-        Vector3 GetNearestWalkableCellPosition(Vector3 worldPosition);
+        LayerMask GetWalkableMask();
+        Node GetRandomCell(); // Eliminate this in the future.
+        Node GetNode(Vector3 worldPosition);
+        Vector3 TryGetNearestWalkableNode(Vector3 worldPosition);
         bool IsInGrid(Vector3 worldPosition);
 
+        void CombineDependencies(JobHandle jobHandle);
 
         Action OnCreateGrid { get; set; }
-        Action OnDeleteGrid { get; set; }
     }
 }

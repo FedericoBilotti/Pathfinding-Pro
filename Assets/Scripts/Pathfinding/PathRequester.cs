@@ -1,6 +1,8 @@
 using Agents;
 using NavigationGraph;
+using UnityEditor;
 using UnityEngine;
+using Utilities;
 
 namespace Pathfinding
 {
@@ -22,10 +24,11 @@ namespace Pathfinding
                 return;
             }
 #endif
+            _pathRequestStrategy?.Clear();
             _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
         }
 
-        public bool RequestPath(IAgent agent, Cell start, Cell end) => _pathRequestStrategy.RequestPath(agent, start, end);
+        public bool RequestPath(IAgent agent, Node start, Node end) => _pathRequestStrategy.RequestPath(agent, start, end);
         private void LateUpdate() => _pathRequestStrategy.SetPathToAgent();
 
 #if UNITY_EDITOR
@@ -38,7 +41,7 @@ namespace Pathfinding
         }
 #endif
 
-        private void OnDestroy() => _pathRequestStrategy.Clear();
+        private void OnDestroy() => _pathRequestStrategy?.Clear();
     }
 
     public enum PathRequestType

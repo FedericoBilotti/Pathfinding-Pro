@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine.Pool;
 using Utilities;
+using Utilities.Collections;
 
 namespace Pathfinding.RequesterStrategy
 {
@@ -13,7 +14,7 @@ namespace Pathfinding.RequesterStrategy
         protected readonly INavigationGraph navigationGraph;
 
         protected SwapBackListIndexed<PathRequest> requests;
-        protected IObjectPool<PathRequest> pathRequestPool;
+        protected ObjectPool<PathRequest> pathRequestPool;
 
         protected Pathfinding(INavigationGraph navigationGraph)
         {
@@ -21,7 +22,6 @@ namespace Pathfinding.RequesterStrategy
             InitializeRequesters();
 
             navigationGraph.OnCreateGrid += FinishAllPaths;
-            navigationGraph.OnDeleteGrid += FinishAllPaths;
         }
 
         private void InitializeRequesters()
@@ -31,13 +31,13 @@ namespace Pathfinding.RequesterStrategy
             requests = new SwapBackListIndexed<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
-                path = new NativeList<Cell>(30, Allocator.Persistent),
-                simplified = new NativeList<Cell>(30, Allocator.Persistent),
+                path = new NativeList<Node>(30, Allocator.Persistent),
+                simplified = new NativeList<Node>(30, Allocator.Persistent),
                 closedList = new NativeHashSet<int>(64, Allocator.Persistent),
-                openList = new NativePriorityQueue<PathCellData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
-                visitedNodes = new NativeHashMap<int, PathCellData>(64, Allocator.Persistent),
+                openList = new NativePriorityQueue<PathNodeData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
+                visitedNodes = new NativeHashMap<int, PathNodeData>(64, Allocator.Persistent),
                 Index = -1
-            }, actionOnGet: pathReq =>
+            }, actionOnRelease: pathReq =>
             {
                 pathReq.path.Clear();
                 pathReq.simplified.Clear();
@@ -46,17 +46,19 @@ namespace Pathfinding.RequesterStrategy
                 pathReq.visitedNodes.Clear();
                 pathReq.agent = null;
                 pathReq.Index = -1;
-            }, actionOnRelease: null, actionOnDestroy: pathReq =>
+            }, actionOnDestroy: pathReq =>
             {
-                if (pathReq.path.IsCreated) pathReq.path.Dispose();
-                if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose();
-                if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose();
-                if (pathReq.openList.IsCreated) pathReq.openList.Dispose();
-                if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose();
-            }, defaultCapacity: CAPACITY, maxSize: MAX_SIZE);
+                if (pathReq.path.IsCreated) pathReq.path.Dispose(pathReq.handle);
+                if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose(pathReq.handle);
+                if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose(pathReq.handle);
+                if (pathReq.openList.IsCreated) pathReq.openList.Dispose(pathReq.handle);
+                if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose(pathReq.handle);
+            },
+            defaultCapacity: CAPACITY,
+            maxSize: MAX_SIZE);
         }
 
-        public abstract bool RequestPath(IAgent agent, Cell start, Cell end);
+        public abstract bool RequestPath(IAgent agent, Node start, Node end);
 
         public virtual void SetPathToAgent()
         {
@@ -66,10 +68,10 @@ namespace Pathfinding.RequesterStrategy
                 if (!req.handle.IsCompleted) continue;
 
                 req.handle.Complete();
-                req.agent.SetPath(req.path);
+                req.agent.SetPath(in req.path);
 
-                pathRequestPool.Release(req);
                 requests.RemoveAtSwapBack(req);
+                pathRequestPool.Release(req);
             }
         }
 
@@ -79,28 +81,32 @@ namespace Pathfinding.RequesterStrategy
             {
                 var req = requests[i];
                 req.handle.Complete();
-                req.agent.SetPath(req.path);
+                req.agent.SetPath(in req.path);
 
-                pathRequestPool.Release(req);
                 requests.RemoveAtSwapBack(req);
+                pathRequestPool.Release(req);
             }
         }
 
         public void Dispose()
         {
-            foreach (var pathRequest in requests)
+            foreach (var pathReq in requests)
             {
-                pathRequest.handle.Complete();
-                pathRequest.visitedNodes.Dispose();
-                pathRequest.closedList.Dispose();
-                pathRequest.openList.Dispose();
-                pathRequest.path.Dispose();
+                DisposePathRequest(pathReq);
             }
 
-            pathRequestPool.Clear();
-
+            requests.Clear();
+            pathRequestPool.Dispose();
             navigationGraph.OnCreateGrid -= FinishAllPaths;
-            navigationGraph.OnDeleteGrid -= FinishAllPaths;
+        }
+
+        private void DisposePathRequest(PathRequest pathReq)
+        {
+            if (pathReq.path.IsCreated) pathReq.path.Dispose(pathReq.handle);
+            if (pathReq.simplified.IsCreated) pathReq.simplified.Dispose(pathReq.handle);
+            if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose(pathReq.handle);
+            if (pathReq.openList.IsCreated) pathReq.openList.Dispose(pathReq.handle);
+            if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose(pathReq.handle);
         }
 
         public void Clear() => Dispose();
@@ -110,11 +116,11 @@ namespace Pathfinding.RequesterStrategy
             public IAgent agent;
             public JobHandle handle;
 
-            public NativeList<Cell> path;
-            public NativeList<Cell> simplified;
+            public NativeList<Node> path;
+            public NativeList<Node> simplified;
             public NativeHashSet<int> closedList;
-            public NativePriorityQueue<PathCellData> openList;
-            public NativeHashMap<int, PathCellData> visitedNodes;
+            public NativePriorityQueue<PathNodeData> openList;
+            public NativeHashMap<int, PathNodeData> visitedNodes;
 
             public int Index { get; set; }
         }

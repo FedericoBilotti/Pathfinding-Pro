@@ -9,12 +9,11 @@ namespace Pathfinding.PathImplementation
     [BurstCompile]
     internal struct ThetaStarJob : IJob
     {
-        [ReadOnly] public NativeArray<Cell> grid;
-        [ReadOnly] public int endIndex;
+        [ReadOnly] public NativeArray<Node> grid;
         [ReadOnly] public int gridSizeX;
 
-        public NativeList<Cell> finalPath;
-        public NativeList<Cell> simplified;
+        public NativeList<Node> finalPath;
+        public NativeList<Node> simplified;
 
         public void Execute()
         {
@@ -47,7 +46,7 @@ namespace Pathfinding.PathImplementation
         }
 
         // Bresenham algorithm
-        private bool HasLineOfSight(in Cell startCell, in Cell endCell)
+        private bool HasLineOfSight(in Node startCell, in Node endCell)
         {
             int startX = startCell.gridX;
             int startY = startCell.gridZ;
@@ -69,7 +68,8 @@ namespace Pathfinding.PathImplementation
                 if (grid[index].walkableType != WalkableType.Walkable) return false;
 
                 // For now this work, but maybe when Links are implemented it should be changed.
-                if (math.abs(grid[index].position.y - startCell.position.y) > 0.0001f) return false; 
+                if (math.abs(grid[index].position.y - startCell.position.y) > 0.0001f) return false;
+                if (math.abs(grid[index].position.y - endCell.position.y) > 0.0001f) return false;
 
                 int doubleError = 2 * error;
 

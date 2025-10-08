@@ -1,8 +1,8 @@
 using Agents;
 using NavigationGraph;
 using UnityEngine;
+using Utilities;
 
-[SelectionBase]
 public class MoveCube : MonoBehaviour
 {
     private AgentNavigation _agentNavigation;
@@ -12,19 +12,19 @@ public class MoveCube : MonoBehaviour
     private void Start()
     {
         _gridSystem = ServiceLocator.Instance.GetService<INavigationGraph>();
+        if (_agentNavigation.HasPath) return;
+
+        Node _target = GetRandomTarget(_gridSystem);
+        _agentNavigation.RequestPath(_target);
     }
 
     private void Update()
     {
-        if (_agentNavigation.HasPath) return;
-
-        var target = GetRandomTarget(_gridSystem);
-        _agentNavigation.RequestPath(target);
     }
 
-    private Cell GetRandomTarget(INavigationGraph graph)
+    private Node GetRandomTarget(INavigationGraph graph)
     {
-        Cell target = graph.GetRandomCell();
+        Node target = graph.GetRandomCell();
 
         return target.walkableType == WalkableType.Walkable ? target : GetRandomTarget(graph);
     }

@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using Utilities;
 
 namespace NavigationGraph
 {
@@ -8,6 +9,7 @@ namespace NavigationGraph
     public sealed class NavigationGraphSystem : MonoBehaviour
     {
         // Gizmos
+        [SerializeField] private bool _drawGizmos;
         [SerializeField] private bool _boxGrid;
         
         // Graph Settings
@@ -15,7 +17,6 @@ namespace NavigationGraph
         [SerializeField] private NeighborsPerCell _neighborsPerCell;
         [SerializeField] private Vector3Int _gridSize = new(100, 20, 100);
         [SerializeField] private float _cellSize = 0.5f;
-        [SerializeField] private float _maxHeightDifference = 0.01f;
         [SerializeField, Range(0f, 10)] private float _obstacleMargin = 0.5f;
         [SerializeField, Range(0f, 10f)] private float _cliffMargin = 0.5f;
         [SerializeField] private TerrainType[] _terrainTypes;
@@ -49,18 +50,6 @@ namespace NavigationGraph
             _gridSize.x = Mathf.Max(1, _gridSize.x);
             _gridSize.y = Mathf.Max(1, _gridSize.y);
             _gridSize.z = Mathf.Max(1, _gridSize.z);
-
-            _maxHeightDifference = Mathf.Max(0.1f, _maxHeightDifference);
-        }
-
-        private LayerMask GetWalkableMask()
-        {
-            LayerMask walkableMask = 0;
-            foreach (var region in _terrainTypes)
-            {
-                walkableMask.value |= region.terrainMask.value;
-            }
-            return walkableMask;
         }
 
         private NavigationGraphConfig GetNavigationGraphConfig()
@@ -75,7 +64,6 @@ namespace NavigationGraph
                 cellSize = _cellSize,
                 obstacleMargin = _obstacleMargin,
                 cliffMargin = _cliffMargin,
-                maxHeightDifference = _maxHeightDifference,
                 inclineLimit = _inclineLimit,
                 ignoreMaskAtCreateGrid = _ignoreMaskAtCreateGrid,
             };
@@ -86,14 +74,14 @@ namespace NavigationGraph
             Clear();
             Scan();
 
-            var grid = _graph.GetGrid();
+            var grid = _graph.GetGraph();
             var neighbors = _graph.GetNeighbors();
             var neighborTotalCounts = _graph.GetNeighborTotalCount();
             var neighborOffsets = _graph.GetNeighborOffsets();
 
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
             asset.GridSize = _gridSize;
-            asset.cells = new CellData[_gridSize.x * _gridSize.z];
+            asset.cells = new  NodeData[_gridSize.x * _gridSize.z];
             asset.neighborsCell.neighbors = new int[neighbors.Length];
             asset.neighborsCell.neighborTotalCount = new int[neighborTotalCounts.Length];
             asset.neighborsCell.neighborOffsets = new int[neighborOffsets.Length];
@@ -103,17 +91,18 @@ namespace NavigationGraph
                 for (int y = 0; y < _gridSize.z; y++)
                 {
                     int index = x + y * _gridSize.x;
-                    Cell actualCell = grid[index];
+                    Node actualNode = grid[index];
 
-                    asset.cells[index] = new CellData
+                    asset.cells[index] = new  NodeData
                     {
-                        position = actualCell.position,
-                        gridX = actualCell.gridX,
-                        gridZ = actualCell.gridZ,
-                        gridIndex = actualCell.gridIndex,
-                        cellCostPenalty = actualCell.cellCostPenalty,
-                        height = actualCell.height,
-                        walkableType = actualCell.walkableType
+                        position = actualNode.position,
+                        normal = actualNode.normal,
+                        height = actualNode.height,
+                        gridX = actualNode.gridX,
+                        gridZ = actualNode.gridZ,
+                        gridIndex = actualNode.gridIndex,
+                        cellCostPenalty = actualNode.cellCostPenalty,
+                        walkableType = actualNode.walkableType
                     };
                 }
             }
@@ -204,6 +193,8 @@ namespace NavigationGraph
 
         private void OnDrawGizmos()
         {
+            if (!_drawGizmos) return;
+
             if (_gridBaked != null)
             {
                 DrawCubeForGrid(true);
@@ -266,7 +257,6 @@ namespace NavigationGraph
         public float cellSize;
         public float obstacleMargin;
         public float cliffMargin;
-        public float maxHeightDifference;
         public float inclineLimit;
         public LayerMask ignoreMaskAtCreateGrid;
     }

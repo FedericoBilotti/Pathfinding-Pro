@@ -6,6 +6,6 @@ namespace Pathfinding
     public interface IPathfinding
     {
         void SetPathStrategy(PathRequestType pathRequestStrategy);
-        bool RequestPath(IAgent agent, Cell start, Cell end);
+        bool RequestPath(IAgent agent, Node start, Node end);
     }
 }
