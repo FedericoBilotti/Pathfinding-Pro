@@ -1,11 +1,12 @@
-using Agents;
+﻿using Agents;
 using NavigationGraph;
 
 namespace Pathfinding
 {
     public interface IPathfinding
     {
-        void SetPathStrategy(PathRequestType pathRequestStrategy);
         bool RequestPath(IAgent agent, Node start, Node end);
+        void SetPathToAgent();
+        void Clear();
     }
 }

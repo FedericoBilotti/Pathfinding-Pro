@@ -6,7 +6,7 @@ namespace Pathfinding
 {
     public class PathFactory
     {
-        public static IPathRequest CreatePathRequester(PathRequestType requestType, INavigationGraph navigationGraph)
+        public static IPathfinding CreatePathRequester(PathRequestType requestType, INavigationGraph navigationGraph)
         {
             return requestType switch
             {

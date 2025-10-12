@@ -17,14 +17,14 @@ namespace Pathfinding.RequesterStrategy
 
             AStarJob aStarJobData = new AStarJob
             {
-                grid = navigationGraph.GetGraph(),
-                allNeighbors = navigationGraph.GetNeighbors(),
-                neighborCounts = navigationGraph.GetNeighborTotalCount(),
-                neighborOffSet = navigationGraph.GetNeighborOffsets(),
+                grid = navigationGraph.Graph,
+                allNeighbors = navigationGraph.Neighbors,
+                neighborCounts = navigationGraph.NeighborTotalCount,
+                neighborOffSet = navigationGraph.NeighborOffsets,
                 closedList = pathRequest.closedList,
                 openList = pathRequest.openList,
                 visitedNodes = pathRequest.visitedNodes,
-                gridSizeX = navigationGraph.GetXSize(),
+                gridSizeX = navigationGraph.GridSize.x,
                 startIndex = start.gridIndex,
                 endIndex = end.gridIndex
             };
@@ -33,7 +33,7 @@ namespace Pathfinding.RequesterStrategy
 
             JobHandle addPath = new AddPath
             {
-                grid = navigationGraph.GetGraph(),
+                grid = navigationGraph.Graph,
                 finalPath = pathRequest.path,
                 visitedNodes = pathRequest.visitedNodes,
                 endIndex = end.gridIndex
@@ -41,8 +41,8 @@ namespace Pathfinding.RequesterStrategy
 
             ThetaStarJob thetaStarJob = new ThetaStarJob
             {
-                grid = navigationGraph.GetGraph(),
-                gridSizeX = navigationGraph.GetXSize(),
+                grid = navigationGraph.Graph,
+                gridSizeX = navigationGraph.GridSize.x,
                 finalPath = pathRequest.path,
                 simplified = pathRequest.simplified
             };

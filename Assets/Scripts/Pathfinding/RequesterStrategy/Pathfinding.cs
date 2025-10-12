@@ -9,7 +9,7 @@ using Utilities.Collections;
 
 namespace Pathfinding.RequesterStrategy
 {
-    public abstract class Pathfinding : IPathRequest, IDisposable
+    public abstract class Pathfinding : IPathfinding, IDisposable
     {
         protected readonly INavigationGraph navigationGraph;
 

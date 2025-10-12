@@ -69,16 +69,16 @@ namespace NavigationGraph.Graph.Layered
         private List<RaycastHit> RaycastContinuous(Vector3 from, LayerMask mask)
         {
             List<RaycastHit> hits = new List<RaycastHit>();
-            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, gridSize.y, mask)) return hits;
+            if (!Physics.Raycast(from, Vector3.down, out RaycastHit hit, GridSize.y, mask)) return hits;
 
             hits.Add(hit);
-            float minDist = cellSize * 0.5f;
+            float minDist = CellSize * 0.5f;
 
             const int MAX_HITS = 10;
             for (int i = 0; i < MAX_HITS; i++)
             {
                 Vector3 nextOrigin = hit.point + Vector3.down * minDist;
-                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, gridSize.y, mask)) break;
+                if (!Physics.Raycast(nextOrigin, Vector3.down, out hit, GridSize.y, mask)) break;
 
                 if (hits.Any(h => Mathf.Abs(h.point.y - hit.point.y) < minDist)) continue;
 
@@ -95,7 +95,7 @@ namespace NavigationGraph.Graph.Layered
             Node? closest = null;
             float closestDist = float.MaxValue;
 
-            foreach (var cell in graph)
+            foreach (var cell in Graph)
             {
                 if (cell.gridX != x || cell.gridZ != z) continue;
 
@@ -114,8 +114,8 @@ namespace NavigationGraph.Graph.Layered
         {
             Vector3 gridPos = worldPosition - transform.position;
 
-            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.z - 1);
+            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / CellDiameter), 0, GridSize.x - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / CellDiameter), 0, GridSize.z - 1);
 
             return (x, y);
         }

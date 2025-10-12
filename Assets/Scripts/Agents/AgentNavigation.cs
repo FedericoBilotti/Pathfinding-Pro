@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using NavigationGraph;
 using Pathfinding;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -31,14 +30,18 @@ namespace Agents
 
         [SerializeField] private EPathStatus _statusPath = EPathStatus.Idle;
 
-        private IPathfinding _pathfinding;
+        private IPathRequest _pathfinding;
+        private IPathfinder _pathfinder;
+        private IGraphProvider _graphProvider;
+        private IAgentUpdater _updater;
+        private ITimerFactory _timerFactory;
+        protected INavigationGraph graph;
+        protected Timer timer;
 
         protected int currentWaypoint;
         protected List<Vector3> waypointsPath;
         protected float3 finalTargetPosition;
-        protected Transform ownTransform;
-        protected INavigationGraph graph;
-        protected Timer timer;
+        protected Transform _transform;
 
         public float Speed { get => speed; set => speed = Mathf.Max(0.01f, value); }
         public float RotationSpeed { get => rotationSpeed; set => rotationSpeed = Mathf.Max(0.01f, value); }
@@ -62,10 +65,25 @@ namespace Agents
 
         private void Awake()
         {
-            ownTransform = transform;
-            _pathfinding = GetComponent<PathRequester>();
+            _transform = transform;
+            _pathfinding = GetComponent<IPathRequest>();
             graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
+        }
+
+        public void Initialize(IPathfinder pathfinder, IGraphProvider graphProvider, IAgentUpdater updater, ITimerFactory timerFactory)
+        {
+            _pathfinder = pathfinder;
+            _graphProvider = graphProvider;
+            _updater = updater;
+            _timerFactory = timerFactory;
+
+            graph = _graphProvider.GetGraph();
+            _transform = transform;
+            waypointsPath = new List<Vector3>(graph.GetGridSizeLength() / 7);
+
+            timer = _timerFactory.Create<CountdownTimer>(rePath,
+                                                         onStop: OnTimerStop);
         }
 
         private void OnValidate()
@@ -82,7 +100,8 @@ namespace Agents
 
         private void InitializeTimer()
         {
-            timer = new CountdownTimer(rePath);
+            timer = _timerFactory.Create<CountdownTimer>(rePath,
+                                                         onStop: OnTimerStop);
             timer.onTimerStop += OnTimerStop;
         }
 
@@ -105,7 +124,7 @@ namespace Agents
 
         public float3 GetCurrentTarget()
         {
-            float3 agentPosition = (float3)ownTransform.position;
+            float3 agentPosition = (float3)_transform.position;
             if (waypointsPath.Count == 0 || currentWaypoint >= waypointsPath.Count)
             {
                 ResetAgent();
@@ -144,7 +163,7 @@ namespace Agents
             if (StatusPath == EPathStatus.Requested) return false;
             if (allowRePath && timer.IsRunning) return false;
 
-            Vector3 nearestWalkableCellPosition = MapAgentToGrid(ownTransform.position);
+            Vector3 nearestWalkableCellPosition = MapAgentToGrid(_transform.position);
 
             Node startCell = graph.GetNode(nearestWalkableCellPosition);
             bool isPathValid = _pathfinding.RequestPath(this, startCell, targetCell);
@@ -168,15 +187,15 @@ namespace Agents
 
         private Vector3 MapAgentToGrid(Vector3 nearestWalkableCellPosition)
         {
-            if (!IsAgentInGrid(graph, ownTransform.position))
+            if (!IsAgentInGrid(graph, _transform.position))
             {
-                nearestWalkableCellPosition = graph.TryGetNearestWalkableNode(ownTransform.position);
-                float changeCell = graph.GetCellDiameter();
+                nearestWalkableCellPosition = graph.TryGetNearestWalkableNode(_transform.position);
+                float changeCell = graph.CellDiameter;
 
-                Vector3 distance = nearestWalkableCellPosition - ownTransform.position;
+                Vector3 distance = nearestWalkableCellPosition - _transform.position;
                 if (distance.sqrMagnitude >= changeCell * changeCell)
                 {
-                    ownTransform.position = nearestWalkableCellPosition;
+                    _transform.position = nearestWalkableCellPosition;
                 }
             }
 

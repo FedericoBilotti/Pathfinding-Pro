@@ -74,10 +74,10 @@ namespace NavigationGraph
             Clear();
             Scan();
 
-            var grid = _graph.GetGraph();
-            var neighbors = _graph.GetNeighbors();
-            var neighborTotalCounts = _graph.GetNeighborTotalCount();
-            var neighborOffsets = _graph.GetNeighborOffsets();
+            var grid = _graph.Graph;
+            var neighbors = _graph.Neighbors;
+            var neighborTotalCounts = _graph.NeighborTotalCount;
+            var neighborOffsets = _graph.NeighborOffsets;
 
             GridDataAsset asset = ScriptableObject.CreateInstance<GridDataAsset>();
             asset.GridSize = _gridSize;

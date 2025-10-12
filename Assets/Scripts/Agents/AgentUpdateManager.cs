@@ -109,7 +109,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             commands = _commands,
             originAgentPositions = _agentPositions,
-            layerMask = navigationGraph.GetWalkableMask(),
+            layerMask = navigationGraph.WalkableMask,
             physicsScene = Physics.defaultPhysicsScene,
 
             upDirection = Vector3.up,
@@ -135,12 +135,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             deltaTime = Time.deltaTime,
 
             results = _results,
-            grid = navigationGraph.GetGraph(),
-            gridX = navigationGraph.GetXSize(),
-            gridZ = navigationGraph.GetZSize(),
-            gridOrigin = navigationGraph.GetOrigin(),
-            cellSize = navigationGraph.GetCellSize(),
-            cellDiameter = navigationGraph.GetCellDiameter(),
+            grid = navigationGraph.Graph,
+            gridX = navigationGraph.GridSize.x,
+            gridZ = navigationGraph.GridSize.z,
+            gridOrigin = navigationGraph.Origin,
+            cellSize = navigationGraph.CellDiameter,
+            cellDiameter = navigationGraph.CellDiameter,
 
             // agentRadius = 0.5f,
             // agentHeightOffset = 1f,
@@ -174,12 +174,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
             deltaTime = Time.deltaTime,
 
-            grid = navigationGraph.GetGraph(),
-            gridX = navigationGraph.GetXSize(),
-            gridZ = navigationGraph.GetZSize(),
-            gridOrigin = navigationGraph.GetOrigin(),
-            cellSize = navigationGraph.GetCellSize(),
-            cellDiameter = navigationGraph.GetCellDiameter(),
+            grid = navigationGraph.Graph,
+            gridX = navigationGraph.GridSize.x,
+            gridZ = navigationGraph.GridSize.z,
+            gridOrigin = navigationGraph.Origin,
+            cellSize = navigationGraph.CellSize,
+            cellDiameter = navigationGraph.CellDiameter,
         }.Schedule(_transforms);
     }
 

@@ -19,9 +19,9 @@ namespace NavigationGraph.Graph.Planar
         {
             GraphType = NavigationGraphType.Grid2D;
 
-            var totalGridSize = gridSize.x * gridSize.z;
+            var totalGridSize = GridSize.x * GridSize.z;
             _visited = new int[totalGridSize];
-            _queue = new Queue<Vector2Int>(gridSize.x * gridSize.z);
+            _queue = new Queue<Vector2Int>(GridSize.x * GridSize.z);
         }
 
         public override void LoadGridFromMemory(GridDataAsset gridBaked)
@@ -34,13 +34,13 @@ namespace NavigationGraph.Graph.Planar
             graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
             neighbors = new NativeArray<int>(lengthNeighbors, Allocator.Persistent);
             neighborTotalCount = new NativeArray<int>(lengthCounts, Allocator.Persistent);
-            neighborOffSet = new NativeArray<int>(lengthOffsets, Allocator.Persistent);
+            neighborOffsets = new NativeArray<int>(lengthOffsets, Allocator.Persistent);
 
-            for (int x = 0; x < gridSize.x; x++)
+            for (int x = 0; x < GridSize.x; x++)
             {
-                for (int y = 0; y < gridSize.z; y++)
+                for (int y = 0; y < GridSize.z; y++)
                 {
-                    int index = x + y * gridSize.x;
+                    int index = x + y * GridSize.x;
                     NodeData actualNode = gridBaked.cells[index];
 
                     graph[index] = new Node
@@ -64,7 +64,7 @@ namespace NavigationGraph.Graph.Planar
                 neighborTotalCount[i] = gridBaked.neighborsCell.neighborTotalCount[i];
 
             for (int i = 0; i < lengthOffsets; i++)
-                neighborOffSet[i] = gridBaked.neighborsCell.neighborOffsets[i];
+                neighborOffsets[i] = gridBaked.neighborsCell.neighborOffsets[i];
         }
 
         public override void CreateGrid()
@@ -72,10 +72,10 @@ namespace NavigationGraph.Graph.Planar
             // --- 0. Clean ---
             OnCreateGrid?.Invoke();
 
-            if (graph.IsCreated) graph.Dispose();
-            if (neighbors.IsCreated) neighbors.Dispose();
-            if (neighborOffSet.IsCreated) neighborOffSet.Dispose();
-            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose();
+            if (Graph.IsCreated) Graph.Dispose();
+            if (Neighbors.IsCreated) Neighbors.Dispose();
+            if (NeighborOffsets.IsCreated) NeighborOffsets.Dispose();
+            if (NeighborTotalCount.IsCreated) NeighborTotalCount.Dispose();
 
             int totalGridSize = GetGridSizeLength();
             graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
@@ -88,11 +88,11 @@ namespace NavigationGraph.Graph.Planar
             {
                 commands = commands,
                 origin = transform.position,
-                cellDiameter = cellDiameter,
+                cellDiameter = CellDiameter,
                 ignoreMasks = ignoreMasksAtCreateGrid,
-                gridSizeX = gridSize.x,
-                gridSizeY = gridSize.y,
-                walkableMask = walkableMask,
+                gridSizeX = GridSize.x,
+                gridSizeY = GridSize.y,
+                walkableMask = WalkableMask,
                 physicsScene = Physics.defaultPhysicsScene
             }.Schedule(totalGridSize, 64);
 
@@ -117,7 +117,7 @@ namespace NavigationGraph.Graph.Planar
                 {
                     var go = hit.collider.gameObject;
                     var layer = go.layer;
-                    bool isWalkable = ((1 << layer) & walkableMask) != 0;
+                    bool isWalkable = ((1 << layer) & WalkableMask) != 0;
                     normalWalkable[i] = hit.normal;
                     computedWalkable[i] = isWalkable ? WalkableType.Walkable : WalkableType.Obstacle;
                     layerPerCell[i] = layer;
@@ -126,7 +126,7 @@ namespace NavigationGraph.Graph.Planar
                     // This is only for debug and seeing the point in the grid.
                     if (!isWalkable)
                     {
-                        bool walkable = Physics.Raycast(hit.point, Vector3.down, out var newHit, 999f, walkableMask);
+                        bool walkable = Physics.Raycast(hit.point, Vector3.down, out var newHit, 999f, WalkableMask);
 
                         if (walkable)
                         {
@@ -152,7 +152,7 @@ namespace NavigationGraph.Graph.Planar
 
             JobHandle initJob = new InitSeedsJob
             {
-                gridSize = gridSize,
+                gridSize = GridSize,
                 normalWalkable = normalWalkable,
                 inclineLimit = inclineLimit,
                 computedWalkable = computedWalkable,
@@ -169,12 +169,12 @@ namespace NavigationGraph.Graph.Planar
                 queueCliff = queueCliff.AsParallelWriter()
             }.Schedule(totalGridSize, 64);
 
-            int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / cellDiameter);
-            int cliffRadiusCells = Mathf.CeilToInt(cliffMargin / cellDiameter);
+            int obstacleRadiusCells = Mathf.CeilToInt(obstacleMargin / CellDiameter);
+            int cliffRadiusCells = Mathf.CeilToInt(cliffMargin / CellDiameter);
 
             JobHandle bfsJob = new BFSCombinedJob
             {
-                gridSize = gridSize,
+                gridSize = GridSize,
                 obstacleRadius = obstacleRadiusCells,
                 cliffRadius = cliffRadiusCells,
 
@@ -192,13 +192,13 @@ namespace NavigationGraph.Graph.Planar
             var createGridJob = new CreateGridJob
             {
                 walkableRegionsDic = walkableRegionsDic,
-                grid = graph,
+                grid = Graph,
                 origin = transform.position,
                 right = new float3(1, 0, 0),
                 forward = new float3(0, 0, 1),
 
-                cellDiameter = cellDiameter,
-                gridSizeX = gridSize.x,
+                cellDiameter = CellDiameter,
+                gridSizeX = GridSize.x,
 
                 results = results,
                 layerPerCell = layerPerCell,
@@ -229,11 +229,11 @@ namespace NavigationGraph.Graph.Planar
 
             var countNeighborsJob = new CountNeighborsJob
             {
-                grid = graph,
+                grid = Graph,
                 offsets16 = offsets16,
                 neighborCounts = temporaryNeighborTotalCount,
-                gridSizeX = gridSize.x,
-                gridSizeZ = gridSize.z,
+                gridSizeX = GridSize.x,
+                gridSizeZ = GridSize.z,
                 maxHeightDifference = MAX_HEIGHT_DISTANCE,
                 neighborsPerCell = neighborsPerCell
             }.Schedule(createGridJob);
@@ -248,30 +248,30 @@ namespace NavigationGraph.Graph.Planar
             for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
                 neighborTotalCount[i] = temporaryNeighborTotalCount[i];
 
-            neighborOffSet = new NativeArray<int>(totalGridSize, Allocator.Persistent);
+            neighborOffsets = new NativeArray<int>(totalGridSize, Allocator.Persistent);
             int offset = 0;
             for (int i = 0; i < totalGridSize; i++)
             {
-                neighborOffSet[i] = offset;
-                offset += neighborTotalCount[i];
+                neighborOffsets[i] = offset;
+                offset += NeighborTotalCount[i];
             }
 
             neighbors = new NativeArray<int>(totalLengthOfNeighbors, Allocator.Persistent);
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
-                grid = graph,
+                grid = Graph,
                 offsets16 = offsets16,
-                gridSizeX = gridSize.x,
-                gridSizeZ = gridSize.z,
+                gridSizeX = GridSize.x,
+                gridSizeZ = GridSize.z,
                 normalWalkable = normalWalkable,
                 groundHeight = groundHeight,
                 //inclineLimit = inclineLimit,
                 neighborsPerCell = neighborsPerCell,
-                allNeighbors = neighbors,
+                allNeighbors = Neighbors,
                 maxHeightDifference = MAX_HEIGHT_DISTANCE,
-                neighborCounts = neighborTotalCount,
-                neighborOffsets = neighborOffSet
+                neighborCounts = NeighborTotalCount,
+                neighborOffsets = NeighborOffsets
             }.Schedule();
 
             neighborsJob.Complete();
@@ -311,17 +311,17 @@ namespace NavigationGraph.Graph.Planar
                 int x = current.x;
                 int y = current.y;
 
-                if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z)
+                if (x < 0 || x >= GridSize.x || y < 0 || y >= GridSize.z)
                     continue;
 
-                int index = x + y * gridSize.x;
+                int index = x + y * GridSize.x;
 
                 if (_visited[index] == _visitId)
                     continue;
 
                 _visited[index] = _visitId;
 
-                if (graph[index].walkableType == WalkableType.Walkable)
+                if (Graph[index].walkableType == WalkableType.Walkable)
                 {
                     return GetCellPositionInWorldMap(x, y);
                 }
@@ -339,15 +339,15 @@ namespace NavigationGraph.Graph.Planar
         {
             var (x, y) = GetNodesMap(worldPosition);
 
-            return graph[x + y * gridSize.x];
+            return Graph[x + y * GridSize.x];
         }
 
         private (int x, int y) GetNodesMap(Vector3 worldPosition)
         {
             Vector3 gridPos = worldPosition - transform.position;
 
-            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / cellDiameter), 0, gridSize.x - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / cellDiameter), 0, gridSize.z - 1);
+            int x = Mathf.Clamp(Mathf.FloorToInt(gridPos.x / CellDiameter), 0, GridSize.x - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(gridPos.z / CellDiameter), 0, GridSize.z - 1);
 
             return (x, y);
         }
@@ -362,30 +362,30 @@ namespace NavigationGraph.Graph.Planar
         private Vector3 GetCellPositionInGrid(int gridX, int gridY)
         {
             return transform.position
-                   + Vector3.right * ((gridX + 0.5f) * cellDiameter)
-                   + Vector3.forward * ((gridY + 0.5f) * cellDiameter);
+                   + Vector3.right * ((gridX + 0.5f) * CellDiameter)
+                   + Vector3.forward * ((gridY + 0.5f) * CellDiameter);
         }
 
         private Vector3 CheckPoint(Vector3 cellPosition)
         {
-            return Physics.Raycast(cellPosition + Vector3.up * gridSize.y,
-                    Vector3.down, out RaycastHit raycastHit, gridSize.y, walkableMask)
+            return Physics.Raycast(cellPosition + Vector3.up * GridSize.y,
+                    Vector3.down, out RaycastHit raycastHit, GridSize.y, WalkableMask)
                     ? raycastHit.point
                     : cellPosition;
         }
 
         public override bool? DrawGizmos()
         {
-            if (!graph.IsCreated || graph.Length == 0) return false;
+            if (!Graph.IsCreated || Graph.Length == 0) return false;
 
-            Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * cellDiameter;
+            Vector3 sizeCell = new Vector3(0.99f, 0.05f, 0.99f) * CellDiameter;
 
             var walkableColor = new Color(0, 1, 0.5f, 0.5f);
             var nonWalkableSize = new Vector3(0.2f, 0.2f, 0.2f);
 
-            for (int i = 0; i < graph.Length; i++)
+            for (int i = 0; i < Graph.Length; i++)
             {
-                var node = graph[i];
+                var node = Graph[i];
                 if (node.walkableType == WalkableType.Air) continue;
 
                 Vector3 drawPos = node.position;
