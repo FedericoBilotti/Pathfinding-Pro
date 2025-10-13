@@ -7,7 +7,7 @@ namespace Pathfinding.RequesterStrategy
 {
     public class AStarRequester : Pathfinding
     {
-        public AStarRequester(INavigationGraph navigationGraph) : base(navigationGraph) { }
+        public AStarRequester(INavigationGraph navigationGraph, IAgent agent) : base(navigationGraph, agent) { }
 
         public override bool RequestPath(IAgent agent, Node start, Node end)
         {

@@ -10,7 +10,9 @@ namespace Pathfinding
     {
         [SerializeField] private PathRequestType _requestType;
         private IPathfinding _pathRequestStrategy;
+        private IAgent _agent;
 
+        private void Awake() => _agent = GetComponent<IAgent>();
         private void Start() => SetPathStrategy(_requestType);
 
         public void SetPathStrategy(PathRequestType _requestType)
@@ -23,7 +25,7 @@ namespace Pathfinding
             }
 #endif
             _pathRequestStrategy?.Clear();
-            _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
+            _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph, _agent);
         }
 
         public bool RequestPath(IAgent agent, Node start, Node end) => _pathRequestStrategy.RequestPath(agent, start, end);

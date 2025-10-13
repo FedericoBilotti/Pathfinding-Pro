@@ -16,18 +16,18 @@ namespace Pathfinding.RequesterStrategy
         protected SwapBackListIndexed<PathRequest> requests;
         protected ObjectPool<PathRequest> pathRequestPool;
 
-        protected Pathfinding(INavigationGraph navigationGraph)
+        protected Pathfinding(INavigationGraph navigationGraph, IAgent agent)
         {
             this.navigationGraph = navigationGraph;
-            InitializeRequesters();
+            InitializeRequesters(agent);
 
             navigationGraph.OnCreateGrid += FinishAllPaths;
         }
 
-        private void InitializeRequesters()
+        private void InitializeRequesters(IAgent agent)
         {
-            const int CAPACITY = 20;
-            const int MAX_SIZE = 1000;
+            const int CAPACITY = 5;
+            const int MAX_SIZE = 5;
             requests = new SwapBackListIndexed<PathRequest>(CAPACITY);
             pathRequestPool = new ObjectPool<PathRequest>(createFunc: () => new PathRequest
             {
@@ -36,6 +36,7 @@ namespace Pathfinding.RequesterStrategy
                 closedList = new NativeHashSet<int>(64, Allocator.Persistent),
                 openList = new NativePriorityQueue<PathNodeData>(navigationGraph.GetGridSizeLength() / 4, Allocator.Persistent),
                 visitedNodes = new NativeHashMap<int, PathNodeData>(64, Allocator.Persistent),
+                agent = agent,
                 Index = -1
             }, actionOnRelease: pathReq =>
             {
@@ -44,7 +45,6 @@ namespace Pathfinding.RequesterStrategy
                 pathReq.closedList.Clear();
                 pathReq.openList.Clear();
                 pathReq.visitedNodes.Clear();
-                pathReq.agent = null;
                 pathReq.Index = -1;
             }, actionOnDestroy: pathReq =>
             {
@@ -53,6 +53,7 @@ namespace Pathfinding.RequesterStrategy
                 if (pathReq.closedList.IsCreated) pathReq.closedList.Dispose(pathReq.handle);
                 if (pathReq.openList.IsCreated) pathReq.openList.Dispose(pathReq.handle);
                 if (pathReq.visitedNodes.IsCreated) pathReq.visitedNodes.Dispose(pathReq.handle);
+                agent = null;
             },
             defaultCapacity: CAPACITY,
             maxSize: MAX_SIZE);

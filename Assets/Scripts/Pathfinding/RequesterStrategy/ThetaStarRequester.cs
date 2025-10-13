@@ -7,7 +7,7 @@ namespace Pathfinding.RequesterStrategy
 {
     public class ThetaStarRequester : Pathfinding
     {
-        public ThetaStarRequester(INavigationGraph navigationGraph) : base(navigationGraph) { }
+        public ThetaStarRequester(INavigationGraph navigationGraph, IAgent agent) : base(navigationGraph, agent) { }
 
         public override bool RequestPath(IAgent agent, Node start, Node end)
         {
