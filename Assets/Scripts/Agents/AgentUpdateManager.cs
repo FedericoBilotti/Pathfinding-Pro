@@ -10,7 +10,7 @@ using Utilities;
 using Utilities.Collections;
 
 [DefaultExecutionOrder(-950)]
-public class AgentUpdateManager : Singleton<AgentUpdateManager>
+public class AgentUpdateManager : MonoBehaviour
 {
     [SerializeField, Tooltip("Decides how the agents are going to move in the grid, in less performance")]
     private EAccurateMovement _accurateMovement = EAccurateMovement.High;
@@ -33,12 +33,15 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private const int InitialCapacity = 10;
 
-    protected override void InitializeSingleton()
+    private void Awake()
     {
         _agents = new SwapBackListIndexed<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
         CreateArrays(InitialCapacity);
     }
+
+    private void OnEnable() => ServiceLocator.Instance.RegisterService<AgentUpdateManager>(this);
+    private void OnDisable() => ServiceLocator.Instance.RemoveService<AgentUpdateManager>();
 
     public void RegisterAgent(AgentNavigation agent)
     {

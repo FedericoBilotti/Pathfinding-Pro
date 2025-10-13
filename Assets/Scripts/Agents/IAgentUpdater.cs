@@ -2,7 +2,7 @@ namespace Agents
 {
     public interface IAgentUpdater
     {
-        void RegisterAgent(IAgent agent);
-        void UnregisterAgent(IAgent agent);
+        void RegisterAgent(AgentNavigation agent);
+        void UnregisterAgent(AgentNavigation agent);
     }
 }

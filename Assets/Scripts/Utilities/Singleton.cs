@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Utilities
 {
-    [DefaultExecutionOrder(-1500)]
+    [DefaultExecutionOrder(-5000)]
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         public static T Instance;
