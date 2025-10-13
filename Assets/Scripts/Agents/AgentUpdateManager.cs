@@ -77,8 +77,6 @@ public class AgentUpdateManager : MonoBehaviour
         {
             var agent = _agents[i];
             agent.UpdateTimer();
-            //Debug.Log("Timer is running i");
-
             _agentPositions.Add(agent.transform.position);
             _finalTargets.Add(math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition);
             _targetPositions.Add(agent.GetCurrentTarget());
@@ -107,6 +105,8 @@ public class AgentUpdateManager : MonoBehaviour
     {
         ResizeArraysIfNeeded(_transforms.length);
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+        var multiplyDistance = 2f;
+        var rayDistance = 3f;
 
         var prepareRaycastCommands = new GroundRaycastSystem()
         {
@@ -115,8 +115,8 @@ public class AgentUpdateManager : MonoBehaviour
             layerMask = navigationGraph.WalkableMask,
             physicsScene = Physics.defaultPhysicsScene,
 
-            upDirection = Vector3.up,
-            rayDistance = 2f
+            upDirection = Vector3.up * multiplyDistance,
+            rayDistance = rayDistance
         };
 
         int batch = 32;
@@ -153,7 +153,7 @@ public class AgentUpdateManager : MonoBehaviour
     private void ResizeArraysIfNeeded(int newCapacity)
     {
         if (newCapacity == _results.Length) return;
-        
+
         if (_commands.IsCreated) _commands.Dispose();
         if (_results.IsCreated) _results.Dispose();
 

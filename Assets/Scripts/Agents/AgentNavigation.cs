@@ -172,16 +172,13 @@ namespace Agents
 
         private Vector3 MapAgentToGrid(Vector3 nearestWalkableCellPosition)
         {
-            if (!IsAgentInGrid(_graph, _transform.position))
-            {
-                nearestWalkableCellPosition = _graph.TryGetNearestWalkableNode(_transform.position);
-                float changeCell = _graph.CellDiameter;
+            nearestWalkableCellPosition = _graph.TryGetNearestWalkableNode(_transform.position);
+            float changeCell = _graph.CellDiameter;
 
-                Vector3 distance = nearestWalkableCellPosition - _transform.position;
-                if (distance.sqrMagnitude >= changeCell * changeCell)
-                {
-                    _transform.position = nearestWalkableCellPosition;
-                }
+            Vector3 distance = nearestWalkableCellPosition - _transform.position;
+            if (distance.sqrMagnitude >= changeCell * changeCell)
+            {
+                _transform.position = nearestWalkableCellPosition;
             }
 
             return nearestWalkableCellPosition;
@@ -219,8 +216,6 @@ namespace Agents
             CurrentWaypoint = 0;
             WaypointsPath.Clear();
         }
-
-        private static bool IsAgentInGrid(INavigationGraph graph, Vector3 position) => graph.IsInGrid(position);
     }
 }
 
