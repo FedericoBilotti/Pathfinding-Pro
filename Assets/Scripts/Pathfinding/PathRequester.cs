@@ -1,17 +1,18 @@
 using Agents;
 using NavigationGraph;
-using UnityEditor;
 using UnityEngine;
 using Utilities;
 
 namespace Pathfinding
 {
     [DefaultExecutionOrder(-800)]
-    public class PathRequester : MonoBehaviour, IPathfinding
+    public class PathRequester : MonoBehaviour, IPathRequest
     {
         [SerializeField] private PathRequestType _requestType;
-        private IPathRequest _pathRequestStrategy;
+        private IPathfinding _pathRequestStrategy;
+        private IAgent _agent;
 
+        private void Awake() => _agent = GetComponent<IAgent>();
         private void Start() => SetPathStrategy(_requestType);
 
         public void SetPathStrategy(PathRequestType _requestType)
@@ -20,12 +21,11 @@ namespace Pathfinding
 #if UNITY_EDITOR
             if (navigationGraph == null)
             {
-                Debug.LogError("No Navigation Graph found in the scene, please add one");
-                return;
+                throw new System.Exception("No Navigation Graph found in the scene, please add one");
             }
 #endif
             _pathRequestStrategy?.Clear();
-            _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph);
+            _pathRequestStrategy = PathFactory.CreatePathRequester(_requestType, navigationGraph, _agent);
         }
 
         public bool RequestPath(IAgent agent, Node start, Node end) => _pathRequestStrategy.RequestPath(agent, start, end);

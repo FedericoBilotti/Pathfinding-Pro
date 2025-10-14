@@ -10,7 +10,7 @@ using Utilities;
 using Utilities.Collections;
 
 [DefaultExecutionOrder(-950)]
-public class AgentUpdateManager : Singleton<AgentUpdateManager>
+public class AgentUpdateManager : MonoBehaviour
 {
     [SerializeField, Tooltip("Decides how the agents are going to move in the grid, in less performance")]
     private EAccurateMovement _accurateMovement = EAccurateMovement.High;
@@ -33,12 +33,15 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
     private const int InitialCapacity = 10;
 
-    protected override void InitializeSingleton()
+    private void Awake()
     {
         _agents = new SwapBackListIndexed<AgentNavigation>(InitialCapacity);
         _transforms = new TransformAccessArray(InitialCapacity);
         CreateArrays(InitialCapacity);
     }
+
+    private void OnEnable() => ServiceLocator.Instance.RegisterService<AgentUpdateManager>(this);
+    private void OnDisable() => ServiceLocator.Instance.RemoveService<AgentUpdateManager>();
 
     public void RegisterAgent(AgentNavigation agent)
     {
@@ -74,8 +77,6 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
         {
             var agent = _agents[i];
             agent.UpdateTimer();
-            //Debug.Log("Timer is running i");
-
             _agentPositions.Add(agent.transform.position);
             _finalTargets.Add(math.all(agent.FinalTargetPosition == float3.zero) ? float3.zero : agent.FinalTargetPosition);
             _targetPositions.Add(agent.GetCurrentTarget());
@@ -104,16 +105,18 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     {
         ResizeArraysIfNeeded(_transforms.length);
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
+        var multiplyDistance = 1.5f;
+        var rayDistance = 2f;
 
         var prepareRaycastCommands = new GroundRaycastSystem()
         {
             commands = _commands,
             originAgentPositions = _agentPositions,
-            layerMask = navigationGraph.GetWalkableMask(),
+            layerMask = navigationGraph.WalkableMask,
             physicsScene = Physics.defaultPhysicsScene,
 
-            upDirection = Vector3.up,
-            rayDistance = 2f
+            upDirection = Vector3.up * multiplyDistance,
+            rayDistance = rayDistance
         };
 
         int batch = 32;
@@ -135,12 +138,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
             deltaTime = Time.deltaTime,
 
             results = _results,
-            grid = navigationGraph.GetGraph(),
-            gridX = navigationGraph.GetXSize(),
-            gridZ = navigationGraph.GetZSize(),
-            gridOrigin = navigationGraph.GetOrigin(),
-            cellSize = navigationGraph.GetCellSize(),
-            cellDiameter = navigationGraph.GetCellDiameter(),
+            grid = navigationGraph.Graph,
+            gridX = navigationGraph.GridSize.x,
+            gridZ = navigationGraph.GridSize.z,
+            gridOrigin = navigationGraph.Origin,
+            cellSize = navigationGraph.CellDiameter,
+            cellDiameter = navigationGraph.CellDiameter,
 
             // agentRadius = 0.5f,
             // agentHeightOffset = 1f,
@@ -150,7 +153,7 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
     private void ResizeArraysIfNeeded(int newCapacity)
     {
         if (newCapacity == _results.Length) return;
-        
+
         if (_commands.IsCreated) _commands.Dispose();
         if (_results.IsCreated) _results.Dispose();
 
@@ -174,12 +177,12 @@ public class AgentUpdateManager : Singleton<AgentUpdateManager>
 
             deltaTime = Time.deltaTime,
 
-            grid = navigationGraph.GetGraph(),
-            gridX = navigationGraph.GetXSize(),
-            gridZ = navigationGraph.GetZSize(),
-            gridOrigin = navigationGraph.GetOrigin(),
-            cellSize = navigationGraph.GetCellSize(),
-            cellDiameter = navigationGraph.GetCellDiameter(),
+            grid = navigationGraph.Graph,
+            gridX = navigationGraph.GridSize.x,
+            gridZ = navigationGraph.GridSize.z,
+            gridOrigin = navigationGraph.Origin,
+            cellSize = navigationGraph.CellSize,
+            cellDiameter = navigationGraph.CellDiameter,
         }.Schedule(_transforms);
     }
 

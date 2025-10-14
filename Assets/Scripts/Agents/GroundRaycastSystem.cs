@@ -19,11 +19,14 @@ namespace Agents
 
         public void Execute(int i)
         {
-            var queryParams = new QueryParameters { layerMask = layerMask };
+            float3 from = originAgentPositions[i] + upDirection;
+            float3 direction = Vector3.down;
+            QueryParameters queryParams = new QueryParameters
+            {
+                layerMask = layerMask
+            };
 
-            var pos = originAgentPositions[i] + upDirection * 0.5f;
-
-            commands[i] = new RaycastCommand(physicsScene, pos, Vector3.down, queryParams, rayDistance);
+            commands[i] = new RaycastCommand(physicsScene, from, direction, queryParams, rayDistance);
         }
     }
 }

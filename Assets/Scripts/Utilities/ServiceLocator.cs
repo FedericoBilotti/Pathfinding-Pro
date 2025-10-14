@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Utilities
 {
-    [DefaultExecutionOrder(-1000)]
     public class ServiceLocator : Singleton<ServiceLocator>
     {
         private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();

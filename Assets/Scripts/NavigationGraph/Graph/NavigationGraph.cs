@@ -14,21 +14,27 @@ namespace NavigationGraph
         //protected readonly IRaycastType checkType;
         protected readonly LayerMask notWalkableMask;
         protected TerrainType[] terrainTypes;
-        protected Vector3Int gridSize;
-        protected LayerMask walkableMask;
         protected LayerMask ignoreMasksAtCreateGrid;
 
         protected readonly Transform transform;
 
+        protected NeighborsPerCell neighborsPerCell;
+
         protected NativeArray<Node> graph;
         protected NativeArray<int> neighbors;
         protected NativeArray<int> neighborTotalCount;
-        protected NativeArray<int> neighborOffSet;
-        
-        protected NeighborsPerCell neighborsPerCell;
+        protected NativeArray<int> neighborOffsets;
 
-        protected float cellSize;
-        protected float cellDiameter;
+        public NativeArray<Node> Graph => graph;
+        public NativeArray<int> Neighbors => neighbors;
+        public NativeArray<int> NeighborTotalCount => neighborTotalCount;
+        public NativeArray<int> NeighborOffsets => neighborOffsets;
+        public Vector3Int GridSize { get; }
+        public Vector3 Origin => transform.position;
+        public float CellSize { get; private set; }
+        public float CellDiameter { get; private set; }
+        public LayerMask WalkableMask { get; private set; }
+
         protected float inclineLimit;
 
         protected float obstacleMargin;
@@ -46,8 +52,8 @@ namespace NavigationGraph
         {
             // this.checkType = checkType;
             terrainTypes = navigationGraphConfig.terrainTypes;
-            cellSize = navigationGraphConfig.cellSize;
-            gridSize = navigationGraphConfig.gridSize;
+            CellSize = navigationGraphConfig.cellSize;
+            GridSize = navigationGraphConfig.gridSize;
             notWalkableMask = navigationGraphConfig.notWalkableMask;
             transform = navigationGraphConfig.transform;
             obstacleMargin = navigationGraphConfig.obstacleMargin;
@@ -61,40 +67,28 @@ namespace NavigationGraph
         public abstract void CreateGrid();
         public abstract Vector3 TryGetNearestWalkableNode(Vector3 worldPosition);
         public abstract Node GetNode(Vector3 worldPosition);
-
         public abstract bool? DrawGizmos();
 
-        // Change this
-        public NativeArray<Node> GetGraph() => graph;
-        public Node GetRandomCell() => graph[UnityEngine.Random.Range(0, graph.Length)];
-        public float GetCellSize() => cellSize;
-        public float GetCellDiameter() => cellDiameter;
-        public int GetGridSizeLength() => gridSize.x * gridSize.z;
-        public int GetXSize() => gridSize.x;
-        public int GetZSize() => gridSize.z;
-        public Vector3 GetOrigin() => transform.position;
-        public NativeArray<int> GetNeighbors() => neighbors;
-        public NativeArray<int> GetNeighborTotalCount() => neighborTotalCount;
-        public NativeArray<int> GetNeighborOffsets() => neighborOffSet;
-        public LayerMask GetWalkableMask() => walkableMask;
+        public int GetGridSizeLength() => GridSize.x * GridSize.z;
+        public Node GetRandomCell() => Graph[UnityEngine.Random.Range(0, Graph.Length)];
 
         public virtual bool IsInGrid(Vector3 worldPosition)
         {
             Vector3 gridPos = worldPosition - transform.position;
 
-            int x = Mathf.FloorToInt(gridPos.x / cellDiameter);
-            int y = Mathf.FloorToInt(gridPos.z / cellDiameter);
+            int x = Mathf.FloorToInt(gridPos.x / CellDiameter);
+            int y = Mathf.FloorToInt(gridPos.z / CellDiameter);
 
-            if (x < 0 || x >= gridSize.x || y < 0 || y >= gridSize.z) return false;
+            if (x < 0 || x >= GridSize.x || y < 0 || y >= GridSize.z) return false;
 
-            int gridIndex = x + y * gridSize.x;
-            return graph[gridIndex].walkableType == WalkableType.Walkable;
+            int gridIndex = x + y * GridSize.x;
+            return Graph[gridIndex].walkableType == WalkableType.Walkable;
         }
 
         public virtual void Initialize(GridDataAsset gridBaked)
         {
-            cellSize = Mathf.Max(0.05f, cellSize);
-            cellDiameter = cellSize * 2;
+            CellSize = Mathf.Max(0.05f, CellSize);
+            CellDiameter = CellSize * 2;
             InitializeWalkableRegionCost();
 
             if (gridBaked)
@@ -109,7 +103,8 @@ namespace NavigationGraph
 
             foreach (var region in terrainTypes)
             {
-                walkableMask.value |= region.terrainMask.value;
+                // WalkableMask.value |= region.terrainMask.value;
+                WalkableMask |= region.terrainMask.value;
                 walkableRegionsDic.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
             }
         }
@@ -121,10 +116,10 @@ namespace NavigationGraph
 
         public void Destroy()
         {
-            if (graph.IsCreated) graph.Dispose(_allJobsDependencies);
-            if (neighbors.IsCreated) neighbors.Dispose(_allJobsDependencies);
-            if (neighborOffSet.IsCreated) neighborOffSet.Dispose(_allJobsDependencies);
-            if (neighborTotalCount.IsCreated) neighborTotalCount.Dispose(_allJobsDependencies);
+            if (Graph.IsCreated) Graph.Dispose(_allJobsDependencies);
+            if (Neighbors.IsCreated) Neighbors.Dispose(_allJobsDependencies);
+            if (NeighborOffsets.IsCreated) NeighborOffsets.Dispose(_allJobsDependencies);
+            if (NeighborTotalCount.IsCreated) NeighborTotalCount.Dispose(_allJobsDependencies);
             if (walkableRegionsDic.IsCreated) walkableRegionsDic.Dispose(_allJobsDependencies);
         }
     }
