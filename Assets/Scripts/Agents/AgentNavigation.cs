@@ -172,20 +172,6 @@ namespace Agents
             return RequestPath(cell);
         }
 
-        private Vector3 MapAgentToGrid(Vector3 from)
-        {
-            var nearestWalkableCellPosition = _graph.TryGetNearestWalkableNode(from);
-            float changeCell = _graph.CellDiameter;
-
-            Vector3 distance = nearestWalkableCellPosition - _transform.position;
-            if (distance.sqrMagnitude >= changeCell * changeCell)
-            {
-                _transform.position = nearestWalkableCellPosition;
-            }
-
-            return nearestWalkableCellPosition;
-        }
-
         public virtual void SetPath(in NativeList<Node> path)
         {
             ClearPath();
