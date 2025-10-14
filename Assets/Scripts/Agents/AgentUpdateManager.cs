@@ -105,8 +105,8 @@ public class AgentUpdateManager : MonoBehaviour
     {
         ResizeArraysIfNeeded(_transforms.length);
         var navigationGraph = ServiceLocator.Instance.GetService<INavigationGraph>();
-        var multiplyDistance = 2f;
-        var rayDistance = 3f;
+        var multiplyDistance = 1.5f;
+        var rayDistance = 2f;
 
         var prepareRaycastCommands = new GroundRaycastSystem()
         {

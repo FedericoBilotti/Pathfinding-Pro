@@ -34,6 +34,7 @@ namespace Agents
         private IAgentUpdater _updater;
         private ITimerFactory _timerFactory;
         private INavigationGraph _graph;
+        private IMapAgent _mapAgent;
         private Timer _timer;
         private float3 _finalTargetPosition;
         private Transform _transform;
@@ -60,10 +61,11 @@ namespace Agents
         {
             _transform = transform;
 
+            // This must be injected
             _updater = new AgentUpdater();
             _timerFactory = new TimerFactory();
+            _mapAgent = new MapAgent(_transform);
             _pathRequest = GetComponent<IPathRequest>();
-
             _graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             WaypointsPath = new List<Vector3>(_graph.GetGridSizeLength() / 7);
         }
@@ -148,7 +150,7 @@ namespace Agents
             if (StatusPath == EPathStatus.Requested) return false;
             if (allowRePath && _timer.IsRunning) return false;
 
-            Vector3 nearestWalkableCellPosition = MapAgentToGrid(_transform.position);
+            Vector3 nearestWalkableCellPosition = _mapAgent.MapAgentToGrid(_graph, _transform.position);
 
             Node startCell = _graph.GetNode(nearestWalkableCellPosition);
             bool isPathValid = _pathRequest.RequestPath(this, startCell, targetCell);
@@ -170,9 +172,9 @@ namespace Agents
             return RequestPath(cell);
         }
 
-        private Vector3 MapAgentToGrid(Vector3 nearestWalkableCellPosition)
+        private Vector3 MapAgentToGrid(Vector3 from)
         {
-            nearestWalkableCellPosition = _graph.TryGetNearestWalkableNode(_transform.position);
+            var nearestWalkableCellPosition = _graph.TryGetNearestWalkableNode(from);
             float changeCell = _graph.CellDiameter;
 
             Vector3 distance = nearestWalkableCellPosition - _transform.position;
