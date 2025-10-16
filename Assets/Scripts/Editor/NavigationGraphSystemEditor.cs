@@ -58,7 +58,7 @@ namespace NavigationGraph
             Gizmos();
             GraphSettings();
             ObstaclesSettings();
-            
+
             EditorGUILayout.BeginVertical("box");
             GridAsset();
             Buttons(visualizer);

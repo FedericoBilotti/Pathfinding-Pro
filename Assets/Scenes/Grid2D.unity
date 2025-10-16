@@ -23233,7 +23233,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _gridBaked: {fileID: 11400000, guid: ebf34705326616e4d848bd25932af98a, type: 2}
+  _gridBaked: {fileID: 0}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0

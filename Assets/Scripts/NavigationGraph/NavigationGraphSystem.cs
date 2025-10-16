@@ -183,7 +183,11 @@ namespace NavigationGraph
         /// <summary>
         /// Destroy the graph. This is for Edit Only.
         /// </summary>
-        public void Clear() => _graph?.Destroy();
+        public void Clear()
+        {
+            _graph?.Destroy();
+            _graph = null;
+        }
 
 #endif
 
