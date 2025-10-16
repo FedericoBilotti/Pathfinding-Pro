@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NavigationGraph.Graph.Planar;
 using NavigationGraph.RaycastCheck;
 using Unity.Collections;
 using Unity.Jobs;
@@ -25,10 +26,10 @@ namespace NavigationGraph
         protected NativeArray<int> neighborTotalCount;
         protected NativeArray<int> neighborOffsets;
 
-        public NativeArray<Node> Graph => graph;
-        public NativeArray<int> Neighbors => neighbors;
-        public NativeArray<int> NeighborTotalCount => neighborTotalCount;
-        public NativeArray<int> NeighborOffsets => neighborOffsets;
+        public ref NativeArray<Node> Graph => ref graph;
+        public ref NativeArray<int> Neighbors => ref neighbors;
+        public ref NativeArray<int> NeighborTotalCount => ref neighborTotalCount;
+        public ref NativeArray<int> NeighborOffsets => ref neighborOffsets;
         public Vector3Int GridSize { get; }
         public Vector3 Origin => transform.position;
         public float CellSize { get; private set; }
@@ -63,7 +64,7 @@ namespace NavigationGraph
             ignoreMasksAtCreateGrid = navigationGraphConfig.ignoreMaskAtCreateGrid;
         }
 
-        public abstract void LoadGridFromMemory(GridDataAsset gridBaked);
+        public abstract void LoadGrid(IGraphDataAsset gridBaked);
         public abstract void CreateGrid();
         public abstract Vector3 TryGetNearestWalkableNode(Vector3 worldPosition);
         public abstract Node GetNode(Vector3 worldPosition);
@@ -92,7 +93,7 @@ namespace NavigationGraph
             InitializeWalkableRegionCost();
 
             if (gridBaked)
-                LoadGridFromMemory(gridBaked);
+                LoadGrid(gridBaked);
             else
                 CreateGrid();
         }

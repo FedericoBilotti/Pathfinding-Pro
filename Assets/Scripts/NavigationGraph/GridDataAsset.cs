@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NavigationGraph
 {
-    public class GridDataAsset : ScriptableObject
+    public class GridDataAsset : ScriptableObject, IGraphDataAsset
     {
         [field: SerializeField] public Vector3Int GridSize { get; set; }
         [HideInInspector] public NodeData[] cells;

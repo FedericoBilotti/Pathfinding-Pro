@@ -8,13 +8,15 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace NavigationGraph.Graph.Planar
 {
-    internal sealed class PlanarGrid : NavigationGraph
+    public sealed class PlanarGrid : GraphNavigation
     {
         private int _visitId = 0;
         private readonly int[] _visited;
         private readonly Queue<Vector2Int> _queue;
+        private readonly ILoadGraph _gridLoader;
 
-        public PlanarGrid(NavigationGraphConfig navigationGraphConfig)
+        public PlanarGrid(NavigationGraphConfig navigationGraphConfig,
+            ILoadGraphFactory graphFactory)
         : base(navigationGraphConfig)
         {
             GraphType = NavigationGraphType.Grid2D;
@@ -22,49 +24,13 @@ namespace NavigationGraph.Graph.Planar
             var totalGridSize = GridSize.x * GridSize.z;
             _visited = new int[totalGridSize];
             _queue = new Queue<Vector2Int>(GridSize.x * GridSize.z);
+                        
+            _gridLoader = graphFactory.CreateLoadGraph(GraphLoadType.Memory, this);
         }
 
-        public override void LoadGridFromMemory(GridDataAsset gridBaked)
+        public override void LoadGrid(IGraphDataAsset graphDataAsset)
         {
-            int totalGridSize = GetGridSizeLength();
-            int lengthNeighbors = gridBaked.neighborsCell.neighbors.Length;
-            int lengthCounts = gridBaked.neighborsCell.neighborTotalCount.Length;
-            int lengthOffsets = gridBaked.neighborsCell.neighborOffsets.Length;
-
-            graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
-            neighbors = new NativeArray<int>(lengthNeighbors, Allocator.Persistent);
-            neighborTotalCount = new NativeArray<int>(lengthCounts, Allocator.Persistent);
-            neighborOffsets = new NativeArray<int>(lengthOffsets, Allocator.Persistent);
-
-            for (int x = 0; x < GridSize.x; x++)
-            {
-                for (int y = 0; y < GridSize.z; y++)
-                {
-                    int index = x + y * GridSize.x;
-                    NodeData actualNode = gridBaked.cells[index];
-
-                    graph[index] = new Node
-                    {
-                        position = actualNode.position,
-                        normal = actualNode.normal,
-                        height = actualNode.height,
-                        gridX = actualNode.gridX,
-                        gridZ = actualNode.gridZ,
-                        gridIndex = actualNode.gridIndex,
-                        cellCostPenalty = actualNode.cellCostPenalty,
-                        walkableType = actualNode.walkableType
-                    };
-                }
-            }
-
-            for (int i = 0; i < lengthNeighbors; i++)
-                neighbors[i] = gridBaked.neighborsCell.neighbors[i];
-
-            for (int i = 0; i < lengthCounts; i++)
-                neighborTotalCount[i] = gridBaked.neighborsCell.neighborTotalCount[i];
-
-            for (int i = 0; i < lengthOffsets; i++)
-                neighborOffsets[i] = gridBaked.neighborsCell.neighborOffsets[i];
+            _gridLoader.LoadGraph(graphDataAsset);
         }
 
         public override void CreateGrid()

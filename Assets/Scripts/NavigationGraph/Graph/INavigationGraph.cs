@@ -15,10 +15,10 @@ namespace NavigationGraph
         bool? DrawGizmos();
 
         // Graph
-        NativeArray<Node> Graph { get; }
-        NativeArray<int> Neighbors { get; }
-        NativeArray<int> NeighborTotalCount { get; }
-        NativeArray<int> NeighborOffsets { get; }
+        ref NativeArray<Node> Graph { get; }
+        ref NativeArray<int> Neighbors { get; }
+        ref NativeArray<int> NeighborTotalCount { get; }
+        ref NativeArray<int> NeighborOffsets { get; }
         Vector3Int GridSize { get; }
         Vector3 Origin { get; }
         float CellSize { get; }

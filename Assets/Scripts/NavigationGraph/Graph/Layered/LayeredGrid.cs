@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NavigationGraph.Graph.Layered
 {
-    internal sealed class LayeredGrid : NavigationGraph
+    internal sealed class LayeredGrid : GraphNavigation
     {
         public LayeredGrid(NavigationGraphConfig navigationGraphConfig)
         : base(navigationGraphConfig)
@@ -12,7 +12,7 @@ namespace NavigationGraph.Graph.Layered
             GraphType = NavigationGraphType.Grid3D;
         }
 
-        public override void LoadGridFromMemory(GridDataAsset gridBaked)
+        public override void LoadGrid(IGraphDataAsset graphDataAsset)
         {
             throw new System.NotImplementedException();
         }
