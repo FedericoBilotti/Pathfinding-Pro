@@ -995,7 +995,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -1767,7 +1767,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -1959,7 +1959,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -2469,7 +2469,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -2811,7 +2811,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -2895,7 +2895,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -3151,7 +3151,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -3407,7 +3407,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -3491,7 +3491,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -3919,7 +3919,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -4003,7 +4003,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -4517,7 +4517,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -4601,7 +4601,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -4685,7 +4685,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -4855,7 +4855,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -5455,7 +5455,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -5539,7 +5539,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -5616,7 +5616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c0ccf3f0b649e7936b8825445391e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 1
   rotationSpeed: 6
   changeWaypointDistance: 1.5
   stoppingDistance: 2
@@ -5792,7 +5792,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -5876,7 +5876,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -5960,7 +5960,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -6130,7 +6130,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -6214,7 +6214,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -6470,7 +6470,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -6898,7 +6898,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -6982,7 +6982,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -7410,7 +7410,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -7752,7 +7752,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -8072,7 +8072,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -8608,7 +8608,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -8778,7 +8778,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -8948,7 +8948,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -9032,7 +9032,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -9116,7 +9116,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -9286,7 +9286,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -9714,7 +9714,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -10078,7 +10078,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -10162,7 +10162,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -10835,7 +10835,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -11285,7 +11285,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -11649,7 +11649,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -11905,7 +11905,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -12247,7 +12247,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -12331,7 +12331,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -12794,7 +12794,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -12964,7 +12964,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -13048,7 +13048,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -13132,7 +13132,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -13302,7 +13302,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -13816,7 +13816,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -14244,7 +14244,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -14586,7 +14586,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15014,7 +15014,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15098,7 +15098,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15290,7 +15290,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15374,7 +15374,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15458,7 +15458,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -15714,7 +15714,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -16788,7 +16788,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -16872,7 +16872,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -17472,7 +17472,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -17556,7 +17556,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -17726,7 +17726,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -18090,7 +18090,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -18346,7 +18346,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -18430,7 +18430,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -18514,7 +18514,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -18684,7 +18684,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -19542,7 +19542,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -20250,7 +20250,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -20506,7 +20506,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -20590,7 +20590,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -20976,7 +20976,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -21232,7 +21232,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -21316,7 +21316,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -21852,7 +21852,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -22904,7 +22904,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -23160,7 +23160,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -23233,7 +23233,7 @@ MonoBehaviour:
   _notWalkableMask:
     serializedVersion: 2
     m_Bits: 64
-  _gridBaked: {fileID: 0}
+  _gridBaked: {fileID: 11400000, guid: 68b8b1596102bf04cb90a44e2c4d3ee0, type: 2}
 --- !u!114 &781907333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23327,7 +23327,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -23497,7 +23497,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -23753,7 +23753,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -24435,7 +24435,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -24605,7 +24605,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -24689,7 +24689,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -24859,7 +24859,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -25115,7 +25115,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -25285,7 +25285,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -25762,7 +25762,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -25932,7 +25932,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -26618,7 +26618,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -26788,7 +26788,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -26872,7 +26872,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27042,7 +27042,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27126,7 +27126,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27210,7 +27210,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27294,7 +27294,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27636,7 +27636,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -27892,7 +27892,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -28234,7 +28234,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -28318,7 +28318,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -28402,7 +28402,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -28744,7 +28744,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -29238,7 +29238,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -29430,7 +29430,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -29686,7 +29686,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -30114,7 +30114,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -30800,7 +30800,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -31056,7 +31056,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -31226,7 +31226,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -31310,7 +31310,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -31566,7 +31566,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -31650,7 +31650,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -32186,7 +32186,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -32356,7 +32356,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -32440,7 +32440,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -32954,7 +32954,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -33146,7 +33146,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -33230,7 +33230,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34024,7 +34024,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34194,7 +34194,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34278,7 +34278,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34792,7 +34792,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34876,7 +34876,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -34960,7 +34960,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -35130,7 +35130,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -35300,7 +35300,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -35556,7 +35556,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -35726,7 +35726,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -35982,7 +35982,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -36066,7 +36066,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -36494,7 +36494,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -36664,7 +36664,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -36942,7 +36942,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -37306,7 +37306,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -37476,7 +37476,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -37668,7 +37668,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -37924,7 +37924,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -38352,7 +38352,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -38544,7 +38544,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -38736,7 +38736,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -38906,7 +38906,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -39076,7 +39076,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -39418,7 +39418,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -39502,7 +39502,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -39844,7 +39844,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -40272,7 +40272,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -40356,7 +40356,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -40612,7 +40612,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -40976,7 +40976,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -41060,7 +41060,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -41510,7 +41510,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -41594,7 +41594,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -41764,7 +41764,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -42020,7 +42020,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -42276,7 +42276,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -42360,7 +42360,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -42444,7 +42444,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -43388,7 +43388,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -43644,7 +43644,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -43728,7 +43728,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -43898,7 +43898,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -44936,7 +44936,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -45106,7 +45106,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -45470,7 +45470,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -45554,7 +45554,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -45810,7 +45810,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -46324,7 +46324,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -46732,7 +46732,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47182,7 +47182,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47352,7 +47352,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47436,7 +47436,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47606,7 +47606,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47776,7 +47776,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47860,7 +47860,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -47944,7 +47944,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -48286,7 +48286,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -48456,7 +48456,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -49336,7 +49336,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -49420,7 +49420,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -49504,7 +49504,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -49674,7 +49674,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -49930,7 +49930,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -50380,7 +50380,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -50722,7 +50722,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -51538,7 +51538,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -51622,7 +51622,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -51878,7 +51878,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -51962,7 +51962,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -52132,7 +52132,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -52474,7 +52474,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -52644,7 +52644,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -53202,7 +53202,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -53974,7 +53974,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -54252,7 +54252,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -54336,7 +54336,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -54506,7 +54506,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -54590,7 +54590,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -54932,7 +54932,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -55102,7 +55102,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -55272,7 +55272,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -55356,7 +55356,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -55828,7 +55828,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -55998,7 +55998,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -56986,7 +56986,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -57156,7 +57156,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -57498,7 +57498,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -57582,7 +57582,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -58010,7 +58010,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -58180,7 +58180,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -58824,7 +58824,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -58994,7 +58994,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -59508,7 +59508,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -60130,7 +60130,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -60214,7 +60214,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -60922,7 +60922,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -61716,7 +61716,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -61800,7 +61800,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -61970,7 +61970,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -62484,7 +62484,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -62998,7 +62998,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -63168,7 +63168,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -63424,7 +63424,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -63960,7 +63960,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0
@@ -64216,7 +64216,7 @@ MonoBehaviour:
   stoppingDistance: 2
   autoBraking: 1
   allowRePath: 1
-  rePath: 0
+  rePath: 0.5
   agentHeightOffset: 1
   agentRadius: 0.5
   _statusPath: 0

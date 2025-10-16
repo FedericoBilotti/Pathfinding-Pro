@@ -1,5 +1,5 @@
 using Agents;
-using Agents.Strategies;
+using Agents.UpdateStrategies;
 using NavigationGraph;
 using Unity.Collections;
 using Unity.Jobs;

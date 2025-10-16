@@ -139,7 +139,10 @@ namespace NavigationGraph
         public void SetBakeGrid(GridDataAsset grid) => _gridBaked = grid;
 
 #if UNITY_EDITOR
-
+        /// <summary>
+        /// Delete the baked Grid. This is for Edit Only.
+        /// </summary>
+        /// <param name="path"></param>
         public void DeleteGrid(string path)
         {
             if (_gridBaked == null)

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using Utilities;
 
-namespace Agents.Strategies
+namespace Agents.UpdateStrategies
 {
     [BurstCompile]
     public struct AgentHighUpdateJob : IJobParallelForTransform
@@ -32,7 +32,8 @@ namespace Agents.Strategies
         [ReadOnly] public float cellSize;
         [ReadOnly] public float cellDiameter;
 
-        const float LERP_SPEED = 50f;
+        const float SLIDE_LERP_SPEED = 50f;
+        const float Y_POS_LERP_SPEED = 5f;
 
         public void Execute(int index, TransformAccess transform)
         {
@@ -73,7 +74,7 @@ namespace Agents.Strategies
 
             float3 newPos = position + deltaTime * moveSpeed * forward;
             //newPos.y = hit.point.y;
-            newPos.y = math.lerp(newPos.y, hit.point.y, deltaTime * LERP_SPEED);
+            newPos.y = math.lerp(newPos.y, hit.point.y, deltaTime * Y_POS_LERP_SPEED);
             transform.position = SlideAlongObstacle(position, newPos);
         }
 
@@ -104,7 +105,7 @@ namespace Agents.Strategies
             }
 
             float3 newPos = current + move;
-            newPos = math.lerp(current, newPos, LERP_SPEED * deltaTime);
+            newPos = math.lerp(current, newPos, SLIDE_LERP_SPEED * deltaTime);
             return newPos;
         }
 

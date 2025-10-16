@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine.Jobs;
 using Utilities;
 
-namespace Agents.Strategies
+namespace Agents.UpdateStrategies
 {
     [BurstCompile]
     public struct AgentLowUpdateJob : IJobParallelForTransform
