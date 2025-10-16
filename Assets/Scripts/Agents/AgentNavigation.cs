@@ -64,7 +64,7 @@ namespace Agents
             // This must be injected
             _updater = new AgentUpdater();
             _timerFactory = new TimerFactory();
-            _mapAgent = new MapAgent(_transform);
+            _mapAgent = new MapAgentGrid(_transform);
             _pathRequest = GetComponent<IPathRequest>();
             _graph = ServiceLocator.Instance.GetService<INavigationGraph>();
             WaypointsPath = new List<Vector3>(_graph.GetGridSizeLength() / 7);
