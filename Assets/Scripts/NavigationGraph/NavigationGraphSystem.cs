@@ -30,18 +30,24 @@ namespace NavigationGraph
         [SerializeField] private GridDataAsset _gridBaked;
         public GridDataAsset GridBaked => _gridBaked;
 
+        private GraphFactory _graphFactory;
         private INavigationGraph _graph;
 
         private void Awake()
         {
-            _graph = GraphFactory.Create(_graphType, GetNavigationGraphConfig());
+            _graphFactory = new GraphFactory();
+            _graph = _graphFactory.Create(_graphType, GetNavigationGraphConfig());
             _graph?.Initialize(_gridBaked);
+
+            ServiceLocator.Instance.RegisterService(_graphFactory);
             ServiceLocator.Instance.RegisterService<INavigationGraph>(_graph);
         }
 
         private void OnDisable()
         {
             _graph?.Destroy();
+
+            ServiceLocator.Instance.RemoveService<GraphFactory>();
             ServiceLocator.Instance.RemoveService<INavigationGraph>();
         }
 
@@ -179,7 +185,8 @@ namespace NavigationGraph
         /// </summary>
         public void Scan()
         {
-            _graph = GraphFactory.Create(_graphType, GetNavigationGraphConfig());
+            _graphFactory = new GraphFactory();
+            _graph = _graphFactory.Create(_graphType, GetNavigationGraphConfig());
             _graph?.Initialize(_gridBaked);
         }
 
