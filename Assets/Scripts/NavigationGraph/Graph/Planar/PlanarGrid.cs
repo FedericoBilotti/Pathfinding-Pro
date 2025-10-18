@@ -163,12 +163,8 @@ namespace NavigationGraph.Graph.Planar
                 offsets16 = offsets16,
                 gridSizeX = GridSize.x,
                 gridSizeZ = GridSize.z,
-                normalWalkable = normalWalkable,
-                groundHeight = groundHeight,
-                //inclineLimit = inclineLimit,
                 neighborsPerCell = neighborsPerCell,
                 allNeighbors = Neighbors,
-                maxHeightDifference = MAX_HEIGHT_DISTANCE,
                 neighborCounts = NeighborTotalCount,
                 neighborOffsets = NeighborOffsets
             }.Schedule();

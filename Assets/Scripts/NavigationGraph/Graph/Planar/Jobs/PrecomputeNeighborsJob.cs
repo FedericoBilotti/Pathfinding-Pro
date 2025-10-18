@@ -15,13 +15,9 @@ namespace NavigationGraph.Graph.Planar.Jobs
         [ReadOnly] public NativeArray<int> neighborCounts;
         [ReadOnly] public NativeArray<int> neighborOffsets;
         [WriteOnly] public NativeArray<int> allNeighbors;
-        [ReadOnly] public NativeArray<float> groundHeight;
-        [ReadOnly] public NativeArray<Vector3> normalWalkable;
         
-        public float inclineLimit;
         public int gridSizeX; 
         public int gridSizeZ;
-        public float maxHeightDifference;
         public NeighborsPerCell neighborsPerCell;
 
         public void Execute()
@@ -55,7 +51,7 @@ namespace NavigationGraph.Graph.Planar.Jobs
                                 gridZ >= 0 && gridZ < gridSizeZ)
                             {
                                 int neighborIndex = gridX + gridZ * gridSizeX;
-                                if (CanBeNeighbor(i, neighborIndex))
+                                if (CanBeNeighbor(neighborIndex))
                                 {
                                     allNeighbors[baseIndex + count] = neighborIndex;
                                     count++;
@@ -77,7 +73,7 @@ namespace NavigationGraph.Graph.Planar.Jobs
                             gridZ >= 0 && gridZ < gridSizeZ)
                         {
                             int neighborIndex = gridX + gridZ * gridSizeX;                            
-                            if (CanBeNeighbor(i, neighborIndex))
+                            if (CanBeNeighbor(neighborIndex))
                             {
                                 allNeighbors[baseIndex + count] = neighborIndex;
                                 count++;
@@ -88,13 +84,6 @@ namespace NavigationGraph.Graph.Planar.Jobs
             }
         }
 
-        private bool CanBeNeighbor(int currentIndex, int neighborIndex)
-        {
-            if (normalWalkable[currentIndex].y <= math.cos(inclineLimit * Mathf.Deg2Rad))
-                return true;
-
-            float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);
-            return yDistance >= maxHeightDifference;
-        }
+        private bool CanBeNeighbor(int neighborIndex) => grid[neighborIndex].walkableType == WalkableType.Walkable;
     }
 }

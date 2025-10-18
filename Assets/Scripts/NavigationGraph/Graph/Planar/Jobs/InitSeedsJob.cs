@@ -112,7 +112,10 @@ namespace NavigationGraph.Graph.Planar.Jobs
         private bool IsCliff(int currentIndex, int neighborIndex)
         {
             if (normalWalkable[currentIndex].y <= math.cos(inclineLimit * Mathf.Deg2Rad))
+            {
+                Debug.Log("Es cliff porque la inclinacion es mayor");
                 return true;
+            }
 
             float yDistance = math.abs(groundHeight[currentIndex] - groundHeight[neighborIndex]);
             return yDistance >= maxHeightDifference;
