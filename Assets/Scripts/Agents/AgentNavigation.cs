@@ -1,5 +1,6 @@
 using NavigationGraph;
 using Pathfinding;
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -29,6 +30,8 @@ namespace Agents
         [SerializeField, Tooltip("Radius of the agent")] protected float agentRadius = 0.5f;
 
         [SerializeField] private EPathStatus _statusPath = EPathStatus.Idle;
+
+        public Action OnPathCompleted;
 
         private IPathRequest _pathRequest;
         private IAgentUpdater _updater;
@@ -111,17 +114,19 @@ namespace Agents
 
         public float3 GetCurrentTarget()
         {
-            float3 agentPosition = (float3)_transform.position;
             if (WaypointsPath.Count == 0 || CurrentWaypoint >= WaypointsPath.Count)
             {
                 ResetAgent();
-                return agentPosition;
+                OnPathCompleted?.Invoke();
+                return _transform.position;
             }
 
+            float3 agentPosition = (float3)_transform.position;
             float3 distanceToEnd = _finalTargetPosition - agentPosition;
             if (math.lengthsq(distanceToEnd) <= stoppingDistance * stoppingDistance)
             {
                 ResetAgent();
+                OnPathCompleted?.Invoke();
                 return agentPosition;
             }
 

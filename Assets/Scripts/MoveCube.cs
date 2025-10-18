@@ -16,10 +16,12 @@ public class MoveCube : MonoBehaviour
 
         Node _target = GetRandomTarget(_gridSystem);
         _agentNavigation.RequestPath(_target);
-    }
 
-    private void Update()
-    {
+        _agentNavigation.OnPathCompleted += () =>
+        {
+            Node _target = GetRandomTarget(_gridSystem);
+            _agentNavigation.RequestPath(_target);
+        };
     }
 
     private Node GetRandomTarget(INavigationGraph graph)
