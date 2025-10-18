@@ -21,15 +21,15 @@ namespace NavigationGraph
 
         protected NeighborsPerCell neighborsPerCell;
 
-        protected NativeArray<Node> graph;
-        protected NativeArray<int> neighbors;
-        protected NativeArray<int> neighborTotalCount;
-        protected NativeArray<int> neighborOffsets;
+        private NativeArray<Node> _graph;
+        private NativeArray<int> _neighbors;
+        private NativeArray<int> _neighborTotalCount;
+        private NativeArray<int> _neighborOffsets;
 
-        public ref NativeArray<Node> Graph => ref graph;
-        public ref NativeArray<int> Neighbors => ref neighbors;
-        public ref NativeArray<int> NeighborTotalCount => ref neighborTotalCount;
-        public ref NativeArray<int> NeighborOffsets => ref neighborOffsets;
+        public ref NativeArray<Node> Graph => ref _graph;
+        public ref NativeArray<int> Neighbors => ref _neighbors;
+        public ref NativeArray<int> NeighborTotalCount => ref _neighborTotalCount;
+        public ref NativeArray<int> NeighborOffsets => ref _neighborOffsets;
         public Vector3Int GridSize { get; }
         public Vector3 Origin => transform.position;
         public float CellSize { get; private set; }

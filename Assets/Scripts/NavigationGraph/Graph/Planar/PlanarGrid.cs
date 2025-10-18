@@ -44,7 +44,7 @@ namespace NavigationGraph.Graph.Planar
             if (NeighborTotalCount.IsCreated) NeighborTotalCount.Dispose();
 
             int totalGridSize = GetGridSizeLength();
-            graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
+            Graph = new NativeArray<Node>(totalGridSize, Allocator.Persistent);
 
             // --- 1. PREPARE RAYCASTS ---
             var commands = new NativeArray<RaycastCommand>(totalGridSize, Allocator.TempJob);
@@ -71,41 +71,7 @@ namespace NavigationGraph.Graph.Planar
             var groundHeight = new NativeArray<float>(totalGridSize, Allocator.TempJob);
             var computedWalkable = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
 
-            for (int i = 0; i < totalGridSize; i++)
-            {
-                var hit = results[i];
-                if (hit.collider == null)
-                {
-                    groundHeight[i] = float.MinValue;
-                    computedWalkable[i] = WalkableType.Air;
-                }
-                else
-                {
-                    var go = hit.collider.gameObject;
-                    var layer = go.layer;
-                    bool isWalkable = ((1 << layer) & WalkableMask) != 0;
-                    normalWalkable[i] = hit.normal;
-                    computedWalkable[i] = isWalkable ? WalkableType.Walkable : WalkableType.Obstacle;
-                    layerPerCell[i] = layer;
-
-#if UNITY_EDITOR
-                    // This is only for debug and seeing the point in the grid.
-                    if (!isWalkable)
-                    {
-                        bool walkable = Physics.Raycast(hit.point, Vector3.down, out var newHit, 999f, WalkableMask);
-
-                        if (walkable)
-                        {
-                            groundHeight[i] = newHit.point.y;
-                            results[i] = newHit;
-                            continue;
-                        }
-                    }
-#endif
-
-                    groundHeight[i] = hit.point.y;
-                }
-            }
+            ComputeWalkableData(totalGridSize, ref results, ref normalWalkable, ref layerPerCell, ref groundHeight, ref computedWalkable);
 
             // --- 3. CALCULATE MARGIN (DILATE) ---
             var nativeObstacleBlocked = new NativeArray<WalkableType>(totalGridSize, Allocator.TempJob);
@@ -172,25 +138,7 @@ namespace NavigationGraph.Graph.Planar
                 nativeCliffBlocked = nativeCliffBlocked
             }.Schedule(totalGridSize, 64, bfsJob);
 
-            // --- 5. PRECOMPUTE NEIGHBORS ---
-            NativeArray<int2> offsets16 = new(16, Allocator.TempJob);
-            offsets16[0] = new int2(-2, 0);
-            offsets16[1] = new int2(-2, -1);
-            offsets16[2] = new int2(-2, 1);
-            offsets16[3] = new int2(-1, -2);
-            offsets16[4] = new int2(-1, 2);
-            offsets16[5] = new int2(0, -2);
-            offsets16[6] = new int2(0, 2);
-            offsets16[7] = new int2(1, -2);
-            offsets16[8] = new int2(1, 2);
-            offsets16[9] = new int2(2, -1);
-            offsets16[10] = new int2(2, 0);
-            offsets16[11] = new int2(2, 1);
-            offsets16[12] = new int2(-1, -1);
-            offsets16[13] = new int2(-1, 1);
-            offsets16[14] = new int2(1, -1);
-            offsets16[15] = new int2(1, 1);
-
+            NativeArray<int2> offsets16 = CreateOffsetsForNeighbors();
             var temporaryNeighborTotalCount = new NativeArray<int>(totalGridSize, Allocator.TempJob);
 
             var countNeighborsJob = new CountNeighborsJob
@@ -206,23 +154,8 @@ namespace NavigationGraph.Graph.Planar
 
             countNeighborsJob.Complete();
 
-            int totalLengthOfNeighbors = 0;
-            for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
-                totalLengthOfNeighbors += temporaryNeighborTotalCount[i];
-
-            neighborTotalCount = new NativeArray<int>(totalGridSize, Allocator.Persistent);
-            for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
-                neighborTotalCount[i] = temporaryNeighborTotalCount[i];
-
-            neighborOffsets = new NativeArray<int>(totalGridSize, Allocator.Persistent);
-            int offset = 0;
-            for (int i = 0; i < totalGridSize; i++)
-            {
-                neighborOffsets[i] = offset;
-                offset += NeighborTotalCount[i];
-            }
-
-            neighbors = new NativeArray<int>(totalLengthOfNeighbors, Allocator.Persistent);
+            int totalLengthOfNeighbors = AddNeighborsToArrays(totalGridSize, ref temporaryNeighborTotalCount);
+            Neighbors = new NativeArray<int>(totalLengthOfNeighbors, Allocator.Persistent);
 
             var neighborsJob = new PrecomputeNeighborsJob
             {
@@ -260,6 +193,90 @@ namespace NavigationGraph.Graph.Planar
 
             offsets16.Dispose();
             temporaryNeighborTotalCount.Dispose();
+        }
+
+        private void ComputeWalkableData(int totalGridSize, ref NativeArray<RaycastHit> results, ref NativeArray<Vector3> normalWalkable, ref NativeArray<int> layerPerCell, ref NativeArray<float> groundHeight, ref NativeArray<WalkableType> computedWalkable)
+        {
+            for (int i = 0; i < totalGridSize; i++)
+            {
+                var hit = results[i];
+                if (hit.collider == null)
+                {
+                    groundHeight[i] = float.MinValue;
+                    computedWalkable[i] = WalkableType.Air;
+                }
+                else
+                {
+                    var go = hit.collider.gameObject;
+                    var layer = go.layer;
+                    bool isWalkable = ((1 << layer) & WalkableMask) != 0;
+                    normalWalkable[i] = hit.normal;
+                    computedWalkable[i] = isWalkable ? WalkableType.Walkable : WalkableType.Obstacle;
+                    layerPerCell[i] = layer;
+
+#if UNITY_EDITOR
+                    // This is only for debug and seeing the point in the grid.
+                    if (!isWalkable)
+                    {
+                        bool walkable = Physics.Raycast(hit.point, Vector3.down, out var newHit, 999f, WalkableMask);
+
+                        if (walkable)
+                        {
+                            groundHeight[i] = newHit.point.y;
+                            results[i] = newHit;
+                            continue;
+                        }
+                    }
+#endif
+
+                    groundHeight[i] = hit.point.y;
+                }
+            }
+        }
+
+        private static NativeArray<int2> CreateOffsetsForNeighbors()
+        {
+
+            // --- 5. PRECOMPUTE NEIGHBORS ---
+            NativeArray<int2> offsets16 = new(16, Allocator.TempJob);
+            offsets16[0] = new int2(-2, 0);
+            offsets16[1] = new int2(-2, -1);
+            offsets16[2] = new int2(-2, 1);
+            offsets16[3] = new int2(-1, -2);
+            offsets16[4] = new int2(-1, 2);
+            offsets16[5] = new int2(0, -2);
+            offsets16[6] = new int2(0, 2);
+            offsets16[7] = new int2(1, -2);
+            offsets16[8] = new int2(1, 2);
+            offsets16[9] = new int2(2, -1);
+            offsets16[10] = new int2(2, 0);
+            offsets16[11] = new int2(2, 1);
+            offsets16[12] = new int2(-1, -1);
+            offsets16[13] = new int2(-1, 1);
+            offsets16[14] = new int2(1, -1);
+            offsets16[15] = new int2(1, 1);
+            return offsets16;
+        }
+
+        private int AddNeighborsToArrays(int totalGridSize, ref NativeArray<int> temporaryNeighborTotalCount)
+        {
+            int totalLengthOfNeighbors = 0;
+            for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
+                totalLengthOfNeighbors += temporaryNeighborTotalCount[i];
+
+            NeighborTotalCount = new NativeArray<int>(totalGridSize, Allocator.Persistent);
+            for (int i = 0; i < temporaryNeighborTotalCount.Length; i++)
+                NeighborTotalCount[i] = temporaryNeighborTotalCount[i];
+
+            NeighborOffsets = new NativeArray<int>(totalGridSize, Allocator.Persistent);
+            int offset = 0;
+            for (int i = 0; i < totalGridSize; i++)
+            {
+                NeighborOffsets[i] = offset;
+                offset += NeighborTotalCount[i];
+            }
+
+            return totalLengthOfNeighbors;
         }
 
         public override Vector3 TryGetNearestWalkableNode(Vector3 worldPosition)
