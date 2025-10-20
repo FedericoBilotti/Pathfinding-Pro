@@ -89,7 +89,7 @@ namespace NavigationGraph.Graph.Planar
                 inclineLimit = inclineLimit,
                 computedWalkable = computedWalkable,
                 groundHeight = groundHeight,
-                maxHeightDifference = MAX_HEIGHT_DISTANCE,
+                maxHeightDifference = CellSize,
 
                 finalObstacle = nativeObstacleBlocked,
                 finalCliff = nativeCliffBlocked,
