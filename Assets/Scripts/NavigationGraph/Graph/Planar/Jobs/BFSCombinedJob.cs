@@ -1,6 +1,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace NavigationGraph.Graph.Planar.Jobs
@@ -23,66 +24,46 @@ namespace NavigationGraph.Graph.Planar.Jobs
 
         public void Execute()
         {
-            while (queueObstacle.Count > 0 || queueCliff.Count > 0)
+            BFSPropagate(queueObstacle, distObstacle, nativeObstacleBlocked, obstacleRadius, WalkableType.Obstacle);
+            BFSPropagate(queueCliff, distCliff, nativeCliffBlocked, cliffRadius, WalkableType.Air);
+        }
+
+        private void BFSPropagate(NativeQueue<int> queue, NativeArray<int> dist, NativeArray<WalkableType> finalArray, int radius, WalkableType markType)
+        {
+            while (queue.Count > 0)
             {
-                int iterO = queueObstacle.Count;
-                for (int k = 0; k < iterO; k++)
+                int iter = queue.Count;
+                for (int k = 0; k < iter; k++)
                 {
-                    int current = queueObstacle.Dequeue();
+                    int current = queue.Dequeue();
                     int cx = current % gridSize.x;
                     int cy = current / gridSize.x;
-                    int cd = distObstacle[current];
-                    if (cd >= obstacleRadius) continue;
+                    int cd = dist[current];
 
-                    EnqueueNeighborObstacle(cx + 1, cy, cd);
-                    EnqueueNeighborObstacle(cx - 1, cy, cd);
-                    EnqueueNeighborObstacle(cx, cy + 1, cd);
-                    EnqueueNeighborObstacle(cx, cy - 1, cd);
-                }
+                    if (cd >= radius) continue;
 
-                int iterC = queueCliff.Count;
-                for (int k = 0; k < iterC; k++)
-                {
-                    int current = queueCliff.Dequeue();
-                    int cx = current % gridSize.x;
-                    int cy = current / gridSize.x;
-                    int cd = distCliff[current];
-                    if (cd >= cliffRadius) continue;
+                    foreach (var neighbor in GetNeighbors(cx, cy))
+                    {
+                        int ni = neighbor.x + neighbor.y * gridSize.x;
+                        if (ni < 0 || ni >= dist.Length) continue;
+                        if (dist[ni] != -1) continue;
 
-                    EnqueueNeighborCliff(cx + 1, cy, cd);
-                    EnqueueNeighborCliff(cx - 1, cy, cd);
-                    EnqueueNeighborCliff(cx, cy + 1, cd);
-                    EnqueueNeighborCliff(cx, cy - 1, cd);
+                        dist[ni] = cd + 1;
+                        finalArray[ni] = markType;
+                        queue.Enqueue(ni);
+                    }
                 }
             }
         }
 
-        private void EnqueueNeighborObstacle(int x, int y, int currentDist)
+        private static NativeArray<int2> GetNeighbors(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.z) return;
-
-            int idx = x + y * gridSize.x;
-
-            if (idx < 0 || idx >= distObstacle.Length) return;
-            if (distObstacle[idx] != -1) return;
-
-            distObstacle[idx] = currentDist + 1;
-            nativeObstacleBlocked[idx] = WalkableType.Obstacle;
-            queueObstacle.Enqueue(idx);
-        }
-
-        private void EnqueueNeighborCliff(int x, int y, int currentDist)
-        {
-            if (x < 0 || y < 0 || x >= gridSize.x || y >= gridSize.z) return;
-
-            int idx = x + y * gridSize.x;
-
-            if (idx < 0 || idx >= distCliff.Length) return;
-            if (distCliff[idx] != -1) return;
-
-            distCliff[idx] = currentDist + 1;
-            nativeCliffBlocked[idx] = WalkableType.Air;
-            queueCliff.Enqueue(idx);
+            var arr = new NativeArray<int2>(4, Allocator.Temp);
+            arr[0] = new int2(x + 1, y);
+            arr[1] = new int2(x - 1, y);
+            arr[2] = new int2(x, y + 1);
+            arr[3] = new int2(x, y - 1);
+            return arr;
         }
     }
 }

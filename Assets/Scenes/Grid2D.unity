@@ -23213,10 +23213,10 @@ MonoBehaviour:
   _boxGrid: 1
   _graphType: 0
   _neighborsPerCell: 4
-  _gridSize: {x: 225, y: 40, z: 115}
+  _gridSize: {x: 225, y: 40, z: 125}
   _cellSize: 0.5
   _obstacleMargin: 1
-  _cliffMargin: 1
+  _cliffMargin: 0
   _terrainTypes:
   - terrainMask:
       serializedVersion: 2
