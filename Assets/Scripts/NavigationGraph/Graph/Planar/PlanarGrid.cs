@@ -89,7 +89,7 @@ namespace NavigationGraph.Graph.Planar
                 inclineLimit = inclineLimit,
                 computedWalkable = computedWalkable,
                 groundHeight = groundHeight,
-                maxHeightDifference = CellSize,
+                maxHeightDifference = MaxHeightDistance,
 
                 finalObstacle = nativeObstacleBlocked,
                 finalCliff = nativeCliffBlocked,
@@ -138,6 +138,7 @@ namespace NavigationGraph.Graph.Planar
                 nativeCliffBlocked = nativeCliffBlocked
             }.Schedule(totalGridSize, 64, bfsJob);
 
+            // --- 5. PRECOMPUTE NEIGHBORS ---
             NativeArray<int2> offsets16 = CreateOffsetsForNeighbors();
             var temporaryNeighborTotalCount = new NativeArray<int>(totalGridSize, Allocator.TempJob);
 
@@ -148,7 +149,7 @@ namespace NavigationGraph.Graph.Planar
                 neighborCounts = temporaryNeighborTotalCount,
                 gridSizeX = GridSize.x,
                 gridSizeZ = GridSize.z,
-                maxHeightDifference = MAX_HEIGHT_DISTANCE,
+                maxHeightDifference = MaxHeightDistance,
                 neighborsPerCell = neighborsPerCell
             }.Schedule(createGridJob);
 
@@ -232,8 +233,6 @@ namespace NavigationGraph.Graph.Planar
 
         private static NativeArray<int2> CreateOffsetsForNeighbors()
         {
-
-            // --- 5. PRECOMPUTE NEIGHBORS ---
             NativeArray<int2> offsets16 = new(16, Allocator.TempJob);
             offsets16[0] = new int2(-2, 0);
             offsets16[1] = new int2(-2, -1);
@@ -371,7 +370,7 @@ namespace NavigationGraph.Graph.Planar
                 Quaternion rotation = Quaternion.FromToRotation(Vector3.up, node.normal);
                 Matrix4x4 oldMatrix = Gizmos.matrix;
 
-                Gizmos.matrix = Matrix4x4.TRS(drawPos + Vector3.up * 0.025f, rotation, Vector3.one);
+                Gizmos.matrix = Matrix4x4.TRS(drawPos + Vector3.up * 0.025f, rotation, sizeCell);
 
                 if (node.walkableType == WalkableType.Walkable)
                 {

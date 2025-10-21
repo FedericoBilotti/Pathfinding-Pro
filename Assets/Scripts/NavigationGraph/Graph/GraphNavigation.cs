@@ -41,7 +41,7 @@ namespace NavigationGraph
         protected float obstacleMargin;
         protected float cliffMargin;
 
-        protected const float MAX_HEIGHT_DISTANCE = 0.5f;
+        protected float MaxHeightDistance => CellSize;
 
         protected static NativeHashMap<int, int> walkableRegionsDic;
 
